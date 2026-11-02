@@ -102,7 +102,7 @@ Cada paso es un script numerado en \f{scripts/} que lee rutas, URLs y umbrales d
 \begin{table}[H]
 \centering\small
 \caption{Fases del flujo, una por entrega.}
-\begin{tabularx}{\textwidth}{@{}p{2.3cm} L p{4.3cm}@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.3cm} L >{\raggedright\arraybackslash}p{4.3cm}@{}}
 \toprule
 Fase (entrega) & Pasos & Scripts y salida \\
 \midrule
@@ -140,13 +140,13 @@ Seis entidades, cada una guardada como una colección. \f{BUILDING} es la entida
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.95\textwidth]{diagrama_er.png}
-\caption{Diagrama E-R: 6 entidades y 7 relaciones uno a muchos. La relación MUNICIPALITY--BUILDING es espacial: \f{mpio\_code} se llena con \f{\$geoWithin} en la fase 3, no durante la carga. Fuente editable: \f{docs/delivery1/diagrama\_er.md}.}
+\caption{Diagrama E-R en notación pata de gallo: 6 entidades y 7 relaciones. La relación MUNICIPALITY--BUILDING es espacial y opcional: \f{mpio\_code} se llena con \f{\$geoWithin} en la fase 3 y queda en \f{null} si el centroide cae fuera de los municipios PDET. Se genera con \f{docs/delivery1/er/build\_er.py}; versión Mermaid en \f{docs/delivery1/diagrama\_er.md}.}
 \end{figure}
 
 \begin{table}[H]
 \centering\small
 \caption{Del modelo E-R a documentos de MongoDB. Las 7 relaciones se agrupan en 5 patrones.}
-\begin{tabularx}{\textwidth}{@{}p{4.2cm} p{4.3cm} L@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.4cm} >{\raggedright\arraybackslash}p{4.3cm} L@{}}
 \toprule
 Relación & Patrón & Motivo \\
 \midrule
@@ -159,7 +159,6 @@ DATASET $\rightarrow$ INGESTION\_RUN $\rightarrow$ BUILDING & Referencias \f{dat
 \end{tabularx}
 \end{table}
 
-\clearpage
 \section{Diccionario de datos}
 
 Los nombres de colecciones y campos quedan en inglés, igual que en el código. \textbf{*} indica campo obligatorio, exigido por el validador \f{\$jsonSchema}.
@@ -245,7 +244,7 @@ Colección & Clave & Tipo & Uso \\
 
 \begin{table}[H]
 \centering\small
-\begin{tabularx}{\textwidth}{@{}p{6.2cm} L@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.2cm} L@{}}
 \toprule
 Riesgo & Mitigación \\
 \midrule

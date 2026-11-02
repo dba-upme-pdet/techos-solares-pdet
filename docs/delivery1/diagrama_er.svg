@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', sans-serif">
+<rect width="1180" height="720" fill="#FFFFFF"/>
+<g stroke="#475569" stroke-width="1.4" fill="none"><path d="M330 89 L440 89"/><path d="M740 89 L850 89"/><path d="M590.0 240 L590.0 360"/><path d="M1000.0 360 L1000.0 214"/><path d="M850 409 L740 409"/><path d="M330 409 L440 409"/><path d="M1000.0 508 L1000.0 656 L180.0 656 L180.0 534"/></g>
+<g stroke="#475569" stroke-width="1.4" fill="none"><line x1="340" y1="82" x2="340" y2="96"/><line x1="346" y1="82" x2="346" y2="96"/><line x1="426" y1="89" x2="440" y2="98"/><line x1="426" y1="89" x2="440" y2="80"/><line x1="426" y1="89" x2="440" y2="89"/><line x1="420" y1="96" x2="420" y2="82"/><line x1="750" y1="82" x2="750" y2="96"/><line x1="756" y1="82" x2="756" y2="96"/><line x1="836" y1="89" x2="850" y2="98"/><line x1="836" y1="89" x2="850" y2="80"/><line x1="836" y1="89" x2="850" y2="89"/><circle cx="827" cy="89" r="5" fill="#FFFFFF"/><line x1="597.0" y1="250" x2="583.0" y2="250"/><circle cx="590.0" cy="260" r="5" fill="#FFFFFF"/><line x1="590.0" y1="346" x2="581.0" y2="360"/><line x1="590.0" y1="346" x2="599.0" y2="360"/><line x1="590.0" y1="346" x2="590.0" y2="360"/><circle cx="590.0" cy="337" r="5" fill="#FFFFFF"/><line x1="993.0" y1="350" x2="1007.0" y2="350"/><line x1="993.0" y1="344" x2="1007.0" y2="344"/><line x1="1000.0" y1="228" x2="1009.0" y2="214"/><line x1="1000.0" y1="228" x2="991.0" y2="214"/><line x1="1000.0" y1="228" x2="1000.0" y2="214"/><circle cx="1000.0" cy="237" r="5" fill="#FFFFFF"/><line x1="840" y1="416" x2="840" y2="402"/><line x1="834" y1="416" x2="834" y2="402"/><line x1="754" y1="409" x2="740" y2="400"/><line x1="754" y1="409" x2="740" y2="418"/><line x1="754" y1="409" x2="740" y2="409"/><circle cx="763" cy="409" r="5" fill="#FFFFFF"/><line x1="340" y1="402" x2="340" y2="416"/><line x1="346" y1="402" x2="346" y2="416"/><line x1="426" y1="409" x2="440" y2="418"/><line x1="426" y1="409" x2="440" y2="400"/><line x1="426" y1="409" x2="440" y2="409"/><circle cx="417" cy="409" r="5" fill="#FFFFFF"/><line x1="1007.0" y1="518" x2="993.0" y2="518"/><line x1="1007.0" y1="524" x2="993.0" y2="524"/><line x1="180.0" y1="548" x2="189.0" y2="534"/><line x1="180.0" y1="548" x2="171.0" y2="534"/><line x1="180.0" y1="548" x2="180.0" y2="534"/><circle cx="180.0" cy="557" r="5" fill="#FFFFFF"/></g>
+<g><rect x="30" y="40" width="300" height="122" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M30 47a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="44" y="63" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">PDET_SUBREGION</text>
+<text x="44" y="93" font-size="10" font-weight="700" fill="#1F5FAF">PK</text>
+<text x="94" y="93" font-size="13" font-weight="600" fill="#1E293B">_id</text>
+<text x="316" y="93" font-size="12" fill="#64748B" text-anchor="end">int</text>
+<rect x="31" y="102" width="298" height="26" fill="#F8FAFC"/>
+<text x="94" y="119" font-size="13" font-weight="400" fill="#1E293B">name</text>
+<text x="316" y="119" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<text x="94" y="145" font-size="13" font-weight="400" fill="#1E293B">municipality_count</text>
+<text x="316" y="145" font-size="12" fill="#64748B" text-anchor="end">int</text>
+</g>
+<g><rect x="440" y="40" width="300" height="200" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M440 47a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="454" y="63" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">MUNICIPALITY</text>
+<text x="454" y="93" font-size="10" font-weight="700" fill="#1F5FAF">PK</text>
+<text x="504" y="93" font-size="13" font-weight="600" fill="#1E293B">_id</text>
+<text x="726" y="93" font-size="12" fill="#64748B" text-anchor="end">string(5)</text>
+<rect x="441" y="102" width="298" height="26" fill="#F8FAFC"/>
+<text x="454" y="119" font-size="10" font-weight="700" fill="#1F5FAF">FK</text>
+<text x="504" y="119" font-size="13" font-weight="400" fill="#1E293B">subregion_id</text>
+<text x="726" y="119" font-size="12" fill="#64748B" text-anchor="end">int</text>
+<text x="504" y="145" font-size="13" font-weight="400" fill="#1E293B">name</text>
+<text x="726" y="145" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<rect x="441" y="154" width="298" height="26" fill="#F8FAFC"/>
+<text x="504" y="171" font-size="13" font-weight="400" fill="#1E293B">dpto_code</text>
+<text x="726" y="171" font-size="12" fill="#64748B" text-anchor="end">string(2)</text>
+<text x="504" y="197" font-size="13" font-weight="400" fill="#1E293B">area_km2</text>
+<text x="726" y="197" font-size="12" fill="#64748B" text-anchor="end">double</text>
+<rect x="441" y="206" width="298" height="26" fill="#F8FAFC"/>
+<text x="504" y="223" font-size="13" font-weight="400" fill="#1E293B">geometry</text>
+<text x="726" y="223" font-size="12" fill="#64748B" text-anchor="end">MultiPolygon</text>
+<rect x="573.2" y="211" width="62" height="16" rx="8" fill="#E8F0FB"/><text x="604.2" y="222.5" font-size="10" fill="#1F5FAF" text-anchor="middle">2dsphere</text>
+</g>
+<g><rect x="850" y="40" width="300" height="174" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M850 47a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="864" y="63" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">ROOFTOP_STAT</text>
+<text x="864" y="93" font-size="10" font-weight="700" fill="#1F5FAF">PK FK</text>
+<text x="914" y="93" font-size="13" font-weight="600" fill="#1E293B">_id.mpio_code</text>
+<text x="1136" y="93" font-size="12" fill="#64748B" text-anchor="end">string(5)</text>
+<rect x="851" y="102" width="298" height="26" fill="#F8FAFC"/>
+<text x="864" y="119" font-size="10" font-weight="700" fill="#1F5FAF">PK FK</text>
+<text x="914" y="119" font-size="13" font-weight="600" fill="#1E293B">_id.dataset_id</text>
+<text x="1136" y="119" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<text x="914" y="145" font-size="13" font-weight="400" fill="#1E293B">building_count</text>
+<text x="1136" y="145" font-size="12" fill="#64748B" text-anchor="end">int</text>
+<rect x="851" y="154" width="298" height="26" fill="#F8FAFC"/>
+<text x="914" y="171" font-size="13" font-weight="400" fill="#1E293B">total_area_m2</text>
+<text x="1136" y="171" font-size="12" fill="#64748B" text-anchor="end">double</text>
+<text x="914" y="197" font-size="13" font-weight="400" fill="#1E293B">median_area_m2</text>
+<text x="1136" y="197" font-size="12" fill="#64748B" text-anchor="end">double</text>
+</g>
+<g><rect x="30" y="360" width="300" height="174" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M30 367a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="44" y="383" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">INGESTION_RUN</text>
+<text x="44" y="413" font-size="10" font-weight="700" fill="#1F5FAF">PK</text>
+<text x="94" y="413" font-size="13" font-weight="600" fill="#1E293B">_id</text>
+<text x="316" y="413" font-size="12" fill="#64748B" text-anchor="end">ObjectId</text>
+<rect x="31" y="422" width="298" height="26" fill="#F8FAFC"/>
+<text x="44" y="439" font-size="10" font-weight="700" fill="#1F5FAF">FK</text>
+<text x="94" y="439" font-size="13" font-weight="400" fill="#1E293B">dataset_id</text>
+<text x="316" y="439" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<text x="94" y="465" font-size="13" font-weight="400" fill="#1E293B">source_file</text>
+<text x="316" y="465" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<rect x="31" y="474" width="298" height="26" fill="#F8FAFC"/>
+<text x="94" y="491" font-size="13" font-weight="400" fill="#1E293B">rows_loaded</text>
+<text x="316" y="491" font-size="12" fill="#64748B" text-anchor="end">int</text>
+<text x="94" y="517" font-size="13" font-weight="400" fill="#1E293B">rows_rejected</text>
+<text x="316" y="517" font-size="12" fill="#64748B" text-anchor="end">int</text>
+</g>
+<g><rect x="440" y="360" width="300" height="252" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M440 367a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="454" y="383" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">BUILDING</text>
+<text x="454" y="413" font-size="10" font-weight="700" fill="#1F5FAF">PK</text>
+<text x="504" y="413" font-size="13" font-weight="600" fill="#1E293B">_id</text>
+<text x="726" y="413" font-size="12" fill="#64748B" text-anchor="end">ObjectId</text>
+<rect x="441" y="422" width="298" height="26" fill="#F8FAFC"/>
+<text x="454" y="439" font-size="10" font-weight="700" fill="#1F5FAF">FK</text>
+<text x="504" y="439" font-size="13" font-weight="400" fill="#1E293B">dataset_id</text>
+<text x="726" y="439" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<text x="454" y="465" font-size="10" font-weight="700" fill="#1F5FAF">FK</text>
+<text x="504" y="465" font-size="13" font-weight="400" fill="#1E293B">mpio_code</text>
+<text x="726" y="465" font-size="12" fill="#64748B" text-anchor="end">string(5)</text>
+<rect x="441" y="474" width="298" height="26" fill="#F8FAFC"/>
+<text x="454" y="491" font-size="10" font-weight="700" fill="#1F5FAF">FK</text>
+<text x="504" y="491" font-size="13" font-weight="400" fill="#1E293B">run_id</text>
+<text x="726" y="491" font-size="12" fill="#64748B" text-anchor="end">ObjectId</text>
+<text x="504" y="517" font-size="13" font-weight="400" fill="#1E293B">footprint</text>
+<text x="726" y="517" font-size="12" fill="#64748B" text-anchor="end">Polygon</text>
+<rect x="441" y="526" width="298" height="26" fill="#F8FAFC"/>
+<text x="504" y="543" font-size="13" font-weight="400" fill="#1E293B">centroid</text>
+<text x="726" y="543" font-size="12" fill="#64748B" text-anchor="end">Point</text>
+<rect x="621.5" y="531" width="62" height="16" rx="8" fill="#E8F0FB"/><text x="652.5" y="542.5" font-size="10" fill="#1F5FAF" text-anchor="middle">2dsphere</text>
+<text x="504" y="569" font-size="13" font-weight="400" fill="#1E293B">area_m2</text>
+<text x="726" y="569" font-size="12" fill="#64748B" text-anchor="end">double</text>
+<rect x="441" y="578" width="298" height="26" fill="#F8FAFC"/>
+<text x="504" y="595" font-size="13" font-weight="400" fill="#1E293B">confidence</text>
+<text x="726" y="595" font-size="12" fill="#64748B" text-anchor="end">double</text>
+</g>
+<g><rect x="850" y="360" width="300" height="148" rx="7" fill="#FFFFFF" stroke="#CBD5E1"/>
+<path d="M850 367a7 7 0 0 1 7-7h286a7 7 0 0 1 7 7v29h-300z" fill="#1E293B"/>
+<text x="864" y="383" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">DATASET</text>
+<text x="864" y="413" font-size="10" font-weight="700" fill="#1F5FAF">PK</text>
+<text x="914" y="413" font-size="13" font-weight="600" fill="#1E293B">_id</text>
+<text x="1136" y="413" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<rect x="851" y="422" width="298" height="26" fill="#F8FAFC"/>
+<text x="914" y="439" font-size="13" font-weight="400" fill="#1E293B">name</text>
+<text x="1136" y="439" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<text x="914" y="465" font-size="13" font-weight="400" fill="#1E293B">version</text>
+<text x="1136" y="465" font-size="12" fill="#64748B" text-anchor="end">string</text>
+<rect x="851" y="474" width="298" height="26" fill="#F8FAFC"/>
+<text x="914" y="491" font-size="13" font-weight="400" fill="#1E293B">license</text>
+<text x="1136" y="491" font-size="12" fill="#64748B" text-anchor="end">string</text>
+</g>
+<rect x="358.2" y="61" width="53.599999999999994" height="20" rx="4" fill="#FFFFFF"/><text x="385.0" y="75" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">agrupa</text>
+<rect x="768.2" y="61" width="53.599999999999994" height="20" rx="4" fill="#FFFFFF"/><text x="795.0" y="75" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">resume</text>
+<rect x="517.0" y="290.0" width="146.0" height="20" rx="4" fill="#FFFFFF"/><text x="590.0" y="304.0" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">contiene (centroide)</text>
+<rect x="979.8" y="277.0" width="40.4" height="20" rx="4" fill="#FFFFFF"/><text x="1000.0" y="291.0" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">mide</text>
+<rect x="768.2" y="381" width="53.599999999999994" height="20" rx="4" fill="#FFFFFF"/><text x="795.0" y="395" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">provee</text>
+<rect x="354.9" y="381" width="60.199999999999996" height="20" rx="4" fill="#FFFFFF"/><text x="385.0" y="395" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">inserta</text>
+<rect x="556.6" y="646" width="66.8" height="20" rx="4" fill="#FFFFFF"/><text x="590.0" y="660" font-size="12" font-style="italic" fill="#64748B" text-anchor="middle">registra</text>
+<g stroke="#475569" stroke-width="1.4" fill="none"><line x1="30" y1="694" x2="74" y2="694"/><line x1="64" y1="701" x2="64" y2="687"/><line x1="58" y1="701" x2="58" y2="687"/></g><text x="84" y="698" font-size="12" fill="#64748B">exactamente uno</text><g stroke="#475569" stroke-width="1.4" fill="none"><line x1="220" y1="694" x2="264" y2="694"/><line x1="254" y1="701" x2="254" y2="687"/><circle cx="244" cy="694" r="5" fill="#FFFFFF"/></g><text x="274" y="698" font-size="12" fill="#64748B">cero o uno</text><g stroke="#475569" stroke-width="1.4" fill="none"><line x1="410" y1="694" x2="454" y2="694"/><line x1="440" y1="694" x2="454" y2="703"/><line x1="440" y1="694" x2="454" y2="685"/><line x1="440" y1="694" x2="454" y2="694"/><line x1="434" y1="701" x2="434" y2="687"/></g><text x="464" y="698" font-size="12" fill="#64748B">uno o muchos</text><g stroke="#475569" stroke-width="1.4" fill="none"><line x1="600" y1="694" x2="644" y2="694"/><line x1="630" y1="694" x2="644" y2="703"/><line x1="630" y1="694" x2="644" y2="685"/><line x1="630" y1="694" x2="644" y2="694"/><circle cx="621" cy="694" r="5" fill="#FFFFFF"/></g><text x="654" y="698" font-size="12" fill="#64748B">cero o muchos</text>
+</svg>
