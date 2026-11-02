@@ -3,19 +3,20 @@
 Versión Mermaid de `diagrama_er.png`. GitHub la dibuja automáticamente.
 En MongoDB, `id` corresponde al campo `_id` de cada colección.
 
-6 entidades y 7 relaciones uno a muchos. La relación MUNICIPALITY–BUILDING es
+6 entidades y 7 relaciones uno a muchos. La relación MUNICIPALITY-BUILDING es
 espacial: `mpio_code` se llena con `$geoWithin` sobre el centroide en la fase 3,
-no durante la carga.
+no durante la carga. Si el centroide no cae en ningún municipio PDET, `mpio_code`
+queda en `null`.
 
 ```mermaid
 erDiagram
-    PDET_SUBREGION ||--o{ MUNICIPALITY : agrupa
-    MUNICIPALITY ||--o{ BUILDING : "contiene (centroide dentro)"
+    PDET_SUBREGION ||--|{ MUNICIPALITY : agrupa
+    MUNICIPALITY |o--o{ BUILDING : "contiene (centroide)"
     DATASET ||--o{ BUILDING : provee
     DATASET ||--o{ INGESTION_RUN : registra
-    INGESTION_RUN ||--o{ BUILDING : carga
-    MUNICIPALITY ||--o{ ROOFTOP_STAT : tiene
-    DATASET ||--o{ ROOFTOP_STAT : delimita
+    INGESTION_RUN ||--o{ BUILDING : inserta
+    MUNICIPALITY ||--o{ ROOFTOP_STAT : resume
+    DATASET ||--o{ ROOFTOP_STAT : mide
 
     PDET_SUBREGION {
         int id PK "1 a 16"
