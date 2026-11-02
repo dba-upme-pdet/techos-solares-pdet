@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: upme_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-admin123}
+      MONGO_INITDB_DATABASE: upme_pdet
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

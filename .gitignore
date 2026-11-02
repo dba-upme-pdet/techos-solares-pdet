@@ -1,0 +1,30 @@
+# Datos crudos y procesados (demasiado pesados para Git)
+data/
+!data/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Variables de entorno / credenciales
+.env
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Archivos geoespaciales pesados
+*.zip
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.geojson
+*.geojsonl
+*.csv.gz

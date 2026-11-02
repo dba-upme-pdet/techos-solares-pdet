@@ -1,0 +1,39 @@
+# Configuración central. Los scripts leen de aquí todas las rutas, URLs y umbrales.
+
+mongo:
+  uri: "mongodb://admin:admin123@localhost:27017/"
+  database: "upme_pdet"
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  outputs: "outputs"
+
+sources:
+  mgn:
+    version: "MGN2025"
+    url: "https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111"
+    source_crs: "EPSG:4686"   # MAGNA-SIRGAS
+  pdet_list:
+    file: "resources/MunicipiosPDET.xlsx"
+    sheet: "Hoja1"            # columnas: id, Subregión PDET, Código DANE Municipio, ...
+    code_column: "Código DANE Municipio"   # viene como número: rellenar a 5 dígitos
+    expected_municipalities: 170
+    expected_subregions: 16
+  microsoft:
+    id: "ms"
+    index_url: "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv"
+    country: "Colombia"
+  google:
+    id: "google"
+    version: "v3"
+    url: "https://sites.research.google/gr/open-buildings/"
+
+processing:
+  target_crs: "EPSG:4326"     # requerido por el índice 2dsphere de MongoDB
+  batch_size: 10000
+
+analysis:
+  # Valores provisionales; los definitivos se fijan después del EDA (Entrega 3).
+  min_area_m2: 20
+  min_confidence: 0.70
