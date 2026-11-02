@@ -3,6 +3,7 @@ geopandas>=0.14
 shapely>=2.0
 pyproj>=3.6
 pandas>=2.1
+openpyxl>=3.1
 pyyaml>=6.0
 requests>=2.31
 tqdm>=4.66
