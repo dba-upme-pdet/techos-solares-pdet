@@ -9,11 +9,11 @@ Flujo de trabajo geoespacial reproducible que cuenta los techos de edificaciones
 
 | Integrante | Usuario de GitHub |
 | --- | --- |
-| Derek Sarmiento | [@usuario] |
-| José Medina | [@usuario] |
-| Miguel Duarte | [@usuario] |
-| Sebastián Sánchez Vásquez | [@usuario] |
-| Samuel Emperador | [@usuario] |
+| Derek Sarmiento | [@Derekk8] |
+| José Medina | [@joseda1327] |
+| Miguel Duarte | [@MiguelDu020] |
+| Sebastián Sánchez Vásquez | [@tiansv] |
+| Samuel Emperador | [@emperador24] |
 
 Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositorio: <https://github.com/dba-upme-pdet/techos-solares-pdet>
 
