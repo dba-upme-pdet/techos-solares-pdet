@@ -50,13 +50,23 @@ python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 3. Correr el flujo en orden (los scripts se agregan en cada entrega)
+# 3. Verificar el entorno y crear el esquema (Entrega 1)
+python scripts/00_check_environment.py     # versiones de Python y dependencias
+python scripts/00_check_pdet_list.py       # calidad de la lista PDET (170 / 16)
+python scripts/00_init_db.py               # colecciones, validadores e índices
+
+# 4. Correr el flujo en orden (los scripts se agregan en cada entrega)
 python scripts/01_download_mgn.py
 python scripts/02_load_municipalities.py
 python scripts/03_download_buildings.py
 python scripts/04_load_buildings.py
+python scripts/00_init_db.py --building-indexes   # índices de buildings, después de la carga
+jupyter notebook scripts/05_eda.ipynb
 python scripts/06_rooftop_stats.py
+jupyter notebook scripts/07_maps.ipynb
 ```
+
+Las credenciales de MongoDB tienen valores por defecto solo para desarrollo local. Para cambiarlas, copie `.env.example` a `.env` (ignorado por git): Docker Compose lee `MONGO_USER` y `MONGO_PASSWORD`, y los scripts usan `MONGO_URI` si está definida.
 
 Todas las rutas, URLs y umbrales se definen en `config.yaml`; los scripts los leen de ahí y no tienen valores escritos a mano.
 
@@ -77,3 +87,5 @@ outputs/             tablas y mapas de resultados
 ## Base de datos
 
 MongoDB 7, base de datos `upme_pdet`. Colecciones: `pdet_subregions`, `municipalities`, `datasets`, `buildings`, `rooftop_stats`, `ingestion_runs`. El diagrama E-R y el diccionario de datos están en `docs/delivery1/`.
+
+`scripts/00_init_db.py` implementa ese diseño: crea las seis colecciones con validadores `$jsonSchema` (campos obligatorios y tipos del diccionario de datos) y los índices planeados (`2dsphere` sobre `municipalities.geometry` y `buildings.centroid`, más los B-tree de apoyo). Los índices de `buildings` se crean después de la carga masiva para no frenar las inserciones.
