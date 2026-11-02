@@ -1,8 +1,4 @@
-"""Verifica la lista oficial de municipios PDET antes de cargarla (Fase 0).
-
-Uso:  python scripts/00_check_pdet_list.py
-Salida: outputs/pdet_subregions_summary.csv; código 1 si alguna verificación falla.
-"""
+"""Verifica la lista oficial de municipios PDET antes de cargarla (Fase 1)."""
 import sys
 from pathlib import Path
 
@@ -18,23 +14,18 @@ df["mpio_code"] = df[pdet["code_column"]].astype(int).astype(str).str.zfill(5)
 df["dpto_code"] = df["Código DANE Departamento"].astype(int).astype(str).str.zfill(2)
 
 checks = {
-    f"{pdet['expected_municipalities']} municipios": len(df) == pdet["expected_municipalities"],
+    "170 municipios": len(df) == pdet["expected_municipalities"],
     "códigos únicos": df["mpio_code"].is_unique,
-    f"{pdet['expected_subregions']} subregiones": df["id"].nunique() == pdet["expected_subregions"],
+    "16 subregiones": df["id"].nunique() == pdet["expected_subregions"],
     "códigos de 5 dígitos": df["mpio_code"].str.fullmatch(r"\d{5}").all(),
     "sin nulos": not df.isna().any().any(),
     "prefijo de departamento": (df["mpio_code"].str[:2] == df["dpto_code"]).all(),
 }
-
-summary = (df.groupby(["id", "Subregión PDET"]).size()
-             .reset_index(name="municipios")
-             .rename(columns={"Subregión PDET": "subregion"}))
+summary = df.groupby(["id", "Subregión PDET"]).size().reset_index(name="municipios")
 out = ROOT / cfg["paths"]["outputs"] / "pdet_subregions_summary.csv"
-out.parent.mkdir(parents=True, exist_ok=True)
 summary.to_csv(out, index=False, encoding="utf-8")
 
 for name, ok in checks.items():
     print(f"[{'OK' if ok else 'FALLA'}] {name}")
 print(summary.to_string(index=False))
-print(f"Resumen guardado en {out.relative_to(ROOT)}")
 sys.exit(0 if all(checks.values()) else 1)
