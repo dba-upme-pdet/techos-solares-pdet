@@ -1,6 +1,6 @@
 # Potencial solar en techos de municipios PDET (UPME)
 
-Administración de Bases de Datos — Proyecto final  
+Administración de Bases de Datos · Pontificia Universidad Javeriana · 2026-30  
 Prof. Andrés Oswaldo Calderón Romero, Ph.D.
 
 Flujo de trabajo geoespacial reproducible que cuenta los techos de edificaciones y estima su área total en cada uno de los 170 municipios PDET de Colombia. Usa MongoDB como motor NoSQL y dos datasets abiertos de huellas de edificaciones: Microsoft Building Footprints y Google Open Buildings v3.
@@ -9,11 +9,11 @@ Flujo de trabajo geoespacial reproducible que cuenta los techos de edificaciones
 
 | Integrante | Usuario de GitHub |
 | --- | --- |
-| Derek Sarmiento | [@Derekk8] |
-| José Medina | [@joseda1327] |
-| Miguel Duarte | [@MiguelDu020] |
-| Sebastián Sánchez Vásquez | [@tiansv] |
-| Samuel Emperador | [@emperador24] |
+| Derek Sarmiento | [@DereKk8](https://github.com/DereKk8) |
+| José Medina | [@joseda1327](https://github.com/joseda1327) |
+| Miguel Duarte | [@MiguelDu020](https://github.com/MiguelDu020) |
+| Sebastián Sánchez Vásquez | [@tiansv](https://github.com/tiansv) |
+| Samuel Emperador | [@emperador24](https://github.com/emperador24) |
 
 Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositorio: <https://github.com/dba-upme-pdet/techos-solares-pdet>
 
@@ -21,16 +21,26 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 
 | # | Entrega | Fecha | Carpeta | Estado |
 | --- | --- | --- | --- | --- |
-| 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | `docs/delivery1/` | Entregada |
+| 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | `docs/delivery2/` | Pendiente |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | `docs/delivery3/` | Pendiente |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
+### Entrega 1 en el repositorio
+
+| Archivo | Contenido |
+| --- | --- |
+| [`Entrega1_Diseno_Esquema_y_Plan_de_Implementacion.pdf`](docs/delivery1/Entrega1_Diseno_Esquema_y_Plan_de_Implementacion.pdf) | Informe: plan de implementación, modelo E-R y diccionario de datos |
+| [`entrega1.tex`](docs/delivery1/entrega1.tex) | Fuente LaTeX del informe (`latexmk -pdf entrega1.tex`) |
+| [`diagrama_er.png`](docs/delivery1/diagrama_er.png) | Diagrama E-R, generado con `python docs/delivery1/er/build_er.py` |
+| [`diagrama_er.md`](docs/delivery1/diagrama_er.md) | Versión Mermaid del diagrama, visible en GitHub |
+| [`scripts/00_init_db.py`](scripts/00_init_db.py) | Esquema implementado en MongoDB: validadores e índices |
+
 ## Fuentes de datos
 
-- **DANE — Marco Geoestadístico Nacional (MGN 2025)**, nivel municipal: <https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111>
-- **Lista de municipios PDET** — `resources/MunicipiosPDET.xlsx`, entregado por el curso (170 municipios, 16 subregiones). Fuente: Agencia de Renovación del Territorio, <https://www.renovacionterritorio.gov.co/central-pdet/que-son-los-pdet>
+- **DANE, Marco Geoestadístico Nacional (MGN 2025)**, nivel municipal: <https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111>
+- **Lista de municipios PDET**: `resources/MunicipiosPDET.xlsx`, entregado por el curso (170 municipios, 16 subregiones). Fuente: Agencia de Renovación del Territorio, <https://www.renovacionterritorio.gov.co/central-pdet/que-son-los-pdet>
 - **Microsoft Building Footprints** (ODbL): <https://planetarycomputer.microsoft.com/dataset/ms-buildings>
 - **Google Open Buildings v3** (CC BY-4.0 / ODbL): <https://sites.research.google/gr/open-buildings/>
 
@@ -78,6 +88,7 @@ docker-compose.yml   MongoDB 7
 config.yaml          rutas, URLs, umbrales
 requirements.txt     dependencias de Python
 docs/                una carpeta por entrega (PDF + diagramas)
+  delivery1/er/       generador del diagrama E-R (build_er.py)
 resources/           lista oficial de municipios PDET (Excel del curso)
 scripts/             scripts y notebooks numerados del flujo
 data/                descargas crudas (ignoradas por git)
