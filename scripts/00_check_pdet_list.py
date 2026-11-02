@@ -1,4 +1,4 @@
-"""Verifica la lista oficial de municipios PDET antes de cargarla (Fase 1)."""
+"""Verifica la lista oficial de municipios PDET antes de cargarla (Fase 0)."""
 import sys
 from pathlib import Path
 
