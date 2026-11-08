@@ -39,7 +39,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 
 ### Entrega 2 en el repositorio
 
-`scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida (`01_validate_mgn.py`), Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Esos tres scripts no están en este cambio. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
+`scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida (`01_validate_mgn.py`), Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Esos tres scripts no están en este cambio. Una corrida que no verifica la capa no deja el manifiesto ni el reporte anteriores como si el resultado actual estuviera listo. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
 
 | Archivo | Contenido |
 | --- | --- |

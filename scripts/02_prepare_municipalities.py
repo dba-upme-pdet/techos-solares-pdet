@@ -31,6 +31,7 @@ from entrega2_contracts import (
     PDET_COLUMNS,
     SIZE_GUARD_BYTES,
     ContractError,
+    archive_success_claim,
     area_to_km2,
     as_int,
     crs_matches,
@@ -248,17 +249,44 @@ def prepare_documents(
     return documents, report
 
 
-def assert_production_manifest(manifest: dict) -> None:
+def assert_production_manifest(manifest: dict, *, expected_feature_count: int | None = None) -> None:
     if manifest.get("contract") != CONTRACT_VERSION or manifest.get("role") != "download-manifest":
         raise ContractError("el manifiesto no es el contrato entrega2-mgn-v1")
     if manifest.get("fixture") is True:
         raise ContractError("el manifiesto es un fixture y no prueba la descarga del MGN")
     if manifest.get("status") != "complete" or manifest.get("claims_national_download") is not True:
         raise ContractError("la descarga nacional no está verificada")
+    if manifest.get("official_page_plan") is False or manifest.get("national_complete") is False:
+        raise ContractError("el manifiesto no acredita la capa nacional")
+    if manifest.get("cache_matches_receipt") is False:
+        raise ContractError("las páginas no coinciden con el recibo")
     if manifest.get("crs_equals_expected") is not True:
         raise ContractError("el manifiesto no confirma el CRS de origen")
     if not manifest.get("extracted_layer"):
         raise ContractError("el manifiesto no trae extracted_layer")
+    if expected_feature_count is not None and manifest.get("feature_count") != expected_feature_count:
+        raise ContractError(
+            f"el manifiesto tiene {manifest.get('feature_count')} registros y la capa nacional espera {expected_feature_count}"
+        )
+
+
+def write_failed_prepare(report_path: Path, payload: dict) -> None:
+    """Sustituye el reporte actual sin borrar un éxito anterior."""
+    history = report_path.with_name("municipalities_prepare_report.history.json")
+    archive_success_claim(
+        report_path,
+        history,
+        status="ready_for_load",
+        claim="claims_full_pdet_set",
+    )
+    body = dict(payload)
+    body["claims_full_pdet_set"] = False
+    body["output_geojsonl"] = None
+    if body.get("status") == "ready_for_load":
+        body["status"] = "blocked"
+    if history.is_file():
+        body["history_report"] = history.name
+    write_json(report_path, body)
 
 
 def write_geojsonl(path: Path, documents: list[dict]) -> str:
@@ -294,20 +322,56 @@ def run_real(root: Path) -> int:
                 "error": "no existe outputs/mgn_download_manifest.json con una descarga verificada",
             }
         )
-        write_json(report_path, base)
+        write_failed_prepare(report_path, base)
         print(f"[FALLA] {base['error']}", file=sys.stderr)
         return 2
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     try:
-        assert_production_manifest(manifest)
+        assert_production_manifest(
+            manifest,
+            expected_feature_count=int(config["sources"]["mgn"]["wfs"]["expected_feature_count"]),
+        )
     except ContractError as exc:
         base.update({"status": "blocked_no_layer", "error": str(exc)})
-        write_json(report_path, base)
+        write_failed_prepare(report_path, base)
         print(f"[FALLA] {exc}", file=sys.stderr)
         return 2
 
     layer_path = root / manifest["extracted_layer"]
-    frame = gpd.read_file(layer_path)
+    if not layer_path.is_file():
+        base.update(
+            {
+                "status": "blocked_no_layer",
+                "error": f"no existe la capa declarada: {manifest['extracted_layer']}",
+            }
+        )
+        write_failed_prepare(report_path, base)
+        print(f"[FALLA] {base['error']}", file=sys.stderr)
+        return 2
+    observed_hash = sha256_file(layer_path)
+    declared_hash = manifest.get("sha256")
+    if isinstance(declared_hash, str) and declared_hash != observed_hash:
+        base.update(
+            {
+                "status": "layer_hash_mismatch",
+                "error": f"la capa no coincide con el manifiesto: sha256 {observed_hash}",
+            }
+        )
+        write_failed_prepare(report_path, base)
+        print(f"[FALLA] {base['error']}", file=sys.stderr)
+        return 2
+    try:
+        frame = gpd.read_file(layer_path)
+    except Exception as exc:
+        base.update(
+            {
+                "status": "unreadable_layer",
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+        )
+        write_failed_prepare(report_path, base)
+        print(f"[FALLA] {base['error']}", file=sys.stderr)
+        return 2
     pdet = config["sources"]["pdet_list"]
     excel = pd.read_excel(root / pdet["file"], sheet_name=pdet["sheet"])
     unit = manifest.get("area_unit")
@@ -315,7 +379,7 @@ def run_real(root: Path) -> int:
     scanned_unit, scanned_source = unit_from_files(layer_path.parent)
     if unit and scanned_unit and unit != scanned_unit:
         base.update({"status": "unresolved_area_unit", "error": "el manifiesto y los metadatos declaran unidades distintas"})
-        write_json(report_path, base)
+        write_failed_prepare(report_path, base)
         print(f"[FALLA] {base['error']}", file=sys.stderr)
         return 3
     if not unit and scanned_unit:
@@ -355,7 +419,7 @@ def run_real(root: Path) -> int:
     if report["status"] != "ready_for_load":
         report["output_geojsonl"] = None
         report["sha256"] = None
-        write_json(report_path, report)
+        write_failed_prepare(report_path, report)
         print(f"[FALLA] {report['status']}: {report.get('error', '')}", file=sys.stderr)
         return 3 if report["status"] == "unresolved_area_unit" else 1
     output = root / config["paths"]["processed_data"] / "municipalities.geojsonl"
@@ -382,6 +446,10 @@ def _layer(rows: list[dict], geometries, crs: str) -> gpd.GeoDataFrame:
 
 
 def run_self_check() -> int:
+    import contextlib
+    import io
+    import tempfile
+
     from shapely.geometry import Polygon
 
     checks: dict[str, bool] = {}
@@ -549,6 +617,127 @@ def run_self_check() -> int:
 
     check("kilómetros cuadrados no se leen como metros", parse_area_unit("MPIO_NAREA en kilómetros cuadrados") == "km2")
     check("sin la cadena MPIO_NAREA no hay unidad", parse_area_unit("el área es de 10 metros cuadrados") is None)
+
+    try:
+        assert_production_manifest(
+            {
+                "contract": CONTRACT_VERSION,
+                "role": "download-manifest",
+                "fixture": False,
+                "status": "complete",
+                "claims_national_download": True,
+                "crs_equals_expected": True,
+                "extracted_layer": "data/raw/mgn2025/wfs/municipio.gpkg",
+                "feature_count": 1,
+            },
+            expected_feature_count=1122,
+        )
+        check("un manifiesto de un municipio no habilita los 170", False)
+    except ContractError:
+        check("un manifiesto de un municipio no habilita los 170", True)
+
+    def mini_root(folder: Path) -> None:
+        (folder / "config.yaml").write_text(
+            """
+paths:
+  raw_data: data/raw
+  processed_data: data/processed
+  outputs: outputs
+sources:
+  mgn:
+    version: MGN2025
+    url: "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer"
+    source_crs: EPSG:4686
+    wfs:
+      url: "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer"
+      type_name: "Serv_CapasMGN_2025:Municipio"
+      srs_name: "urn:ogc:def:crs:EPSG::4686"
+      page_size: 200
+      start_indexes: [0, 200, 400, 600, 800, 1000]
+      expected_feature_count: 1122
+      receipt: outputs/mgn_wfs_source_receipt.json
+  pdet_list:
+    file: resources/MunicipiosPDET.xlsx
+    sheet: Hoja1
+    code_column: "Código DANE Municipio"
+    expected_municipalities: 170
+    expected_subregions: 16
+processing:
+  target_crs: EPSG:4326
+""",
+            encoding="utf-8",
+        )
+        (folder / "outputs").mkdir()
+
+    def national_manifest(layer: str, **extra) -> dict:
+        body = {
+            "contract": CONTRACT_VERSION,
+            "role": "download-manifest",
+            "status": "complete",
+            "fixture": False,
+            "claims_national_download": True,
+            "crs_equals_expected": True,
+            "crs_expected": "EPSG:4686",
+            "extracted_layer": layer,
+            "feature_count": 1122,
+            "filename": "municipio.gpkg",
+            "area_unit": "km2",
+        }
+        body.update(extra)
+        return body
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        mini_root(root)
+        write_json(root / "outputs/mgn_download_manifest.json", national_manifest("data/raw/mgn2025/wfs/municipio.gpkg"))
+        ready = {
+            "claims_full_pdet_set": True,
+            "municipalities_written": 170,
+            "output_geojsonl": "data/processed/municipalities.geojsonl",
+            "role": "prepare-report",
+            "status": "ready_for_load",
+        }
+        write_json(root / "outputs/municipalities_prepare_report.json", ready)
+        seeded = (root / "outputs/municipalities_prepare_report.json").read_bytes()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            code = run_real(root)
+        report = json.loads((root / "outputs/municipalities_prepare_report.json").read_text(encoding="utf-8"))
+        history = root / "outputs/municipalities_prepare_report.history.json"
+        geojsonl = root / "data/processed/municipalities.geojsonl"
+        check(
+            "sin la capa, el reporte actual no queda listo para cargar",
+            code == 2
+            and report.get("status") == "blocked_no_layer"
+            and report.get("claims_full_pdet_set") is False
+            and report.get("output_geojsonl") is None
+            and report.get("municipalities_written") == 0
+            and history.is_file()
+            and history.read_bytes() == seeded
+            and json.loads(history.read_text(encoding="utf-8"))["claims_full_pdet_set"] is True
+            and not geojsonl.exists(),
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        mini_root(root)
+        layer = root / "data/raw/mgn2025/wfs/municipio.gpkg"
+        layer.parent.mkdir(parents=True)
+        layer.write_bytes(b"esto no es un geopackage")
+        write_json(
+            root / "outputs/mgn_download_manifest.json",
+            national_manifest("data/raw/mgn2025/wfs/municipio.gpkg", sha256=sha256_file(layer)),
+        )
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            code = run_real(root)
+        report = json.loads((root / "outputs/municipalities_prepare_report.json").read_text(encoding="utf-8"))
+        check(
+            "una capa ilegible no se anuncia como los 170 municipios",
+            code == 2
+            and report.get("status") == "unreadable_layer"
+            and report.get("claims_full_pdet_set") is False
+            and report.get("output_geojsonl") is None
+            and "DataSourceError" in report.get("error", ""),
+        )
 
     passed = all(checks.values())
     print(f"{'FIXTURE' if passed else 'FALLA'} self-check preparación: {sum(checks.values())}/{len(checks)}")

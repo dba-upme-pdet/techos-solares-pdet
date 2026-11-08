@@ -21,12 +21,14 @@ Los scripts leen `config.yaml`. El directorio de trabajo es la raíz del reposit
 
 | Pieza | Quién la escribe | Quién la lee | Condición |
 | --- | --- | --- | --- |
-| `outputs/mgn_download_manifest.json` | Derek | Samuel y José | `contract = entrega2-mgn-v1`, `role = download-manifest`, `status = complete`, `fixture = false`, `claims_national_download = true` |
-| Capa en `extracted_layer` | Derek | Samuel y José | GeoPackage con `MPIO_CDPMP`, `MPIO_CNMBR`, `MPIO_NAREA`, `DPTO_CCDGO`. El CRS de trabajo es el `srsName` del WFS interpretado como longitud/latitud |
-| `outputs/mgn_wfs_source_receipt.json` | recibo de las respuestas | el script de descarga | SHA256 y bytes de cada GML sin modificar |
-| `outputs/mgn_download_attempt.json` | el script, solo si falla | todos | Intento fallido. No reemplaza al manifiesto |
-| `data/processed/municipalities.geojsonl` | José | Miguel | Una línea JSON por municipio, solo si el reporte está en `ready_for_load` |
-| `outputs/municipalities_prepare_report.json` | José | Miguel | `claims_full_pdet_set` solo es verdadero con 170 documentos reales |
+| `outputs/mgn_download_manifest.json` | Derek | Samuel y José | Resultado de la última corrida. `claims_national_download = true` solo con `status = complete`, `fixture = false`, el plan WFS de `config.yaml` y 1122 registros |
+| `outputs/mgn_download_manifest.history.json` | el script, solo si una corrida posterior falla | todos | Copia intacta del último manifiesto exitoso. No es el resultado actual |
+| Capa en `extracted_layer` | Derek | Samuel y José | GeoPackage con `MPIO_CDPMP`, `MPIO_CNMBR`, `MPIO_NAREA`, `DPTO_CCDGO`. El CRS de trabajo es el `srsName` del WFS interpretado como longitud/latitud. Tiene que existir y, si el manifiesto trae `sha256`, coincidir con él |
+| `outputs/mgn_wfs_source_receipt.json` | recibo de las respuestas | el script de descarga | SHA256 y bytes de cada GML. Coincidir con esos hash prueba la caché, no el origen ni la cobertura |
+| `outputs/mgn_download_attempt.json` | el script, solo si falla | todos | Detalle del intento fallido. El manifiesto actual queda en `blocked` o `invalid`, con `claims_national_download = false` |
+| `data/processed/municipalities.geojsonl` | José | Miguel | Una línea JSON por municipio, solo si el reporte actual está en `ready_for_load` |
+| `outputs/municipalities_prepare_report.json` | José | Miguel | `claims_full_pdet_set` solo es verdadero con 170 documentos reales de la capa nacional |
+| `outputs/municipalities_prepare_report.history.json` | el script, solo si una corrida posterior falla | todos | Copia intacta del último reporte `ready_for_load`. No autoriza la carga |
 
 Samuel cruza la capa extraída con `resources/MunicipiosPDET.xlsx`, hoja `Hoja1`, con la misma regla de este repositorio: `zfill` a 5 dígitos sobre `Código DANE Municipio`. El cruce es por código, no por nombre.
 
@@ -40,15 +42,17 @@ Los ZIP, shapefiles y el JSONL quedan fuera de git (`.gitignore`).
 
 1. La fuente usada es el WFS 2.0 de `sources.mgn.wfs`: `Serv_CapasMGN_2025:Municipio`, `srsName=urn:ogc:def:crs:EPSG::4686`, `count=200` y `startIndex` 0, 200, 400, 600, 800 y 1000. No se envía `sortBy`. La ficha `datos.gov.co` `8xdp-fsgm` es la que publica ese acceso OGC.
 2. La página renderizada del geoportal y `FeatureServer/317/query` no se solicitan. El cortafuegos del DANE las bloquea.
-3. Si `data/raw/mgn2025/wfs/page_XXXX.gml` ya coincide en bytes y SHA256 con `outputs/mgn_wfs_source_receipt.json`, el script no contacta `portalgis`. Si faltan, hace un intento por página con TLS verificado y se detiene al primer fallo de red. Una respuesta que no coincida con el recibo se rechaza.
-4. Los elementos GML traen los alias en español. El mapa explícito es `Código_DANE_concatenado_departamento_y_municipio` a `MPIO_CDPMP`, `Nombre_municipio` a `MPIO_CNMBR` (el REST lo llama `MPIO_CNMBRE`), `Código_DANE_departamento` a `DPTO_CCDGO`, `Nombre_departamento` a `DPTO_CNMBRE` y `Área_departamento_en_kilómetros_cuadrados` a `MPIO_NAREA`. `Año_versión_DANE` se conserva y no se filtra.
-5. Cada `posList` viene en latitud/longitud. La capa de trabajo guarda longitud/latitud y la etiqueta EPSG:4686 porque ese es el `srsName` declarado. El almacenamiento REST del mismo servicio informa EPSG:3857. `original_archive_crs_proven` queda en falso: no se leyó el ZIP ni un `.prj`.
-6. La unidad de `MPIO_NAREA` sale del nombre oficial del elemento, kilómetros cuadrados, y del diccionario de la Entrega 1, que guarda ese valor en `area_km2`. Además se compara el atributo con el área geodésica WGS84 de cada contorno. Si el cociente mediano no cae entre 0,5 y 2, no se declara la unidad.
-7. Si la capa y los hash no cambiaron, la siguiente corrida revalida y no reescribe.
+3. El recibo solo cuenta como plan oficial si su servicio, `typeName`, `srsName`, `startIndex` y `number_matched` son los de `config.yaml` (`expected_feature_count: 1122` y los seis `startIndex`). Un recibo de un municipio, aunque sus bytes coincidan, deja `cache_matches_receipt = true`, `official_page_plan = false` y `claims_national_download = false`.
+4. Si `data/raw/mgn2025/wfs/page_XXXX.gml` ya coincide en bytes y SHA256 con ese recibo oficial, el script no contacta `portalgis`. Si faltan, hace un intento por página con TLS verificado y se detiene al primer fallo de red. Una respuesta que no coincida con el recibo se rechaza.
+5. Si la corrida no verifica la capa nacional, el manifiesto actual pasa a `blocked` o `invalid` con `claims_national_download = false`. Si el archivo anterior era un éxito, se copia sin cambios a `outputs/mgn_download_manifest.history.json` y esa copia no se pisa en un fallo siguiente. El código de salida distinto de cero y el manifiesto actual dicen lo mismo.
+6. Los elementos GML traen los alias en español. El mapa explícito es `Código_DANE_concatenado_departamento_y_municipio` a `MPIO_CDPMP`, `Nombre_municipio` a `MPIO_CNMBR` (el REST lo llama `MPIO_CNMBRE`), `Código_DANE_departamento` a `DPTO_CCDGO`, `Nombre_departamento` a `DPTO_CNMBRE` y `Área_departamento_en_kilómetros_cuadrados` a `MPIO_NAREA`. `Año_versión_DANE` se conserva y no se filtra.
+7. Cada `posList` viene en latitud/longitud. La capa de trabajo guarda longitud/latitud y la etiqueta EPSG:4686 porque ese es el `srsName` declarado. El almacenamiento REST del mismo servicio informa EPSG:3857. `original_archive_crs_proven` queda en falso: no se leyó el ZIP ni un `.prj`.
+8. La unidad de `MPIO_NAREA` sale del nombre oficial del elemento, kilómetros cuadrados, y del diccionario de la Entrega 1, que guarda ese valor en `area_km2`. Además se compara el atributo con el área geodésica WGS84 de cada contorno. Si el cociente mediano no cae entre 0,5 y 2, no se declara la unidad.
+9. Si la capa y los hash no cambiaron, la siguiente corrida revalida y no reescribe.
 
 ## Qué hace la preparación
 
-1. Rechaza un manifiesto ausente, incompleto o marcado como fixture.
+1. Rechaza un manifiesto ausente, incompleto, marcado como fixture, con `national_complete = false` o con un número de registros distinto de `expected_feature_count`. Si la capa no existe, no se puede leer o su SHA256 no es el del manifiesto, el reporte actual queda en `blocked_no_layer`, `unreadable_layer` o `layer_hash_mismatch`, con `claims_full_pdet_set = false` y sin GeoJSONL. Un reporte anterior `ready_for_load` se copia a `outputs/municipalities_prepare_report.history.json`.
 2. Normaliza DIVIPOLA con ceros a la izquierda. En `Hoja1` hay códigos de 4 dígitos, por ejemplo `5031`, que pasan a `05031`. `19050` ya tiene 5. Esta copia del Excel tiene 170 filas y el entero `5031` está en `Código DANE Municipio`. El departamento pasa a 2 dígitos y debe coincidir con el prefijo del municipio y con `DPTO_CCDGO`.
 3. El nombre del municipio sale de `MPIO_CNMBR`, ya mapeado desde `Nombre_municipio`. Un nombre distinto en el Excel no impide el cruce y queda contado en `name_mismatches`.
 4. El diccionario de la Entrega 1 no nombra la columna del nombre del departamento, solo `DPTO_CCDGO`. El script usa una columna del MGN únicamente cuando sus valores coinciden con `Departamento` del Excel. Si ninguna coincide, `dpto_name` sale de esa columna del Excel y el reporte lo dice. Si coinciden dos columnas, se detiene.
@@ -61,10 +65,10 @@ Los ZIP, shapefiles y el JSONL quedan fuera de git (`.gitignore`).
 
 Corrida el 2026-11-08 con Python 3.12.3, GeoPandas 1.2.0, pyproj 3.8.0, pandas 3.1.1, shapely 2.2.0 y requests 2.34.2.
 
-- `python scripts/01_download_mgn.py --self-check` terminó `FIXTURE self-check descarga: 11/11`, salida 0. Incluye un GML sintético de un vértice. No es la capa del DANE.
-- `python scripts/02_prepare_municipalities.py --self-check` terminó `FIXTURE self-check preparación: 17/17`, salida 0.
+- `python scripts/01_download_mgn.py --self-check` terminó `FIXTURE self-check descarga: 14/14`, salida 0. Incluye un GML sintético de un vértice, el rechazo de un recibo de un solo municipio y un fallo TLS simulado que archiva el manifiesto exitoso. No es la capa del DANE.
+- `python scripts/02_prepare_municipalities.py --self-check` terminó `FIXTURE self-check preparación: 20/20`, salida 0. Incluye la capa ausente, la capa ilegible y un manifiesto de un solo municipio.
 
-Esas pruebas no verifican los 170 municipios.
+Esas pruebas no verifican los 170 municipios. Una corrida anterior de los mismos comandos, antes de estos casos, dio 11/11 y 17/17.
 
 ## Evidencia de la capa real
 
@@ -79,6 +83,7 @@ Con esas páginas ya verificadas:
 | `python scripts/01_download_mgn.py` | 0. 1122 registros, CRS de trabajo EPSG:4686, unidad `km2`, origen `preserved-wfs-responses` |
 | `python scripts/02_prepare_municipalities.py` | 0. 170 documentos |
 | segunda corrida de los dos comandos | 0 y 0. El GeoPackage se revalida y el GeoJSONL conserva el hash |
+| corrida posterior, con las páginas ya presentes | 0 y 0. El manifiesto sigue en `50d6749ff28b442ef8cb243542501326eb06253ca0f67c9992e828dc64ea0f30` y el GeoJSONL en `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed` |
 
 `data/raw/mgn2025/wfs/municipio.gpkg` pesa 100577280 bytes y su SHA256 es `fe6bdebf30d586f805c844be216f9f129b8567f5f1a2b18a3212ad12cd35e17f`. `data/processed/municipalities.geojsonl` tiene 170 líneas y SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`. Esos dos archivos quedan fuera de git.
 
@@ -93,5 +98,5 @@ Hay 15 nombres distintos entre `Nombre_municipio` y el Excel. El cruce no depend
 ## Lo que sigue sin resolverse
 
 - El ZIP de 1,5 GB citado en `Project.tex` no se descargó. El CRS del archivo original no está probado. El `srsName` del WFS declara EPSG:4686 y el REST informa EPSG:3857.
-- Esta red no repitió el GetFeature: usó las respuestas ya verificadas. Una red que alcance `portalgis` puede dejar las páginas ausentes y el script intentará el WFS una vez.
+- En una copia sin las páginas GML, un GetFeature real a `portalgis.dane.gov.co` sigue cortando el TLS antes del certificado (`SSL: UNEXPECTED_EOF_WHILE_READING`, un solo `startIndex=0`, salida 2). El manifiesto de esa copia queda `blocked`, con `claims_national_download = false`, `official_page_plan = true` y `cache_matches_receipt = false`. Su historial conserva el manifiesto exitoso byte a byte. El manifiesto que está en el repositorio no se reemplazó: las páginas locales siguen revalidando. No se desactivó la verificación TLS y no se repitió el host.
 - La inserción en MongoDB, la idempotencia de la carga y el `explain()` del índice `2dsphere` siguen siendo de Miguel y Sebastián.

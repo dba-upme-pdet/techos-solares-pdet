@@ -20,6 +20,7 @@ sources:
       srs_name: "urn:ogc:def:crs:EPSG::4686"
       page_size: 200
       start_indexes: [0, 200, 400, 600, 800, 1000]
+      expected_feature_count: 1122   # municipios de la capa nacional; un recibo no puede cambiar este número
       axis_order: "latitude,longitude"
       rest_storage_crs: "EPSG:3857"
       receipt: "outputs/mgn_wfs_source_receipt.json"

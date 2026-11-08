@@ -4,8 +4,11 @@ La vía usada es el WFS 2.0 público de DANE
 ``sources.mgn.wfs``. Cada respuesta GML se conserva byte a byte. Si esas
 páginas ya están en ``data/raw`` y coinciden con
 ``outputs/mgn_wfs_source_receipt.json``, no se vuelve a contactar el host.
-La página renderizada del geoportal no se solicita: el cortafuegos del
-DANE la bloquea. La verificación TLS queda activa.
+Esa coincidencia prueba la caché, no la cobertura nacional: el recibo tiene
+que ser el plan de ``config.yaml`` y la capa tiene que traer
+``expected_feature_count`` municipios. Un intento que no lo logra no deja
+el manifiesto anterior como si fuera el resultado actual. La página
+renderizada del geoportal no se solicita. La verificación TLS queda activa.
 
 Uso:
     python scripts/01_download_mgn.py
@@ -26,12 +29,15 @@ from entrega2_contracts import (
     CONTRACT_VERSION,
     REQUIRED_MGN_FIELDS,
     ContractError,
+    archive_success_claim,
     crs_matches,
     epsg_label,
     load_config,
+    official_wfs_receipt_problems,
     parse_area_unit,
     select_mgn2025_zip,
     sha256_file,
+    wfs_getfeature_url,
     write_json,
 )
 
@@ -302,17 +308,7 @@ def download_wfs_pages(raw_dir: Path, wfs: dict, receipt: dict) -> None:
     raw_dir.mkdir(parents=True, exist_ok=True)
     for page in receipt["pages"]:
         dest = page_path(raw_dir, page)
-        params = {
-            "service": "WFS",
-            "version": "2.0.0",
-            "request": "GetFeature",
-            "typeNames": wfs["type_name"],
-            "srsName": wfs["srs_name"],
-            "count": wfs["page_size"],
-            "startIndex": page["start_index"],
-        }
-        query = "&".join(f"{key}={value}" for key, value in params.items())
-        url = wfs["url"] + "?" + query
+        url = wfs_getfeature_url(wfs, page["start_index"])
         temporary = dest.with_suffix(dest.suffix + ".partial")
         try:
             with requests.get(
@@ -390,6 +386,25 @@ def features_to_frame(features: list[dict]):
     return frame
 
 
+def write_failed_download(manifest_path: Path, payload: dict) -> None:
+    """Sustituye el manifiesto actual sin borrar un éxito anterior."""
+    history = manifest_path.with_name("mgn_download_manifest.history.json")
+    archive_success_claim(
+        manifest_path,
+        history,
+        status="complete",
+        claim="claims_national_download",
+    )
+    body = dict(payload)
+    body["claims_national_download"] = False
+    body["national_complete"] = False
+    if body.get("status") == "complete":
+        body["status"] = "blocked"
+    if history.is_file():
+        body["history_manifest"] = history.name
+    write_json(manifest_path, body)
+
+
 def run_real(root: Path) -> int:
     import json
 
@@ -402,28 +417,61 @@ def run_real(root: Path) -> int:
     attempt = outputs / "mgn_download_attempt.json"
     manifest_path = outputs / "mgn_download_manifest.json"
     layer_path = raw_dir / "municipio.gpkg"
+    live_request = False
+    cache_matches = False
+    official_plan = None
     try:
         receipt = load_wfs_receipt(root, wfs["receipt"])
-        if wfs["srs_name"] != receipt["srs_name"] or wfs["type_name"] != receipt["type_name"]:
-            raise ContractError("config.yaml y el recibo WFS no describen el mismo servicio")
-        live_request = False
-        if pages_match_receipt(raw_dir, receipt):
+        problems = official_wfs_receipt_problems(wfs, receipt)
+        official_plan = not problems
+        cache_matches = pages_match_receipt(raw_dir, receipt)
+        if problems:
+            message = "; ".join(problems)
+            write_failed_download(
+                manifest_path,
+                {
+                    "contract": CONTRACT_VERSION,
+                    "role": "download-manifest",
+                    "status": "blocked",
+                    "fixture": False,
+                    "official_page_plan": False,
+                    "cache_matches_receipt": cache_matches,
+                    "live_wfs_request_this_run": False,
+                    "layer_verified": False,
+                    "readable": False,
+                    "extracted_layer": None,
+                    "feature_count": None,
+                    "source_page": wfs["url"],
+                    "bytes_source": None,
+                    "error": message,
+                },
+            )
+            write_attempt(attempt, page=wfs["url"], status="blocked", error=message)
+            print(f"[FALLA] {message}", file=sys.stderr)
+            return 1
+        if cache_matches:
             print("[OK] páginas GML ya verificadas contra el recibo; no se contacta portalgis")
         else:
             live_request = True
             print("[descarga] WFS 2.0, un intento por página")
             download_wfs_pages(raw_dir, wfs, receipt)
+            cache_matches = True
+        expected_count = int(wfs["expected_feature_count"])
         existing = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else None
         if (
             layer_path.exists()
             and existing
             and existing.get("status") == "complete"
             and existing.get("fixture") is False
+            and existing.get("claims_national_download") is True
+            and existing.get("national_complete") is not False
+            and existing.get("official_page_plan") is not False
+            and existing.get("feature_count") == expected_count
             and existing.get("sha256") == sha256_file(layer_path)
             and existing.get("source_page_sha256") == [page["sha256"] for page in receipt["pages"]]
         ):
             frame = gpd.read_file(layer_path)
-            if len(frame) != receipt["number_matched"] or not crs_matches(frame.crs, expected_crs):
+            if len(frame) != expected_count or not crs_matches(frame.crs, expected_crs):
                 raise ContractError("la capa guardada no coincide con el recibo o con el CRS de trabajo")
             print(
                 f"[OK] capa ya presente, se revalida {layer_path.name}: "
@@ -440,7 +488,7 @@ def run_real(root: Path) -> int:
         if declared != {wfs["srs_name"]}:
             raise ContractError(f"srsName observado {sorted(declared)} distinto de {wfs['srs_name']}")
         codes = [feature.get("MPIO_CDPMP") for feature in features]
-        if len(features) != receipt["number_matched"] or len(set(codes)) != len(codes):
+        if len(features) != expected_count or len(features) != receipt["number_matched"] or len(set(codes)) != len(codes):
             raise ContractError(f"se leyeron {len(features)} features y {len(set(codes))} códigos")
         if any(not re.fullmatch(r"[0-9]{5}", code or "") for code in codes):
             raise ContractError("hay un MPIO_CDPMP que no tiene 5 dígitos")
@@ -490,6 +538,9 @@ def run_real(root: Path) -> int:
                 "municipality_name_source": "Nombre_municipio, que el servicio REST llama MPIO_CNMBRE; la Entrega 1 lo nombra MPIO_CNMBR",
                 "live_wfs_request_this_run": live_request,
                 "bytes_source": "preserved-wfs-responses" if not live_request else "live-wfs",
+                "cache_matches_receipt": True,
+                "official_page_plan": True,
+                "expected_feature_count": expected_count,
                 "source_page_sha256": [page["sha256"] for page in receipt["pages"]],
                 "source_pages": receipt["pages"],
                 "sha256": sha256_file(layer_path),
@@ -507,13 +558,19 @@ def run_real(root: Path) -> int:
         )
         if unit is None:
             manifest["status"] = "invalid"
-            manifest["claims_national_download"] = False
             manifest["errors"] = list(manifest["errors"]) + [
                 "el cociente entre MPIO_NAREA y el área geodésica no confirma kilómetros cuadrados ni metros cuadrados"
             ]
-        if manifest["errors"] or manifest["status"] != "complete":
-            manifest["claims_national_download"] = False
-            write_json(manifest_path, manifest)
+        national = (
+            manifest["status"] == "complete"
+            and not manifest["errors"]
+            and unit == "km2"
+            and manifest["feature_count"] == expected_count
+        )
+        manifest["national_complete"] = national
+        manifest["claims_national_download"] = national
+        if not national:
+            write_failed_download(manifest_path, manifest)
             write_attempt(attempt, page=wfs["url"], status="invalid", error="; ".join(manifest["errors"]))
             print("[FALLA] " + "; ".join(manifest["errors"]))
             return 1
@@ -528,7 +585,26 @@ def run_real(root: Path) -> int:
         return 0
     except Exception as exc:
         message = f"{type(exc).__name__}: {exc}"
-        page = config["sources"]["mgn"].get("wfs", {}).get("url", config["sources"]["mgn"]["url"])
+        page = wfs.get("url", mgn["url"])
+        write_failed_download(
+            manifest_path,
+            {
+                "contract": CONTRACT_VERSION,
+                "role": "download-manifest",
+                "status": "blocked",
+                "fixture": False,
+                "official_page_plan": official_plan,
+                "cache_matches_receipt": cache_matches,
+                "live_wfs_request_this_run": live_request,
+                "layer_verified": False,
+                "readable": False,
+                "extracted_layer": None,
+                "feature_count": None,
+                "source_page": page,
+                "bytes_source": None,
+                "error": message,
+            },
+        )
         write_attempt(attempt, page=page, status="blocked", error=message)
         print(f"[FALLA] {message}", file=sys.stderr)
         return 2
@@ -697,6 +773,166 @@ def run_self_check() -> int:
             and parsed[0]["MPIO_NAREA"] == "10.5"
             and point[0] == -75.5
             and point[1] == 6.2,
+        )
+
+    import contextlib
+    import io
+    import json
+
+    real_wfs = load_config(ROOT)["sources"]["mgn"]["wfs"]
+    real_receipt = json.loads((ROOT / real_wfs["receipt"]).read_text(encoding="utf-8"))
+    check(
+        "el recibo del repositorio sigue el plan oficial de 1122 municipios",
+        official_wfs_receipt_problems(real_wfs, real_receipt) == [],
+    )
+
+    def mini_config(folder: Path) -> None:
+        (folder / "config.yaml").write_text(
+            """
+paths:
+  raw_data: data/raw
+  processed_data: data/processed
+  outputs: outputs
+sources:
+  mgn:
+    version: MGN2025
+    url: "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer"
+    source_crs: EPSG:4686
+    wfs:
+      url: "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer"
+      type_name: "Serv_CapasMGN_2025:Municipio"
+      srs_name: "urn:ogc:def:crs:EPSG::4686"
+      page_size: 200
+      start_indexes: [0, 200, 400, 600, 800, 1000]
+      axis_order: latitude,longitude
+      rest_storage_crs: EPSG:3857
+      receipt: outputs/mgn_wfs_source_receipt.json
+      expected_feature_count: 1122
+  pdet_list:
+    file: resources/MunicipiosPDET.xlsx
+    sheet: Hoja1
+    code_column: "Código DANE Municipio"
+    expected_municipalities: 170
+    expected_subregions: 16
+processing:
+  target_crs: EPSG:4326
+""",
+            encoding="utf-8",
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        mini_config(root)
+        gml_path = root / "data/raw/mgn2025/wfs/page_0000.gml"
+        gml_path.parent.mkdir(parents=True)
+        gml_path.write_text(gml, encoding="utf-8")
+        digest = sha256_file(gml_path)
+        receipt = {
+            "number_matched": 1,
+            "pages": [
+                {
+                    "bytes": gml_path.stat().st_size,
+                    "name": "page_0000.gml",
+                    "sha256": digest,
+                    "start_index": 0,
+                    "url": "http://127.0.0.1:9/wfs",
+                }
+            ],
+            "service": "http://127.0.0.1:9/wfs",
+            "srs_name": "urn:ogc:def:crs:EPSG::4686",
+            "type_name": "Serv_CapasMGN_2025:Municipio",
+        }
+        (root / "outputs").mkdir()
+        (root / "outputs/mgn_wfs_source_receipt.json").write_text(
+            json.dumps(receipt), encoding="utf-8"
+        )
+
+        def refuse_network(*_args, **_kwargs):
+            raise AssertionError("este caso no debe abrir la red")
+
+        original_get = requests.get
+        requests.get = refuse_network
+        try:
+            captured = io.StringIO()
+            with contextlib.redirect_stdout(captured), contextlib.redirect_stderr(captured):
+                code = run_real(root)
+        finally:
+            requests.get = original_get
+        manifest = json.loads((root / "outputs/mgn_download_manifest.json").read_text(encoding="utf-8"))
+        check(
+            "un recibo de un municipio no se anuncia como descarga nacional",
+            code == 1
+            and manifest.get("claims_national_download") is False
+            and manifest.get("national_complete") is False
+            and manifest.get("official_page_plan") is False
+            and manifest.get("cache_matches_receipt") is True
+            and manifest.get("status") != "complete"
+            and "Traceback" not in captured.getvalue(),
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        mini_config(root)
+        wfs = load_config(root)["sources"]["mgn"]["wfs"]
+        pages = []
+        for start in wfs["start_indexes"]:
+            pages.append(
+                {
+                    "bytes": 1,
+                    "name": f"page_{int(start):04d}.gml",
+                    "sha256": "0" * 64,
+                    "start_index": start,
+                    "url": wfs_getfeature_url(wfs, start),
+                }
+            )
+        receipt = {
+            "number_matched": 1122,
+            "pages": pages,
+            "service": wfs["url"],
+            "srs_name": wfs["srs_name"],
+            "type_name": wfs["type_name"],
+        }
+        outputs = root / "outputs"
+        outputs.mkdir()
+        (outputs / "mgn_wfs_source_receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
+        seeded = {
+            "claims_national_download": True,
+            "contract": CONTRACT_VERSION,
+            "feature_count": 1122,
+            "fixture": False,
+            "role": "download-manifest",
+            "status": "complete",
+        }
+        write_json(outputs / "mgn_download_manifest.json", seeded)
+        seeded_bytes = (outputs / "mgn_download_manifest.json").read_bytes()
+
+        def tls_closed(*_args, **_kwargs):
+            raise requests.exceptions.SSLError("UNEXPECTED_EOF_WHILE_READING")
+
+        original_get = requests.get
+        requests.get = tls_closed
+        try:
+            captured = io.StringIO()
+            with contextlib.redirect_stdout(captured), contextlib.redirect_stderr(captured):
+                code = run_real(root)
+                second = run_real(root)
+        finally:
+            requests.get = original_get
+        current = json.loads((outputs / "mgn_download_manifest.json").read_text(encoding="utf-8"))
+        history = outputs / "mgn_download_manifest.history.json"
+        check(
+            "un fallo TLS no deja el manifiesto exitoso como resultado actual",
+            code == 2
+            and second == 2
+            and current.get("claims_national_download") is False
+            and current.get("national_complete") is False
+            and current.get("status") == "blocked"
+            and current.get("feature_count") is None
+            and current.get("extracted_layer") is None
+            and history.is_file()
+            and history.read_bytes() == seeded_bytes
+            and json.loads(history.read_text(encoding="utf-8"))["claims_national_download"] is True
+            and "Traceback" not in captured.getvalue(),
         )
 
     passed = all(checks.values())

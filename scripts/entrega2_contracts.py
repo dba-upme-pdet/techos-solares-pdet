@@ -74,6 +74,79 @@ def write_json(path: Path, payload: dict) -> None:
     )
 
 
+def archive_success_claim(current: Path, history: Path, *, status: str, claim: str) -> bool:
+    """Copia un resultado exitoso sin modificarlo. No pisa una copia ya guardada.
+
+    Un archivo que no está en ese estado exitoso no entra al historial.
+    """
+    if history.exists() or not current.is_file():
+        return False
+    try:
+        payload = json.loads(current.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if payload.get("status") != status or payload.get(claim) is not True:
+        return False
+    history.parent.mkdir(parents=True, exist_ok=True)
+    history.write_bytes(current.read_bytes())
+    return True
+
+
+def wfs_getfeature_url(wfs: dict, start_index: int) -> str:
+    """URL KVP del GetFeature configurado. El recibo tiene que repetirla."""
+    params = (
+        ("service", "WFS"),
+        ("version", "2.0.0"),
+        ("request", "GetFeature"),
+        ("typeNames", wfs["type_name"]),
+        ("srsName", wfs["srs_name"]),
+        ("count", wfs["page_size"]),
+        ("startIndex", start_index),
+    )
+    query = "&".join(f"{key}={value}" for key, value in params)
+    return wfs["url"] + "?" + query
+
+
+def official_wfs_receipt_problems(wfs: dict, receipt: dict) -> list[str]:
+    """El recibo describe el plan oficial solo si coincide con ``config.yaml``.
+
+    Que los archivos locales tengan el SHA256 del recibo es otra pregunta:
+    eso es integridad de la caché, no cobertura nacional.
+    """
+    problems: list[str] = []
+    if receipt.get("service") != wfs.get("url"):
+        problems.append("el servicio del recibo no es el WFS configurado")
+    if receipt.get("type_name") != wfs.get("type_name") or receipt.get("srs_name") != wfs.get("srs_name"):
+        problems.append("el recibo no describe el typeName y el srsName configurados")
+    expected_count = wfs.get("expected_feature_count")
+    if not isinstance(expected_count, int) or isinstance(expected_count, bool) or expected_count <= 0:
+        problems.append("config.yaml no declara expected_feature_count de la capa nacional")
+    elif receipt.get("number_matched") != expected_count:
+        problems.append(
+            f"number_matched {receipt.get('number_matched')} no es la capa nacional de {expected_count}"
+        )
+    indexes = list(wfs.get("start_indexes") or [])
+    pages = list(receipt.get("pages") or [])
+    observed = [page.get("start_index") for page in pages]
+    if observed != indexes:
+        problems.append("las páginas del recibo no son el plan startIndex configurado")
+        return problems
+    for page, start in zip(pages, indexes):
+        if page.get("name") != f"page_{int(start):04d}.gml":
+            problems.append(f"la página {start} no usa el nombre page_{int(start):04d}.gml")
+            break
+        if page.get("url") != wfs_getfeature_url(wfs, start):
+            problems.append(f"la URL de startIndex {start} no es el GetFeature oficial")
+            break
+        if not isinstance(page.get("sha256"), str) or not page.get("sha256"):
+            problems.append(f"la página {start} no trae sha256")
+            break
+        if not isinstance(page.get("bytes"), int) or isinstance(page.get("bytes"), bool) or page.get("bytes") < 0:
+            problems.append(f"la página {start} no trae el tamaño en bytes")
+            break
+    return problems
+
+
 def zfill_digits(value, width: int) -> str:
     if value is None:
         raise ContractError("código vacío")
