@@ -1,0 +1,199 @@
+{
+  "area_unit_applied": null,
+  "claims_full_pdet_set": false,
+  "claims_national_download": false,
+  "contract": "entrega2-mgn-v1",
+  "dane_home": {
+    "bytes": 164061,
+    "content_type": "text/html; charset=utf-8",
+    "http_status": 200,
+    "url": "https://www.dane.gov.co/"
+  },
+  "dane_hub_divipola_municipio": {
+    "dataset_id": "99eb79d6e58742cf9ec12afb0a3425a2_317",
+    "datos_id": "7n6i-n9av",
+    "downloadable": true,
+    "fields": [
+      {
+        "alias": "Código DIVIPOLA departamento",
+        "name": "DPTO_CCDGO"
+      },
+      {
+        "alias": "Código DIVIPOLA concatenado departamento y municipio",
+        "name": "MPIO_CDPMP"
+      },
+      {
+        "alias": "Área departamento en kilómetros cuadrados",
+        "name": "MPIO_NAREA"
+      },
+      {
+        "alias": "Nombre departamento",
+        "name": "DPTO_CNMBRE"
+      },
+      {
+        "alias": "Nombre municipio",
+        "name": "MPIO_CNMBRE"
+      }
+    ],
+    "homepage": "https://cdge.dane.gov.co/datasets/99eb79d6e58742cf9ec12afb0a3425a2_317",
+    "name": "Municipio",
+    "record_count": 1122,
+    "same_blocked_host": true,
+    "service_latest_wkid": 3857,
+    "service_wkid": 102100,
+    "url": "https://portalgis.dane.gov.co/mparcgis/rest/services/Divipola/Serv_DIVIPOLA_MGN_2025/MapServer/317"
+  },
+  "dane_hub_municipio": {
+    "dataset_id": "798ecd3194794ed69653ea3f948a9f4b_317",
+    "downloadable": true,
+    "fields": [
+      {
+        "alias": "OBJECTID",
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID"
+      },
+      {
+        "alias": "Código DANE departamento",
+        "name": "DPTO_CCDGO",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Código DANE municipio",
+        "name": "MPIO_CCDGO",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Código DANE concatenado departamento y municipio",
+        "name": "MPIO_CDPMP",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Nombre departamento",
+        "name": "DPTO_CNMBRE",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Nombre municipio",
+        "name": "MPIO_CNMBRE",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Año documento creacion",
+        "name": "MPIO_CRSLCION",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Tipo municipio según DIVIPOLA",
+        "name": "MPIO_TIPO",
+        "type": "esriFieldTypeString"
+      },
+      {
+        "alias": "Área departamento en kilómetros cuadrados",
+        "name": "MPIO_NAREA",
+        "type": "esriFieldTypeDouble"
+      },
+      {
+        "alias": "Año versión DANE",
+        "name": "MPIO_NANO",
+        "type": "esriFieldTypeSmallInteger"
+      }
+    ],
+    "geometry_type": "esriGeometryPolygon",
+    "http_status": 200,
+    "mpio_narea_alias": "Área departamento en kilómetros cuadrados",
+    "name": "Municipio",
+    "record_count": 1122,
+    "service_latest_wkid": 3857,
+    "service_wkid": 102100,
+    "source": "https://cdge.dane.gov.co/datasets/798ecd3194794ed69653ea3f948a9f4b_317",
+    "url": "https://portalgis.dane.gov.co/mparcgis/rest/services/MGN2025/Serv_CapasMGN_2025/MapServer/317"
+  },
+  "datos_catalog": {
+    "bytes": 32322,
+    "content_type": "application/json;charset=utf-8",
+    "http_status": 200,
+    "matches": [
+      {
+        "description": "Corresponde al servicio que representa nivel de información Municipio del Marco Geoestadístico Nacional (MGN) Integrado, versión 2018.",
+        "id": "dnxb-k5pj",
+        "name": "Nivel de Información Municipio del Marco Geoestadístico Nacional (MGN) Integrado, Versión 2018"
+      },
+      {
+        "description": "Corresponde al servicio que representa los niveles del Marco Geoestadístico Nacional (MGN), versión 2025 - DANE.",
+        "id": "8xdp-fsgm",
+        "name": "Municipio"
+      },
+      {
+        "description": "Corresponde al servicio que representa los niveles geográficos de la División Político Administrativa según el Marco Geoestadístico Nacional MGN, versión 2025 - DANE.",
+        "id": "7n6i-n9av",
+        "name": "Municipio"
+      },
+      {
+        "description": "El servicio corresponde a los niveles de información de la sectorización censal del MGN vigencia 2005.",
+        "id": "imin-kpbw",
+        "name": "Límite de municipio"
+      },
+      {
+        "description": "El servicio corresponde a los niveles de información de la sectorización censal del MGN vigencia 2005.",
+        "id": "xz67-n2xx",
+        "name": "MGN Municipios Sectorización Vigencia 2005"
+      }
+    ],
+    "url": "https://www.datos.gov.co/api/catalog/v1?q=Municipio%20MGN%202025&limit=5"
+  },
+  "datos_municipio_view": {
+    "description": "Corresponde al servicio que representa los niveles del Marco Geoestadístico Nacional (MGN), versión 2025 - DANE.",
+    "geographic_coverage": "-81.7356,-4.2294,-66.8472,13.3947",
+    "homepage": "https://cdge.dane.gov.co/datasets/798ecd3194794ed69653ea3f948a9f4b_317",
+    "http_status": 200,
+    "id": "8xdp-fsgm",
+    "issued": "2026-09-24T15:37:36.000Z",
+    "last_update": "2026-09-29T20:03:15.000Z",
+    "name": "Municipio",
+    "public_access_level": "public",
+    "unique_identifier": "https://www.arcgis.com/home/item.html?id=798ecd3194794ed69653ea3f948a9f4b&sublayer=317"
+  },
+  "geometries_downloaded": false,
+  "geoportal_tls": {
+    "certificate_presented": false,
+    "error": null,
+    "handshake_bytes_read": 0,
+    "handshake_summary": "SSL handshake has read 0 bytes and written 330 bytes",
+    "host": "geoportal.dane.gov.co",
+    "ip": "170.238.65.72",
+    "openssl_lines": [
+      "40577580497F0000:error:0A000126:SSL routines:ssl3_read_n:unexpected eof while reading:../ssl/record/rec_layer_s3.c:316:"
+    ],
+    "openssl_returncode": 1,
+    "port": 443,
+    "unexpected_eof": true
+  },
+  "hub_download": {
+    "body": "{\"message\":\"Downloads are not supported for this item.\",\"error\":\"Bad Request\",\"statusCode\":400}",
+    "http_status": 400,
+    "url": "https://cdge.dane.gov.co/api/download/v1/items/798ecd3194794ed69653ea3f948a9f4b/geojson?layers=317"
+  },
+  "notes": [
+    "El alias de MPIO_NAREA se cita tal como lo publica el servicio. No se usó para convertir áreas: dice 'departamento' y no se leyó un archivo de capa.",
+    "El diccionario de la Entrega 1 nombra MPIO_CNMBR. El servicio alcanzable nombra MPIO_CNMBRE. El shapefile del geoportal no se descargó, así que el nombre en el archivo sigue sin verificarse.",
+    "wkid 102100 / latestWkid 3857 es el sistema del MapServer publicado, no una lectura del ZIP MGN2025. config.yaml sigue exigiendo EPSG:4686 para ese archivo.",
+    "datos.gov.co también lista 7n6i-n9av, la capa municipal DIVIPOLA MGN 2025. Su geometría está en el mismo host portalgis.dane.gov.co, que no completa TLS. No se descargó."
+  ],
+  "observed_at": "2026-11-08T20:14:24Z",
+  "portalgis_tls": {
+    "certificate_presented": false,
+    "error": null,
+    "handshake_bytes_read": 0,
+    "handshake_summary": "SSL handshake has read 0 bytes and written 330 bytes",
+    "host": "portalgis.dane.gov.co",
+    "ip": "170.238.64.31",
+    "openssl_lines": [
+      "40479FD6AF7F0000:error:0A000126:SSL routines:ssl3_read_n:unexpected eof while reading:../ssl/record/rec_layer_s3.c:316:"
+    ],
+    "openssl_returncode": 1,
+    "port": 443,
+    "unexpected_eof": true
+  },
+  "role": "catalog-probe",
+  "tls_verification_disabled": false
+}

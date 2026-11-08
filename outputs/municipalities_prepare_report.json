@@ -1,0 +1,13 @@
+{
+  "claims_full_pdet_set": false,
+  "contract": "entrega2-mgn-v1",
+  "error": "no existe outputs/mgn_download_manifest.json con una descarga verificada",
+  "expected_municipalities": 170,
+  "fixture": false,
+  "loaded_at_included": false,
+  "loaded_at_owner": "scripts/02_load_municipalities.py",
+  "municipalities_written": 0,
+  "output_geojsonl": null,
+  "role": "prepare-report",
+  "status": "blocked_no_layer"
+}
