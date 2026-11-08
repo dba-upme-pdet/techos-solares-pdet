@@ -22,7 +22,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | # | Entrega | Fecha | Carpeta | Estado |
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
-| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | `docs/delivery2/` | Pendiente |
+| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 documentos preparados; la carga en MongoDB sigue pendiente |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | `docs/delivery3/` | Pendiente |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
@@ -36,6 +36,20 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | [`diagrama_er.png`](docs/delivery1/diagrama_er.png) | Diagrama E-R, generado con `python docs/delivery1/er/build_er.py` |
 | [`diagrama_er.md`](docs/delivery1/diagrama_er.md) | Versión Mermaid del diagrama, visible en GitHub |
 | [`scripts/00_init_db.py`](scripts/00_init_db.py) | Esquema implementado en MongoDB: validadores e índices |
+
+### Entrega 2 en el repositorio
+
+`scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida (`01_validate_mgn.py`), Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Esos tres scripts no están en este cambio. Una corrida que no verifica la capa no deja el manifiesto ni el reporte anteriores como si el resultado actual estuviera listo. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
+
+| Archivo | Contenido |
+| --- | --- |
+| [`scripts/01_download_mgn.py`](scripts/01_download_mgn.py) | Lee el WFS municipal MGN 2025, o las respuestas GML ya verificadas, y escribe el manifiesto |
+| [`scripts/02_prepare_municipalities.py`](scripts/02_prepare_municipalities.py) | Cruza por DIVIPOLA, pasa a GeoJSON WGS84 y deja la fecha de carga para Miguel |
+| [`scripts/entrega2_contracts.py`](scripts/entrega2_contracts.py) | Contrato común: campos, CRS, códigos y reglas de unidad de área |
+| [`outputs/mgn_wfs_source_receipt.json`](outputs/mgn_wfs_source_receipt.json) | URL, tamaño y SHA256 de las seis respuestas WFS |
+| [`outputs/mgn_download_manifest.json`](outputs/mgn_download_manifest.json) | Capa de trabajo: 1122 municipios, CRS declarado y unidad observada |
+| [`outputs/municipalities_prepare_report.json`](outputs/municipalities_prepare_report.json) | 170 documentos, hash del GeoJSONL y códigos |
+| [`outputs/mgn_catalog_probe.json`](outputs/mgn_catalog_probe.json) | Hosts que no completaron TLS. No es el resultado de la preparación |
 
 ## Fuentes de datos
 
@@ -66,8 +80,11 @@ python scripts/00_check_pdet_list.py       # calidad de la lista PDET (170 / 16)
 python scripts/00_init_db.py               # colecciones, validadores e índices
 
 # 4. Correr el flujo en orden (los scripts se agregan en cada entrega)
-python scripts/01_download_mgn.py
-python scripts/02_load_municipalities.py
+python scripts/01_download_mgn.py                 # manifiesto en outputs/mgn_download_manifest.json
+python scripts/01_validate_mgn.py                 # Samuel
+python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/; sin loaded_at
+python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at
+python scripts/02_verify_spatial.py               # Sebastián
 python scripts/03_download_buildings.py
 python scripts/04_load_buildings.py
 python scripts/00_init_db.py --building-indexes   # índices de buildings, después de la carga
