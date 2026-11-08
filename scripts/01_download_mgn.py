@@ -1,9 +1,11 @@
-"""Descarga el MGN 2025 y extrae la capa municipal (Entrega 2, Derek).
+"""Obtiene la capa municipal MGN 2025 (Entrega 2, script de Derek).
 
-Lee ``sources.mgn`` y ``paths`` de ``config.yaml``. La URL de partida es la
-página oficial ya configurada. Un ZIP solo se usa si esa página lo enlaza,
-o si ``sources.mgn.file_url`` ya trae una URL observada. No se inventa un
-enlace y no se desactiva la verificación TLS.
+La vía usada es el WFS 2.0 público de DANE
+``sources.mgn.wfs``. Cada respuesta GML se conserva byte a byte. Si esas
+páginas ya están en ``data/raw`` y coinciden con
+``outputs/mgn_wfs_source_receipt.json``, no se vuelve a contactar el host.
+La página renderizada del geoportal no se solicita: el cortafuegos del
+DANE la bloquea. La verificación TLS queda activa.
 
 Uso:
     python scripts/01_download_mgn.py
@@ -192,65 +194,327 @@ def write_attempt(path: Path, *, page: str, status: str, error: str) -> None:
     )
 
 
+WFS_FIELD_MAP = {
+    "Código_DANE_departamento": "DPTO_CCDGO",
+    "Código_DANE_municipio": "MPIO_CCDGO",
+    "Código_DANE_concatenado_departamento_y_municipio": "MPIO_CDPMP",
+    "Nombre_departamento": "DPTO_CNMBRE",
+    "Nombre_municipio": "MPIO_CNMBR",
+    "Área_departamento_en_kilómetros_cuadrados": "MPIO_NAREA",
+    "Año_versión_DANE": "MPIO_NANO",
+}
+AREA_ELEMENT = "Área_departamento_en_kilómetros_cuadrados"
+
+
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def _poslist_lonlat(text: str) -> list[tuple[float, float]]:
+    parts = (text or "").split()
+    if len(parts) < 8 or len(parts) % 2:
+        raise ContractError("posList de GML inválido")
+    numbers = [float(item) for item in parts]
+    # urn:ogc:def:crs:EPSG::4686 declara latitud y después longitud.
+    return [(numbers[index + 1], numbers[index]) for index in range(0, len(numbers), 2)]
+
+
+def parse_wfs_gml(path: Path) -> tuple[list[dict], set[str]]:
+    import xml.etree.ElementTree as ET
+    from shapely.geometry import MultiPolygon, Polygon
+
+    features = []
+    declared: set[str] = set()
+    current = None
+    polygons = []
+    shell = None
+    holes: list = []
+    pending = None
+    for event, elem in ET.iterparse(path, events=("start", "end")):
+        name = _local(elem.tag)
+        if event == "start":
+            if name == "Municipio":
+                current = {}
+                polygons = []
+            elif name == "Polygon":
+                shell = None
+                holes = []
+            elif name == "MultiSurface":
+                srs_name = elem.attrib.get("srsName")
+                if srs_name:
+                    declared.add(srs_name)
+            continue
+        if name == "member":
+            elem.clear()
+            continue
+        if current is None:
+            continue
+        if name in WFS_FIELD_MAP and elem.text and elem.text.strip():
+            current[WFS_FIELD_MAP[name]] = elem.text.strip()
+        elif name == "posList":
+            pending = _poslist_lonlat(elem.text or "")
+        elif name == "exterior":
+            shell = pending
+            pending = None
+        elif name == "interior":
+            if pending:
+                holes.append(pending)
+            pending = None
+        elif name == "Polygon":
+            if not shell or len(shell) < 4:
+                raise ContractError(f"{path.name} tiene un polígono sin anillo exterior")
+            polygons.append(Polygon(shell, holes))
+        elif name == "Municipio":
+            if not polygons:
+                raise ContractError(f"{path.name} tiene un municipio sin geometría")
+            current["geometry"] = polygons[0] if len(polygons) == 1 else MultiPolygon(polygons)
+            features.append(current)
+            current = None
+    return features, declared
+
+
+def load_wfs_receipt(root: Path, receipt_rel: str) -> dict:
+    import json
+
+    path = root / receipt_rel
+    if not path.exists():
+        raise ContractError(f"no está el recibo {receipt_rel}")
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    if not receipt.get("pages"):
+        raise ContractError("el recibo WFS no trae páginas")
+    return receipt
+
+
+def page_path(raw_dir: Path, page: dict) -> Path:
+    return raw_dir / page["name"]
+
+
+def pages_match_receipt(raw_dir: Path, receipt: dict) -> bool:
+    for page in receipt["pages"]:
+        path = page_path(raw_dir, page)
+        if not path.is_file() or sha256_file(path) != page["sha256"] or path.stat().st_size != page["bytes"]:
+            return False
+    return True
+
+
+def download_wfs_pages(raw_dir: Path, wfs: dict, receipt: dict) -> None:
+    """Un intento por página. Un fallo TLS o de red detiene el host."""
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    for page in receipt["pages"]:
+        dest = page_path(raw_dir, page)
+        params = {
+            "service": "WFS",
+            "version": "2.0.0",
+            "request": "GetFeature",
+            "typeNames": wfs["type_name"],
+            "srsName": wfs["srs_name"],
+            "count": wfs["page_size"],
+            "startIndex": page["start_index"],
+        }
+        query = "&".join(f"{key}={value}" for key, value in params.items())
+        url = wfs["url"] + "?" + query
+        temporary = dest.with_suffix(dest.suffix + ".partial")
+        try:
+            with requests.get(
+                url,
+                timeout=600,
+                verify=True,
+                stream=True,
+                headers={"User-Agent": "techos-solares-pdet-entrega2"},
+            ) as response:
+                response.raise_for_status()
+                with temporary.open("wb") as handle:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
+                        if chunk:
+                            handle.write(chunk)
+        except requests.exceptions.RequestException as exc:
+            if temporary.exists():
+                temporary.unlink()
+            raise ContractError(
+                "el WFS de portalgis no respondió; no se reintenta ese host: "
+                + f"{type(exc).__name__}: {exc}"
+            ) from exc
+        temporary.replace(dest)
+        observed = sha256_file(dest)
+        if observed != page["sha256"] or dest.stat().st_size != page["bytes"]:
+            raise ContractError(
+                f"{dest.name} no coincide con el recibo: sha256 {observed}, {dest.stat().st_size} bytes"
+            )
+
+
+def area_geometry_check(frame) -> dict:
+    from pyproj import Geod
+
+    geod = Geod(ellps="WGS84")
+    projected = frame.to_crs("EPSG:4326")
+    ratios = []
+    for geom, raw in zip(projected.geometry, frame["MPIO_NAREA"], strict=True):
+        area_m2 = abs(geod.geometry_area_perimeter(geom)[0])
+        if area_m2 == 0:
+            raise ContractError("geometría con área geodésica cero")
+        ratios.append(float(raw) / (area_m2 / 1_000_000))
+    ratios.sort()
+    count = len(ratios)
+
+    def percentile(fraction: float) -> float:
+        return ratios[min(count - 1, max(0, round(fraction * (count - 1))))]
+
+    return {
+        "method": "atributo / (área geodésica WGS84 del contorno servido, en km2)",
+        "compared_features": count,
+        "min": ratios[0],
+        "p10": percentile(0.10),
+        "median": percentile(0.50),
+        "p90": percentile(0.90),
+        "max": ratios[-1],
+    }
+
+
+def decide_area_unit(check: dict) -> str | None:
+    median = check["median"]
+    # m2 would put this ratio near 1e-6. The schema element names square kilometres.
+    if 0.5 <= median <= 2:
+        return "km2"
+    return None
+
+
+def features_to_frame(features: list[dict]):
+    rows = []
+    for feature in features:
+        row = {field: feature.get(field) for field in (*REQUIRED_MGN_FIELDS, "DPTO_CNMBRE", "MPIO_CCDGO", "MPIO_NANO")}
+        row["geometry"] = feature["geometry"]
+        rows.append(row)
+    frame = gpd.GeoDataFrame(rows, geometry="geometry", crs="EPSG:4686")
+    frame["MPIO_NAREA"] = frame["MPIO_NAREA"].astype(float)
+    frame["MPIO_NANO"] = frame["MPIO_NANO"].astype(int)
+    return frame
+
+
 def run_real(root: Path) -> int:
+    import json
+
     config = load_config(root)
     mgn = config["sources"]["mgn"]
-    page = mgn["url"]
+    wfs = mgn["wfs"]
     expected_crs = mgn["source_crs"]
-    raw_dir = root / config["paths"]["raw_data"] / "mgn2025"
+    raw_dir = root / config["paths"]["raw_data"] / "mgn2025" / "wfs"
     outputs = root / config["paths"]["outputs"]
     attempt = outputs / "mgn_download_attempt.json"
     manifest_path = outputs / "mgn_download_manifest.json"
-    configured = (mgn.get("file_url") or "").strip()
+    layer_path = raw_dir / "municipio.gpkg"
     try:
-        if configured:
-            file_url = configured
+        receipt = load_wfs_receipt(root, wfs["receipt"])
+        if wfs["srs_name"] != receipt["srs_name"] or wfs["type_name"] != receipt["type_name"]:
+            raise ContractError("config.yaml y el recibo WFS no describen el mismo servicio")
+        live_request = False
+        if pages_match_receipt(raw_dir, receipt):
+            print("[OK] páginas GML ya verificadas contra el recibo; no se contacta portalgis")
         else:
-            html = fetch_text(page)
-            file_url = select_mgn2025_zip(page, html)
-        archive = raw_dir / Path(file_url.split("?", 1)[0]).name
-        existing = None
-        if manifest_path.exists():
-            import json
-
-            existing = json.loads(manifest_path.read_text(encoding="utf-8"))
+            live_request = True
+            print("[descarga] WFS 2.0, un intento por página")
+            download_wfs_pages(raw_dir, wfs, receipt)
+        existing = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else None
         if (
-            archive.exists()
+            layer_path.exists()
             and existing
             and existing.get("status") == "complete"
             and existing.get("fixture") is False
-            and existing.get("sha256") == sha256_file(archive)
+            and existing.get("sha256") == sha256_file(layer_path)
+            and existing.get("source_page_sha256") == [page["sha256"] for page in receipt["pages"]]
         ):
-            print(f"[OK] archivo ya presente, se revalida {archive.name}")
-        else:
-            print(f"[descarga] {file_url}")
-            download_file(file_url, archive)
-        extract_dir = raw_dir / "extract"
-        extract_dir.mkdir(parents=True, exist_ok=True)
-        import zipfile
-
-        with zipfile.ZipFile(archive) as bundle:
-            bundle.extractall(extract_dir)
-        layer_path, frame, _notes = inspect_vectors(extract_dir)
-        if layer_path is None or frame is None:
-            raise ContractError("el ZIP no tiene una capa con MPIO_CDPMP, MPIO_CNMBR, MPIO_NAREA y DPTO_CCDGO")
-        unit, unit_source = metadata_unit(layer_path.parent)
+            frame = gpd.read_file(layer_path)
+            if len(frame) != receipt["number_matched"] or not crs_matches(frame.crs, expected_crs):
+                raise ContractError("la capa guardada no coincide con el recibo o con el CRS de trabajo")
+            print(
+                f"[OK] capa ya presente, se revalida {layer_path.name}: "
+                f"{len(frame)} registros, CRS {epsg_label(frame.crs)}"
+            )
+            return 0
+        features = []
+        declared: set[str] = set()
+        for page in receipt["pages"]:
+            parsed, page_srs = parse_wfs_gml(page_path(raw_dir, page))
+            features.extend(parsed)
+            declared.update(page_srs)
+            print(f"[leída] {page['name']}: {len(parsed)} municipios")
+        if declared != {wfs["srs_name"]}:
+            raise ContractError(f"srsName observado {sorted(declared)} distinto de {wfs['srs_name']}")
+        codes = [feature.get("MPIO_CDPMP") for feature in features]
+        if len(features) != receipt["number_matched"] or len(set(codes)) != len(codes):
+            raise ContractError(f"se leyeron {len(features)} features y {len(set(codes))} códigos")
+        if any(not re.fullmatch(r"[0-9]{5}", code or "") for code in codes):
+            raise ContractError("hay un MPIO_CDPMP que no tiene 5 dígitos")
+        frame = features_to_frame(features)
+        check = area_geometry_check(frame)
+        unit = decide_area_unit(check)
+        unit_source = (
+            f"elemento GML {AREA_ELEMENT}, alias publicado de MPIO_NAREA; "
+            "el diccionario de la Entrega 1 guarda ese valor en area_km2"
+            if unit == "km2"
+            else None
+        )
+        layer_path.parent.mkdir(parents=True, exist_ok=True)
+        if layer_path.exists():
+            layer_path.unlink()
+        frame.to_file(layer_path, driver="GPKG")
+        stored = gpd.read_file(layer_path)
         manifest = manifest_from_layer(
-            frame=frame,
+            frame=stored,
             layer_path=layer_path,
             root=root,
             expected_crs=expected_crs,
-            source_page=page,
-            file_url=file_url,
-            archive_path=archive,
+            source_page=wfs["url"],
+            file_url=wfs["url"] + "?service=WFS&version=2.0.0&request=GetFeature&typeNames=" + wfs["type_name"],
+            archive_path=None,
             fixture=False,
             area_unit=unit,
             area_unit_source=unit_source,
         )
-        if manifest["errors"]:
+        years = frame["MPIO_NANO"].value_counts().to_dict()
+        manifest.update(
+            {
+                "distribution": "ogc-wfs-2.0-gml32",
+                "claims_zip_product": False,
+                "original_archive_crs_proven": False,
+                "served_srs_name": wfs["srs_name"],
+                "gml_axis_order": wfs["axis_order"],
+                "coordinates_stored": "longitude,latitude",
+                "rest_storage_crs": wfs["rest_storage_crs"],
+                "crs_note": (
+                    "El srsName del GML declara EPSG:4686 con eje latitud/longitud. "
+                    "El almacenamiento REST del mismo servicio informa EPSG:3857. "
+                    "No se leyó el ZIP ni un .prj de archivo, así que el CRS del archivo original no está probado. "
+                    "La capa de trabajo guarda longitud/latitud y usa EPSG:4686 como CRS declarado por el WFS."
+                ),
+                "field_name_map": {value: key for key, value in WFS_FIELD_MAP.items()},
+                "municipality_name_source": "Nombre_municipio, que el servicio REST llama MPIO_CNMBRE; la Entrega 1 lo nombra MPIO_CNMBR",
+                "live_wfs_request_this_run": live_request,
+                "bytes_source": "preserved-wfs-responses" if not live_request else "live-wfs",
+                "source_page_sha256": [page["sha256"] for page in receipt["pages"]],
+                "source_pages": receipt["pages"],
+                "sha256": sha256_file(layer_path),
+                "filename": wfs["type_name"],
+                "bytes": layer_path.stat().st_size,
+                "feature_version_year_counts": {str(year): int(count) for year, count in sorted(years.items())},
+                "area_geometry_check": check,
+                "area_unit_note": (
+                    "El nombre del elemento dice departamento aunque el objeto es un municipio. "
+                    "La unidad se toma de kilómetros cuadrados en ese nombre y del cociente contra el área geodésica; "
+                    "no se usa la magnitud de un solo municipio."
+                ),
+                "discovery_dataset": receipt.get("discovery_dataset"),
+            }
+        )
+        if unit is None:
+            manifest["status"] = "invalid"
+            manifest["claims_national_download"] = False
+            manifest["errors"] = list(manifest["errors"]) + [
+                "el cociente entre MPIO_NAREA y el área geodésica no confirma kilómetros cuadrados ni metros cuadrados"
+            ]
+        if manifest["errors"] or manifest["status"] != "complete":
             manifest["claims_national_download"] = False
             write_json(manifest_path, manifest)
-            write_attempt(attempt, page=page, status="invalid", error="; ".join(manifest["errors"]))
+            write_attempt(attempt, page=wfs["url"], status="invalid", error="; ".join(manifest["errors"]))
             print("[FALLA] " + "; ".join(manifest["errors"]))
             return 1
         write_json(manifest_path, manifest)
@@ -258,11 +522,13 @@ def run_real(root: Path) -> int:
             attempt.unlink()
         print(
             f"[OK] capa {manifest['layer_name']}: {manifest['feature_count']} registros, "
-            f"CRS {manifest['crs_epsg']}, unidad de área {manifest['area_unit'] or 'no declarada'}"
+            f"CRS de trabajo {manifest['crs_epsg']}, unidad {manifest['area_unit']}, "
+            f"origen de bytes {manifest['bytes_source']}"
         )
         return 0
     except Exception as exc:
         message = f"{type(exc).__name__}: {exc}"
+        page = config["sources"]["mgn"].get("wfs", {}).get("url", config["sources"]["mgn"]["url"])
         write_attempt(attempt, page=page, status="blocked", error=message)
         print(f"[FALLA] {message}", file=sys.stderr)
         return 2
@@ -403,6 +669,35 @@ def run_self_check() -> int:
         _layer, _frame, notes = inspect_vectors(broken_dir)
         unreadable = [note for note in notes if note["path"] == "roto.shp"]
         check("un archivo ilegible no se da por válido", _layer is None and bool(unreadable) and unreadable[0]["readable"] is False)
+
+    gml = """<?xml version="1.0" encoding="utf-8"?>
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:m="https://fixture.invalid/m">
+  <wfs:member><m:Municipio gml:id="f.1">
+    <m:Código_DANE_concatenado_departamento_y_municipio>05031</m:Código_DANE_concatenado_departamento_y_municipio>
+    <m:Nombre_municipio>AMALFI</m:Nombre_municipio>
+    <m:Código_DANE_departamento>05</m:Código_DANE_departamento>
+    <m:Área_departamento_en_kilómetros_cuadrados>10.5</m:Área_departamento_en_kilómetros_cuadrados>
+    <m:Año_versión_DANE>2024</m:Año_versión_DANE>
+    <m:SHAPE><gml:MultiSurface srsName="urn:ogc:def:crs:EPSG::4686"><gml:surfaceMember><gml:Polygon>
+      <gml:exterior><gml:LinearRing><gml:posList>6.2 -75.5 6.2 -75.4 6.3 -75.4 6.3 -75.5 6.2 -75.5</gml:posList></gml:LinearRing></gml:exterior>
+    </gml:Polygon></gml:surfaceMember></gml:MultiSurface></m:SHAPE>
+  </m:Municipio></wfs:member>
+</wfs:FeatureCollection>
+"""
+    with tempfile.TemporaryDirectory() as tmp:
+        gml_path = Path(tmp) / "page_0000.gml"
+        gml_path.write_text(gml, encoding="utf-8")
+        parsed, declared = parse_wfs_gml(gml_path)
+        point = list(parsed[0]["geometry"].exterior.coords)[0]
+        check(
+            "FIXTURE: el GML latitud/longitud se guarda como longitud/latitud y Nombre_municipio pasa a MPIO_CNMBR",
+            declared == {"urn:ogc:def:crs:EPSG::4686"}
+            and parsed[0]["MPIO_CDPMP"] == "05031"
+            and parsed[0]["MPIO_CNMBR"] == "AMALFI"
+            and parsed[0]["MPIO_NAREA"] == "10.5"
+            and point[0] == -75.5
+            and point[1] == 6.2,
+        )
 
     passed = all(checks.values())
     print(f"{'FIXTURE' if passed else 'FALLA'} self-check descarga: {sum(checks.values())}/{len(checks)}")

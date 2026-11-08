@@ -13,7 +13,16 @@ sources:
   mgn:
     version: "MGN2025"
     url: "https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111"
-    source_crs: "EPSG:4686"   # MAGNA-SIRGAS
+    source_crs: "EPSG:4686"   # CRS declarado por el WFS; no es el .prj de un ZIP leído
+    wfs:
+      url: "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer"
+      type_name: "Serv_CapasMGN_2025:Municipio"
+      srs_name: "urn:ogc:def:crs:EPSG::4686"
+      page_size: 200
+      start_indexes: [0, 200, 400, 600, 800, 1000]
+      axis_order: "latitude,longitude"
+      rest_storage_crs: "EPSG:3857"
+      receipt: "outputs/mgn_wfs_source_receipt.json"
   pdet_list:
     file: "resources/MunicipiosPDET.xlsx"
     sheet: "Hoja1"            # columnas: id, Subregión PDET, Código DANE Municipio, ...

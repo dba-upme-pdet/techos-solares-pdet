@@ -334,6 +334,24 @@ def run_real(root: Path) -> int:
     report["fixture"] = False
     report["area_unit_source"] = unit_source
     report["source_manifest"] = manifest_path.name
+    for key in (
+        "distribution",
+        "bytes_source",
+        "original_archive_crs_proven",
+        "served_srs_name",
+        "live_wfs_request_this_run",
+        "claims_zip_product",
+        "area_geometry_check",
+    ):
+        if key in manifest:
+            report[key] = manifest[key]
+    if "MPIO_NANO" in frame.columns and documents:
+        selected = frame.copy()
+        selected["mpio_code"] = selected["MPIO_CDPMP"].map(lambda value: zfill_digits(value, 5))
+        selected = selected[selected["mpio_code"].isin({item["_id"] for item in documents})]
+        counts = selected["MPIO_NANO"].value_counts()
+        report["feature_version_year_counts"] = {str(int(year)): int(count) for year, count in counts.items()}
+        report["feature_version_years_filtered"] = False
     if report["status"] != "ready_for_load":
         report["output_geojsonl"] = None
         report["sha256"] = None
@@ -343,6 +361,10 @@ def run_real(root: Path) -> int:
     output = root / config["paths"]["processed_data"] / "municipalities.geojsonl"
     report["sha256"] = write_geojsonl(output, documents)
     report["output_geojsonl"] = output.relative_to(root).as_posix()
+    lines = [line for line in output.read_text(encoding="utf-8").splitlines() if line]
+    report["document_count_lines"] = len(lines)
+    report["max_document_bytes"] = max(len(line.encode("utf-8")) for line in lines)
+    report["ids"] = [item["_id"] for item in documents]
     write_json(report_path, report)
     print(
         f"[OK] {report['municipalities_written']} documentos en {report['output_geojsonl']}; "

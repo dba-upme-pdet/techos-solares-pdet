@@ -27,6 +27,7 @@ Thumbs.db
 *.prj
 *.geojson
 *.geojsonl
+*.gml
 *.csv.gz
 
 # LaTeX (los PDF de docs/ sí se versionan)
