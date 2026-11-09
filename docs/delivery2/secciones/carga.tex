@@ -74,10 +74,10 @@ Carga definitiva del 9 de noviembre de 2026 (07:29, hora de Bogotá; Python 3.11
 \caption{Dos cargas consecutivas del archivo definitivo, registradas en \f{ingestion\_runs}.}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \
+Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \\
 \midrule
-1 & 170 & 0 & 170 & 0 & 0 & 170 \
-2 & 170 & 0 & 0 & 170 & 0 & 170 \
+1 & 170 & 0 & 170 & 0 & 0 & 170 \\
+2 & 170 & 0 & 0 & 170 & 0 & 170 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -94,4 +94,4 @@ La primera corrida reemplazó los 170 documentos de la carga de prueba anterior 
 
 \subsection{Limitación resuelta: el \f{timeStamp} del WFS}
 
-La primera carga se hizo con \f{--allow-input-mismatch}: al volver a descargar, el SHA256 de las páginas GML nunca coincidía con \f{mgn\_wfs\_source\_receipt.json}, porque el WFS del DANE escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta. Se comprobó que es la única diferencia: con el \f{timeStamp} original reinsertado, las seis páginas descargadas de nuevo reproducen exactamente el SHA256 del recibo. El recibo ahora guarda, además, un hash de contenido (\f{content\_sha256}, con ese atributo vaciado), y \f{01\_download\_mgn.py} acepta una página que coincide por bytes o por contenido (detalle en {entrega2_descarga_y_preparacion.md}). Con eso la cadena completa corrió sin excepciones y la carga ya no necesita \f{--allow-input-mismatch}.
+La primera carga se hizo con \f{--allow-input-mismatch}: al volver a descargar, el SHA256 de las páginas GML nunca coincidía con \f{mgn\_wfs\_source\_receipt.json}, porque el WFS del DANE escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta. Se comprobó que es la única diferencia: con el \f{timeStamp} original reinsertado, las seis páginas descargadas de nuevo reproducen exactamente el SHA256 del recibo. El recibo ahora guarda, además, un hash de contenido (\f{content\_sha256}, con ese atributo vaciado), y \f{01\_download\_mgn.py} acepta una página que coincide por bytes o por contenido (detalle en \path{entrega2_descarga_y_preparacion.md}). Con eso la cadena completa corrió sin excepciones y la carga ya no necesita \f{--allow-input-mismatch}.

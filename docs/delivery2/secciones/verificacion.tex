@@ -1,42 +1,78 @@
 % Sebastián Sánchez Vásquez (scripts/02\_verify\_spatial.py)
-\section{Verificación de la integración y del índice espacial}
+\section{Verificación de la integración y del índice espacial}\label{sec:verificacion}
 
 \textit{Responsable: Sebastián Sánchez Vásquez. Script: \f{scripts/02\_verify\_spatial.py}.}
 
-El verificador consulta MongoDB sin escribir documentos, modificar índices ni reparar geometrías. Lee la configuración del proyecto y admite \f{MONGO\_URI} para seleccionar la conexión. Los códigos esperados salen de \f{resources/MunicipiosPDET.xlsx}; los ceros iniciales se restituyen solo en esa referencia, no en los documentos almacenados. El esquema BSON se importa de \f{scripts/00\_init\_db.py}.
+\subsection{Objetivo y método}
 
-Se implementaron nueve controles: conexión, cantidad exacta de 170 documentos, formato y unicidad de DIVIPOLA, igualdad con el conjunto PDET oficial, compatibilidad con el esquema y el contrato, integridad geométrica, existencia del índice espacial, resultados de una consulta espacial y uso efectivo del índice. La geometría debe ser Polygon o MultiPolygon, con anillos explícitamente cerrados, coordenadas bidimensionales finitas en longitud/latitud, topología válida y vértices dentro de la ventana de Colombia definida en el contrato. La carga debe aportar \f{loaded\_at} como fecha BSON.
+Verificar mediante lecturas la colección \f{upme\_pdet.municipalities}, sin modificar documentos, índices ni geometrías. El script lee \f{config.yaml}, admite \f{MONGO\_URI} e importa el esquema BSON de \f{00\_init\_db.py} y las constantes del contrato común. Normaliza los códigos del Excel de referencia con ceros iniciales; no corrige los identificadores almacenados.
 
-La consulta \f{\$geoIntersects} utiliza un punto interior del primer municipio ordenado por identificador. Se comparan todos los identificadores devueltos con las intersecciones calculadas mediante Shapely y se ejecuta un control negativo en longitud 0, latitud 0. El \f{explain()} se solicita con \f{executionStats}, sin forzar un índice mediante \f{hint}. Se exige un \f{IXSCAN} del índice \f{2dsphere} sobre \f{geometry} dentro del plan ganador, ejecución exitosa, claves examinadas y cantidad de resultados coherente. La aparición del índice solamente en planes rechazados no aprueba la comprobación.
+Se comprueban nueve controles: conexión, cantidad exacta de 170 documentos, formato y unicidad DIVIPOLA, igualdad con el conjunto PDET, esquema y contrato, geometrías, índice espacial, consulta y uso efectivo del índice. El esquema exige, entre otros campos, \f{loaded\_at} como fecha BSON. Las geometrías Polygon/MultiPolygon deben ser no vacías, topológicamente válidas, de área positiva, con anillos explícitamente cerrados y posiciones 2D numéricas finitas en longitud/latitud. Todos los vértices deben estar en la ventana Colombia del contrato; se rechazan ejes invertidos y un CRS explícito alternativo.
 
-\subsection{Pruebas y evidencia disponible}
+Para \f{\$geoIntersects} se toma un punto interior del primer municipio ordenado por \f{\_id}. Los identificadores devueltos deben coincidir exactamente con las intersecciones calculadas por Shapely. El control negativo en longitud 0, latitud 0 debe devolver cero. Se solicita \f{explain()} con \f{executionStats}, sin \f{hint}: el plan ganador debe contener un \f{IXSCAN} del índice espacial, con ejecución exitosa, claves examinadas y número de resultados coherente. Un índice presente solo en planes rechazados no aprueba este control.
 
-El 9 de noviembre de 2026 se ejecutaron nuevamente las \textbf{23 pruebas automatizadas, todas aprobadas}, contra MongoDB 7.0.45. Incluyen 11 pruebas unitarias y 12 de integración, con casos positivos y negativos de cantidad, códigos, esquema, geometría, consultas e índice. Cada prueba de integración crea una base con UUID y elimina exclusivamente sus propios recursos; al terminar no quedaron bases temporales. Los datos de prueba son cuadrados y códigos arbitrarios identificados como sintéticos, sin atribución al DANE.
+\subsection{Pruebas automatizadas existentes}
 
-En la evidencia sintética positiva, el plan ganador fue \f{FETCH} sobre \f{IXSCAN}, con índice \f{geometry\_2dsphere}, 7 claves examinadas, 1 documento examinado y 1 resultado. El control negativo devolvió cero. Al retirar el índice de la colección temporal, el plan fue \f{COLLSCAN} y el control de uso del índice falló correctamente. Los archivos \f{docs/delivery2/spatial\_synthetic\_evidence.json} y \f{spatial\_test\_results.txt} conservan los resultados. Esto comprueba el componente, no la integración de municipios reales.
+La suite contiene \textbf{23 pruebas: 11 unitarias y 12 de integración}. El registro conservado en \path{docs/delivery2/spatial_test_results.txt} muestra 23/23 aprobadas con MongoDB 7.0.45 en una ejecución anterior. Cubre datos sintéticos válidos, cantidades 0/169/171, identificadores y conjuntos incorrectos, esquema BSON, geometrías inválidas, huecos y MultiPolygon, índice ausente con \f{COLLSCAN}, resultados espaciales positivos y negativos, planes rechazados y códigos de salida. Dos casos inyectan respuestas incorrectas para comprobar su rechazo. Cada prueba de integración crea una base con UUID y limpia solo sus recursos.
 
-\subsection{Resultado real y condición de cierre}
+El registro del self-check local del cargador conserva otro resultado histórico de 16/16. La evidencia sintética positiva registra 7 claves examinadas y un documento devuelto. \textbf{Estas pruebas no se volvieron a ejecutar durante esta actualización documental} ni sustituyen la verificación definitiva sobre municipios reales.
 
-La ejecución local del 9 de noviembre sobre \f{upme\_pdet.municipalities} encontró \textbf{0 de 170 municipios}: conexión e índice aprobados; cantidad, identificadores, cruce PDET, esquema y geometrías sin aprobar por ausencia de documentos; consulta e índice en ejecución pendientes. El resultado fue \textbf{2 de 9 controles aprobados}, código de salida 1 y \f{success: false}. La evidencia se conserva en \f{outputs/municipalities\_spatial\_verification\_real.json}. Su nombre identifica la base consultada, no un resultado exitoso.
+\subsection{Evidencia definitiva: entorno de Miguel}
 
-El cargador de Miguel, \path{scripts/02_load_municipalities.py}, ya está integrado desde \f{main} (commit \f{c406b34}). Su \f{--self-check} se ejecutó localmente: \textbf{16/16 OK}, salida 0, únicamente sobre una base temporal que se eliminó al terminar. El registro está en \path{docs/delivery2/loader_selfcheck_local_results.txt}. Docker estaba detenido al primer intento; se inició el servicio y las comprobaciones finales se realizaron con MongoDB disponible.
+El PR~8 incorporó la cadena definitiva y el reporte completo del verificador. La ejecución fue realizada \textbf{por Miguel en su computador}, el 9 de noviembre de 2026 a las 07:30 de Bogotá, después de la carga descrita en la sección~\ref{sec:carga}. No se presenta como una ejecución en el computador de Sebastián. La evidencia está en \path{outputs/municipalities_spatial_verification_real.json}.
 
-Siguen ausentes en este computador el GeoJSONL preparado, la capa GeoPackage y las seis páginas GML del recibo. Por tanto, no se ejecutó una carga real ni se usó la opción que permite omitir la coincidencia del hash. \textbf{La integración definitiva local continúa pendiente de recibir los artefactos con trazabilidad consistente.} Las pruebas no modificaron documentos de la colección del proyecto.
+Se contrastaron los reportes de descarga, validación, preparación, carga y verificación: capa nacional de 1122 municipios, cruce de los 170 PDET, preparación \f{ready\_for\_load}, carga \f{loaded} y \f{input\_matches\_prepare\_report: true}. El SHA256 del GeoJSONL preparado coincide con el de la entrada cargada:
+\begin{center}\scriptsize\ttfamily
+612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed
+\end{center}
+La segunda carga conserva 170 documentos sin cambios, sin rechazados ni borrados. La preparación definitiva conserva 170 MultiPolygon (sección~\ref{sec:preparacion}). El reporte espacial registra \f{success: true} y \textbf{nueve controles OK}, coherentes con la salida 0 documentada por Miguel y definida por la CLI.
 
-\subsection{Evidencia publicada por Miguel y diferencia de hashes}
+\begin{table}[H]
+\centering\small
+\caption{Resultados definitivos del verificador independiente, ejecutado por Miguel.}
+\begin{tabularx}{\textwidth}{@{}p{4.2cm} L@{}}
+\toprule
+Control & Resultado \\
+\midrule
+Conexión & OK \\
+Cantidad & 170/170 \\
+DIVIPOLA & Identificadores únicos de cinco dígitos ASCII \\
+Cruce con el Excel & 0 faltantes y 0 sobrantes \\
+Esquema y contrato & 0 errores \\
+Geometrías & 170/170 válidas \\
+Índice & \f{geometry\_2dsphere} visible sobre \f{geometry} \\
+Consulta & Resultado esperado y obtenido: \f{05031}; negativo: 0 \\
+\f{explain()} & Plan ganador con \f{IXSCAN}, ejecución exitosa \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-La sección de carga y \path{outputs/municipalities_load_report.json}, publicados por Miguel, documentan en su computador 170 municipios, una segunda corrida con 170 documentos sin cambios y nueve controles internos de carga aprobados. Su documentación también declara nueve controles del verificador independiente de Sebastián aprobados. Ese último resultado es una declaración de Miguel: no se adjunta allí el JSON completo del verificador independiente con su plan ganador. No se presenta como una ejecución local de Sebastián.
+\subsection{Consulta espacial y ejecución del índice}
 
-El reporte de preparación declara un SHA256 que empieza por \f{612e2544}; la entrada cargada por Miguel empieza por \f{b229d6a3} y su reporte registra \f{input\_matches\_prepare\_report: false}. Un cambio de \f{timeStamp} puede explicar diferencias en los bytes del GML, pero ese atributo no se incorpora al GeoJSONL mediante el parser del repositorio. Por ello no basta para explicar el segundo hash. Además, la preparación original documenta MultiPolygon, mientras Miguel reporta 168 Polygon y 2 MultiPolygon; esa diferencia de representación debe conciliarse mediante comparación de documentos y geometrías, sin concluir por ella sola que los límites sean distintos.
+La consulta registrada usa un punto interior de Amalfi (05031):
+\begin{verbatim}
+{geometry: {$geoIntersects: {$geometry: {
+  type: "Point",
+  coordinates: [-74.9514735167314, 7.020482489999999]
+}}}}
+\end{verbatim}
+Devuelve únicamente \f{05031}, igual al resultado esperado por Shapely. El control negativo \f{[0.0, 0.0]} devuelve cero coincidencias. El plan ganador es \f{FETCH} $\rightarrow$ \f{IXSCAN}, con \f{indexName: geometry\_2dsphere} y clave espacial \f{geometry: 2dsphere}. Las estadísticas del JSON registran \textbf{9 claves examinadas, 1 documento examinado y 1 resultado}, con \f{executionSuccess: true}. Esto demuestra uso efectivo del índice en esta consulta; las 7 claves citadas en la sección de carga no son la estadística de este JSON independiente.
 
-Para acreditar reproducción se necesitan las páginas originales con su recibo, o una nueva adquisición trazable revisada por el equipo, y el JSONL exacto acompañado de su reporte de preparación. Una comparación de páginas debe demostrar si cambió únicamente el atributo indicado; una comparación por DIVIPOLA debe revisar atributos, metadatos y geometrías de los dos productos. Sin esos archivos no se certifica equivalencia de contenido ni reproducción de la carga original. Los hashes completos y los pasos de cierre constan en la guía de verificación.
+\subsection{Trazabilidad y antecedente local}
 
-Una vez disponible la carga real, ejecutar desde la raíz del repositorio:
+La diferencia del WFS quedó resuelta mediante el hash de contenido del recibo: se omite únicamente el valor de \f{timeStamp} de la raíz, sin modificar los archivos fuente ni los demás bytes. El manifiesto definitivo registra coincidencia por contenido de las seis páginas. Las diferencias del JSONL de la carga anterior (\f{b229d6a3\ldots}) se explican en la sección~\ref{sec:preparacion}: representación Polygon/MultiPolygon, \f{source.file} y CRLF/LF. El producto definitivo recupera el hash \f{612e2544\ldots} y ya coincide con la preparación; no requiere la excepción de hash anterior.
+
+Como antecedente separado, \path{docs/delivery2/spatial_local_evidence.json} conserva la base anterior de Sebastián con 0/170 y 2/9 controles aprobados. Ese resultado no describe el estado definitivo del equipo. La evidencia sintética también se conserva aparte. Esta actualización revisó los reportes y su coherencia sin repetir la carga ni sobrescribir la evidencia definitiva con una comprobación local.
+
+\subsection{Reproducción y límites}
+
+Para otra comprobación, usar un destino nuevo y preservar el reporte definitivo:
 \begin{verbatim}
 .venv/bin/python -m unittest discover -s tests -v
 .venv/bin/python scripts/02_verify_spatial.py \
-  --report outputs/municipalities_spatial_verification_real.json
+  --report outputs/municipalities_spatial_verification_local.json
 echo $?
 \end{verbatim}
+El código 0 exige todos los controles OK; 1 indica fallos o pendientes y 2 un error operativo. La reproducción completa necesita los datos pesados y los reportes correspondientes, según el flujo oficial del equipo.
 
-El cierre requiere salida 0 y los nueve controles en \f{OK}, incluyendo consulta y plan ganador sobre los documentos reales. Sebastián deberá actualizar esta sección con ese resultado antes de presentar la integración como terminada. El código 2 identifica errores operativos. La guía y las limitaciones están en \f{docs/delivery2/entrega2\_verificacion\_espacial.md}. Los rangos y la validez topológica no certifican por sí solos el origen DANE; esa trazabilidad depende de descarga y preparación. La ejecución definitiva debe realizarse después de terminar la carga, sin escrituras concurrentes.
+Se revisan estructura y topología en todos los documentos, pero la consulta es una muestra determinista con control negativo, no una certificación de ausencia de huecos o solapamientos entre municipios. Shapely evalúa en el plano y MongoDB sobre la esfera; casos próximos a fronteras pueden requerir revisión. Los rangos no prueban por sí solos el CRS original ni la autenticidad DANE, que dependen de la trazabilidad de descarga y preparación. En este Mac se contrastaron los reportes publicados, sin recalcular los hashes de datos ausentes ni certificar una carga local. La ejecución requiere una colección estable, sin escrituras concurrentes; el plan corresponde a MongoDB 7.0.45 del entorno de Miguel. La guía ampliada está en \path{docs/delivery2/entrega2_verificacion_espacial.md}.
