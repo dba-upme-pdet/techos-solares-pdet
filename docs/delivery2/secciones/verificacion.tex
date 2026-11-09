@@ -11,20 +11,25 @@ La consulta \f{\$geoIntersects} utiliza un punto interior del primer municipio o
 
 \subsection{Pruebas y evidencia disponible}
 
-El 8 de noviembre de 2026 se ejecutaron nuevamente las \textbf{23 pruebas automatizadas, todas aprobadas}, contra MongoDB 7.0.45. Incluyen 11 pruebas unitarias y 12 de integración, con casos positivos y negativos de cantidad, códigos, esquema, geometría, consultas e índice. Cada prueba de integración crea una base con UUID y elimina exclusivamente sus propios recursos; al terminar no quedaron bases temporales. Los datos de prueba son cuadrados y códigos arbitrarios identificados como sintéticos, sin atribución al DANE.
+El 9 de noviembre de 2026 se ejecutaron nuevamente las \textbf{23 pruebas automatizadas, todas aprobadas}, contra MongoDB 7.0.45. Incluyen 11 pruebas unitarias y 12 de integración, con casos positivos y negativos de cantidad, códigos, esquema, geometría, consultas e índice. Cada prueba de integración crea una base con UUID y elimina exclusivamente sus propios recursos; al terminar no quedaron bases temporales. Los datos de prueba son cuadrados y códigos arbitrarios identificados como sintéticos, sin atribución al DANE.
 
 En la evidencia sintética positiva, el plan ganador fue \f{FETCH} sobre \f{IXSCAN}, con índice \f{geometry\_2dsphere}, 7 claves examinadas, 1 documento examinado y 1 resultado. El control negativo devolvió cero. Al retirar el índice de la colección temporal, el plan fue \f{COLLSCAN} y el control de uso del índice falló correctamente. Los archivos \f{docs/delivery2/spatial\_synthetic\_evidence.json} y \f{spatial\_test\_results.txt} conservan los resultados. Esto comprueba el componente, no la integración de municipios reales.
 
 \subsection{Resultado real y condición de cierre}
 
-La última ejecución sobre \f{upme\_pdet.municipalities} encontró \textbf{0 de 170 municipios}: conexión e índice aprobados; cantidad, identificadores, cruce PDET, esquema y geometrías sin aprobar por ausencia de documentos; consulta e índice en ejecución pendientes. El resultado fue \textbf{2 de 9 controles aprobados}, código de salida 1 y \f{success: false}. La evidencia se conserva en \f{outputs/municipalities\_spatial\_verification\_real.json}. Su nombre identifica la base consultada, no un resultado exitoso.
+La ejecución local del 9 de noviembre sobre \f{upme\_pdet.municipalities} encontró \textbf{0 de 170 municipios}: conexión e índice aprobados; cantidad, identificadores, cruce PDET, esquema y geometrías sin aprobar por ausencia de documentos; consulta e índice en ejecución pendientes. El resultado fue \textbf{2 de 9 controles aprobados}, código de salida 1 y \f{success: false}. La evidencia se conserva en \f{outputs/municipalities\_spatial\_verification\_real.json}. Su nombre identifica la base consultada, no un resultado exitoso.
 
-En este checkout faltan dos entradas del flujo:
-\begin{itemize}
-\item El cargador \path{scripts/02_load_municipalities.py}.
-\item El archivo preparado \path{data/processed/municipalities.geojsonl}.
-\end{itemize}
-El reporte de preparación versionado declara 170 documentos, pero ese reporte no sustituye el archivo ni acredita la carga. Por tanto, \textbf{la verificación definitiva está bloqueada por la entrega de los datos preparados y la carga de Miguel}. No se insertaron datos sintéticos en la colección del proyecto ni se sustituyó el cargador.
+El cargador de Miguel, \path{scripts/02_load_municipalities.py}, ya está integrado desde \f{main} (commit \f{c406b34}). Su \f{--self-check} se ejecutó localmente: \textbf{16/16 OK}, salida 0, únicamente sobre una base temporal que se eliminó al terminar. El registro está en \path{docs/delivery2/loader_selfcheck_local_results.txt}. Docker estaba detenido al primer intento; se inició el servicio y las comprobaciones finales se realizaron con MongoDB disponible.
+
+Siguen ausentes en este computador el GeoJSONL preparado, la capa GeoPackage y las seis páginas GML del recibo. Por tanto, no se ejecutó una carga real ni se usó la opción que permite omitir la coincidencia del hash. \textbf{La integración definitiva local continúa pendiente de recibir los artefactos con trazabilidad consistente.} Las pruebas no modificaron documentos de la colección del proyecto.
+
+\subsection{Evidencia publicada por Miguel y diferencia de hashes}
+
+La sección de carga y \path{outputs/municipalities_load_report.json}, publicados por Miguel, documentan en su computador 170 municipios, una segunda corrida con 170 documentos sin cambios y nueve controles internos de carga aprobados. Su documentación también declara nueve controles del verificador independiente de Sebastián aprobados. Ese último resultado es una declaración de Miguel: no se adjunta allí el JSON completo del verificador independiente con su plan ganador. No se presenta como una ejecución local de Sebastián.
+
+El reporte de preparación declara un SHA256 que empieza por \f{612e2544}; la entrada cargada por Miguel empieza por \f{b229d6a3} y su reporte registra \f{input\_matches\_prepare\_report: false}. Un cambio de \f{timeStamp} puede explicar diferencias en los bytes del GML, pero ese atributo no se incorpora al GeoJSONL mediante el parser del repositorio. Por ello no basta para explicar el segundo hash. Además, la preparación original documenta MultiPolygon, mientras Miguel reporta 168 Polygon y 2 MultiPolygon; esa diferencia de representación debe conciliarse mediante comparación de documentos y geometrías, sin concluir por ella sola que los límites sean distintos.
+
+Para acreditar reproducción se necesitan las páginas originales con su recibo, o una nueva adquisición trazable revisada por el equipo, y el JSONL exacto acompañado de su reporte de preparación. Una comparación de páginas debe demostrar si cambió únicamente el atributo indicado; una comparación por DIVIPOLA debe revisar atributos, metadatos y geometrías de los dos productos. Sin esos archivos no se certifica equivalencia de contenido ni reproducción de la carga original. Los hashes completos y los pasos de cierre constan en la guía de verificación.
 
 Una vez disponible la carga real, ejecutar desde la raíz del repositorio:
 \begin{verbatim}

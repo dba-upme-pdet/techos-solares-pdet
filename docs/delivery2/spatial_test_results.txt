@@ -23,6 +23,6 @@ test_rejected_plan_cannot_pass (test_verify_spatial.TestReferenceAndPlan.test_re
 test_winning_plan_classic_and_sbe (test_verify_spatial.TestReferenceAndPlan.test_winning_plan_classic_and_sbe) ... ok
 
 ----------------------------------------------------------------------
-Ran 23 tests in 3.940s
+Ran 23 tests in 11.139s
 
 OK

@@ -4,7 +4,7 @@ La implementación y las pruebas están terminadas. **La integración definitiva
 
 ## Objetivo y alcance
 
-Verificar, mediante lecturas reproducibles, la colección que entregue el responsable de carga. Se revisaron `config.yaml`, `00_init_db.py`, `entrega2_contracts.py`, los scripts de descarga, lista PDET y preparación disponibles, el diseño de la Entrega 1, los reportes y la documentación de la Entrega 2 y las pruebas previas. No se modificaron estas piezas compartidas. En este checkout no están `01_validate_mgn.py` ni `02_load_municipalities.py`, y tampoco están los archivos de `data/` que menciona el reporte de preparación. Ese reporte versionado declara 170 documentos preparados; no demuestra que estén cargados aquí.
+Verificar, mediante lecturas reproducibles, la colección que entregue el responsable de carga. Se revisaron `config.yaml`, `00_init_db.py`, `entrega2_contracts.py`, los scripts de descarga, lista PDET y preparación disponibles, el diseño de la Entrega 1, los reportes y la documentación de la Entrega 2 y las pruebas previas. No se modificaron estas piezas compartidas. El 9 de noviembre se integraron desde `origin/main` la validación de Samuel y el cargador de Miguel (`c406b34`). Siguen ausentes los archivos de `data/` que menciona el reporte de preparación. Los resultados de carga publicados por Miguel corresponden a otro entorno; no demuestran una carga en este computador. El estado vigente se detalla en la revisión del 9 de noviembre al final de este documento.
 
 Se consultó la [rúbrica oficial de la semana 2](https://github.com/aocalderon/PUJ/blob/main/2026-30/DBA/Project/resources/rubrics/DBA_FinalProject_Rubrics_Week2.pdf), descargada y leída durante esta revisión. Asigna adquisición y verificación 25 puntos, integridad y formato 20, integración espacial NoSQL 25, documentación 15, claridad 5 y defensa 10. Este aporte ofrece validaciones y evidencia para integración espacial, integridad y documentación; no acredita la adquisición, la carga pendiente ni la defensa del equipo.
 
@@ -92,7 +92,7 @@ db.municipalities.explain("executionStats").find(query);
 
 La base temporal ya fue eliminada; la suite la reconstruye con otro UUID. En esta corrida devolvió únicamente `_id: "10000"`; el control `[0, 0]` devolvió cero. El plan ganador fue `FETCH → IXSCAN`, con `indexName: geometry_2dsphere`, `executionSuccess: true`, `nReturned: 1`, `totalKeysExamined: 7` y `totalDocsExamined: 1`. Son resultados sintéticos, no evidencia de la carga definitiva. Se verificó también que, al retirar únicamente el índice temporal, la consulta siguiera correcta y el explain con `COLLSCAN` fallara la validación.
 
-## Estado local y pendientes
+## Estado local y pendientes (registro del 8 de noviembre)
 
 [spatial_local_evidence.json](spatial_local_evidence.json) registra la corrida sobre `upme_pdet.municipalities`: conexión e índice aprobados, **0/170 documentos, 170 códigos faltantes**, controles de datos fallidos y consulta/explain pendientes. Resultado **2/9 OK, `success: false`, salida 1**. La invocación desde `/tmp` con rutas absolutas produjo el mismo resultado y código. También se ejecutó la CLI contra `127.0.0.1:1`: falló la conexión con salida 2.
 
@@ -153,3 +153,74 @@ Se completó [`secciones/verificacion.tex`](secciones/verificacion.tex), la secc
 La rúbrica ya está cubierta por este componente en validaciones, evidencia sintética reproducible, documentación y claridad del estado. El criterio de integración espacial real del equipo sigue sin acreditarse y la defensa debe realizarse; ninguna cantidad de pruebas sintéticas sustituye esos dos puntos.
 
 Se comprobó la compatibilidad de la sección mediante `latexmk -pdf -interaction=nonstopmode -halt-on-error entrega2.tex` sobre una copia temporal del borrador `aa20f5f` de Samuel, reemplazando únicamente `secciones/verificacion.tex` por esta contribución: salida 0 y PDF generado. La copia y el PDF temporales se eliminaron al terminar; no constituyen el informe final entregado. No se modificaron los archivos de Samuel ni se incorporaron sus cambios a esta rama.
+
+## Revisión vigente del 9 de noviembre de 2026
+
+### Integración y comprobaciones locales
+
+Se integró `origin/main` en `feature/sebastian-environment`, incluyendo `64f4418` (validación de Samuel) y `c406b34` (carga de Miguel). Se resolvió únicamente el conflicto de adición de `secciones/verificacion.tex`, conservando la versión completa de Sebastián. Las cuatro secciones restantes se compararon byte por byte con `origin/main`; no se modificaron. El documento principal ya incluye `\input{secciones/verificacion}`. No se creó otra rama ni se publicó en `main`.
+
+El primer intento falló por conexión: Docker estaba detenido. Se inició Docker Desktop y el servicio Compose, se comprobó `ping` y MongoDB 7.0.45 y se repitieron las comprobaciones:
+
+| Comprobación | Resultado observado en este computador |
+| --- | --- |
+| `python -m unittest discover -s tests -v` | 23/23 aprobadas, salida 0; `spatial_test_results.txt` actualizado |
+| `python scripts/02_load_municipalities.py --self-check` | 16/16 OK, salida 0; [registro local](loader_selfcheck_local_results.txt). Solo usa datos sintéticos en su base temporal y la elimina; su caso interno de eliminación afecta exclusivamente esa base |
+| Verificador contra `upme_pdet.municipalities` | 0/170, conexión e índice OK, 2/9 controles aprobados, consulta/explain pendientes, salida 1 |
+
+El JSON actual está en `outputs/municipalities_spatial_verification_real.json`, con copia idéntica en `spatial_local_evidence.json`. No se modificó el reporte de carga de Miguel ni se ejecutó su carga real: no hay entrada local que cargar. No se utilizaron `--allow-input-mismatch` ni `--prune` en la colección del proyecto. El código y las pruebas del verificador no requirieron cambios.
+
+### Qué evidencia corresponde a cada entorno
+
+Miguel publicó `outputs/municipalities_load_report.json` con `status: loaded`, 170 documentos sin cambios en la segunda ejecución, cero rechazados y sus nueve controles internos de carga aprobados. Su documentación también declara 9/9 del verificador de Sebastián. Son resultados de **su computador**, no de este. Sus nueve controles internos son distintos de los nueve del verificador independiente. El repositorio no incluye el reporte JSON completo de esa ejecución independiente en su entorno; nuestra ruta homónima registra el resultado local fallido y no debe reemplazarse por una afirmación de éxito de otro equipo.
+
+### Inconsistencia de hashes: conclusión y condición de reproducción
+
+| Producto | SHA256 publicado |
+| --- | --- |
+| GeoJSONL del reporte de preparación original | `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed` |
+| GeoJSONL que Miguel declara haber cargado | `b229d6a397442dd2239d882281ebc005cc4a90f50c0eeeb8d18b5d7910ccbe53` |
+
+El reporte de Miguel declara explícitamente `input_matches_prepare_report: false`. Su documentación explica que reconstruyó el JSONL mediante funciones de descarga/preparación, omitiendo la comprobación del recibo, y cargó con `--allow-input-mismatch`.
+
+La revisión del código permite separar dos asuntos:
+
+- Un `timeStamp` distinto altera el hash binario de un GML. Samuel documenta que al restituir el atributo original recuperó el hash de una página. Esa es evidencia reportada por Samuel; aquí no están los pares de archivos para reproducirla ni generalizarla a las seis páginas.
+- `parse_wfs_gml()` recoge únicamente campos mapeados, CRS y geometrías; `prepare_documents()` no incorpora el `timeStamp` de la respuesta al JSONL. Por tanto, **el cambio exclusivo de ese atributo no basta para justificar el hash diferente del JSONL**. Tampoco un hash diferente del GeoPackage por metadatos SQLite demuestra por sí solo cambios en los documentos exportados.
+- Hay otra diferencia documentada que requiere conciliación: el flujo original declara los 170 municipios preparados como MultiPolygon; Miguel declara 168 Polygon y 2 MultiPolygon al reconstruir sin el mismo control de entrada. El parser actual devuelve Polygon si encuentra una sola parte, así que la representación puede influir en los bytes. No se certifica la causa exacta, equivalencia de geometrías ni alteración de límites sin comparar los archivos. También deben compararse `source.file`, atributos y serialización.
+
+**Conclusión:** el reporte publicado acredita una carga funcional declarada por Miguel con una excepción de integridad registrada, pero no acredita reproducción exacta de la cadena original ni una carga local. No se justifica habilitar aquí `--allow-input-mismatch` sin disponer de los artefactos y conciliar las diferencias.
+
+Para cerrar, Derek debe facilitar las seis respuestas GML originales y el recibo correspondiente, o documentar una nueva adquisición oficial con sus hashes reales revisada por el equipo. José debe facilitar el JSONL y el reporte de preparación de esa misma corrida. Miguel debe facilitar el JSONL exacto `b229d6a3…` y el reporte/manifiesto de su reconstrucción, y adjuntar el JSON completo de su verificador si se quiere conservar como evidencia independiente de su entorno. Si se pretende probar que solo cambió el `timeStamp`, comparar las seis parejas retirando únicamente ese atributo en copias, preservar los originales y registrar hashes de ambas versiones y procedimiento; no editar la fuente para aparentar una coincidencia. Después, comparar por DIVIPOLA los atributos y geometrías de ambos JSONL y explicar cualquier diferencia. Una nueva preparación válida puede producir su propio reporte consistente; no debe presentarse como reproducción binaria del producto original.
+
+### Archivos y secciones que todavía bloquean la entrega
+
+Faltan localmente:
+
+- `data/processed/municipalities.geojsonl`.
+- `data/raw/mgn2025/wfs/municipio.gpkg`.
+- `data/raw/mgn2025/wfs/page_0000.gml`, `page_0200.gml`, `page_0400.gml`, `page_0600.gml`, `page_0800.gml` y `page_1000.gml`.
+
+Son archivos excluidos de Git; obtenerlos de Derek/José/Miguel con los reportes y recibos que describan esos mismos bytes. Tener solo los reportes versionados no sustituye los datos.
+
+Derek aún debe completar `docs/delivery2/secciones/descarga.tex` y José `docs/delivery2/secciones/preparacion.tex`: ambos siguen con `\pendiente{...}` en el `main` integrado. Samuel ya aportó su sección y Miguel la suya. La sección de Sebastián está integrada y actualizada con la procedencia de cada evidencia. No se completaron ni se atribuyeron resultados en nombre de otros integrantes. **No se genera un PDF definitivo mientras existan esos marcadores y siga sin conciliarse la trazabilidad.** Una compilación de borrador para comprobar sintaxis no acredita una entrega terminada.
+
+Tras recibir una entrada trazable y confirmar su SHA256 contra el reporte de preparación, ejecutar sin excepciones de integridad ni borrado:
+
+```bash
+.venv/bin/python scripts/02_load_municipalities.py
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/02_verify_spatial.py \
+  --report outputs/municipalities_spatial_verification_real.json
+echo $?
+```
+
+Solo con salida 0 y nueve `OK`, actualizar la sección espacial con el resultado local exitoso. Después de que Derek y José completen sus secciones y el equipo concilie las fuentes, ejecutar desde `docs/delivery2/`:
+
+```bash
+latexmk -pdf -interaction=nonstopmode -halt-on-error entrega2.tex
+```
+
+El equipo debe revisar el PDF, los marcadores y referencias, aprobar el PR de la rama personal e integrar en `main` mediante su revisión habitual. La integración del código puede revisarse separadamente del cierre de las evidencias reales; no se declara la entrega completa.
+
+Se compiló una **copia temporal del borrador integrado** con `latexmk -pdf -interaction=nonstopmode -halt-on-error entrega2.tex`: salida 0, 10 páginas y dos marcadores `Pendiente:` correspondientes a Derek y José. Las referencias inicialmente indefinidas se resolvieron en la segunda pasada automática; no hubo avisos de referencias indefinidas en esa pasada final. Persisten cinco avisos de cajas demasiado anchas en el documento principal y la sección de carga, que el equipo debe revisar al maquetar la versión final. La sección espacial actualizada compiló sin errores. El PDF temporal no se publicó ni se presentó como definitivo y se eliminó al terminar la comprobación.
