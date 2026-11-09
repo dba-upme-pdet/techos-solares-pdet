@@ -295,12 +295,128 @@ def page_path(raw_dir: Path, page: dict) -> Path:
     return raw_dir / page["name"]
 
 
+# El WFS de DANE pone en el elemento raíz un atributo timeStamp con la hora de
+# cada respuesta. Dos descargas del mismo contenido nunca tienen el mismo
+# SHA256 de bytes, así que el recibo guarda además un hash de contenido: el
+# SHA256 de la página con el valor de ese único atributo vaciado
+# (timeStamp=""). Los bytes descargados no se modifican.
+CONTENT_HASH_RULE = (
+    "sha256 de la respuesta GML con el valor del atributo timeStamp del elemento raíz "
+    'wfs:FeatureCollection vaciado (timeStamp=""); el resto de bytes sin cambios'
+)
+_ROOT_TAG_RE = re.compile(rb"<wfs:FeatureCollection\b[^>]*>")
+_TIMESTAMP_RE = re.compile(rb'\btimeStamp="([^"]*)"')
+
+
+def _timestamp_value_span(data: bytes) -> tuple[int, int]:
+    """Posición del valor de timeStamp dentro del elemento raíz (exactamente uno)."""
+    root = _ROOT_TAG_RE.search(data, 0, 65536)
+    if root is None:
+        raise ContractError("la respuesta no empieza con wfs:FeatureCollection")
+    found = list(_TIMESTAMP_RE.finditer(data, root.start(), root.end()))
+    if len(found) != 1:
+        raise ContractError(f"el elemento raíz trae {len(found)} atributos timeStamp; se espera uno")
+    return found[0].start(1), found[0].end(1)
+
+
+def wfs_content_sha256(data: bytes) -> tuple[str, str]:
+    """Hash de contenido de una página WFS y el timeStamp que traía."""
+    import hashlib
+
+    start, end = _timestamp_value_span(data)
+    digest = hashlib.sha256()
+    digest.update(data[:start])
+    digest.update(data[end:])
+    return digest.hexdigest(), data[start:end].decode("ascii")
+
+
+def sha256_with_timestamp(data: bytes, timestamp: str) -> str:
+    """SHA256 de bytes que tendría la misma página servida con otro timeStamp."""
+    import hashlib
+
+    start, end = _timestamp_value_span(data)
+    digest = hashlib.sha256()
+    digest.update(data[:start])
+    digest.update(timestamp.encode("ascii"))
+    digest.update(data[end:])
+    return digest.hexdigest()
+
+
+def page_match(path: Path, page: dict) -> dict:
+    """``exact`` si coinciden los bytes; ``content`` si solo cambió el timeStamp."""
+    result = {"name": page["name"], "match": None, "observed_sha256": None, "server_timestamp": None}
+    if not path.is_file():
+        return result
+    import hashlib
+
+    data = path.read_bytes()
+    observed = hashlib.sha256(data).hexdigest()
+    result["observed_sha256"] = observed
+    try:
+        content, timestamp = wfs_content_sha256(data)
+        result["server_timestamp"] = timestamp
+    except ContractError:
+        content = None
+    if observed == page["sha256"] and len(data) == page["bytes"]:
+        result["match"] = "exact"
+    elif content is not None and page.get("content_sha256") == content:
+        result["match"] = "content"
+    return result
+
+
+def page_matches(raw_dir: Path, receipt: dict) -> list[dict]:
+    return [page_match(page_path(raw_dir, page), page) for page in receipt["pages"]]
+
+
 def pages_match_receipt(raw_dir: Path, receipt: dict) -> bool:
+    return all(item["match"] for item in page_matches(raw_dir, receipt))
+
+
+def backfill_receipt_content_hashes(root: Path, receipt_rel: str, raw_dir: Path, window_s: int = 900) -> dict:
+    """Agrega ``content_sha256`` y el timeStamp original a cada página del recibo.
+
+    Solo con prueba: o la página local es idéntica byte a byte a la del
+    recibo, o existe un timeStamp a ``window_s`` segundos de ``retrieved_at``
+    con el que la página local reproduce exactamente el ``sha256`` del recibo.
+    En ese caso la única diferencia con los bytes originales es ese atributo.
+    """
+    import json
+    from datetime import datetime, timedelta, timezone
+
+    path = root / receipt_rel
+    receipt = load_wfs_receipt(root, receipt_rel)
     for page in receipt["pages"]:
-        path = page_path(raw_dir, page)
-        if not path.is_file() or sha256_file(path) != page["sha256"] or path.stat().st_size != page["bytes"]:
-            return False
-    return True
+        local = page_path(raw_dir, page)
+        if not local.is_file():
+            raise ContractError(f"falta {local.name}; no se puede probar su contenido")
+        data = local.read_bytes()
+        content, local_timestamp = wfs_content_sha256(data)
+        original = None
+        if sha256_file(local) == page["sha256"]:
+            original = local_timestamp
+        else:
+            base = datetime.fromisoformat(page["retrieved_at"]).astimezone(timezone.utc)
+            for offset in sorted(range(-window_s, window_s + 1), key=abs):
+                candidate = (base + timedelta(seconds=offset)).strftime("%Y-%m-%dT%H:%M:%SZ")
+                if sha256_with_timestamp(data, candidate) == page["sha256"]:
+                    original = candidate
+                    break
+        if original is None:
+            raise ContractError(
+                f"{local.name} difiere del recibo en algo más que el timeStamp; no se registra su contenido"
+            )
+        if page.get("content_sha256") not in (None, content):
+            raise ContractError(f"{local.name}: el recibo ya trae otro content_sha256")
+        page["content_sha256"] = content
+        page["server_timestamp"] = original
+        print(f"[OK] {local.name}: timeStamp original {original}, content_sha256 {content[:12]}…")
+    receipt["content_hash_rule"] = CONTENT_HASH_RULE
+    path.write_text(
+        json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    return receipt
 
 
 def download_wfs_pages(raw_dir: Path, wfs: dict, receipt: dict) -> None:
@@ -331,10 +447,11 @@ def download_wfs_pages(raw_dir: Path, wfs: dict, receipt: dict) -> None:
                 + f"{type(exc).__name__}: {exc}"
             ) from exc
         temporary.replace(dest)
-        observed = sha256_file(dest)
-        if observed != page["sha256"] or dest.stat().st_size != page["bytes"]:
+        matched = page_match(dest, page)
+        if not matched["match"]:
             raise ContractError(
-                f"{dest.name} no coincide con el recibo: sha256 {observed}, {dest.stat().st_size} bytes"
+                f"{dest.name} no coincide con el recibo ni por bytes ni por contenido: "
+                f"sha256 {matched['observed_sha256']}, {dest.stat().st_size} bytes"
             )
 
 
@@ -456,6 +573,9 @@ def run_real(root: Path) -> int:
             print("[descarga] WFS 2.0, un intento por página")
             download_wfs_pages(raw_dir, wfs, receipt)
             cache_matches = True
+        matches = page_matches(raw_dir, receipt)
+        for item in matches:
+            print(f"[recibo] {item['name']}: coincide por {'bytes' if item['match'] == 'exact' else 'contenido (solo cambia timeStamp)'}")
         expected_count = int(wfs["expected_feature_count"])
         existing = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else None
         if (
@@ -543,6 +663,8 @@ def run_real(root: Path) -> int:
                 "expected_feature_count": expected_count,
                 "source_page_sha256": [page["sha256"] for page in receipt["pages"]],
                 "source_pages": receipt["pages"],
+                "source_page_matches": matches,
+                "page_match_rule": "exact = mismos bytes que el recibo; content = " + CONTENT_HASH_RULE,
                 "sha256": sha256_file(layer_path),
                 "filename": wfs["type_name"],
                 "bytes": layer_path.stat().st_size,
@@ -935,6 +1057,69 @@ processing:
             and "Traceback" not in captured.getvalue(),
         )
 
+    with tempfile.TemporaryDirectory() as tmp:
+        folder = Path(tmp)
+        header = '<?xml version="1.0"?><wfs:FeatureCollection xmlns:wfs="x" timeStamp="{ts}" numberMatched="1">'
+        body = "<wfs:member>contenido</wfs:member></wfs:FeatureCollection>"
+        first = (header.format(ts="2026-11-08T20:23:33Z") + body).encode()
+        later = (header.format(ts="2026-11-09T02:38:15Z") + body).encode()
+        altered = (header.format(ts="2026-11-09T02:38:15Z") + body.replace("contenido", "contenidO")).encode()
+        import hashlib
+
+        content, _ts = wfs_content_sha256(first)
+        page = {
+            "name": "page_0000.gml",
+            "bytes": len(first),
+            "sha256": hashlib.sha256(first).hexdigest(),
+            "content_sha256": content,
+            "retrieved_at": "2026-11-08T15:24:23-05:00",
+        }
+        target = folder / "page_0000.gml"
+        target.write_bytes(first)
+        check("misma respuesta: coincide por bytes", page_match(target, page)["match"] == "exact")
+        target.write_bytes(later)
+        later_match = page_match(target, page)
+        check(
+            "otra descarga que solo cambia timeStamp coincide por contenido",
+            later_match["match"] == "content" and later_match["server_timestamp"] == "2026-11-09T02:38:15Z",
+        )
+        target.write_bytes(altered)
+        check("un byte distinto fuera del timeStamp no coincide", page_match(target, page)["match"] is None)
+        check(
+            "sin content_sha256 en el recibo, otro timeStamp no basta",
+            page_match(folder / "page_0000.gml", {**page, "content_sha256": None})["match"] is None,
+        )
+        doubled = (header.format(ts="a").replace('numberMatched="1">', 'numberMatched="1" timeStamp="b">') + body).encode()
+        try:
+            wfs_content_sha256(doubled)
+            check("dos timeStamp en la raíz se rechazan", False)
+        except ContractError:
+            check("dos timeStamp en la raíz se rechazan", True)
+        check(
+            "reponer el timeStamp original reproduce el sha256 del recibo",
+            sha256_with_timestamp(later, "2026-11-08T20:23:33Z") == page["sha256"],
+        )
+        (folder / "outputs").mkdir()
+        receipt_rel = "outputs/receipt.json"
+        bare = {k: v for k, v in page.items() if k != "content_sha256"}
+        (folder / receipt_rel).write_text(json.dumps({"pages": [bare]}), encoding="utf-8")
+        target.write_bytes(later)
+        with contextlib.redirect_stdout(io.StringIO()):
+            filled = backfill_receipt_content_hashes(folder, receipt_rel, folder, window_s=120)
+        check(
+            "el backfill encuentra el timeStamp original y registra el hash de contenido",
+            filled["pages"][0]["content_sha256"] == content
+            and filled["pages"][0]["server_timestamp"] == "2026-11-08T20:23:33Z",
+        )
+        (folder / receipt_rel).write_text(json.dumps({"pages": [bare]}), encoding="utf-8")
+        target.write_bytes(altered)
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                backfill_receipt_content_hashes(folder, receipt_rel, folder, window_s=120)
+            check("el backfill rechaza una página con otro contenido", False)
+        except ContractError:
+            check("el backfill rechaza una página con otro contenido", True)
+
     passed = all(checks.values())
     print(f"{'FIXTURE' if passed else 'FALLA'} self-check descarga: {sum(checks.values())}/{len(checks)}")
     return 0 if passed else 1
@@ -943,7 +1128,24 @@ processing:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--self-check", action="store_true", help="pruebas con fixtures etiquetados; no descarga el MGN")
+    parser.add_argument(
+        "--backfill-receipt",
+        action="store_true",
+        help="agrega content_sha256 al recibo solo si las páginas locales reproducen el sha256 original cambiando el timeStamp",
+    )
     args = parser.parse_args()
+    if args.backfill_receipt:
+        try:
+            config = load_config(ROOT)
+            backfill_receipt_content_hashes(
+                ROOT,
+                config["sources"]["mgn"]["wfs"]["receipt"],
+                ROOT / config["paths"]["raw_data"] / "mgn2025" / "wfs",
+            )
+        except ContractError as exc:
+            print(f"[FALLA] {exc}", file=sys.stderr)
+            sys.exit(1)
+        sys.exit(0)
     if args.self_check:
         try:
             sys.exit(run_self_check())

@@ -67,31 +67,31 @@ Si en la base hay un \f{\_id} que ya no está en la entrada, el script lo report
 
 \subsection{Resultados sobre los 170 municipios}
 
-Corrida del 8 de noviembre de 2026 (21:46, hora de Bogotá; Python 3.11, PyMongo 4.19, MongoDB 7.0.45 en Docker). La carga se corrió dos veces seguidas sobre la misma entrada:
+Carga definitiva del 9 de noviembre de 2026 (07:29, hora de Bogotá; Python 3.11.9, PyMongo 4.19.0, MongoDB 7.0.45 en Docker). La entrada es el GeoJSONL de la preparación (sección~\ref{sec:preparacion}) con SHA256 \f{612e2544\ldots}, el mismo del reporte de preparación: el reporte de carga queda con \f{input\_matches\_prepare\_report = true} y no se usó \f{--allow-input-mismatch}. La carga se corrió dos veces seguidas sobre la misma entrada:
 
 \begin{table}[H]
 \centering\small
-\caption{Dos cargas consecutivas, registradas en \f{ingestion\_runs}.}
+\caption{Dos cargas consecutivas del archivo definitivo, registradas en \f{ingestion\_runs}.}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \\
+Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \
 \midrule
-1 & 170 & 170 & 0 & 0 & 0 & 170 \\
-2 & 170 & 0 & 0 & 170 & 0 & 170 \\
+1 & 170 & 0 & 170 & 0 & 0 & 170 \
+2 & 170 & 0 & 0 & 170 & 0 & 170 \
 \bottomrule
 \end{tabular}
 \end{table}
 
-La segunda corrida no insertó ni modificó nada: la colección siguió con 170 documentos y 170 \f{\_id} distintos. Las nueve verificaciones posteriores dieron OK en las dos corridas. Además:
+La primera corrida reemplazó los 170 documentos de la carga de prueba anterior (ver la diferencia entre ambos archivos en la sección~\ref{sec:preparacion}); no insertó ninguno nuevo, porque los 170 \f{\_id} ya existían. La segunda no insertó ni modificó nada: la colección siguió con 170 documentos y 170 \f{\_id} distintos, todos con el mismo \f{loaded\_at} de la primera corrida. Las nueve verificaciones posteriores dieron OK en las dos corridas. Además:
 
 \begin{itemize}
   \item Índices de \f{municipalities}: \f{\_id\_}, \f{geometry\_2dsphere} y \f{subregion\_id\_1}. Validador con \f{validationAction = error} y los diez campos obligatorios del diccionario de datos.
-  \item Geometrías: 168 \f{Polygon} y 2 \f{MultiPolygon}; el documento más grande ocupa 1,75~MB en BSON, lejos del límite de 16~MB.
+  \item Geometrías: 170 \f{MultiPolygon} (168 de una sola parte); el documento más grande, Solano (18756), ocupa 1,75~MB en BSON, lejos del límite de 16~MB.
   \item \f{pdet\_subregions}: 16 documentos cuyos \f{municipality\_count} suman 170.
-  \item Consultas \f{\$geoIntersects} con un punto interior de San Andrés de Tumaco (52835) y de San Vicente del Caguán (18753): cada una devuelve solo su municipio, con un plan \f{FETCH} $\rightarrow$ \f{IXSCAN} sobre \f{geometry\_2dsphere}, entre 6 y 7 claves examinadas y un documento leído.
-  \item El verificador de Sebastián (\f{02\_verify\_spatial.py}) sobre la colección cargada: \textbf{9/9 OK} (conteo, DIVIPOLA, cruce con el Excel, esquema, geometrías, índice, consulta y \f{explain}).
+  \item Consulta \f{\$geoIntersects} con un punto interior de Amalfi (05031) y otra con uno de San Vicente del Caguán (18753): cada una devuelve solo su municipio, con un plan \f{FETCH} $\rightarrow$ \f{IXSCAN} sobre \f{geometry\_2dsphere}, 7 claves examinadas y un documento leído.
+  \item El verificador de Sebastián (\f{02\_verify\_spatial.py}) sobre esta misma base: \textbf{9/9 OK}, salida 0 (conteo 170/170, DIVIPOLA, cruce con el Excel sin faltantes ni sobrantes, esquema, 170/170 geometrías válidas, índice, consulta con control negativo y \f{explain}). La evidencia queda en \f{outputs/municipalities\_spatial\_verification\_real.json}.
 \end{itemize}
 
-\subsection{Limitación encontrada}
+\subsection{Limitación resuelta: el \f{timeStamp} del WFS}
 
-Al regenerar los datos en otra máquina, \f{01\_download\_mgn.py} no pudo validar la descarga: el WFS del DANE incluye un atributo \f{timeStamp} distinto en cada respuesta, así que el SHA256 de las páginas GML nunca coincide con \f{mgn\_wfs\_source\_receipt.json}. Para esta prueba, el GeoJSONL se reconstruyó con las mismas funciones de Derek (\f{parse\_wfs\_gml}) y José (\f{prepare\_documents}) sin ese chequeo, y la carga se corrió con \f{--allow-input-mismatch}; el reporte de carga lo deja registrado. Queda pendiente que el recibo compare el contenido sin el \f{timeStamp}.
+La primera carga se hizo con \f{--allow-input-mismatch}: al volver a descargar, el SHA256 de las páginas GML nunca coincidía con \f{mgn\_wfs\_source\_receipt.json}, porque el WFS del DANE escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta. Se comprobó que es la única diferencia: con el \f{timeStamp} original reinsertado, las seis páginas descargadas de nuevo reproducen exactamente el SHA256 del recibo. El recibo ahora guarda, además, un hash de contenido (\f{content\_sha256}, con ese atributo vaciado), y \f{01\_download\_mgn.py} acepta una página que coincide por bytes o por contenido (detalle en {entrega2_descarga_y_preparacion.md}). Con eso la cadena completa corrió sin excepciones y la carga ya no necesita \f{--allow-input-mismatch}.

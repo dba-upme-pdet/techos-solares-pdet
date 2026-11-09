@@ -126,9 +126,9 @@
   "contract": "entrega2-mgn-v1",
   "failed_checks": [],
   "fixture": false,
-  "generated_at": "2026-11-08T19:36:00-05:00",
+  "generated_at": "2026-11-09T07:27:37-05:00",
   "layer": "data/raw/mgn2025/wfs/municipio.gpkg",
-  "layer_sha256": "1dbe68b21677b643029bd27c9cd6d3d9cff0047b56ed7589ed8d9032fdb42ade",
+  "layer_sha256": "0527dd8b0b2ff5295272b46835fea29b7175115e9555384636dd86ab2fb63059",
   "mgn_duplicate_codes": [],
   "mgn_features": 1122,
   "mgn_geometry_types": {

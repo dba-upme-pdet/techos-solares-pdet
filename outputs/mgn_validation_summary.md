@@ -1,9 +1,9 @@
 # Validación del MGN contra la lista PDET
 
-Generado por `scripts/01_validate_mgn.py` el 2026-11-08T19:36:00-05:00.
+Generado por `scripts/01_validate_mgn.py` el 2026-11-09T07:27:37-05:00.
 
 - Estado: **valid** (19/20 verificaciones).
-- Capa: `data/raw/mgn2025/wfs/municipio.gpkg` (SHA256 `1dbe68b21677b643…`).
+- Capa: `data/raw/mgn2025/wfs/municipio.gpkg` (SHA256 `0527dd8b0b2ff529…`).
 - Municipios en el MGN: 1122. Municipios PDET cruzados: 170 de 170.
 - Área MGN total de los PDET: 389,182.0 km².
 

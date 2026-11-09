@@ -3,9 +3,9 @@
   "contract": "entrega2-mgn-v1",
   "database": "upme_pdet",
   "deleted": 0,
-  "duration_s": 10.109,
+  "duration_s": 6.918,
   "extra_in_db": [],
-  "finished_at": "2026-11-09T03:36:20.429711+00:00",
+  "finished_at": "2026-11-09T12:30:25.009855+00:00",
   "fixture": false,
   "indexes": [
     "_id_",
@@ -13,8 +13,8 @@
     "subregion_id_1"
   ],
   "input_geojsonl": "data/processed/municipalities.geojsonl",
-  "input_matches_prepare_report": false,
-  "input_sha256": "b229d6a397442dd2239d882281ebc005cc4a90f50c0eeeb8d18b5d7910ccbe53",
+  "input_matches_prepare_report": true,
+  "input_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
   "inserted": 0,
   "mongo_version": "7.0.45",
   "notes": "insertados 0, reemplazados 0, sin cambios 170, borrados 0, rechazados 0",
@@ -23,8 +23,8 @@
   "replaced": 0,
   "role": "load-report",
   "rows_read": 170,
-  "run_id": "6af13fb444ec42bcbe295535",
-  "started_at": "2026-11-09T03:36:10.320957+00:00",
+  "run_id": "6af1bce1e7e5dd50ccc15a5e",
+  "started_at": "2026-11-09T12:30:18.092314+00:00",
   "status": "loaded",
   "subregions": {
     "count": 16,

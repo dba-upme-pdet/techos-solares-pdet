@@ -60,7 +60,9 @@ La verificación completa e independiente es `02_verify_spatial.py` (Sebastián)
 
 ## Evidencia
 
-Corrida del 8 de noviembre de 2026. Python 3.11.9, PyMongo 4.19.0, Shapely 2.2.0 y MongoDB 7.0.45 (`mongo:7.0` en Docker).
+Carga definitiva del 9 de noviembre de 2026 (07:29, hora de Bogotá). Python 3.11.9, PyMongo 4.19.0, Shapely 2.2.0 y MongoDB 7.0.45 (`mongo:7.0` en Docker).
+
+**Entrada:** `data/processed/municipalities.geojsonl` con SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`, el mismo de `municipalities_prepare_report.json`. El reporte de carga queda con `input_matches_prepare_report: true`. **No se usó `--allow-input-mismatch`.**
 
 **Self-check: 16/16 OK.** Primera carga, segunda carga idéntica sin cambios, documento modificado reemplazado, subregiones e `ingestion_runs`, `_id` repetido y `loaded_at` en la entrada rechazados, `$jsonSchema` rechaza un `_id` de 4 dígitos y un documento sin `loaded_at` (121), `2dsphere` rechaza un polígono que se auto-intersecta (16755), `_id` rechaza un municipio repetido (11000), `_id` ajeno reportado y borrado con `--prune`, base temporal eliminada.
 
@@ -68,16 +70,18 @@ Corrida del 8 de noviembre de 2026. Python 3.11.9, PyMongo 4.19.0, Shapely 2.2.0
 
 | Corrida | Leídos | Insertados | Reemplazados | Sin cambios | Rechazados | En la colección |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 170 | 170 | 0 | 0 | 0 | 170 |
+| 1 | 170 | 0 | 170 | 0 | 0 | 170 |
 | 2 | 170 | 0 | 0 | 170 | 0 | 170 |
 
-Las 9 verificaciones dieron OK en las dos corridas. Además:
+La corrida 1 reemplazó los 170 documentos de la carga de prueba anterior (archivo `b229d6a3…`, ver abajo); no insertó ninguno porque los 170 `_id` ya existían. La corrida 2 no tocó nada: 170 documentos, 170 `_id` distintos y el mismo `loaded_at` en todos. Las 9 verificaciones dieron OK en las dos corridas. Además:
 
 - `municipalities`: índices `_id_`, `geometry_2dsphere` y `subregion_id_1`; validador con `validationAction: error` y los diez campos obligatorios.
-- Geometrías: 168 `Polygon` y 2 `MultiPolygon`. El documento más grande ocupa 1,75 MB en BSON (límite: 16 MB).
+- Geometrías: 170 `MultiPolygon` (168 de una sola parte; Tumaco con 3 y Buenaventura con 31). El documento más grande, Solano (18756), ocupa 1,75 MB en BSON (límite: 16 MB).
 - `pdet_subregions`: 16 documentos cuyos `municipality_count` suman 170.
-- `$geoIntersects` con un punto interior de San Andrés de Tumaco (52835) y de San Vicente del Caguán (18753): cada consulta devuelve solo su municipio, con `FETCH → IXSCAN` sobre `geometry_2dsphere`, 6–7 claves examinadas y 1 documento leído.
-- `02_verify_spatial.py` (rama de Sebastián) sobre la colección cargada: **9/9 OK**.
+- `$geoIntersects` con un punto interior de Amalfi (05031) y de San Vicente del Caguán (18753): cada consulta devuelve solo su municipio, con `FETCH → IXSCAN` sobre `geometry_2dsphere`, 7 claves examinadas y 1 documento leído.
+- `02_verify_spatial.py` (Sebastián) sobre esta misma base: **9/9 OK, salida 0**. Evidencia en `outputs/municipalities_spatial_verification_real.json`.
+
+La base `upme_pdet` queda cargada con este archivo para la verificación espacial.
 
 Municipios y área por subregión, leídos de la colección cargada:
 
@@ -113,8 +117,17 @@ db.municipalities.find(
   {name: 1, subregion_name: 1})                          // San Vicente del Caguán
 ```
 
-## Limitación encontrada
+## Archivo definitivo frente a la carga de prueba
 
-Al regenerar los datos en otra máquina, `01_download_mgn.py` no pudo validar la descarga. El WFS del DANE pone un atributo `timeStamp` distinto en cada respuesta (por ejemplo `timeStamp="2026-11-09T02:38:15Z"`), así que el SHA256 de las páginas GML nunca coincide con `outputs/mgn_wfs_source_receipt.json` y la cadena se detiene antes de la preparación.
+La primera carga (8 de noviembre) usó un GeoJSONL reconstruido a mano, SHA256 `b229d6a3…`, con `--allow-input-mismatch`, porque el `timeStamp` del WFS impedía validar la descarga. Eso quedó resuelto con el hash de contenido del recibo (`entrega2_descarga_y_preparacion.md`), y la cadena completa volvió a producir el archivo de José, `612e2544…`. Comparados por `_id`:
 
-Para esta prueba, el GeoJSONL se reconstruyó con las mismas funciones de Derek (`parse_wfs_gml`, `features_to_frame`) y de José (`prepare_documents`), sin ese chequeo, y dio `ready_for_load` con 170 documentos. Su SHA256 no es el del reporte versionado, así que la carga se corrió con `--allow-input-mismatch`. El reporte de carga lo deja registrado. Queda pendiente que el recibo compare el contenido sin el `timeStamp`, o que se versionen las páginas GML.
+| Aspecto | Reconstruido (`b229d6a3…`) | Definitivo (`612e2544…`) |
+| --- | --- | --- |
+| Municipios | 170 | los mismos 170 |
+| Nombre, departamento, subregión, `area_km2` | idénticos | idénticos |
+| Coordenadas | idénticas en los 170 | idénticas en los 170 |
+| `geometry.type` | 168 `Polygon`, 2 `MultiPolygon` (GML leído sin pasar por el GeoPackage) | 170 `MultiPolygon` (el GeoPackage guarda la capa como `MultiPolygon`) |
+| `source.file` | `municipio.gpkg` | `Serv_CapasMGN_2025:Municipio` (campo `filename` del manifiesto) |
+| Fin de línea | CRLF (escrito en Windows) | LF |
+
+Las diferencias son de forma, no de contenido geográfico. Por eso la corrida 1 reemplazó los 170 documentos y la corrida 2 no cambió ninguno.
