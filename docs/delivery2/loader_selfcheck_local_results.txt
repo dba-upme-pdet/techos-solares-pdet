@@ -1,0 +1,17 @@
+[OK] primera carga: 3 insertados y verificación OK
+[OK] segunda carga idéntica: 0 insertados, 0 reemplazados, 3 sin cambios
+[OK] repetir la carga no duplica: siguen 3 documentos
+[OK] repetir la carga no cambia loaded_at de lo que no cambió
+[OK] un documento que cambió se reemplaza, no se duplica
+[OK] pdet_subregions queda con conteos derivados
+[OK] cada corrida queda en ingestion_runs
+[OK] un _id repetido en la entrada detiene la carga
+[OK] una entrada que ya trae loaded_at se rechaza
+[OK] el validador $jsonSchema rechaza un _id de 4 dígitos (código 121)
+[OK] el validador $jsonSchema rechaza un documento sin loaded_at (código 121)
+[OK] el índice 2dsphere rechaza un polígono que se auto-intersecta (código 16755)
+[OK] el índice _id rechaza insertar un municipio ya cargado (código 11000)
+[OK] un _id ajeno en la base se reporta y sin --prune la carga no se da por buena
+[OK] con --prune se borra y la carga queda verificada
+[OK] la base temporal se borró
+Self-check: 16/16 OK

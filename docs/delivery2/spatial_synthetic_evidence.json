@@ -1,0 +1,241 @@
+{
+  "checked_at": "2026-11-09T01:13:32.243875+00:00",
+  "checks": {
+    "connection": {
+      "message": "Conexión a MongoDB",
+      "status": "OK"
+    },
+    "count": {
+      "message": "Municipios: 170/170",
+      "status": "OK"
+    },
+    "divipola": {
+      "message": "Identificadores únicos de cinco dígitos ASCII",
+      "status": "OK"
+    },
+    "explain": {
+      "execution_stats": {
+        "executionStages": {
+          "advanced": 1,
+          "alreadyHasObj": 0,
+          "docsExamined": 1,
+          "executionTimeMillisEstimate": 0,
+          "filter": {
+            "geometry": {
+              "$geoIntersects": {
+                "$geometry": {
+                  "coordinates": [
+                    -74.995,
+                    4.005
+                  ],
+                  "type": "Point"
+                }
+              }
+            }
+          },
+          "inputStage": {
+            "advanced": 1,
+            "direction": "forward",
+            "dupsDropped": 0,
+            "dupsTested": 1,
+            "executionTimeMillisEstimate": 0,
+            "indexBounds": {
+              "geometry": [
+                "[-8201054921441673216, -8201054921441673216]",
+                "[-8198521646651277312, -8198521646651277312]",
+                "[-8198468870093144064, -8198468870093144064]",
+                "[-8198464472046632960, -8198464472046632960]",
+                "[-8198463853571342336, -8198463853571342336]",
+                "[-8198463814916636672, -8198463814916636672]",
+                "[-8198463814111330304, -8198463814111330304]",
+                "[-8198463814094553088, -8198463814094553088]",
+                "[-8198463814090358784, -8198463814090358784]",
+                "[-8198463814089572352, -8198463814089572352]",
+                "[-8198463814089441279, -8198463814089408513]",
+                "[-8198463814089375744, -8198463814089375744]",
+                "[-8198463814089310208, -8198463814089310208]",
+                "[-8198463814044221440, -8198463814044221440]",
+                "[-8198463813842894848, -8198463813842894848]",
+                "[-8198463802031734784, -8198463802031734784]",
+                "[-8198463647412912128, -8198463647412912128]",
+                "[-8198463372535005184, -8198463372535005184]",
+                "[-8198451277907099648, -8198451277907099648]",
+                "[-8197677221721145344, -8197677221721145344]",
+                "[-8196551321814302720, -8196551321814302720]",
+                "[-8142508126285856768, -8142508126285856768]"
+              ]
+            },
+            "indexName": "geometry_2dsphere",
+            "indexVersion": 2,
+            "isEOF": 1,
+            "isMultiKey": true,
+            "isPartial": false,
+            "isSparse": false,
+            "isUnique": false,
+            "keyPattern": {
+              "geometry": "2dsphere"
+            },
+            "keysExamined": 7,
+            "multiKeyPaths": {
+              "geometry": [
+                "geometry"
+              ]
+            },
+            "nReturned": 1,
+            "needTime": 6,
+            "needYield": 0,
+            "restoreState": 0,
+            "saveState": 0,
+            "seeks": 7,
+            "stage": "IXSCAN",
+            "works": 8
+          },
+          "isEOF": 1,
+          "nReturned": 1,
+          "needTime": 6,
+          "needYield": 0,
+          "restoreState": 0,
+          "saveState": 0,
+          "stage": "FETCH",
+          "works": 8
+        },
+        "executionSuccess": true,
+        "executionTimeMillis": 1,
+        "nReturned": 1,
+        "totalDocsExamined": 1,
+        "totalKeysExamined": 7
+      },
+      "message": "Plan ganador sin hint y ejecución del índice espacial",
+      "status": "OK",
+      "winning_plan": {
+        "filter": {
+          "geometry": {
+            "$geoIntersects": {
+              "$geometry": {
+                "coordinates": [
+                  -74.995,
+                  4.005
+                ],
+                "type": "Point"
+              }
+            }
+          }
+        },
+        "inputStage": {
+          "direction": "forward",
+          "indexBounds": {
+            "geometry": [
+              "[-8201054921441673216, -8201054921441673216]",
+              "[-8198521646651277312, -8198521646651277312]",
+              "[-8198468870093144064, -8198468870093144064]",
+              "[-8198464472046632960, -8198464472046632960]",
+              "[-8198463853571342336, -8198463853571342336]",
+              "[-8198463814916636672, -8198463814916636672]",
+              "[-8198463814111330304, -8198463814111330304]",
+              "[-8198463814094553088, -8198463814094553088]",
+              "[-8198463814090358784, -8198463814090358784]",
+              "[-8198463814089572352, -8198463814089572352]",
+              "[-8198463814089441279, -8198463814089408513]",
+              "[-8198463814089375744, -8198463814089375744]",
+              "[-8198463814089310208, -8198463814089310208]",
+              "[-8198463814044221440, -8198463814044221440]",
+              "[-8198463813842894848, -8198463813842894848]",
+              "[-8198463802031734784, -8198463802031734784]",
+              "[-8198463647412912128, -8198463647412912128]",
+              "[-8198463372535005184, -8198463372535005184]",
+              "[-8198451277907099648, -8198451277907099648]",
+              "[-8197677221721145344, -8197677221721145344]",
+              "[-8196551321814302720, -8196551321814302720]",
+              "[-8142508126285856768, -8142508126285856768]"
+            ]
+          },
+          "indexName": "geometry_2dsphere",
+          "indexVersion": 2,
+          "isMultiKey": true,
+          "isPartial": false,
+          "isSparse": false,
+          "isUnique": false,
+          "keyPattern": {
+            "geometry": "2dsphere"
+          },
+          "multiKeyPaths": {
+            "geometry": [
+              "geometry"
+            ]
+          },
+          "stage": "IXSCAN"
+        },
+        "stage": "FETCH"
+      }
+    },
+    "geometry": {
+      "invalid_ids": [],
+      "message": "Geometrías válidas: 170/170",
+      "status": "OK"
+    },
+    "index": {
+      "indexes": [
+        "geometry_2dsphere"
+      ],
+      "message": "Índice 2dsphere visible sobre geometry",
+      "status": "OK"
+    },
+    "official_codes": {
+      "extra": [],
+      "message": "Cruce PDET: faltan 0, sobran 0",
+      "missing": [],
+      "status": "OK"
+    },
+    "query": {
+      "actual_ids": [
+        "10000"
+      ],
+      "expected_ids": [
+        "10000"
+      ],
+      "message": "$geoIntersects: 1 coincidencias, control negativo: 0",
+      "negative_matches": 0,
+      "negative_query": {
+        "geometry": {
+          "$geoIntersects": {
+            "$geometry": {
+              "coordinates": [
+                0.0,
+                0.0
+              ],
+              "type": "Point"
+            }
+          }
+        }
+      },
+      "query": {
+        "geometry": {
+          "$geoIntersects": {
+            "$geometry": {
+              "coordinates": [
+                -74.995,
+                4.005
+              ],
+              "type": "Point"
+            }
+          }
+        }
+      },
+      "status": "OK"
+    },
+    "schema": {
+      "contract_error_ids": [],
+      "message": "Esquema y contrato: 0 errores de esquema, 0 de contrato",
+      "schema_error_ids": [],
+      "status": "OK"
+    }
+  },
+  "collection": "municipalities",
+  "database": "spatial_verify_test_d53a301e641c4c8ab390e7ce309a2e7c",
+  "mongodb_version": "7.0.45",
+  "reference": {
+    "synthetic": true
+  },
+  "success": true,
+  "synthetic": true
+}
