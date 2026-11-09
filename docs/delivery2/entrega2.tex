@@ -1,0 +1,78 @@
+% Entrega 2: Integración de los límites de municipios PDET
+% Compilar desde docs/delivery2/:  latexmk -pdf entrega2.tex
+% Cada integrante escribe su parte en secciones/<tramo>.tex para no pisar a los demás.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noshorthands,es-tabla]{babel}
+\usepackage{lmodern}
+\usepackage[left=2.3cm,right=2.3cm,top=2.2cm,bottom=2.4cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{acento}{HTML}{1F5FAF}
+\newcommand{\brkus}{\textunderscore\allowbreak}
+\newcommand{\f}[1]{{\ttfamily\let\_\brkus #1}}
+\newcommand{\pendiente}[1]{\par\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\small\color{gray}Pendiente: #1}}\par}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\setlist{nosep,leftmargin=1.4em}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.15}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Proyecto final DBA · Entrega 2}
+\rhead{\small Techos solares en municipios PDET}
+\cfoot{\small \thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\begin{document}
+
+\begin{center}
+  {\small Pontificia Universidad Javeriana · Administración de Bases de Datos · 2026-30}\\[0.9em]
+  {\LARGE\bfseries\color{acento} Entrega 2: Integración de los límites\\[0.2em] de municipios PDET}\\[0.8em]
+  {\large Potencial solar en techos de los municipios PDET (UPME)}\\[0.8em]
+  Derek Sarmiento · José Medina · Miguel Duarte · Sebastián Sánchez Vásquez · Samuel Emperador\\[0.3em]
+  {\small Prof. Andrés Oswaldo Calderón Romero, Ph.D. · Lunes 9 de noviembre de 2026}\\[0.3em]
+  {\small Repositorio: \url{https://github.com/dba-upme-pdet/techos-solares-pdet}}
+\end{center}
+
+\section{Objetivo y flujo}
+
+Esta entrega integra los límites oficiales de los 170 municipios PDET en MongoDB: se descarga la capa municipal del Marco Geoestadístico Nacional (MGN 2025) del DANE, se valida contra la lista oficial de municipios PDET, se convierte a documentos GeoJSON compatibles con el esquema de la Entrega 1, se carga en la colección \f{municipalities} y se verifica el índice \f{2dsphere}.
+
+Los scripts comparten un contrato (\f{scripts/entrega2\_contracts.py}, versión \f{entrega2-mgn-v1}): nombres de campos, CRS, regla de códigos DIVIPOLA y formato de los reportes en \f{outputs/}. El cruce entre el MGN y la lista PDET es siempre por código DIVIPOLA de 5 dígitos, nunca por nombre.
+
+\begin{table}[H]
+\centering\small
+\caption{Pasos de la Entrega 2, en orden de ejecución.}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.4cm} p{3.4cm} L@{}}
+\toprule
+Script & Responsable & Entrada $\rightarrow$ salida \\
+\midrule
+\f{01\_download\_mgn.py} & Derek Sarmiento & WFS MGN 2025 $\rightarrow$ capa GeoPackage y \f{mgn\_download\_manifest.json} \\
+\f{01\_validate\_mgn.py} & Samuel Emperador & capa + \f{MunicipiosPDET.xlsx} $\rightarrow$ \f{mgn\_validation\_report.json}, resumen y cruce CSV \\
+\f{02\_prepare\_municipalities.py} & José Medina & capa + Excel $\rightarrow$ \f{municipalities.geojsonl} (170 documentos) \\
+\f{02\_load\_municipalities.py} & Miguel Duarte & GeoJSONL $\rightarrow$ colección \f{municipalities} \\
+\f{02\_verify\_spatial.py} & Sebastián Sánchez & colección $\rightarrow$ \f{explain()} sobre \f{geometry\_2dsphere} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\input{secciones/descarga}
+\input{secciones/validacion}
+\input{secciones/preparacion}
+\input{secciones/carga}
+\input{secciones/verificacion}
+
+\end{document}

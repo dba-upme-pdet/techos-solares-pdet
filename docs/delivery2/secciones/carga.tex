@@ -1,0 +1,97 @@
+% Miguel Duarte (scripts/02\_load\_municipalities.py)
+\section{Carga en MongoDB}\label{sec:carga}
+
+\textit{Responsable: Miguel Duarte. Script: \f{scripts/02\_load\_municipalities.py}.}
+
+\subsection{Objetivo}
+
+Cargar los 170 documentos que deja \f{02\_prepare\_municipalities.py} en la colección \f{municipalities} de la base \f{upme\_pdet}, con el validador \f{\$jsonSchema} y el índice \f{2dsphere} del esquema de la Entrega 1 ya activos, y poder repetir la carga sin crear duplicados.
+
+\subsection{Entradas y salidas}
+
+\begin{table}[H]
+\centering\small
+\caption{Contrato de entrada y salida de \f{02\_load\_municipalities.py}.}
+\begin{tabularx}{\textwidth}{@{}p{5.6cm} p{2.2cm} L@{}}
+\toprule
+Pieza & Rol & Condición \\
+\midrule
+\f{outputs/municipalities\_prepare\_report.json} & entrada (José) & contrato \f{entrega2-mgn-v1}, \f{status = ready\_for\_load}, \f{claims\_full\_pdet\_set = true}, \f{loaded\_at\_included = false} \\
+\f{data/processed/municipalities.geojsonl} & entrada (José) & un documento por línea; SHA256 igual al del reporte \\
+colección \f{municipalities} & salida & 170 documentos, \f{\_id} = DIVIPOLA, \f{loaded\_at} como fecha BSON \\
+colección \f{pdet\_subregions} & salida & 16 subregiones: \f{\_id}, \f{name}, \f{municipality\_count} \\
+colección \f{ingestion\_runs} & salida & una fila por corrida, \f{dataset\_id = mgn} \\
+\f{outputs/municipalities\_load\_report.json} & salida & \f{role = load-report}, \f{status} \f{loaded}, \f{verification\_failed}, \f{blocked} u \f{operational\_error} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Método}
+
+\begin{enumerate}
+  \item \textbf{Entrada verificada.} Lee el reporte de preparación y se detiene si no está en \f{ready\_for\_load} o si el SHA256 del GeoJSONL no es el que José declaró. Con \f{--allow-input-mismatch} se puede cargar igual, pero el reporte de carga lo deja registrado en \f{input\_matches\_prepare\_report = false}.
+  \item \textbf{Revisión antes de escribir.} Cada documento pasa por \f{document\_errors} del contrato común (los mismos campos, prefijo de departamento, ventana de Colombia y límite de tamaño que usa la preparación). La carga se detiene si hay un \f{\_id} repetido en la entrada, si alguno ya trae \f{loaded\_at}, si no son 170 o si no son exactamente los códigos del reporte.
+  \item \textbf{Esquema activo antes de insertar.} Importa \f{SCHEMAS} y \f{SMALL\_INDEXES} de \f{00\_init\_db.py} (no los copia) y aplica el validador con \f{validationAction = error} a \f{municipalities}, \f{pdet\_subregions} e \f{ingestion\_runs}, y crea \f{geometry\_2dsphere} y \f{subregion\_id\_1}. El índice existe \emph{antes} de la inserción, así que MongoDB rechaza en ese momento cualquier geometría que el \f{2dsphere} no acepte.
+  \item \textbf{Carga idempotente.} El \f{\_id} es el código DIVIPOLA. El script compara cada documento con el que ya está en la base (sin \f{loaded\_at}): si no existe lo inserta, si cambió lo reemplaza y si es idéntico no lo toca. Todo va en un solo \f{bulk\_write} no ordenado. \f{loaded\_at} es la hora UTC de la corrida y solo cambia en los documentos que se insertan o reemplazan.
+  \item \textbf{Subregiones.} Las 16 subregiones salen de los mismos documentos y se escriben con \f{upsert} por \f{\_id}, con el conteo de municipios de cada una.
+  \item \textbf{Verificación posterior.} Conteo igual a 170, mismos códigos que la entrada, sin \f{\_id} ni pares nombre--departamento repetidos, cero documentos que incumplan el \f{\$jsonSchema}, \f{loaded\_at} presente, índice \f{2dsphere} sobre \f{geometry}, y una consulta \f{\$geoIntersects} con un punto interior del primer municipio que lo devuelve usando \f{IXSCAN} sobre \f{geometry\_2dsphere}.
+  \item \textbf{Trazabilidad.} Cada corrida se registra en \f{ingestion\_runs} (filas leídas, cargadas y rechazadas, inicio, fin y notas), y el detalle queda en \f{municipalities\_load\_report.json}.
+\end{enumerate}
+
+Si en la base hay un \f{\_id} que ya no está en la entrada, el script lo reporta en \f{extra\_in\_db} y no da la carga por buena; con \f{--prune} lo borra.
+
+\subsection{Pruebas}
+
+\f{python scripts/02\_load\_municipalities.py --self-check} corre la carga completa contra MongoDB real en una base temporal \f{load\_selfcheck\_<uuid>} que se borra al terminar, con tres cuadrados sintéticos. Resultado: \textbf{16/16 OK}.
+
+\begin{table}[H]
+\centering\small
+\caption{Casos del \f{--self-check} (MongoDB 7.0.45).}
+\begin{tabularx}{\textwidth}{@{}r L@{}}
+\toprule
+\# & Caso comprobado \\
+\midrule
+1 & Primera carga: 3 insertados y verificación OK \\
+2--4 & Segunda carga idéntica: 0 insertados, 0 reemplazados, 3 sin cambios; siguen 3 documentos y \f{loaded\_at} no cambia \\
+5 & Un documento modificado se reemplaza y no se duplica \\
+6--7 & \f{pdet\_subregions} con conteos derivados; una fila en \f{ingestion\_runs} por corrida \\
+8--9 & Un \f{\_id} repetido en la entrada o un \f{loaded\_at} ya presente detienen la carga \\
+10--11 & El validador \f{\$jsonSchema} rechaza un \f{\_id} de 4 dígitos y un documento sin \f{loaded\_at} (código 121) \\
+12 & El índice \f{2dsphere} rechaza un polígono que se auto-intersecta (código 16755) \\
+13 & El índice \f{\_id} rechaza insertar otra vez un municipio cargado (código 11000) \\
+14--15 & Un \f{\_id} ajeno en la base se reporta y sin \f{--prune} la carga no se da por buena; con \f{--prune} se borra \\
+16 & La base temporal se borró \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Resultados sobre los 170 municipios}
+
+Corrida del 8 de noviembre de 2026 (21:46, hora de Bogotá; Python 3.11, PyMongo 4.19, MongoDB 7.0.45 en Docker). La carga se corrió dos veces seguidas sobre la misma entrada:
+
+\begin{table}[H]
+\centering\small
+\caption{Dos cargas consecutivas, registradas en \f{ingestion\_runs}.}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \\
+\midrule
+1 & 170 & 170 & 0 & 0 & 0 & 170 \\
+2 & 170 & 0 & 0 & 170 & 0 & 170 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La segunda corrida no insertó ni modificó nada: la colección siguió con 170 documentos y 170 \f{\_id} distintos. Las nueve verificaciones posteriores dieron OK en las dos corridas. Además:
+
+\begin{itemize}
+  \item Índices de \f{municipalities}: \f{\_id\_}, \f{geometry\_2dsphere} y \f{subregion\_id\_1}. Validador con \f{validationAction = error} y los diez campos obligatorios del diccionario de datos.
+  \item Geometrías: 168 \f{Polygon} y 2 \f{MultiPolygon}; el documento más grande ocupa 1,75~MB en BSON, lejos del límite de 16~MB.
+  \item \f{pdet\_subregions}: 16 documentos cuyos \f{municipality\_count} suman 170.
+  \item Consultas \f{\$geoIntersects} con un punto interior de San Andrés de Tumaco (52835) y de San Vicente del Caguán (18753): cada una devuelve solo su municipio, con un plan \f{FETCH} $\rightarrow$ \f{IXSCAN} sobre \f{geometry\_2dsphere}, entre 6 y 7 claves examinadas y un documento leído.
+  \item El verificador de Sebastián (\f{02\_verify\_spatial.py}) sobre la colección cargada: \textbf{9/9 OK} (conteo, DIVIPOLA, cruce con el Excel, esquema, geometrías, índice, consulta y \f{explain}).
+\end{itemize}
+
+\subsection{Limitación encontrada}
+
+Al regenerar los datos en otra máquina, \f{01\_download\_mgn.py} no pudo validar la descarga: el WFS del DANE incluye un atributo \f{timeStamp} distinto en cada respuesta, así que el SHA256 de las páginas GML nunca coincide con \f{mgn\_wfs\_source\_receipt.json}. Para esta prueba, el GeoJSONL se reconstruyó con las mismas funciones de Derek (\f{parse\_wfs\_gml}) y José (\f{prepare\_documents}) sin ese chequeo, y la carga se corrió con \f{--allow-input-mismatch}; el reporte de carga lo deja registrado. Queda pendiente que el recibo compare el contenido sin el \f{timeStamp}.
