@@ -1,0 +1,28 @@
+test_invalid_positions (test_verify_spatial.TestGeometry.test_invalid_positions) ... ok
+test_invalid_structures_and_topology (test_verify_spatial.TestGeometry.test_invalid_structures_and_topology) ... ok
+test_rejects_crs_override (test_verify_spatial.TestGeometry.test_rejects_crs_override) ... ok
+test_valid_polygon_multipolygon_and_hole (test_verify_spatial.TestGeometry.test_valid_polygon_multipolygon_and_hole) ... ok
+test_accepts_170_synthetic_documents_and_real_explain (test_verify_spatial.TestMongoIntegration.test_accepts_170_synthetic_documents_and_real_explain) ... ok
+test_incorrect_counts (test_verify_spatial.TestMongoIntegration.test_incorrect_counts) ... ok
+test_incorrect_query_results_are_rejected (test_verify_spatial.TestMongoIntegration.test_incorrect_query_results_are_rejected) ... ok
+test_invalid_geometry_without_index (test_verify_spatial.TestMongoIntegration.test_invalid_geometry_without_index) ... ok
+test_invalid_identifiers_and_mongo_uniqueness (test_verify_spatial.TestMongoIntegration.test_invalid_identifiers_and_mongo_uniqueness) ... ok
+test_missing_index_real_collection_scan (test_verify_spatial.TestMongoIntegration.test_missing_index_real_collection_scan) ... ok
+test_multipolygon_hole_and_overlapping_results (test_verify_spatial.TestMongoIntegration.test_multipolygon_hole_and_overlapping_results) ... ok
+test_pending_reference_prevents_success (test_verify_spatial.TestMongoIntegration.test_pending_reference_prevents_success) ... ok
+test_schema_and_contract_errors (test_verify_spatial.TestMongoIntegration.test_schema_and_contract_errors) ... ok
+test_schema_enforced_by_real_mongo (test_verify_spatial.TestMongoIntegration.test_schema_enforced_by_real_mongo) ... ok
+test_spatial_rejected_plan_and_zero_keys_cannot_pass (test_verify_spatial.TestMongoIntegration.test_spatial_rejected_plan_and_zero_keys_cannot_pass) ... ok
+test_wrong_codes_with_correct_count (test_verify_spatial.TestMongoIntegration.test_wrong_codes_with_correct_count) ... ok
+test_cli_exit_codes (test_verify_spatial.TestReferenceAndPlan.test_cli_exit_codes) ... ok
+test_cli_missing_and_invalid_reference_and_json (test_verify_spatial.TestReferenceAndPlan.test_cli_missing_and_invalid_reference_and_json) ... ok
+test_duplicate_identifiers (test_verify_spatial.TestReferenceAndPlan.test_duplicate_identifiers) ... ok
+test_official_reference (test_verify_spatial.TestReferenceAndPlan.test_official_reference) ... ok
+test_reference_rejects_duplicates_bad_codes_and_count (test_verify_spatial.TestReferenceAndPlan.test_reference_rejects_duplicates_bad_codes_and_count) ... ok
+test_rejected_plan_cannot_pass (test_verify_spatial.TestReferenceAndPlan.test_rejected_plan_cannot_pass) ... ok
+test_winning_plan_classic_and_sbe (test_verify_spatial.TestReferenceAndPlan.test_winning_plan_classic_and_sbe) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 4.659s
+
+OK
