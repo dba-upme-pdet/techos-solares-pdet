@@ -1,0 +1,245 @@
+{
+  "checks": [
+    {
+      "blocking": true,
+      "detail": "presentes",
+      "name": "campos obligatorios del MGN",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "1122 registros",
+      "name": "capa nacional con 1122 municipios",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "EPSG:4686",
+      "name": "CRS EPSG:4686",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "MPIO_CDPMP es DIVIPOLA de 5 dígitos",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "prefijo de MPIO_CDPMP = DPTO_CCDGO",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "sufijo de MPIO_CDPMP = MPIO_CCDGO",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "sin códigos repetidos en el MGN",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "MPIO_NAREA positiva",
+      "passed": true
+    },
+    {
+      "blocking": false,
+      "detail": "ninguno",
+      "name": "geometrías válidas en el MGN",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "geometrías dentro de la ventana de Colombia (lon/lat)",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "170 filas",
+      "name": "lista PDET con 170 filas",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "códigos PDET numéricos",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "sin códigos repetidos en la lista PDET",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "16 subregiones",
+      "name": "16 subregiones PDET",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "prefijo de código PDET = departamento del Excel",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "todos los municipios PDET están en el MGN",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "departamento del Excel = DPTO_CCDGO del MGN",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "detail": "ninguno",
+      "name": "geometrías PDET válidas",
+      "passed": true
+    },
+    {
+      "blocking": false,
+      "detail": "15 distintos (9 solo por tildes)",
+      "name": "nombres Excel = MGN (informativo; el cruce es por código)",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "detail": "170 cruzados",
+      "name": "cruce completo de 170 municipios PDET",
+      "passed": true
+    }
+  ],
+  "checks_passed": 19,
+  "checks_total": 20,
+  "contract": "entrega2-mgn-v1",
+  "failed_checks": [],
+  "fixture": false,
+  "generated_at": "2026-11-08T19:36:00-05:00",
+  "layer": "data/raw/mgn2025/wfs/municipio.gpkg",
+  "layer_sha256": "1dbe68b21677b643029bd27c9cd6d3d9cff0047b56ed7589ed8d9032fdb42ade",
+  "mgn_duplicate_codes": [],
+  "mgn_features": 1122,
+  "mgn_geometry_types": {
+    "MultiPolygon": 1122
+  },
+  "mgn_invalid_geometries": 0,
+  "pdet_area_km2_total": 389182.035,
+  "pdet_dpto_mismatches": [],
+  "pdet_duplicate_codes": [],
+  "pdet_invalid_geometries": [],
+  "pdet_list": "resources/MunicipiosPDET.xlsx",
+  "pdet_matched": 170,
+  "pdet_missing_codes": [],
+  "pdet_name_differences": [
+    {
+      "_id": "19548",
+      "excel": "PIENDAMÓ",
+      "mgn": "PIENDAMÓ - TUNÍA",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "19821",
+      "excel": "TORIBIO",
+      "mgn": "TORIBÍO",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "27099",
+      "excel": "BOJAYA",
+      "mgn": "BOJAYÁ",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "27150",
+      "excel": "CARMEN DEL DARIEN",
+      "mgn": "CARMEN DEL DARIÉN",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "18256",
+      "excel": "EL PAUJIL",
+      "mgn": "EL PAUJÍL",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "50711",
+      "excel": "VISTA HERMOSA",
+      "mgn": "VISTAHERMOSA",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "70204",
+      "excel": "COLOSO",
+      "mgn": "COLOSÓ",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "70523",
+      "excel": "SAN ANTONIO DE PALMITO",
+      "mgn": "PALMITO",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "70823",
+      "excel": "TOLÚ VIEJO",
+      "mgn": "SAN JOSÉ DE TOLUVIEJO",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "19418",
+      "excel": "LÓPEZ",
+      "mgn": "LÓPEZ DE MICAY",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "52427",
+      "excel": "MAGÜI",
+      "mgn": "MAGÜÍ",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "52835",
+      "excel": "SAN ANDRES DE TUMACO",
+      "mgn": "SAN ANDRÉS DE TUMACO",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "86573",
+      "excel": "LEGUÍZAMO",
+      "mgn": "PUERTO LEGUÍZAMO",
+      "tipo": "distinto"
+    },
+    {
+      "_id": "23682",
+      "excel": "SAN JOSE DE URE",
+      "mgn": "SAN JOSÉ DE URÉ",
+      "tipo": "solo_tildes"
+    },
+    {
+      "_id": "05665",
+      "excel": "SAN PEDRO DE URABA",
+      "mgn": "SAN PEDRO DE URABÁ",
+      "tipo": "solo_tildes"
+    }
+  ],
+  "pdet_rows": 170,
+  "pdet_subregions": 16,
+  "role": "validation-report",
+  "source_manifest": "mgn_download_manifest.json",
+  "status": "valid",
+  "warnings": [
+    "nombres Excel = MGN (informativo; el cruce es por código)"
+  ]
+}

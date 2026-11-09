@@ -39,16 +39,19 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 
 ### Entrega 2 en el repositorio
 
-`scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida (`01_validate_mgn.py`), Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Esos tres scripts no están en este cambio. Una corrida que no verifica la capa no deja el manifiesto ni el reporte anteriores como si el resultado actual estuviera listo. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
+`scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida la capa contra la lista PDET (`01_validate_mgn.py`, detalle en [`docs/delivery2/entrega2_validacion_mgn.md`](docs/delivery2/entrega2_validacion_mgn.md)). Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Una corrida que no verifica la capa no deja el manifiesto ni el reporte anteriores como si el resultado actual estuviera listo. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
 
 | Archivo | Contenido |
 | --- | --- |
 | [`scripts/01_download_mgn.py`](scripts/01_download_mgn.py) | Lee el WFS municipal MGN 2025, o las respuestas GML ya verificadas, y escribe el manifiesto |
+| [`scripts/01_validate_mgn.py`](scripts/01_validate_mgn.py) | Cruza el MGN con los 170 PDET y revisa DIVIPOLA, duplicados, faltantes y geometrías |
 | [`scripts/02_prepare_municipalities.py`](scripts/02_prepare_municipalities.py) | Cruza por DIVIPOLA, pasa a GeoJSON WGS84 y deja la fecha de carga para Miguel |
 | [`scripts/entrega2_contracts.py`](scripts/entrega2_contracts.py) | Contrato común: campos, CRS, códigos y reglas de unidad de área |
 | [`outputs/mgn_wfs_source_receipt.json`](outputs/mgn_wfs_source_receipt.json) | URL, tamaño y SHA256 de las seis respuestas WFS |
 | [`outputs/mgn_download_manifest.json`](outputs/mgn_download_manifest.json) | Capa de trabajo: 1122 municipios, CRS declarado y unidad observada |
 | [`outputs/municipalities_prepare_report.json`](outputs/municipalities_prepare_report.json) | 170 documentos, hash del GeoJSONL y códigos |
+| [`outputs/mgn_validation_summary.md`](outputs/mgn_validation_summary.md) | Resumen de la validación: 20 verificaciones y nombres distintos |
+| [`outputs/pdet_mgn_crosswalk.csv`](outputs/pdet_mgn_crosswalk.csv) | Una fila por municipio PDET con su cruce en el MGN |
 | [`outputs/mgn_catalog_probe.json`](outputs/mgn_catalog_probe.json) | Hosts que no completaron TLS. No es el resultado de la preparación |
 
 ## Fuentes de datos
@@ -81,7 +84,7 @@ python scripts/00_init_db.py               # colecciones, validadores e índices
 
 # 4. Correr el flujo en orden (los scripts se agregan en cada entrega)
 python scripts/01_download_mgn.py                 # manifiesto en outputs/mgn_download_manifest.json
-python scripts/01_validate_mgn.py                 # Samuel
+python scripts/01_validate_mgn.py                 # cruce con la lista PDET; resumen en outputs/
 python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/; sin loaded_at
 python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at
 python scripts/02_verify_spatial.py               # Sebastián
