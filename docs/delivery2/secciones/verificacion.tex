@@ -1,0 +1,37 @@
+% Sebastián Sánchez Vásquez (scripts/02\_verify\_spatial.py)
+\section{Verificación de la integración y del índice espacial}
+
+\textit{Responsable: Sebastián Sánchez Vásquez. Script: \f{scripts/02\_verify\_spatial.py}.}
+
+El verificador consulta MongoDB sin escribir documentos, modificar índices ni reparar geometrías. Lee la configuración del proyecto y admite \f{MONGO\_URI} para seleccionar la conexión. Los códigos esperados salen de \f{resources/MunicipiosPDET.xlsx}; los ceros iniciales se restituyen solo en esa referencia, no en los documentos almacenados. El esquema BSON se importa de \f{scripts/00\_init\_db.py}.
+
+Se implementaron nueve controles: conexión, cantidad exacta de 170 documentos, formato y unicidad de DIVIPOLA, igualdad con el conjunto PDET oficial, compatibilidad con el esquema y el contrato, integridad geométrica, existencia del índice espacial, resultados de una consulta espacial y uso efectivo del índice. La geometría debe ser Polygon o MultiPolygon, con anillos explícitamente cerrados, coordenadas bidimensionales finitas en longitud/latitud, topología válida y vértices dentro de la ventana de Colombia definida en el contrato. La carga debe aportar \f{loaded\_at} como fecha BSON.
+
+La consulta \f{\$geoIntersects} utiliza un punto interior del primer municipio ordenado por identificador. Se comparan todos los identificadores devueltos con las intersecciones calculadas mediante Shapely y se ejecuta un control negativo en longitud 0, latitud 0. El \f{explain()} se solicita con \f{executionStats}, sin forzar un índice mediante \f{hint}. Se exige un \f{IXSCAN} del índice \f{2dsphere} sobre \f{geometry} dentro del plan ganador, ejecución exitosa, claves examinadas y cantidad de resultados coherente. La aparición del índice solamente en planes rechazados no aprueba la comprobación.
+
+\subsection{Pruebas y evidencia disponible}
+
+El 8 de noviembre de 2026 se ejecutaron nuevamente las \textbf{23 pruebas automatizadas, todas aprobadas}, contra MongoDB 7.0.45. Incluyen 11 pruebas unitarias y 12 de integración, con casos positivos y negativos de cantidad, códigos, esquema, geometría, consultas e índice. Cada prueba de integración crea una base con UUID y elimina exclusivamente sus propios recursos; al terminar no quedaron bases temporales. Los datos de prueba son cuadrados y códigos arbitrarios identificados como sintéticos, sin atribución al DANE.
+
+En la evidencia sintética positiva, el plan ganador fue \f{FETCH} sobre \f{IXSCAN}, con índice \f{geometry\_2dsphere}, 7 claves examinadas, 1 documento examinado y 1 resultado. El control negativo devolvió cero. Al retirar el índice de la colección temporal, el plan fue \f{COLLSCAN} y el control de uso del índice falló correctamente. Los archivos \f{docs/delivery2/spatial\_synthetic\_evidence.json} y \f{spatial\_test\_results.txt} conservan los resultados. Esto comprueba el componente, no la integración de municipios reales.
+
+\subsection{Resultado real y condición de cierre}
+
+La última ejecución sobre \f{upme\_pdet.municipalities} encontró \textbf{0 de 170 municipios}: conexión e índice aprobados; cantidad, identificadores, cruce PDET, esquema y geometrías sin aprobar por ausencia de documentos; consulta e índice en ejecución pendientes. El resultado fue \textbf{2 de 9 controles aprobados}, código de salida 1 y \f{success: false}. La evidencia se conserva en \f{outputs/municipalities\_spatial\_verification\_real.json}. Su nombre identifica la base consultada, no un resultado exitoso.
+
+En este checkout faltan dos entradas del flujo:
+\begin{itemize}
+\item El cargador \path{scripts/02_load_municipalities.py}.
+\item El archivo preparado \path{data/processed/municipalities.geojsonl}.
+\end{itemize}
+El reporte de preparación versionado declara 170 documentos, pero ese reporte no sustituye el archivo ni acredita la carga. Por tanto, \textbf{la verificación definitiva está bloqueada por la entrega de los datos preparados y la carga de Miguel}. No se insertaron datos sintéticos en la colección del proyecto ni se sustituyó el cargador.
+
+Una vez disponible la carga real, ejecutar desde la raíz del repositorio:
+\begin{verbatim}
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/02_verify_spatial.py \
+  --report outputs/municipalities_spatial_verification_real.json
+echo $?
+\end{verbatim}
+
+El cierre requiere salida 0 y los nueve controles en \f{OK}, incluyendo consulta y plan ganador sobre los documentos reales. Sebastián deberá actualizar esta sección con ese resultado antes de presentar la integración como terminada. El código 2 identifica errores operativos. La guía y las limitaciones están en \f{docs/delivery2/entrega2\_verificacion\_espacial.md}. Los rangos y la validez topológica no certifican por sí solos el origen DANE; esa trazabilidad depende de descarga y preparación. La ejecución definitiva debe realizarse después de terminar la carga, sin escrituras concurrentes.

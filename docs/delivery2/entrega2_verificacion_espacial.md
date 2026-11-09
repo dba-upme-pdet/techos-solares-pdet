@@ -113,3 +113,43 @@ Ese comando es de solo lectura sobre MongoDB. Para acreditar la integración rea
 La validez topológica y los rangos de coordenadas no prueban por sí mismos el CRS de origen ni que cada límite corresponda oficialmente al DANE; la trazabilidad de descarga y transformación depende del flujo del equipo. Se verifica la presencia de metadatos de origen, no su autenticidad. Tampoco se certifica que el contorno no haya sido alterado respecto de la fuente.
 
 El control geoespacial usa una muestra interior determinista y un punto negativo, mientras que estructura, topología y códigos se comprueban sobre todos los documentos. Shapely evalúa intersecciones en el plano y MongoDB sobre la esfera; casos cercanos a fronteras pueden requerir análisis específico. No se certifica aquí una cobertura cartográfica completa sin huecos o solapamientos entre municipios. La ejecución debe hacerse después de terminar la carga, sin escrituras concurrentes, porque las lecturas no utilizan una transacción de snapshot. El plan documentado corresponde a MongoDB 7 local, no a un despliegue fragmentado.
+
+## Revisión de cierre del 8 de noviembre de 2026
+
+Después de `git fetch --prune origin`, `main` sigue en `2e7de83`; la rama personal contiene ese historial y todo el componente espacial. Se volvió a ejecutar la suite: **23/23 aprobadas**, salida 0 (registro actualizado en `spatial_test_results.txt`). No se encontraron errores que requirieran modificar el verificador ni añadir pruebas. Las bases temporales quedaron eliminadas.
+
+Se volvió a ejecutar el verificador sobre la colección del proyecto: **0/170, 2/9 OK, salida 1**. El reporte actual está en [`../../outputs/municipalities_spatial_verification_real.json`](../../outputs/municipalities_spatial_verification_real.json); `spatial_local_evidence.json` contiene una copia idéntica. Es evidencia de una comprobación real fallida, no de 170 municipios cargados. La evidencia sintética anterior conserva su etiqueta y su significado.
+
+### Bloqueos exactos y responsables
+
+| Responsable | Trabajo disponible | Acción necesaria para cerrar |
+| --- | --- | --- |
+| Sebastián | Verificador, 23 pruebas, evidencias, guía y sección propia del informe terminados | Tras la carga, ejecutar la verificación definitiva, exigir nueve OK y actualizar el JSON y la sección con resultados reales. Este último paso sigue bloqueado; su responsabilidad completa aún no puede declararse cerrada |
+| Derek | Descarga integrada en `main` por el [PR #5](https://github.com/dba-upme-pdet/techos-solares-pdet/pull/5) | Facilitar las páginas/capa verificadas si se necesita regenerar el producto y completar `secciones/descarga.tex`, que sigue como marcador en el borrador de Samuel |
+| José | Preparación integrada; reporte `ready_for_load` con 170 documentos | Entregar `data/processed/municipalities.geojsonl` junto al reporte correspondiente y completar `secciones/preparacion.tex`. El archivo no existe en este checkout y está excluido de Git |
+| Miguel | Esquema e índice disponibles; no se encontró cargador en ninguna rama remota inspeccionada | Publicar `scripts/02_load_municipalities.py`, documentar su uso y cargar el JSONL con `loaded_at` BSON sin borrar datos reales; comprobar repetibilidad y completar `secciones/carga.tex` |
+| Samuel | Validación, reportes, mapa y borrador del informe en `origin/samuel/validate-mgn` (`aa20f5f`) | Revisar e integrar con el equipo el [PR #6](https://github.com/dba-upme-pdet/techos-solares-pdet/pull/6), abierto y sin integrar al momento de la revisión. Sus resultados son evidencia publicada por Samuel, no una nueva ejecución en este equipo |
+| Equipo | Descarga/preparación en `main`; contribuciones de validación y verificación publicadas aparte | Revisar e integrar esas contribuciones y la carga en `main`, completar las secciones, compilar y revisar el PDF final, entregar el informe y preparar la defensa para el lunes 9 de noviembre. No se ejecutó ninguna integración ni publicación en `main` durante esta revisión |
+
+El cargador y el JSONL faltan tanto en el árbol local como entre los archivos versionados de las ramas remotas inspeccionadas. También falta localmente `data/raw/mgn2025/wfs/municipio.gpkg`. Los archivos pesados no deberían incorporarse a Git para solucionar esto: se deben transferir los artefactos reales o reconstruirlos con el flujo del equipo. El reporte de preparación actual registra para el JSONL el SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`; una regeneración requiere su reporte propio y consistente. La observación de Samuel sobre cambios de `timeStamp` del WFS y hashes entre máquinas corresponde a Derek si se requiere descargar nuevamente; no se alteraron los controles de integridad ni los bytes fuente.
+
+### Guía corta para la ejecución definitiva
+
+1. Integrar mediante revisión del equipo los scripts publicados. Facilitar el JSONL real, verificar sus 170 líneas y su SHA256 contra el reporte de preparación de esa misma corrida. Si falta, Derek aporta la capa y José ejecuta la preparación; Samuel valida la capa. Los manifiestos deben describir los archivos realmente disponibles.
+2. Miguel publica y ejecuta su procedimiento oficial de carga. El comando previsto en el README es `.venv/bin/python scripts/02_load_municipalities.py`; confirmar su interfaz cuando lo publique. No se proporciona un cargador alternativo ni se vacía la colección.
+3. Con la carga finalizada y MongoDB disponible, Sebastián ejecuta:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python scripts/02_verify_spatial.py \
+  --report outputs/municipalities_spatial_verification_real.json
+echo $?
+```
+
+4. Con salida 0 y nueve `OK`, guardar la nueva evidencia, actualizar el estado y los números de `secciones/verificacion.tex` y llevar esos cambios a revisión en la misma rama personal. Si falla, conservar el resultado fallido y resolver su causa con el responsable; no acreditar la integración todavía.
+
+Se completó [`secciones/verificacion.tex`](secciones/verificacion.tex), la sección asignada a Sebastián en el borrador de Samuel, con resultados sintéticos y pendientes reales explícitos. El resto del informe no se copió ni modificó en esta rama. Al integrar ambos aportes, Git puede presentar un conflicto de adición en ese archivo: conservar la sección completa de Sebastián en lugar del marcador vacío de Samuel. El equipo debe sustituir los demás marcadores y compilar desde `docs/delivery2/` con `latexmk -pdf entrega2.tex` después de integrar el documento principal.
+
+La rúbrica ya está cubierta por este componente en validaciones, evidencia sintética reproducible, documentación y claridad del estado. El criterio de integración espacial real del equipo sigue sin acreditarse y la defensa debe realizarse; ninguna cantidad de pruebas sintéticas sustituye esos dos puntos.
+
+Se comprobó la compatibilidad de la sección mediante `latexmk -pdf -interaction=nonstopmode -halt-on-error entrega2.tex` sobre una copia temporal del borrador `aa20f5f` de Samuel, reemplazando únicamente `secciones/verificacion.tex` por esta contribución: salida 0 y PDF generado. La copia y el PDF temporales se eliminaron al terminar; no constituyen el informe final entregado. No se modificaron los archivos de Samuel ni se incorporaron sus cambios a esta rama.
