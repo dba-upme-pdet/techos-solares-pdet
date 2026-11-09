@@ -1,12 +1,12 @@
 {
   "area_geometry_check": {
     "compared_features": 1122,
-    "max": 1.0208893341294494,
-    "median": 0.9994396087515729,
+    "max": 1.0208893341346281,
+    "median": 0.9994396087536062,
     "method": "atributo / (área geodésica WGS84 del contorno servido, en km2)",
-    "min": 0.9984008536227786,
-    "p10": 0.9984225049663049,
-    "p90": 1.0027195805975408
+    "min": 0.9984008536197431,
+    "p10": 0.9984225049657685,
+    "p90": 1.0027195805998825
   },
   "area_unit": "km2",
   "area_unit_source": "elemento GML Área_departamento_en_kilómetros_cuadrados, alias publicado de MPIO_NAREA; el diccionario de la Entrega 1 guarda ese valor en area_km2",

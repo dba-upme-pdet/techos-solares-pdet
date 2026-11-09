@@ -85,7 +85,7 @@ python scripts/00_check_pdet_list.py       # calidad de la lista PDET (170 / 16)
 python scripts/00_init_db.py               # colecciones, validadores e índices
 
 # 4. Correr el flujo en orden (los scripts se agregan en cada entrega)
-python scripts/01_download_mgn.py                 # manifiesto en outputs/mgn_download_manifest.json
+python scripts/01_download_mgn.py                 # manifiesto en outputs/mgn_download_manifest.json; valida cada GML por bytes o por contenido (sin timeStamp)
 python scripts/01_validate_mgn.py                 # cruce con la lista PDET; resumen en outputs/
 python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/; sin loaded_at
 python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at; repetirla no duplica

@@ -1,6 +1,93 @@
 % José Medina (scripts/02\_prepare\_municipalities.py)
-\section{Preparación de los documentos de municipios}
+% Redactada por Miguel Duarte a partir del script, su self-check y la corrida
+% del 9 de noviembre de 2026; pendiente de revisión de José.
+\section{Preparación de los documentos de municipios}\label{sec:preparacion}
 
 \textit{Responsable: José Medina. Script: \f{scripts/02\_prepare\_municipalities.py}.}
 
-\pendiente{José Medina escribe esta sección en \f{docs/delivery2/secciones/preparacion.tex}.}
+\subsection{Objetivo}
+
+Convertir la capa municipal que deja \f{01\_download\_mgn.py} en los 170 documentos GeoJSON de los municipios PDET, con la forma exacta que exige el validador de la colección \f{municipalities} de la Entrega~1, y dejar un reporte que diga qué archivo se produjo y con qué SHA256. La preparación no escribe en MongoDB ni agrega \f{loaded\_at}: esa fecha la pone la carga (sección~\ref{sec:carga}).
+
+\subsection{Entradas y salidas}
+
+\begin{table}[H]
+\centering\small
+\caption{Contrato de entrada y salida de \f{02\_prepare\_municipalities.py}.}
+\begin{tabularx}{\textwidth}{@{}p{5.6cm} p{2.2cm} L@{}}
+\toprule
+Pieza & Rol & Condición \\
+\midrule
+\f{outputs/mgn\_download\_manifest.json} & entrada (Derek) & \f{status = complete}, \f{claims\_national\_download = true}, \f{fixture = false}, \f{cache\_matches\_receipt = true}, 1122 registros \\
+\f{data/raw/mgn2025/wfs/municipio.gpkg} & entrada (Derek) & capa nacional; SHA256 igual al del manifiesto \\
+\f{resources/MunicipiosPDET.xlsx}, hoja \f{Hoja1} & entrada & 170 filas; \f{Código DANE Municipio} como número \\
+\f{data/processed/municipalities.geojsonl} & salida & un documento JSON por línea, ordenado por \f{\_id}, UTF-8 y fin de línea LF \\
+\f{outputs/municipalities\_prepare\_report.json} & salida & \f{role = prepare-report}, \f{status = ready\_for\_load}, \f{claims\_full\_pdet\_set}, \f{sha256} del GeoJSONL \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Método}
+
+\begin{enumerate}
+  \item \textbf{Manifiesto verificado.} Se detiene si el manifiesto falta, es un fixture, no está en \f{complete}, no declara la capa nacional de 1122 registros o si el SHA256 de \f{municipio.gpkg} no es el que declara. En ese caso el reporte queda en \f{blocked\_no\_layer}, \f{unreadable\_layer} o \f{layer\_hash\_mismatch}, sin GeoJSONL, y un reporte \f{ready\_for\_load} anterior se conserva en \f{municipalities\_prepare\_report.history.json}.
+  \item \textbf{Cruce por código DIVIPOLA.} \f{Código DANE Municipio} se rellena a 5 dígitos (por ejemplo \f{5031} $\rightarrow$ \f{05031}) y se cruza con \f{MPIO\_CDPMP}. El código de departamento del Excel debe coincidir con \f{DPTO\_CCDGO} del MGN. El nombre del municipio sale del MGN; si difiere del Excel, no bloquea y se cuenta en \f{name\_mismatches}.
+  \item \textbf{Nombre del departamento.} Se usa la única columna del MGN cuyos valores coinciden con \f{Departamento} del Excel (aquí \f{DPTO\_CNMBRE}). Si coinciden dos, se detiene; si no coincide ninguna, se toma del Excel y el reporte lo indica.
+  \item \textbf{Geometría.} Se transforma de EPSG:4686 a EPSG:4326, el CRS que exige el índice \f{2dsphere}. Una geometría inválida pasa por \f{make\_valid}; no se simplifica. Los anillos exteriores quedan en sentido antihorario. Cada vértice debe caer en la ventana de Colombia (longitud $-82$ a $-66$, latitud $-5$ a $16$), y un documento de más de 15~MB se rechaza completo.
+  \item \textbf{Área.} \f{MPIO\_NAREA} se copia a \f{area\_km2} solo si la unidad está declarada; el manifiesto la confirma con el cociente entre el atributo y el área geodésica de cada contorno (mediana 0,9994 sobre los 1122 municipios).
+  \item \textbf{Contrato común.} Cada documento pasa por \f{document\_errors} de \f{entrega2\_contracts.py}, la misma regla que usan la carga y la verificación. Solo con 170 documentos sin rechazos el reporte queda en \f{ready\_for\_load} con \f{claims\_full\_pdet\_set = true}.
+  \item \textbf{Salida reproducible.} Cada línea es \f{json.dumps} con claves ordenadas, sin espacios y en UTF-8, y el archivo se escribe con fin de línea LF en cualquier sistema operativo. El SHA256 que queda en el reporte es el del archivo ya escrito.
+\end{enumerate}
+
+Cada documento tiene \f{\_id}, \f{name}, \f{dpto\_code}, \f{dpto\_name}, \f{subregion\_id}, \f{subregion\_name}, \f{area\_km2}, \f{geometry} y \f{source} (\f{dataset}, \f{version}, \f{file}).
+
+\subsection{Pruebas}
+
+\f{python scripts/02\_prepare\_municipalities.py --self-check} prueba la preparación con capas sintéticas marcadas como fixture. Resultado: \textbf{20/20 OK}. Cubre la normalización \f{5031} $\rightarrow$ \f{05031}, el nombre tomado del MGN, la ausencia de \f{loaded\_at}, la conversión de m$^2$ a km$^2$ solo con unidad declarada, el descubrimiento de la columna de departamento (y el rechazo si hay dos), la reparación con \f{make\_valid} sin simplificar, la orientación antihoraria, el rechazo de un documento sobre el límite de tamaño, y que un manifiesto fixture, de un solo municipio o sin capa no habilite los 170 municipios.
+
+\subsection{Resultados sobre los 170 municipios}
+
+Corrida del 9 de noviembre de 2026 sobre la capa reconstruida desde las seis páginas WFS verificadas contra el recibo de Derek (coinciden por contenido: solo cambia el atributo {timeStamp}; ver {entrega2_descarga_y_preparacion.md}): Python 3.11.9, GeoPandas 1.2.0, Shapely 2.2.0 (GEOS 3.14.1) y PyProj 3.7.2.
+
+\begin{table}[H]
+\centering\small
+\caption{Resultado de la preparación.}
+\begin{tabularx}{\textwidth}{@{}p{5.6cm} L@{}}
+\toprule
+Indicador & Valor \\
+\midrule
+Estado & \f{ready\_for\_load}, \f{claims\_full\_pdet\_set = true} \\
+Documentos escritos & 170 (170 líneas), 0 rechazados, 0 códigos faltantes, 0 repetidos \\
+Geometrías reparadas & 0 \\
+Nombres distintos entre Excel y MGN & 15 (9 solo por tildes); el cruce es por código \\
+Documento más grande & 1\,341\,497 bytes en JSON \\
+Geometrías & 170 \f{MultiPolygon}: 168 de una parte, Tumaco (52835) con 3 y Buenaventura (76109) con 31 \\
+SHA256 del GeoJSONL & \f{612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El SHA256 es el mismo que registró la primera preparación del equipo: la cadena descarga $\rightarrow$ preparación es reproducible byte a byte desde las mismas páginas WFS, también en Windows.
+
+\subsection{Diferencia con el archivo de la primera carga}
+
+Antes de esta corrida, la colección se había cargado con un GeoJSONL reconstruido a mano (SHA256 \f{b229d6a3\ldots}) usando \f{--allow-input-mismatch}. Comparado por \f{\_id} contra el archivo definitivo:
+
+\begin{table}[H]
+\centering\small
+\caption{Archivo reconstruido frente al archivo definitivo, por DIVIPOLA.}
+\begin{tabularx}{\textwidth}{@{}p{3.4cm} L L@{}}
+\toprule
+Aspecto & Reconstruido (\f{b229d6a3\ldots}) & Definitivo (\f{612e2544\ldots}) \\
+\midrule
+Municipios y \f{\_id} & 170 & los mismos 170 \\
+Atributos & \multicolumn{2}{l}{idénticos: nombre, departamento, subregión y \f{area\_km2}} \\
+Coordenadas & \multicolumn{2}{l}{idénticas en los 170 municipios} \\
+\f{geometry.type} & 168 \f{Polygon} y 2 \f{MultiPolygon}: se leyó el GML sin pasar por el GeoPackage & 170 \f{MultiPolygon}: el GeoPackage guarda la capa como \f{MultiPolygon} \\
+\f{source.file} & \f{municipio.gpkg} & \f{Serv\_CapasMGN\_2025:Municipio} (campo \f{filename} del manifiesto) \\
+Fin de línea & CRLF (escrito en Windows) & LF \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Las diferencias son de forma, no de contenido geográfico. Para que el SHA256 no dependa del sistema operativo, \f{write\_geojsonl} ahora escribe siempre con fin de línea LF.

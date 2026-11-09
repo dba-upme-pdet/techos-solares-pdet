@@ -295,7 +295,9 @@ def write_geojsonl(path: Path, documents: list[dict]) -> str:
         json.dumps(document, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         for document in documents
     ]
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    # newline="\n": en Windows write_text traduce \n a \r\n y el mismo
+    # contenido tendría otro SHA256 según el sistema operativo.
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     return sha256_file(path)
 
 
