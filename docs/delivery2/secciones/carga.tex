@@ -1,27 +1,28 @@
 % Miguel Duarte (scripts/02\_load\_municipalities.py)
 \section{Carga en MongoDB}\label{sec:carga}
 
-\textit{Responsable: Miguel Duarte. Script: \f{scripts/02\_load\_municipalities.py}.}
+\textit{Responsable: Miguel Duarte. Script: \path{scripts/02_load_municipalities.py}.}
 
 \subsection{Objetivo}
 
-Cargar los 170 documentos que deja \f{02\_prepare\_municipalities.py} en la colección \f{municipalities} de la base \f{upme\_pdet}, con el validador \f{\$jsonSchema} y el índice \f{2dsphere} del esquema de la Entrega 1 ya activos, y poder repetir la carga sin crear duplicados.
+La entrada son los 170 documentos producidos por \path{02_prepare_municipalities.py}. Se cargan en \f{municipalities}, base \f{upme\_pdet}, con el validador \f{\$jsonSchema} y el índice \f{2dsphere} activos. La carga debe poder repetirse sin duplicar documentos.
 
+\Needspace{22\baselineskip}
 \subsection{Entradas y salidas}
 
 \begin{table}[H]
 \centering\small
-\caption{Contrato de entrada y salida de \f{02\_load\_municipalities.py}.}
-\begin{tabularx}{\textwidth}{@{}p{5.6cm} p{2.2cm} L@{}}
+\caption{Contrato de entrada y salida de \protect\path{02_load_municipalities.py}.}
+\begin{tabularx}{\textwidth}{@{}P{5.6cm} P{2.2cm} L@{}}
 \toprule
 Pieza & Rol & Condición \\
 \midrule
-\f{outputs/municipalities\_prepare\_report.json} & entrada (José) & contrato \f{entrega2-mgn-v1}, \f{status = ready\_for\_load}, \f{claims\_full\_pdet\_set = true}, \f{loaded\_at\_included = false} \\
-\f{data/processed/municipalities.geojsonl} & entrada (José) & un documento por línea; SHA256 igual al del reporte \\
+\path{outputs/municipalities_prepare_report.json} & entrada (José) & contrato \f{entrega2-mgn-v1}, \f{status = ready\_for\_load}, \f{claims\_full\_pdet\_set = true}, \f{loaded\_at\_included = false} \\
+\path{data/processed/municipalities.geojsonl} & entrada (José) & un documento por línea; SHA256 igual al del reporte \\
 colección \f{municipalities} & salida & 170 documentos, \f{\_id} = DIVIPOLA, \f{loaded\_at} como fecha BSON \\
 colección \f{pdet\_subregions} & salida & 16 subregiones: \f{\_id}, \f{name}, \f{municipality\_count} \\
 colección \f{ingestion\_runs} & salida & una fila por corrida, \f{dataset\_id = mgn} \\
-\f{outputs/municipalities\_load\_report.json} & salida & \f{role = load-report}, \f{status} \f{loaded}, \f{verification\_failed}, \f{blocked} u \f{operational\_error} \\
+\path{outputs/municipalities_load_report.json} & salida & \f{role = load-report}, \f{status} \f{loaded}, \f{verification\_failed}, \f{blocked} u \f{operational\_error} \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -31,20 +32,20 @@ colección \f{ingestion\_runs} & salida & una fila por corrida, \f{dataset\_id =
 \begin{enumerate}
   \item \textbf{Entrada verificada.} Lee el reporte de preparación y se detiene si no está en \f{ready\_for\_load} o si el SHA256 del GeoJSONL no es el que José declaró. Con \f{--allow-input-mismatch} se puede cargar igual, pero el reporte de carga lo deja registrado en \f{input\_matches\_prepare\_report = false}.
   \item \textbf{Revisión antes de escribir.} Cada documento pasa por \f{document\_errors} del contrato común (los mismos campos, prefijo de departamento, ventana de Colombia y límite de tamaño que usa la preparación). La carga se detiene si hay un \f{\_id} repetido en la entrada, si alguno ya trae \f{loaded\_at}, si no son 170 o si no son exactamente los códigos del reporte.
-  \item \textbf{Esquema activo antes de insertar.} Importa \f{SCHEMAS} y \f{SMALL\_INDEXES} de \f{00\_init\_db.py} (no los copia) y aplica el validador con \f{validationAction = error} a \f{municipalities}, \f{pdet\_subregions} e \f{ingestion\_runs}, y crea \f{geometry\_2dsphere} y \f{subregion\_id\_1}. El índice existe \emph{antes} de la inserción, así que MongoDB rechaza en ese momento cualquier geometría que el \f{2dsphere} no acepte.
+  \item \textbf{Esquema activo antes de insertar.} Importa \f{SCHEMAS} y \f{SMALL\_INDEXES} de \path{00_init_db.py} (no los copia) y aplica el validador con \f{validationAction = error} a \f{municipalities}, \f{pdet\_subregions} e \f{ingestion\_runs}, y crea \f{geometry\_2dsphere} y \f{subregion\_id\_1}. El índice existe \emph{antes} de la inserción, así que MongoDB rechaza en ese momento cualquier geometría que el \f{2dsphere} no acepte.
   \item \textbf{Carga idempotente.} El \f{\_id} es el código DIVIPOLA. El script compara cada documento con el que ya está en la base (sin \f{loaded\_at}): si no existe lo inserta, si cambió lo reemplaza y si es idéntico no lo toca. Todo va en un solo \f{bulk\_write} no ordenado. \f{loaded\_at} es la hora UTC de la corrida y solo cambia en los documentos que se insertan o reemplazan.
   \item \textbf{Subregiones.} Las 16 subregiones salen de los mismos documentos y se escriben con \f{upsert} por \f{\_id}, con el conteo de municipios de cada una.
   \item \textbf{Verificación posterior.} Conteo igual a 170, mismos códigos que la entrada, sin \f{\_id} ni pares nombre--departamento repetidos, cero documentos que incumplan el \f{\$jsonSchema}, \f{loaded\_at} presente, índice \f{2dsphere} sobre \f{geometry}, y una consulta \f{\$geoIntersects} con un punto interior del primer municipio que lo devuelve usando \f{IXSCAN} sobre \f{geometry\_2dsphere}.
   \item \textbf{Trazabilidad.} Cada corrida se registra en \f{ingestion\_runs} (filas leídas, cargadas y rechazadas, inicio, fin y notas), y el detalle queda en \f{municipalities\_load\_report.json}.
 \end{enumerate}
 
-Si en la base hay un \f{\_id} que ya no está en la entrada, el script lo reporta en \f{extra\_in\_db} y no da la carga por buena; con \f{--prune} lo borra.
+Si en la base hay un \f{\_id} que ya no está en la entrada, el script lo reporta en \f{extra\_in\_db} y no da la carga por buena; no se elimina nada por defecto. La opción de borrado existe para uso explícito, pero no se empleó en la carga definitiva.
 
 \subsection{Pruebas}
 
-\f{python scripts/02\_load\_municipalities.py --self-check} corre la carga completa contra MongoDB real en una base temporal \f{load\_selfcheck\_<uuid>} que se borra al terminar, con tres cuadrados sintéticos. Resultado: \textbf{16/16 OK}.
+\f{python} \path{scripts/02_load_municipalities.py} \f{--self-check} corre la carga completa contra MongoDB real en una base temporal \f{load\_selfcheck\_<uuid>} que se borra al terminar, con tres cuadrados sintéticos. Resultado: \textbf{16/16 OK}.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Casos del \f{--self-check} (MongoDB 7.0.45).}
 \begin{tabularx}{\textwidth}{@{}r L@{}}
@@ -67,31 +68,31 @@ Si en la base hay un \f{\_id} que ya no está en la entrada, el script lo report
 
 \subsection{Resultados sobre los 170 municipios}
 
-Carga definitiva del 9 de noviembre de 2026 (07:29, hora de Bogotá; Python 3.11.9, PyMongo 4.19.0, MongoDB 7.0.45 en Docker). La entrada es el GeoJSONL de la preparación (sección~\ref{sec:preparacion}) con SHA256 \f{612e2544\ldots}, el mismo del reporte de preparación: el reporte de carga queda con \f{input\_matches\_prepare\_report = true} y no se usó \f{--allow-input-mismatch}. La carga se corrió dos veces seguidas sobre la misma entrada:
+Carga definitiva documentada por Miguel el 9 de noviembre de 2026 (Python 3.11.9, PyMongo 4.19.0, MongoDB 7.0.45 en Docker). El reporte publicado corresponde a la segunda corrida, de 07:30:18 a 07:30:25, hora de Bogotá. La entrada es el GeoJSONL de la preparación (sección~\ref{sec:preparacion}) con SHA256 \f{612e2544\ldots}, el mismo del reporte de preparación. La ejecución definitiva fue realizada por Miguel en su computador; el reporte de carga queda con \f{input\_matches\_prepare\_report = true} y no se usó \f{--allow-input-mismatch}. La carga se corrió dos veces seguidas sobre la misma entrada:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
-\caption{Dos cargas consecutivas del archivo definitivo, registradas en \f{ingestion\_runs}.}
-\begin{tabular}{@{}lrrrrrr@{}}
+\caption{Dos cargas definitivas según la documentación de Miguel; el reporte publicado corresponde a la segunda.}
+\begin{tabularx}{\textwidth}{@{}Lrrrrrr@{}}
 \toprule
-Corrida & Leídos & Insertados & Reemplazados & Sin cambios & Rechazados & En la colección \
+Corrida & Leídos & Nuevos & Reempl. & Iguales & Rechazos & Total \\
 \midrule
-1 & 170 & 0 & 170 & 0 & 0 & 170 \
-2 & 170 & 0 & 0 & 170 & 0 & 170 \
+1 & 170 & 0 & 170 & 0 & 0 & 170 \\
+2 & 170 & 0 & 0 & 170 & 0 & 170 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
-La primera corrida reemplazó los 170 documentos de la carga de prueba anterior (ver la diferencia entre ambos archivos en la sección~\ref{sec:preparacion}); no insertó ninguno nuevo, porque los 170 \f{\_id} ya existían. La segunda no insertó ni modificó nada: la colección siguió con 170 documentos y 170 \f{\_id} distintos, todos con el mismo \f{loaded\_at} de la primera corrida. Las nueve verificaciones posteriores dieron OK en las dos corridas. Además:
+La primera corrida reemplazó los 170 documentos de la carga de prueba anterior (ver la diferencia entre ambos archivos en la sección~\ref{sec:preparacion}); no insertó ninguno nuevo, porque los 170 \f{\_id} ya existían. La segunda no insertó ni modificó nada: la colección siguió con 170 documentos y 170 \f{\_id} distintos, todos con el mismo \f{loaded\_at} de la primera corrida. Miguel documentó nueve verificaciones posteriores OK en ambas corridas; el JSON versionado permite comprobar directamente la segunda. Además:
 
 \begin{itemize}
   \item Índices de \f{municipalities}: \f{\_id\_}, \f{geometry\_2dsphere} y \f{subregion\_id\_1}. Validador con \f{validationAction = error} y los diez campos obligatorios del diccionario de datos.
   \item Geometrías: 170 \f{MultiPolygon} (168 de una sola parte); el documento más grande, Solano (18756), ocupa 1,75~MB en BSON, lejos del límite de 16~MB.
   \item \f{pdet\_subregions}: 16 documentos cuyos \f{municipality\_count} suman 170.
-  \item Consulta \f{\$geoIntersects} con un punto interior de Amalfi (05031) y otra con uno de San Vicente del Caguán (18753): cada una devuelve solo su municipio, con un plan \f{FETCH} $\rightarrow$ \f{IXSCAN} sobre \f{geometry\_2dsphere}, 7 claves examinadas y un documento leído.
-  \item El verificador de Sebastián (\f{02\_verify\_spatial.py}) sobre esta misma base: \textbf{9/9 OK}, salida 0 (conteo 170/170, DIVIPOLA, cruce con el Excel sin faltantes ni sobrantes, esquema, 170/170 geometrías válidas, índice, consulta con control negativo y \f{explain}). La evidencia queda en \f{outputs/municipalities\_spatial\_verification\_real.json}.
+  \item La consulta de Amalfi (05031) del reporte espacial definitivo devuelve solo ese municipio. Su plan ganador usa \f{geometry\_2dsphere}, con 9 claves examinadas y un documento leído (sección~\ref{sec:verificacion}).
+  \item El verificador de Sebastián (\path{02_verify_spatial.py}) sobre esta misma base: \textbf{9/9 OK}, salida 0 (conteo 170/170, DIVIPOLA, cruce con el Excel sin faltantes ni sobrantes, esquema, 170/170 geometrías válidas, índice, consulta con control negativo y \f{explain}). La evidencia queda en \path{outputs/municipalities_spatial_verification_real.json}.
 \end{itemize}
 
-\subsection{Limitación resuelta: el \f{timeStamp} del WFS}
+\subsection{Comparación de contenido del WFS}
 
-La primera carga se hizo con \f{--allow-input-mismatch}: al volver a descargar, el SHA256 de las páginas GML nunca coincidía con \f{mgn\_wfs\_source\_receipt.json}, porque el WFS del DANE escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta. Se comprobó que es la única diferencia: con el \f{timeStamp} original reinsertado, las seis páginas descargadas de nuevo reproducen exactamente el SHA256 del recibo. El recibo ahora guarda, además, un hash de contenido (\f{content\_sha256}, con ese atributo vaciado), y \f{01\_download\_mgn.py} acepta una página que coincide por bytes o por contenido (detalle en {entrega2_descarga_y_preparacion.md}). Con eso la cadena completa corrió sin excepciones y la carga ya no necesita \f{--allow-input-mismatch}.
+La primera carga se hizo con \f{--allow-input-mismatch}: al volver a descargar, el SHA256 de las páginas GML nunca coincidía con \f{mgn\_wfs\_source\_receipt.json}, porque el WFS del DANE escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta. Se comprobó que es la única diferencia: con el \f{timeStamp} original reinsertado, las seis páginas descargadas de nuevo reproducen exactamente el SHA256 del recibo. El recibo ahora guarda, además, un hash de contenido (\f{content\_sha256}, con ese atributo vaciado), y \path{01_download_mgn.py} acepta una página que coincide por bytes o por contenido (detalle en \path{entrega2_descarga_y_preparacion.md}). Con eso la cadena completa corrió sin excepciones y la carga ya no necesita \f{--allow-input-mismatch}.

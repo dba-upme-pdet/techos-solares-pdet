@@ -60,7 +60,7 @@ El self-check prueba cada falla con un caso sintético: municipio ausente, códi
 
 ## Evidencia de la capa real
 
-Corrida el 2026-11-08 con Python 3.13.12, GeoPandas 1.2.0, pyproj 3.8.0, pandas 3.1.1 y shapely 2.2.0, sobre la capa que produce `01_download_mgn.py` a partir de las seis respuestas WFS del recibo.
+El reporte vigente fue generado por Miguel el 2026-11-09 a las 07:27:37 de Bogotá sobre la capa del manifiesto con SHA256 `0527dd8b0b2ff5295272b46835fea29b7175115e9555384636dd86ab2fb63059`. Reproduce los resultados iniciales publicados por Samuel el día 8 (en su entorno con Python 3.13.12, GeoPandas 1.2.0, pyproj 3.8.0, pandas 3.1.1 y Shapely 2.2.0). No se presenta esa configuración histórica como la de la ejecución definitiva ni se repitió la validación en esta revisión editorial.
 
 Resultado: **valid**, 19 de 20 verificaciones en OK y 1 aviso informativo. Salida 0.
 
@@ -73,7 +73,7 @@ Resultado: **valid**, 19 de 20 verificaciones en OK y 1 aviso informativo. Salid
 
 La tabla completa está en `outputs/mgn_validation_summary.md` y el cruce fila por fila en `outputs/pdet_mgn_crosswalk.csv`.
 
-## Observaciones para el equipo
+## Observaciones de trazabilidad
 
-- El SHA256 del GeoPackage cambia entre máquinas aunque el contenido sea el mismo, porque GeoPackage (SQLite) guarda la fecha de escritura. Aquí la capa quedó en `1dbe68b2…` y el manifiesto del repositorio dice `fe6bdebf…`. El GeoJSONL de `02_prepare_municipalities.py` sí sale idéntico (`612e2544…`). Por eso este script compara la capa contra el manifiesto de la misma corrida: hay que correr `01_download_mgn.py` antes en la misma máquina.
-- Cada respuesta del WFS trae un atributo `timeStamp` con la hora del servidor en la cabecera `wfs:FeatureCollection`. Una descarga nueva tiene los mismos bytes de tamaño, pero otro SHA256, y `01_download_mgn.py` la rechaza contra el recibo. Al restituir el `timeStamp` original (`2026-11-08T20:23:33Z` para `page_0000.gml`) el hash coincide con el recibo, así que el contenido servido no cambió. Se sugiere que el recibo compare el hash con `timeStamp` normalizado.
+- El GeoPackage puede cambiar de hash al escribirse por sus metadatos internos; se compara contra el manifiesto de esa misma corrida. El reporte vigente y el manifiesto coinciden en el hash indicado arriba. Los hashes distintos descritos en la primera revisión son antecedentes, no una contradicción actual.
+- El bloqueo por `timeStamp` quedó resuelto en la descarga: el recibo conserva el hash binario y el hash de contenido, que omite solo el valor de ese atributo en la raíz. El manifiesto registra cómo coincidieron las seis páginas. No es necesario modificar los bytes originales ni ignorar la comprobación de integridad. Véase `entrega2_descarga_y_preparacion.md`.
