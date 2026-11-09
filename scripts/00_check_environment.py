@@ -1,4 +1,3 @@
-
 """Verifica Python 3.11+ y que estén instaladas las dependencias de requirements.txt."""
 
 import sys

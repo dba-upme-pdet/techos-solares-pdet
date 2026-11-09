@@ -1,0 +1,146 @@
+{
+  "area_geometry_check": {
+    "compared_features": 1122,
+    "max": 1.0208893341294494,
+    "median": 0.9994396087515729,
+    "method": "atributo / (área geodésica WGS84 del contorno servido, en km2)",
+    "min": 0.9984008536227786,
+    "p10": 0.9984225049663049,
+    "p90": 1.0027195805975408
+  },
+  "area_unit": "km2",
+  "area_unit_note": "El nombre del elemento dice departamento aunque el objeto es un municipio. La unidad se toma de kilómetros cuadrados en ese nombre y del cociente contra el área geodésica; no se usa la magnitud de un solo municipio.",
+  "area_unit_source": "elemento GML Área_departamento_en_kilómetros_cuadrados, alias publicado de MPIO_NAREA; el diccionario de la Entrega 1 guarda ese valor en area_km2",
+  "bytes": 100577280,
+  "bytes_source": "preserved-wfs-responses",
+  "claims_national_download": true,
+  "claims_zip_product": false,
+  "columns": [
+    "MPIO_CDPMP",
+    "MPIO_CNMBR",
+    "MPIO_NAREA",
+    "DPTO_CCDGO",
+    "DPTO_CNMBRE",
+    "MPIO_CCDGO",
+    "MPIO_NANO"
+  ],
+  "contract": "entrega2-mgn-v1",
+  "coordinates_stored": "longitude,latitude",
+  "crs_epsg": "EPSG:4686",
+  "crs_equals_expected": true,
+  "crs_expected": "EPSG:4686",
+  "crs_note": "El srsName del GML declara EPSG:4686 con eje latitud/longitud. El almacenamiento REST del mismo servicio informa EPSG:3857. No se leyó el ZIP ni un .prj de archivo, así que el CRS del archivo original no está probado. La capa de trabajo guarda longitud/latitud y usa EPSG:4686 como CRS declarado por el WFS.",
+  "discovery_dataset": "datos.gov.co:8xdp-fsgm",
+  "distribution": "ogc-wfs-2.0-gml32",
+  "errors": [],
+  "extracted_layer": "data/raw/mgn2025/wfs/municipio.gpkg",
+  "feature_count": 1122,
+  "feature_version_year_counts": {
+    "2024": 954,
+    "2025": 168
+  },
+  "field_name_map": {
+    "DPTO_CCDGO": "Código_DANE_departamento",
+    "DPTO_CNMBRE": "Nombre_departamento",
+    "MPIO_CCDGO": "Código_DANE_municipio",
+    "MPIO_CDPMP": "Código_DANE_concatenado_departamento_y_municipio",
+    "MPIO_CNMBR": "Nombre_municipio",
+    "MPIO_NANO": "Año_versión_DANE",
+    "MPIO_NAREA": "Área_departamento_en_kilómetros_cuadrados"
+  },
+  "filename": "Serv_CapasMGN_2025:Municipio",
+  "fixture": false,
+  "geometry_types": [
+    "MultiPolygon"
+  ],
+  "gml_axis_order": "latitude,longitude",
+  "layer_name": "municipio.gpkg",
+  "live_wfs_request_this_run": false,
+  "municipality_name_source": "Nombre_municipio, que el servicio REST llama MPIO_CNMBRE; la Entrega 1 lo nombra MPIO_CNMBR",
+  "null_geometry_count": 0,
+  "original_archive_crs_proven": false,
+  "readable": true,
+  "required_fields_present": {
+    "DPTO_CCDGO": true,
+    "MPIO_CDPMP": true,
+    "MPIO_CNMBR": true,
+    "MPIO_NAREA": true
+  },
+  "resolved_file_url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio",
+  "rest_storage_crs": "EPSG:3857",
+  "role": "download-manifest",
+  "served_srs_name": "urn:ogc:def:crs:EPSG::4686",
+  "sha256": "fe6bdebf30d586f805c844be216f9f129b8567f5f1a2b18a3212ad12cd35e17f",
+  "source_page": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer",
+  "source_page_sha256": [
+    "5d600d25b92848d19497cc99f2858f387ff8e0eaf642d197c4f8cc3611e59049",
+    "6900fa4198178d28efd5f3977e13794376fdfce0a5447f533460f66ebfc128de",
+    "168772c3d7bda194dfa91e075065a3ec45d60ea748265b255e34089ed3b367e6",
+    "d6b3ee0b193b2825504b94930af79df8c832b01d3e07cc8b22de614e5b23b8fb",
+    "2b8496abd8a23eee1bd042722171c5e608cae48d36bf6fc087cece8723be3ba1",
+    "2eadfebad8338ceedba7995be88e7e029a8333c6228273d0f6adecab597a68e6"
+  ],
+  "source_pages": [
+    {
+      "bytes": 26416139,
+      "http_status": 200,
+      "name": "page_0000.gml",
+      "retrieved_at": "2026-11-08T15:24:23-05:00",
+      "seconds": 6.93068,
+      "sha256": "5d600d25b92848d19497cc99f2858f387ff8e0eaf642d197c4f8cc3611e59049",
+      "start_index": 0,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=0"
+    },
+    {
+      "bytes": 22174892,
+      "http_status": 200,
+      "name": "page_0200.gml",
+      "retrieved_at": "2026-11-08T15:24:29-05:00",
+      "seconds": 6.4267,
+      "sha256": "6900fa4198178d28efd5f3977e13794376fdfce0a5447f533460f66ebfc128de",
+      "start_index": 200,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=200"
+    },
+    {
+      "bytes": 25069453,
+      "http_status": 200,
+      "name": "page_0400.gml",
+      "retrieved_at": "2026-11-08T15:24:37-05:00",
+      "seconds": 7.306967,
+      "sha256": "168772c3d7bda194dfa91e075065a3ec45d60ea748265b255e34089ed3b367e6",
+      "start_index": 400,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=400"
+    },
+    {
+      "bytes": 29395276,
+      "http_status": 200,
+      "name": "page_0600.gml",
+      "retrieved_at": "2026-11-08T15:24:45-05:00",
+      "seconds": 8.155916,
+      "sha256": "d6b3ee0b193b2825504b94930af79df8c832b01d3e07cc8b22de614e5b23b8fb",
+      "start_index": 600,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=600"
+    },
+    {
+      "bytes": 21884852,
+      "http_status": 200,
+      "name": "page_0800.gml",
+      "retrieved_at": "2026-11-08T15:24:52-05:00",
+      "seconds": 7.303004,
+      "sha256": "2b8496abd8a23eee1bd042722171c5e608cae48d36bf6fc087cece8723be3ba1",
+      "start_index": 800,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=800"
+    },
+    {
+      "bytes": 27119583,
+      "http_status": 200,
+      "name": "page_1000.gml",
+      "retrieved_at": "2026-11-08T15:25:01-05:00",
+      "seconds": 8.495777,
+      "sha256": "2eadfebad8338ceedba7995be88e7e029a8333c6228273d0f6adecab597a68e6",
+      "start_index": 1000,
+      "url": "https://portalgis.dane.gov.co/mparcgis/services/MGN2025/Serv_CapasMGN_2025/MapServer/WFSServer?service=WFS&version=2.0.0&request=GetFeature&typeNames=Serv_CapasMGN_2025:Municipio&srsName=urn:ogc:def:crs:EPSG::4686&count=200&startIndex=1000"
+    }
+  ],
+  "status": "complete"
+}
