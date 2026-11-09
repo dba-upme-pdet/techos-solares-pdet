@@ -1,11 +1,11 @@
 % Sebastián Sánchez Vásquez (scripts/02\_verify\_spatial.py)
 \section{Verificación de la integración y del índice espacial}\label{sec:verificacion}
 
-\textit{Responsable: Sebastián Sánchez Vásquez. Script: \f{scripts/02\_verify\_spatial.py}.}
+\textit{Responsable: Sebastián Sánchez Vásquez. Script: \path{scripts/02_verify_spatial.py}.}
 
 \subsection{Objetivo y método}
 
-Verificar mediante lecturas la colección \f{upme\_pdet.municipalities}, sin modificar documentos, índices ni geometrías. El script lee \f{config.yaml}, admite \f{MONGO\_URI} e importa el esquema BSON de \f{00\_init\_db.py} y las constantes del contrato común. Normaliza los códigos del Excel de referencia con ceros iniciales; no corrige los identificadores almacenados.
+Verificar mediante lecturas la colección \f{upme\_pdet.municipalities}, sin modificar documentos, índices ni geometrías. El script lee \f{config.yaml}, admite \f{MONGO\_URI} e importa el esquema BSON de \path{00_init_db.py} y las constantes del contrato común. Normaliza los códigos del Excel de referencia con ceros iniciales; no corrige los identificadores almacenados.
 
 Se comprueban nueve controles: conexión, cantidad exacta de 170 documentos, formato y unicidad DIVIPOLA, igualdad con el conjunto PDET, esquema y contrato, geometrías, índice espacial, consulta y uso efectivo del índice. El esquema exige, entre otros campos, \f{loaded\_at} como fecha BSON. Las geometrías Polygon/MultiPolygon deben ser no vacías, topológicamente válidas, de área positiva, con anillos explícitamente cerrados y posiciones 2D numéricas finitas en longitud/latitud. Todos los vértices deben estar en la ventana Colombia del contrato; se rechazan ejes invertidos y un CRS explícito alternativo.
 
@@ -27,10 +27,10 @@ Se contrastaron los reportes de descarga, validación, preparación, carga y ver
 \end{center}
 La segunda carga conserva 170 documentos sin cambios, sin rechazados ni borrados. La preparación definitiva conserva 170 MultiPolygon (sección~\ref{sec:preparacion}). El reporte espacial registra \f{success: true} y \textbf{nueve controles OK}, coherentes con la salida 0 documentada por Miguel y definida por la CLI.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Resultados definitivos del verificador independiente, ejecutado por Miguel.}
-\begin{tabularx}{\textwidth}{@{}p{4.2cm} L@{}}
+\begin{tabularx}{\textwidth}{@{}P{4.2cm} L@{}}
 \toprule
 Control & Resultado \\
 \midrule
@@ -56,7 +56,7 @@ La consulta registrada usa un punto interior de Amalfi (05031):
   coordinates: [-74.9514735167314, 7.020482489999999]
 }}}}
 \end{verbatim}
-Devuelve únicamente \f{05031}, igual al resultado esperado por Shapely. El control negativo \f{[0.0, 0.0]} devuelve cero coincidencias. El plan ganador es \f{FETCH} $\rightarrow$ \f{IXSCAN}, con \f{indexName: geometry\_2dsphere} y clave espacial \f{geometry: 2dsphere}. Las estadísticas del JSON registran \textbf{9 claves examinadas, 1 documento examinado y 1 resultado}, con \f{executionSuccess: true}. Esto demuestra uso efectivo del índice en esta consulta; las 7 claves citadas en la sección de carga no son la estadística de este JSON independiente.
+Devuelve únicamente \f{05031}, igual al resultado esperado por Shapely. El control negativo \f{[0.0, 0.0]} devuelve cero coincidencias. El plan ganador es \f{FETCH} $\rightarrow$ \f{IXSCAN}, con \f{indexName: geometry\_2dsphere} y clave espacial \f{geometry: 2dsphere}. Las estadísticas del JSON registran \textbf{9 claves examinadas, 1 documento examinado y 1 resultado}, con \f{executionSuccess: true}. Esto demuestra uso efectivo del índice en esta consulta; las 7 claves del ejemplo sintético no son la estadística de este JSON definitivo.
 
 \subsection{Trazabilidad y antecedente local}
 

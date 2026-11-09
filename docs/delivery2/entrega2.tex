@@ -9,6 +9,10 @@
 \usepackage{lmodern}
 \usepackage[left=2.3cm,right=2.3cm,top=2.2cm,bottom=2.4cm]{geometry}
 \usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{xurl}
+\usepackage{needspace}
+\usepackage[section]{placeins}
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{tabularx}
@@ -22,8 +26,13 @@
 \definecolor{acento}{HTML}{1F5FAF}
 \newcommand{\brkus}{\textunderscore\allowbreak}
 \newcommand{\f}[1]{{\ttfamily\let\_\brkus #1}}
-\newcommand{\pendiente}[1]{\par\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\small\color{gray}Pendiente: #1}}\par}
+\raggedbottom
+\clubpenalty=10000
+\widowpenalty=10000
+\AddToHook{cmd/section/before}{\Needspace{7\baselineskip}}
+\AddToHook{cmd/subsection/before}{\Needspace{5\baselineskip}}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \setlist{nosep,leftmargin=1.4em}
 \setlength{\parskip}{0.45em}
 \setlength{\parindent}{0pt}
@@ -42,37 +51,77 @@
   {\small Pontificia Universidad Javeriana · Administración de Bases de Datos · 2026-30}\\[0.9em]
   {\LARGE\bfseries\color{acento} Entrega 2: Integración de los límites\\[0.2em] de municipios PDET}\\[0.8em]
   {\large Potencial solar en techos de los municipios PDET (UPME)}\\[0.8em]
-  Derek Sarmiento · José Medina · Miguel Duarte · Sebastián Sánchez Vásquez · Samuel Emperador\\[0.3em]
+  Derek Sarmiento · José Medina · Miguel Duarte\\
+  Sebastián Sánchez Vásquez · Samuel Emperador\\[0.3em]
   {\small Prof. Andrés Oswaldo Calderón Romero, Ph.D. · Lunes 9 de noviembre de 2026}\\[0.3em]
   {\small Repositorio: \url{https://github.com/dba-upme-pdet/techos-solares-pdet}}
 \end{center}
 
 \section{Objetivo y flujo}
 
+\textbf{Resultado definitivo.} Los reportes publicados por Miguel el 9 de noviembre de 2026 acreditan 170 municipios PDET, 16 subregiones, coincidencia del SHA256 entre preparación y carga y nueve controles espaciales aprobados. La carga y la verificación definitivas corresponden a su entorno; no se atribuyen al computador de Sebastián.
+
+Los resultados de pruebas sintéticas y de la base local vacía se presentan como antecedentes separados. Esta revisión del informe contrasta los archivos de evidencia; no repite la carga ni las pruebas históricas. Las responsabilidades de la tabla indican los tramos asignados. Miguel redactó las secciones de descarga y preparación; los comentarios de sus fuentes conservan que no consta una revisión de Derek y José. La revisión editorial no equivale a una aprobación de esos integrantes.
+
 Esta entrega integra los límites oficiales de los 170 municipios PDET en MongoDB: se descarga la capa municipal del Marco Geoestadístico Nacional (MGN 2025) del DANE, se valida contra la lista oficial de municipios PDET, se convierte a documentos GeoJSON compatibles con el esquema de la Entrega 1, se carga en la colección \f{municipalities} y se verifica el índice \f{2dsphere}.
 
-Los scripts comparten un contrato (\f{scripts/entrega2\_contracts.py}, versión \f{entrega2-mgn-v1}): nombres de campos, CRS, regla de códigos DIVIPOLA y formato de los reportes en \f{outputs/}. El cruce entre el MGN y la lista PDET es siempre por código DIVIPOLA de 5 dígitos, nunca por nombre.
+Los scripts comparten un contrato (\path{scripts/entrega2_contracts.py}, versión \f{entrega2-mgn-v1}): nombres de campos, CRS, regla de códigos DIVIPOLA y formato de los reportes en \path{outputs/}. El cruce entre el MGN y la lista PDET es siempre por código DIVIPOLA de 5 dígitos, nunca por nombre.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Pasos de la Entrega 2, en orden de ejecución.}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.4cm} p{3.4cm} L@{}}
+\begin{tabularx}{\textwidth}{@{}P{4.4cm} P{3.4cm} L@{}}
 \toprule
 Script & Responsable & Entrada $\rightarrow$ salida \\
 \midrule
-\f{01\_download\_mgn.py} & Derek Sarmiento & WFS MGN 2025 $\rightarrow$ capa GeoPackage y \f{mgn\_download\_manifest.json} \\
-\f{01\_validate\_mgn.py} & Samuel Emperador & capa + \f{MunicipiosPDET.xlsx} $\rightarrow$ \f{mgn\_validation\_report.json}, resumen y cruce CSV \\
-\f{02\_prepare\_municipalities.py} & José Medina & capa + Excel $\rightarrow$ \f{municipalities.geojsonl} (170 documentos) \\
-\f{02\_load\_municipalities.py} & Miguel Duarte & GeoJSONL $\rightarrow$ colección \f{municipalities} \\
-\f{02\_verify\_spatial.py} & Sebastián Sánchez & colección $\rightarrow$ \f{explain()} sobre \f{geometry\_2dsphere} \\
+\path{01_download_mgn.py} & Derek Sarmiento & WFS MGN 2025 $\rightarrow$ capa GeoPackage y \f{mgn\_download\_manifest.json} \\
+\path{01_validate_mgn.py} & Samuel Emperador & capa + \f{MunicipiosPDET.xlsx} $\rightarrow$ \f{mgn\_validation\_report.json}, resumen y cruce CSV \\
+\path{02_prepare_municipalities.py} & José Medina & capa + Excel $\rightarrow$ \f{municipalities.geojsonl} (170 documentos) \\
+\path{02_load_municipalities.py} & Miguel Duarte & GeoJSONL $\rightarrow$ colección \f{municipalities} \\
+\path{02_verify_spatial.py} & Sebastián Sánchez & colección $\rightarrow$ \f{explain()} sobre \f{geometry\_2dsphere} \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+\subsection{Esquema NoSQL reutilizado}
+
+Se conserva el modelo de la Entrega 1 (figura~\ref{fig:er}). En esta etapa, una subregión agrupa municipios mediante \f{subregion\_id}; cada municipio se guarda como un documento identificado por DIVIPOLA. Las corridas se registran en \f{ingestion\_runs}. La relación espacial municipio--edificación se resolverá en entregas posteriores; aquí no se afirma haber cargado huellas ni calculado potencial solar.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../delivery1/diagrama_er.png}
+\caption{Modelo lógico de referencia conservado de la Entrega 1. Esta entrega materializa los límites municipales, sus subregiones y el registro de carga; las entidades de edificaciones y estadísticas corresponden a etapas posteriores.}\label{fig:er}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Diccionario resumido de las colecciones utilizadas en la Entrega 2.}
+\begin{tabularx}{\textwidth}{@{}P{3.2cm} L@{}}
+\toprule
+Colección & Campos clave y restricciones \\
+\midrule
+\f{municipalities} & \f{\_id}: string DIVIPOLA de 5 dígitos; \f{name}, \f{dpto\_code} (2 dígitos), \f{dpto\_name}; \f{subregion\_id}: entero y \f{subregion\_name}; \f{area\_km2}: numérico; \f{geometry}: GeoJSON Polygon/MultiPolygon en WGS84 con índice \f{2dsphere}; \f{source}: objeto de origen y \f{loaded\_at}: fecha BSON. \\
+\f{pdet\_subregions} & \f{\_id}: entero 1--16; \f{name}: string; \f{municipality\_count}: entero positivo. Los conteos provienen de los mismos documentos municipales. \\
+\f{ingestion\_runs} & \f{\_id}: ObjectId; \f{dataset\_id}, \f{source\_file}; filas leídas, cargadas y rechazadas; fechas de inicio y fin; notas de la corrida. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Los validadores e índices se implementan en \path{scripts/00_init_db.py}; las referencias entre documentos no equivalen a claves foráneas impuestas por MongoDB. El detalle completo del modelo está en el informe de la Entrega 1.
 
 \input{secciones/descarga}
 \input{secciones/validacion}
 \input{secciones/preparacion}
 \input{secciones/carga}
 \input{secciones/verificacion}
+
+
+\section{Cierre y entrega}
+
+El informe presenta evidencia de adquisición y validación, integridad del GeoJSON e implementación del índice espacial; el plan y el modelo E--R/diccionario se resumen en la sección~1. La cadena completa se reproduce siguiendo la tabla~1 y los comandos del README, con datos y recibos consistentes. La verificación debe usar un archivo de salida nuevo para preservar el reporte definitivo de Miguel.
+
+El PDF se versiona con sus fuentes. El enunciado exige además su envío a BrightSpace antes de las 14:00 de la semana 2, contribuciones de todos los integrantes y defensa del trabajo. Esta revisión no realiza ese envío ni acredita una aprobación individual o una defensa. No se asigna una calificación a los resultados documentados.
+
+Fuentes del curso consultadas: \href{https://github.com/aocalderon/PUJ/blob/main/2026-30/DBA/Project/Project.tex}{enunciado del proyecto} y \href{https://github.com/aocalderon/PUJ/blob/main/2026-30/DBA/Project/resources/rubrics/DBA_2630_FinalProject_RubricWeek2.pdf}{rúbrica vigente de la semana 2}. La fuente administrativa es el WFS MGN 2025 del DANE, identificado en el recibo y en \path{config.yaml}.
 
 \end{document}

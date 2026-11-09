@@ -40,7 +40,7 @@ El validador, los índices y las reglas del documento no se copian: el script im
 1. El `_id` de cada documento es el código DIVIPOLA, así que MongoDB no admite dos documentos del mismo municipio (error 11000).
 2. Antes de escribir, la carga se detiene si la entrada trae un `_id` repetido.
 3. Cada documento se compara con el que ya está en la base, sin `loaded_at`: si no existe se inserta, si cambió se reemplaza y si es idéntico no se toca. Por eso `loaded_at` solo cambia cuando el municipio cambia.
-4. Si en la base hay un `_id` que no está en la entrada, se reporta en `extra_in_db` y la carga no se da por buena hasta correr con `--prune`.
+4. Si en la base hay un `_id` que no está en la entrada, se reporta en `extra_in_db` y la carga no se da por buena hasta conciliar esos documentos. No los borra por defecto; `--prune` es una opción destructiva explícita, no un paso de la carga definitiva.
 
 ## Verificación posterior
 
@@ -60,13 +60,13 @@ La verificación completa e independiente es `02_verify_spatial.py` (Sebastián)
 
 ## Evidencia
 
-Carga definitiva del 9 de noviembre de 2026 (07:29, hora de Bogotá). Python 3.11.9, PyMongo 4.19.0, Shapely 2.2.0 y MongoDB 7.0.45 (`mongo:7.0` en Docker).
+Carga definitiva realizada por Miguel en su computador el 9 de noviembre de 2026; el reporte versionado corresponde a la segunda corrida, de 07:30:18 a 07:30:25, hora de Bogotá. Python 3.11.9, PyMongo 4.19.0, Shapely 2.2.0 y MongoDB 7.0.45 (`mongo:7.0` en Docker).
 
 **Entrada:** `data/processed/municipalities.geojsonl` con SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`, el mismo de `municipalities_prepare_report.json`. El reporte de carga queda con `input_matches_prepare_report: true`. **No se usó `--allow-input-mismatch`.**
 
-**Self-check: 16/16 OK.** Primera carga, segunda carga idéntica sin cambios, documento modificado reemplazado, subregiones e `ingestion_runs`, `_id` repetido y `loaded_at` en la entrada rechazados, `$jsonSchema` rechaza un `_id` de 4 dígitos y un documento sin `loaded_at` (121), `2dsphere` rechaza un polígono que se auto-intersecta (16755), `_id` rechaza un municipio repetido (11000), `_id` ajeno reportado y borrado con `--prune`, base temporal eliminada.
+**Self-check histórico documentado: 16/16 OK.** No se volvió a ejecutar durante esta revisión del informe. Primera carga, segunda carga idéntica sin cambios, documento modificado reemplazado, subregiones e `ingestion_runs`, `_id` repetido y `loaded_at` en la entrada rechazados, `$jsonSchema` rechaza un `_id` de 4 dígitos y un documento sin `loaded_at` (121), `2dsphere` rechaza un polígono que se auto-intersecta (16755), `_id` rechaza un municipio repetido (11000), `_id` ajeno reportado y borrado con `--prune`, base temporal eliminada.
 
-**Carga real, dos veces seguidas:**
+**Dos corridas reales según la documentación de Miguel; el JSON versionado permite comprobar directamente la segunda:**
 
 | Corrida | Leídos | Insertados | Reemplazados | Sin cambios | Rechazados | En la colección |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -78,12 +78,12 @@ La corrida 1 reemplazó los 170 documentos de la carga de prueba anterior (archi
 - `municipalities`: índices `_id_`, `geometry_2dsphere` y `subregion_id_1`; validador con `validationAction: error` y los diez campos obligatorios.
 - Geometrías: 170 `MultiPolygon` (168 de una sola parte; Tumaco con 3 y Buenaventura con 31). El documento más grande, Solano (18756), ocupa 1,75 MB en BSON (límite: 16 MB).
 - `pdet_subregions`: 16 documentos cuyos `municipality_count` suman 170.
-- `$geoIntersects` con un punto interior de Amalfi (05031) y de San Vicente del Caguán (18753): cada consulta devuelve solo su municipio, con `FETCH → IXSCAN` sobre `geometry_2dsphere`, 7 claves examinadas y 1 documento leído.
+- La consulta definitiva del verificador usa un punto interior de Amalfi (05031): devuelve solo ese municipio, con `FETCH → IXSCAN` sobre `geometry_2dsphere`, **9 claves examinadas y 1 documento leído**, según `municipalities_spatial_verification_real.json`. No se confunden las estadísticas de otras consultas históricas con las de ese reporte.
 - `02_verify_spatial.py` (Sebastián) sobre esta misma base: **9/9 OK, salida 0**. Evidencia en `outputs/municipalities_spatial_verification_real.json`.
 
-La base `upme_pdet` queda cargada con este archivo para la verificación espacial.
+La base `upme_pdet` del entorno de Miguel quedó cargada y verificada con ese archivo; no se afirma una carga en el computador de Sebastián.
 
-Municipios y área por subregión, leídos de la colección cargada:
+Municipios y área por subregión documentados por Miguel a partir de su colección cargada (no se consultó esa base durante la revisión editorial):
 
 | Subregión | Municipios | Área MGN (km²) |
 | --- | ---: | ---: |

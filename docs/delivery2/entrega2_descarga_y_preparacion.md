@@ -1,8 +1,8 @@
 # Entrega 2: descarga del MGN y preparación de municipios
 
-Alcance de este cambio: `scripts/01_download_mgn.py`, tramo asignado a Derek, y `scripts/02_prepare_municipalities.py`, tramo asignado a José. Preparar ese segundo script no afirma que José lo haya escrito. No incluye `01_validate_mgn.py`, `02_load_municipalities.py` ni `02_verify_spatial.py`.
+Alcance de este documento: `scripts/01_download_mgn.py`, tramo asignado a Derek, y `scripts/02_prepare_municipalities.py`, tramo asignado a José. Preparar ese segundo script no afirma que José lo haya escrito. La validación, carga y verificación espacial se describen en sus documentos específicos y en el informe completo.
 
-La rúbrica de la semana 2 (`aocalderon/PUJ`, `2026-30/DBA/Project/resources/rubrics/DBA_FinalProject_Rubrics_Week2.pdf`) pide adquisición y verificación (25), integridad y formato (20), integración espacial NoSQL (25), documentación (15), claridad del informe (5) y defensa (10). Aquí quedan cubiertos el mecanismo de descarga, el formato de los documentos y la documentación de estos dos tramos. La carga, el índice `2dsphere` y el `explain()` siguen siendo de Miguel y Sebastián.
+La rúbrica vigente de semana 2 (`aocalderon/PUJ`, `2026-30/DBA/Project/resources/rubrics/DBA_2630_FinalProject_RubricWeek2.pdf`) asigna plan de implementación 15, modelo/diccionario 20, adquisición y verificación 30, integridad y formato 20 e integración espacial NoSQL 15. El informe completo reúne las cinco etapas y el modelo heredado de la Entrega 1. Este documento detalla los tramos de descarga y preparación; la carga y la verificación definitivas están publicadas en sus reportes y documentos correspondientes.
 
 ## Comandos
 
@@ -61,7 +61,7 @@ Los ZIP, shapefiles y el JSONL quedan fuera de git (`.gitignore`).
 7. `source` queda `{dataset: "MGN", version: "2025", file: <nombre observado>}`. `version` sale de `sources.mgn.version` (`MGN2025`).
 8. Sin unidad declarada para `MPIO_NAREA`, el estado es `unresolved_area_unit`, no se escribe el JSONL y el código de salida es 3.
 
-## Evidencia de los fixtures
+## Evidencia histórica de los fixtures (8 de noviembre)
 
 Corrida el 2026-11-08 con Python 3.12.3, GeoPandas 1.2.0, pyproj 3.8.0, pandas 3.1.1, shapely 2.2.0 y requests 2.34.2.
 
@@ -70,9 +70,9 @@ Corrida el 2026-11-08 con Python 3.12.3, GeoPandas 1.2.0, pyproj 3.8.0, pandas 3
 
 Esas pruebas no verifican los 170 municipios. Una corrida anterior de los mismos comandos, antes de estos casos, dio 11/11 y 17/17.
 
-## Evidencia de la capa real
+## Antecedente de adquisición y preparación (8 de noviembre)
 
-Desde esta red, `portalgis.dane.gov.co` corta el TLS antes del certificado (`curl` código 35, un solo intento, sin reintento). `geoportal.dane.gov.co` hace lo mismo y su puerto 80 responde 502. Ese registro sigue en `outputs/mgn_catalog_probe.json`. No es el resultado de la preparación.
+En el entorno y momento de aquella prueba, `portalgis.dane.gov.co` corta el TLS antes del certificado (`curl` código 35, un solo intento, sin reintento). `geoportal.dane.gov.co` hace lo mismo y su puerto 80 responde 502. Ese registro sigue en `outputs/mgn_catalog_probe.json`. No es el resultado de la preparación.
 
 Las seis respuestas WFS se obtuvieron fuera de esta red el 2026-11-08 entre 15:24:23 y 15:25:01 (`America/Bogota`), con HTTP 200. Cada GML descomprimido coincide con `outputs/mgn_wfs_source_receipt.json`. Los tamaños son 26416139, 22174892, 25069453, 29395276, 21884852 y 27119583 bytes. Los SHA256 empiezan, en orden, por `5d600d25`, `6900fa41`, `168772c3`, `d6b3ee0b`, `2b8496ab` y `2eadfeba`.
 
@@ -95,15 +95,15 @@ La unidad quedó en `km2`. El nombre del elemento oficial dice kilómetros cuadr
 
 Hay 15 nombres distintos entre `Nombre_municipio` y el Excel. El cruce no depende de ellos. Son diferencias de tilde o de forma oficial, por ejemplo `05665` SAN PEDRO DE URABÁ / SAN PEDRO DE URABA, `19548` PIENDAMÓ - TUNÍA / PIENDAMÓ y `70823` SAN JOSÉ DE TOLUVIEJO / TOLÚ VIEJO.
 
-## Lo que sigue sin resolverse
+## Límites y alcance
 
 - El ZIP de 1,5 GB citado en `Project.tex` no se descargó. El CRS del archivo original no está probado. El `srsName` del WFS declara EPSG:4686 y el REST informa EPSG:3857.
-- En una copia sin las páginas GML, un GetFeature real a `portalgis.dane.gov.co` sigue cortando el TLS antes del certificado (`SSL: UNEXPECTED_EOF_WHILE_READING`, un solo `startIndex=0`, salida 2). El manifiesto de esa copia queda `blocked`, con `claims_national_download = false`, `official_page_plan = true` y `cache_matches_receipt = false`. Su historial conserva el manifiesto exitoso byte a byte. El manifiesto que está en el repositorio no se reemplazó: las páginas locales siguen revalidando. No se desactivó la verificación TLS y no se repitió el host.
-- La inserción en MongoDB, la idempotencia de la carga y el `explain()` del índice `2dsphere` siguen siendo de Miguel y Sebastián.
+- En la prueba del 8 de noviembre, en una copia sin las páginas GML, un GetFeature real a `portalgis.dane.gov.co` cortó el TLS antes del certificado (`SSL: UNEXPECTED_EOF_WHILE_READING`, un solo `startIndex=0`, salida 2). El manifiesto de esa copia queda `blocked`, con `claims_national_download = false`, `official_page_plan = true` y `cache_matches_receipt = false`. Su historial conserva el manifiesto exitoso byte a byte. El manifiesto que está en el repositorio no se reemplazó: las páginas locales siguen revalidando. No se desactivó la verificación TLS y no se repitió el host.
+- La carga y la verificación definitivas ya están implementadas y documentadas por sus responsables; no son un bloqueo vigente. Véanse `municipalities_load_report.json` y `municipalities_spatial_verification_real.json`.
 
 ## Hash de contenido: el `timeStamp` del WFS
 
-El WFS del DANE escribe en el elemento raíz `wfs:FeatureCollection` un atributo `timeStamp` con la hora de cada respuesta (por ejemplo `timeStamp="2026-11-09T02:38:15Z"`). Por eso dos descargas del mismo contenido nunca tienen el mismo SHA256, y antes cualquier descarga nueva quedaba bloqueada contra el recibo.
+El WFS del DANE escribe en el elemento raíz `wfs:FeatureCollection` un atributo `timeStamp` con la hora de cada respuesta (por ejemplo `timeStamp="2026-11-09T02:38:15Z"`). Cuando cambia ese atributo, cambia el SHA256 binario; antes esa diferencia bloqueaba la comparación contra el recibo.
 
 - **Prueba de que es lo único que cambia.** Las seis páginas bajadas de nuevo la noche del 8 de noviembre (21:38, hora de Bogotá) tienen el mismo tamaño que las del recibo. Con el `timeStamp` original reinsertado (de `2026-11-08T20:23:33Z` a `2026-11-08T20:24:09Z`, unos 50 s antes del `retrieved_at` de cada página), las seis reproducen exactamente el `sha256` del recibo.
 - **Regla.** `content_sha256` es el SHA256 de la página con el valor de ese único atributo vaciado (`timeStamp=""`) y el resto de bytes sin cambios. Si la raíz no trae exactamente un `timeStamp`, la página no se puede comparar por contenido. Los archivos descargados nunca se modifican.
@@ -114,3 +114,8 @@ El WFS del DANE escribe en el elemento raíz `wfs:FeatureCollection` un atributo
 Con esto, la cadena descarga → validación (19/20; el único no aprobado es el aviso informativo de nombres) → preparación produjo otra vez el GeoJSONL con SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`, idéntico al del reporte original. `municipio.gpkg` sí cambia de hash en cada escritura (el GeoPackage guarda metadatos propios); el manifiesto registra el de la corrida actual.
 
 `write_geojsonl` y `write_json` escriben ahora con fin de línea LF. Antes, en Windows, `write_text` producía CRLF y el mismo contenido tenía otro SHA256.
+
+
+## Estado definitivo del 9 de noviembre
+
+En el entorno de Miguel, descarga y validación comparten el SHA256 de capa `0527dd8b0b2ff5295272b46835fea29b7175115e9555384636dd86ab2fb63059`. El manifiesto registra seis coincidencias por contenido y 1122 municipios; el reporte de preparación registra 170 documentos y conserva el SHA256 `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed`, idéntico al que declara la carga definitiva. Los hashes `fe6bdebf…` y `50d6749f…` citados antes pertenecen al antecedente del día 8, no a los archivos vigentes. Esta revisión documental no ejecutó nuevamente el flujo ni cambió reportes.

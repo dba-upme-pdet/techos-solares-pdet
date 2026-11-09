@@ -1,11 +1,11 @@
 % Samuel Emperador: filtrado y validación de municipios PDET (scripts/01_validate_mgn.py)
 \section{Filtrado y validación de municipios PDET}\label{sec:validacion}
 
-\textit{Responsable: Samuel Emperador. Script: \f{scripts/01\_validate\_mgn.py}.}
+\textit{Responsable: Samuel Emperador. Script: \path{scripts/01_validate_mgn.py}.}
 
 \subsection{Objetivo}
 
-Antes de preparar y cargar los municipios hay que comprobar que la capa del MGN y la lista oficial PDET son coherentes entre sí: que cada uno de los 170 municipios PDET existe en el MGN con un código DIVIPOLA correcto, que ningún código está repetido y que las geometrías sirven para MongoDB. El script solo verifica y reporta; no modifica la capa ni repara geometrías (eso lo hace \f{02\_prepare\_municipalities.py}).
+Antes de preparar y cargar los municipios hay que comprobar que la capa del MGN y la lista oficial PDET son coherentes entre sí: que cada uno de los 170 municipios PDET existe en el MGN con un código DIVIPOLA correcto, que ningún código está repetido y que las geometrías sirven para MongoDB. El script solo verifica y reporta; no modifica la capa ni repara geometrías (eso lo hace \path{02_prepare_municipalities.py}).
 
 \subsection{Método}
 
@@ -15,18 +15,18 @@ Antes de preparar y cargar los municipios hay que comprobar que la capa del MGN 
   \item Normaliza los códigos con \f{zfill\_digits} del contrato: \f{MPIO\_CDPMP} y \f{Código DANE Municipio} a 5 dígitos (5031 $\rightarrow$ 05031), \f{DPTO\_CCDGO} a 2.
   \item Revisa la capa, la lista y el cruce por código (tabla~\ref{tab:verificaciones}). Cada geometría se clasifica como nula, vacía, no poligonal o inválida; para las inválidas se guarda el motivo de \f{shapely.explain\_validity}.
   \item Compara los nombres solo como información, separando las diferencias que son únicamente de tildes.
-  \item Escribe tres salidas en \f{outputs/}: \f{mgn\_validation\_report.json} (resultado de cada verificación y \f{status} \f{valid}, \f{invalid} o \f{blocked\_no\_layer}), \f{mgn\_validation\_summary.md} y \f{pdet\_mgn\_crosswalk.csv} (una fila por municipio PDET).
+  \item Escribe tres salidas en \path{outputs/}: \f{mgn\_validation\_report.json} (resultado de cada verificación y \f{status} \f{valid}, \f{invalid} o \f{blocked\_no\_layer}), \f{mgn\_validation\_summary.md} y \f{pdet\_mgn\_crosswalk.csv} (una fila por municipio PDET).
 \end{enumerate}
 
 Una verificación es \emph{bloqueante} si su falla impide cargar los municipios. Las geometrías inválidas fuera de los PDET y las diferencias de nombre solo generan aviso. El código de salida es 0 si todas las bloqueantes pasan y 1 si alguna falla, así que los scripts siguientes (o quien los corra) pueden leer \f{status} antes de preparar o cargar.
 
 \subsection{Resultados}
 
-Corrida del 8 de noviembre de 2026 (Python 3.13, GeoPandas 1.2, shapely 2.2) sobre la capa de 1122 municipios que produce \f{01\_download\_mgn.py}. Resultado: \textbf{\f{valid}}, 19 de 20 verificaciones en OK y un aviso informativo.
+El reporte vigente fue generado por Miguel el 9 de noviembre de 2026 a las 07:27:37 (hora de Bogotá) sobre la capa de 1122 municipios que produce \path{01_download_mgn.py}. Reproduce el resultado inicial documentado por Samuel el 8 de noviembre: \textbf{\f{valid}}, 19 de 20 verificaciones en OK y un aviso informativo.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
-\caption{Verificaciones de \f{01\_validate\_mgn.py} sobre la capa real. B: bloqueante.}\label{tab:verificaciones}
+\caption{Verificaciones de \protect\path{01_validate_mgn.py} sobre la capa real. B: bloqueante.}\label{tab:verificaciones}
 \begin{tabularx}{\textwidth}{@{}r L c l@{}}
 \toprule
 \# & Verificación & B & Resultado \\
@@ -55,17 +55,17 @@ Corrida del 8 de noviembre de 2026 (Python 3.13, GeoPandas 1.2, shapely 2.2) sob
 \end{tabularx}
 \end{table}
 
-Los 170 municipios PDET cruzan con el MGN: no falta ninguno, no hay códigos repetidos en ninguna de las dos fuentes y los departamentos coinciden. Las 1122 geometrías son \f{MultiPolygon} válidas, ninguna nula o vacía, y todas caen en la ventana de Colombia (lo que descarta ejes latitud/longitud invertidos). El área MGN de los 170 municipios suma 389\,182~km\textsuperscript{2}. La figura~\ref{fig:mapa-pdet} muestra el resultado del cruce.
+Los 170 municipios PDET cruzan con el MGN: no falta ninguno, no hay códigos repetidos en ninguna de las dos fuentes y los departamentos coinciden. Las 1122 geometrías son \f{MultiPolygon} válidas, ninguna nula o vacía, y todas caen en la ventana de Colombia (un control para detectar ejes latitud/longitud invertidos, sin certificar por sí solo el CRS). El área MGN de los 170 municipios suma 389\,182~km\textsuperscript{2}. La figura~\ref{fig:mapa-pdet} muestra el resultado del cruce.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.62\textwidth]{figuras/mapa_pdet_validacion.png}
-\caption{Municipios PDET cruzados con la capa MGN 2025; el color distingue la subregión. Generado con \f{docs/delivery2/figuras/build\_mapa\_pdet.py} a partir de \f{pdet\_mgn\_crosswalk.csv}.}\label{fig:mapa-pdet}
+\caption{Municipios PDET cruzados con la capa MGN 2025; el color distingue la subregión. Generado con \protect\path{docs/delivery2/figuras/build_mapa_pdet.py} a partir de \f{pdet\_mgn\_crosswalk.csv}.}\label{fig:mapa-pdet}
 \end{figure}
 
 El único aviso son 15 nombres escritos distinto en el Excel y en el MGN (tabla~\ref{tab:nombres}): 9 difieren solo en tildes y 6 usan otra forma oficial del nombre. Ninguno afecta el cruce, que es por código, y la cifra coincide con \f{name\_mismatches} del reporte de preparación. Los documentos de \f{municipalities} usan el nombre del MGN.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Nombres distintos entre \f{MunicipiosPDET.xlsx} y el MGN 2025.}\label{tab:nombres}
 \begin{tabularx}{\textwidth}{@{}l L L l@{}}
@@ -93,11 +93,11 @@ Código & Excel & MGN & Tipo \\
 
 \subsection{Pruebas del validador}
 
-Como la capa real no tiene errores, cada verificación se probó también con figuras sintéticas (\f{python scripts/01\_validate\_mgn.py --self-check}, 19/19): municipio PDET ausente del MGN, código repetido en cada fuente, prefijo de departamento distinto, código no numérico, polígono autointersecado (falla dentro de los PDET y solo avisa fuera de ellos), punto en lugar de polígono, ejes invertidos, CRS EPSG:3857, capa incompleta, campo obligatorio faltante, y manifiesto ausente o bloqueado (salida 2).
+Como la capa real no tiene errores, cada verificación se probó también con figuras sintéticas (\f{python} \path{scripts/01_validate_mgn.py} \f{--self-check}, 19/19): municipio PDET ausente del MGN, código repetido en cada fuente, prefijo de departamento distinto, código no numérico, polígono autointersecado (falla dentro de los PDET y solo avisa fuera de ellos), punto en lugar de polígono, ejes invertidos, CRS EPSG:3857, capa incompleta, campo obligatorio faltante, y manifiesto ausente o bloqueado (salida 2).
 
 \subsection{Observaciones}
 
 \begin{itemize}
-  \item Cada respuesta del WFS del DANE incluye un atributo \f{timeStamp} con la hora del servidor. Una descarga nueva tiene el mismo tamaño en bytes pero otro SHA256, y \f{01\_download\_mgn.py} la rechaza contra el recibo. Al restituir el \f{timeStamp} original el hash coincide exactamente, así que el contenido servido no cambió. Conviene comparar el hash con ese atributo normalizado.
-  \item El SHA256 del GeoPackage cambia entre máquinas aunque el contenido sea el mismo, porque SQLite guarda la fecha de escritura; el GeoJSONL preparado sí sale idéntico. Por eso el validador compara la capa con el manifiesto de la misma corrida.
+  \item El cambio de \f{timeStamp} que bloqueaba la comparación binaria ya se resuelve mediante \f{content\_sha256}, conservando los bytes originales. El manifiesto vigente registra coincidencia por contenido de las seis páginas (sección~\ref{sec:descarga}).
+  \item El SHA256 del GeoPackage puede cambiar entre escrituras por sus metadatos; el GeoJSONL preparado sí sale idéntico. Por eso el validador compara la capa con el manifiesto de la misma corrida.
 \end{itemize}

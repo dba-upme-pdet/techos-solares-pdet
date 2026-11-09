@@ -22,7 +22,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | # | Entrega | Fecha | Carpeta | Estado |
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
-| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170/170 municipios y verificación espacial 9/9 documentados en el entorno de Miguel; informe y entrega final por revisar |
+| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | `docs/delivery3/` | Pendiente |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
@@ -38,6 +38,8 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | [`scripts/00_init_db.py`](scripts/00_init_db.py) | Esquema implementado en MongoDB: validadores e índices |
 
 ### Entrega 2 en el repositorio
+
+El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entrega2.tex](docs/delivery2/entrega2.tex) con `latexmk -pdf -interaction=nonstopmode -halt-on-error entrega2.tex`, ejecutado en `docs/delivery2/`. Su revisión editorial contrasta los reportes versionados; no acredita un envío a BrightSpace ni nuevas ejecuciones de MongoDB.
 
 `scripts/01_download_mgn.py` es el tramo asignado a Derek y `scripts/02_prepare_municipalities.py` es el tramo asignado a José. Samuel valida la capa contra la lista PDET (`01_validate_mgn.py`, detalle en [`docs/delivery2/entrega2_validacion_mgn.md`](docs/delivery2/entrega2_validacion_mgn.md)). Miguel carga (`02_load_municipalities.py`) y Sebastián verifica el índice (`02_verify_spatial.py`). Una corrida que no verifica la capa no deja el manifiesto ni el reporte anteriores como si el resultado actual estuviera listo. El detalle y la evidencia están en [`docs/delivery2/entrega2_descarga_y_preparacion.md`](docs/delivery2/entrega2_descarga_y_preparacion.md).
 

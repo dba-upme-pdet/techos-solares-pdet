@@ -1,9 +1,9 @@
 % Derek Sarmiento (scripts/01\_download\_mgn.py)
 % Redactada por Miguel Duarte a partir del script, su self-check, el recibo y la
-% corrida del 9 de noviembre de 2026; pendiente de revisión de Derek.
+% corrida del 9 de noviembre de 2026; no consta revisión de Derek.
 \section{Descarga del Marco Geoestadístico Nacional}\label{sec:descarga}
 
-\textit{Responsable: Derek Sarmiento. Script: \f{scripts/01\_download\_mgn.py}.}
+\textit{Responsable: Derek Sarmiento. Script: \path{scripts/01_download_mgn.py}.}
 
 \subsection{Objetivo}
 
@@ -15,18 +15,18 @@ La fuente es el servicio WFS~2.0 público del DANE, capa \f{Serv\_CapasMGN\_2025
 
 \subsection{Entradas y salidas}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
-\caption{Contrato de entrada y salida de \f{01\_download\_mgn.py}.}
-\begin{tabularx}{\textwidth}{@{}p{5.6cm} p{2.2cm} L@{}}
+\caption{Contrato de entrada y salida de \protect\path{01_download_mgn.py}.}
+\begin{tabularx}{\textwidth}{@{}P{5.6cm} P{2.2cm} L@{}}
 \toprule
 Pieza & Rol & Condición \\
 \midrule
 \f{config.yaml} (\f{sources.mgn.wfs}) & entrada & servicio, \f{typeName}, \f{srsName}, plan de páginas y \f{expected\_feature\_count = 1122} \\
-\f{outputs/mgn\_wfs\_source\_receipt.json} & entrada & por página: URL, bytes, \f{sha256}, \f{content\_sha256} y \f{server\_timestamp} \\
-\f{data/raw/mgn2025/wfs/page\_XXXX.gml} & salida & respuestas del WFS guardadas byte a byte (fuera de Git) \\
-\f{data/raw/mgn2025/wfs/municipio.gpkg} & salida & 1122 municipios, EPSG:4686, longitud/latitud (fuera de Git) \\
-\f{outputs/mgn\_download\_manifest.json} & salida & \f{status = complete}, \f{claims\_national\_download = true}, SHA256 de la capa y coincidencia de cada página \\
+\path{outputs/mgn_wfs_source_receipt.json} & entrada & por página: URL, bytes, \f{sha256}, \f{content\_sha256} y \f{server\_timestamp} \\
+\path{data/raw/mgn2025/wfs/page_XXXX.gml} & salida & respuestas del WFS guardadas byte a byte (fuera de Git) \\
+\path{data/raw/mgn2025/wfs/municipio.gpkg} & salida & 1122 municipios, EPSG:4686, longitud/latitud (fuera de Git) \\
+\path{outputs/mgn_download_manifest.json} & salida & \f{status = complete}, \f{claims\_national\_download = true}, SHA256 de la capa y coincidencia de cada página \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -36,7 +36,7 @@ Pieza & Rol & Condición \\
 \begin{enumerate}
   \item \textbf{Plan oficial.} El recibo solo cuenta si su servicio, \f{typeName}, \f{srsName}, URLs, \f{startIndex} y \f{number\_matched} son los de \f{config.yaml}. Un recibo de otro tamaño, aunque sus bytes coincidan, no habilita una descarga nacional.
   \item \textbf{Caché o descarga.} Si las seis páginas locales coinciden con el recibo, no se contacta el servidor. Si no, se hace un intento por página y la corrida se detiene al primer fallo de red o TLS. Una respuesta que no coincide con el recibo se rechaza.
-  \item \textbf{Coincidencia por bytes o por contenido.} El WFS escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta, así que dos descargas del mismo contenido nunca tienen el mismo SHA256. Por eso el recibo guarda además \f{content\_sha256}: el SHA256 de la página con el valor de ese único atributo vaciado. Una página vale si coincide por bytes o por contenido; los archivos descargados no se modifican.
+  \item \textbf{Coincidencia por bytes o por contenido.} El WFS escribe en el elemento raíz un atributo \f{timeStamp} con la hora de cada respuesta, de modo que un cambio de ese atributo altera el SHA256 binario aunque el contenido geográfico sea igual. Por eso el recibo guarda además \f{content\_sha256}: el SHA256 de la página con el valor de ese único atributo vaciado. Una página vale si coincide por bytes o por contenido; los archivos descargados no se modifican.
   \item \textbf{Lectura del GML.} Los elementos vienen con alias en español y se mapean de forma explícita (\f{Código\_DANE\_concatenado\_departamento\_y\_municipio} $\rightarrow$ \f{MPIO\_CDPMP}, \f{Nombre\_municipio} $\rightarrow$ \f{MPIO\_CNMBR}, \f{Área\_departamento\_en\_kilómetros\_cuadrados} $\rightarrow$ \f{MPIO\_NAREA}, entre otros). Cada \f{posList} viene en latitud/longitud, como declara EPSG:4686, y se guarda en longitud/latitud.
   \item \textbf{Controles de la capa.} Exactamente 1122 registros, igual a \f{numberMatched}; códigos de 5 dígitos sin repetidos; un único \f{srsName} en todas las páginas.
   \item \textbf{Unidad del área.} El nombre del elemento dice kilómetros cuadrados; además se compara \f{MPIO\_NAREA} con el área geodésica WGS84 de cada contorno. Si la mediana del cociente no cae entre 0,5 y 2, no se declara la unidad y la descarga no queda como nacional.
@@ -45,13 +45,13 @@ Pieza & Rol & Condición \\
 
 \subsection{Pruebas}
 
-\f{python scripts/01\_download\_mgn.py --self-check} usa fixtures etiquetados y nunca cuenta como descarga del DANE. Resultado: \textbf{22/22 OK}. Cubre la elección del ZIP correcto en el HTML del geoportal, la lectura de la unidad desde metadatos, el rechazo de CRS ausente o distinto, de capas sin \f{MPIO\_NAREA} o ilegibles, la inversión de ejes del GML, que un recibo de un municipio no se anuncie como nacional, que un fallo TLS no deje el manifiesto anterior como actual, y los ocho casos del hash de contenido: coincidencia por bytes y por contenido, rechazo de un byte distinto fuera del \f{timeStamp}, rechazo sin \f{content\_sha256}, rechazo de dos \f{timeStamp} en la raíz, reconstrucción del SHA256 original y el \f{--backfill-receipt} aceptado y rechazado.
+\f{python} \path{scripts/01_download_mgn.py} \f{--self-check} usa fixtures etiquetados y nunca cuenta como descarga del DANE. Resultado: \textbf{22/22 OK}. Cubre la elección del ZIP correcto en el HTML del geoportal, la lectura de la unidad desde metadatos, el rechazo de CRS ausente o distinto, de capas sin \f{MPIO\_NAREA} o ilegibles, la inversión de ejes del GML, que un recibo de un municipio no se anuncie como nacional, que un fallo TLS no deje el manifiesto anterior como actual, y los ocho casos del hash de contenido: coincidencia por bytes y por contenido, rechazo de un byte distinto fuera del \f{timeStamp}, rechazo sin \f{content\_sha256}, rechazo de dos \f{timeStamp} en la raíz, reconstrucción del SHA256 original y el \f{--backfill-receipt} aceptado y rechazado.
 
 \subsection{Resultados}
 
-Las respuestas originales se obtuvieron el 8 de noviembre de 2026 entre las 15:23 y las 15:24 (hora de Bogotá), en 6,4 a 8,5~s por página. En la noche del 8 de noviembre (21:38, hora de Bogotá) se volvieron a descargar las seis páginas: tienen el mismo tamaño y, con el \f{timeStamp} original reinsertado, reproducen exactamente el SHA256 del recibo. Es decir, son el mismo contenido; solo cambió la hora que escribe el servidor.
+El recibo registra la recepción de las respuestas originales el 8 de noviembre de 2026 entre las 15:24:23 y las 15:25:01 (hora de Bogotá), en 6,4 a 8,5~s por página. El atributo del servidor usa UTC (tabla de páginas). En la noche del 8 de noviembre (21:38--21:40, hora de Bogotá) se volvieron a descargar las seis páginas: tienen el mismo tamaño y, con el \f{timeStamp} original reinsertado, reproducen exactamente el SHA256 del recibo. Es decir, son el mismo contenido; solo cambió la hora que escribe el servidor.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Páginas del recibo (\f{mgn\_wfs\_source\_receipt.json}).}
 \begin{tabular}{@{}lrlll@{}}
@@ -68,10 +68,10 @@ Página & Bytes & \f{sha256} & \f{content\_sha256} & \f{timeStamp} original \\
 \end{tabular}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering\small
 \caption{Capa resultante según \f{mgn\_download\_manifest.json}.}
-\begin{tabularx}{\textwidth}{@{}p{5.6cm} L@{}}
+\begin{tabularx}{\textwidth}{@{}P{5.6cm} L@{}}
 \toprule
 Indicador & Valor \\
 \midrule
@@ -81,17 +81,17 @@ Año de versión DANE & 954 municipios de 2024 y 168 de 2025 (no se filtra) \\
 CRS & EPSG:4686 declarado por el WFS; coordenadas guardadas en longitud/latitud \\
 Unidad de \f{MPIO\_NAREA} & km$^2$; cociente atributo/área geodésica: mediana 0,9994, mínimo 0,9984, máximo 1,0209 \\
 Capa & \f{municipio.gpkg}, 100,6~MB \\
-Coincidencia con el recibo & 6/6 páginas por contenido (descarga del 8 de noviembre, 21:38) \\
+Coincidencia con el recibo & 6/6 páginas por contenido (respuestas del 8 de noviembre, 21:38--21:40) \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-El SHA256 del GeoPackage cambia en cada escritura porque el formato guarda metadatos propios; el manifiesto registra el de la corrida actual y la preparación lo comprueba. Lo que se mantiene estable es el producto: a partir de estas páginas, la preparación produce siempre el mismo GeoJSONL (sección~\ref{sec:preparacion}).
+El SHA256 del GeoPackage puede cambiar al escribirlo porque el formato guarda metadatos propios; el manifiesto registra el de la corrida actual y la preparación lo comprueba. Lo que se mantiene estable es el producto: a partir de estas páginas, la preparación produce siempre el mismo GeoJSONL (sección~\ref{sec:preparacion}).
 
 \subsection{Limitaciones}
 
 \begin{itemize}
   \item No se descargó el ZIP oficial del MGN ni su \f{.prj}, así que el CRS del archivo original no está probado (\f{original\_archive\_crs\_proven = false}). Se usa el \f{srsName} que declara el WFS; el almacenamiento REST del mismo servicio informa EPSG:3857.
   \item El elemento del área se llama \emph{Área\_departamento} aunque el objeto es un municipio; la unidad se confirma con el cociente geodésico, no con el nombre solo.
-  \item Las páginas GML y el GeoPackage están fuera de Git por tamaño (unos 150~MB). Para reproducir la cadena basta con volver a descargarlas: el hash de contenido las valida contra el recibo.
+  \item Las páginas GML (unos 152~MB en total) y el GeoPackage (unos 101~MB) están fuera de Git por tamaño. La reproducción requiere conservarlas o descargarlas mediante el WFS con TLS activo y cumplir el recibo; no basta cualquier respuesta nueva si cambió su contenido.
 \end{itemize}
