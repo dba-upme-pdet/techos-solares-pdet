@@ -1,0 +1,65 @@
+{
+  "collection": "municipalities",
+  "contract": "entrega2-mgn-v1",
+  "database": "upme_pdet",
+  "deleted": 0,
+  "duration_s": 10.109,
+  "extra_in_db": [],
+  "finished_at": "2026-11-09T03:36:20.429711+00:00",
+  "fixture": false,
+  "indexes": [
+    "_id_",
+    "geometry_2dsphere",
+    "subregion_id_1"
+  ],
+  "input_geojsonl": "data/processed/municipalities.geojsonl",
+  "input_matches_prepare_report": false,
+  "input_sha256": "b229d6a397442dd2239d882281ebc005cc4a90f50c0eeeb8d18b5d7910ccbe53",
+  "inserted": 0,
+  "mongo_version": "7.0.45",
+  "notes": "insertados 0, reemplazados 0, sin cambios 170, borrados 0, rechazados 0",
+  "prune": false,
+  "rejected": [],
+  "replaced": 0,
+  "role": "load-report",
+  "rows_read": 170,
+  "run_id": "6af13fb444ec42bcbe295535",
+  "started_at": "2026-11-09T03:36:10.320957+00:00",
+  "status": "loaded",
+  "subregions": {
+    "count": 16,
+    "modified": 0,
+    "upserted": 0
+  },
+  "unchanged": 170,
+  "verification": {
+    "checks": {
+      "count": true,
+      "geo_query_hits_sample": true,
+      "geo_query_uses_index": true,
+      "ids_match_input": true,
+      "loaded_at_present": true,
+      "no_duplicate_ids": true,
+      "no_duplicate_name_dpto": true,
+      "schema_valid": true,
+      "spatial_index": true
+    },
+    "duplicate_name_dpto": [],
+    "ok": true,
+    "sample_query": {
+      "_id": "05031",
+      "hits": [
+        "05031"
+      ],
+      "point": [
+        -74.9514735167314,
+        7.020482489999999
+      ]
+    },
+    "schema_violations": [],
+    "spatial_indexes": [
+      "geometry_2dsphere"
+    ],
+    "stored_count": 170
+  }
+}

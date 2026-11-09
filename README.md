@@ -22,7 +22,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | # | Entrega | Fecha | Carpeta | Estado |
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
-| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 documentos preparados; la carga en MongoDB sigue pendiente |
+| 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios cargados en MongoDB; falta integrar la verificación espacial en `main` |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | `docs/delivery3/` | Pendiente |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
@@ -46,6 +46,8 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | [`scripts/01_download_mgn.py`](scripts/01_download_mgn.py) | Lee el WFS municipal MGN 2025, o las respuestas GML ya verificadas, y escribe el manifiesto |
 | [`scripts/01_validate_mgn.py`](scripts/01_validate_mgn.py) | Cruza el MGN con los 170 PDET y revisa DIVIPOLA, duplicados, faltantes y geometrías |
 | [`scripts/02_prepare_municipalities.py`](scripts/02_prepare_municipalities.py) | Cruza por DIVIPOLA, pasa a GeoJSON WGS84 y deja la fecha de carga para Miguel |
+| [`scripts/02_load_municipalities.py`](scripts/02_load_municipalities.py) | Carga idempotente en `municipalities` con validador y `2dsphere` activos; llena `pdet_subregions` e `ingestion_runs`. Detalle en [`docs/delivery2/entrega2_carga_municipios.md`](docs/delivery2/entrega2_carga_municipios.md) |
+| [`outputs/municipalities_load_report.json`](outputs/municipalities_load_report.json) | Resultado de la última carga: insertados, reemplazados, sin cambios, verificaciones y `run_id` |
 | [`scripts/entrega2_contracts.py`](scripts/entrega2_contracts.py) | Contrato común: campos, CRS, códigos y reglas de unidad de área |
 | [`outputs/mgn_wfs_source_receipt.json`](outputs/mgn_wfs_source_receipt.json) | URL, tamaño y SHA256 de las seis respuestas WFS |
 | [`outputs/mgn_download_manifest.json`](outputs/mgn_download_manifest.json) | Capa de trabajo: 1122 municipios, CRS declarado y unidad observada |
@@ -86,7 +88,7 @@ python scripts/00_init_db.py               # colecciones, validadores e índices
 python scripts/01_download_mgn.py                 # manifiesto en outputs/mgn_download_manifest.json
 python scripts/01_validate_mgn.py                 # cruce con la lista PDET; resumen en outputs/
 python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/; sin loaded_at
-python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at
+python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at; repetirla no duplica
 python scripts/02_verify_spatial.py               # Sebastián
 python scripts/03_download_buildings.py
 python scripts/04_load_buildings.py
