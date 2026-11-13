@@ -32,8 +32,18 @@ sources:
     expected_subregions: 16
   microsoft:
     id: "ms"
+    name: "Microsoft Global ML Building Footprints"
+    license: "ODbL-1.0"
+    url: "https://github.com/microsoft/GlobalMLBuildingFootprints"
     index_url: "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv"
-    country: "Colombia"
+    country: "Colombia"                # valor de la columna Location del índice
+    quadkey_zoom: 9                    # nivel de las particiones publicadas
+    selection_buffer_deg: 0.01         # margen (~1 km) alrededor de los municipios PDET al elegir quadkeys
+    raw_dir: "ms_buildings"            # bajo paths.raw_data; ignorado por git
+    pdet_input: "data/processed/municipalities.geojsonl"
+    pdet_input_report: "outputs/municipalities_prepare_report.json"
+    manifest: "outputs/ms_buildings_download_manifest.json"
+    coverage_csv: "outputs/ms_buildings_coverage.csv"
   google:
     id: "google"
     version: "v3"

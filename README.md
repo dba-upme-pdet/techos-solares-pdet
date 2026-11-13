@@ -23,7 +23,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
-| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | `docs/delivery3/` | Pendiente |
+| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descarga de Microsoft lista |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
@@ -60,6 +60,17 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 | [`outputs/pdet_mgn_crosswalk.csv`](outputs/pdet_mgn_crosswalk.csv) | Una fila por municipio PDET con su cruce en el MGN |
 | [`outputs/mgn_catalog_probe.json`](outputs/mgn_catalog_probe.json) | Hosts que no completaron TLS. No es el resultado de la preparación |
 
+### Entrega 3 en el repositorio
+
+`scripts/03_download_ms_buildings.py` es el tramo asignado a Miguel: descarga de Microsoft Building Footprints. El procedimiento, la cobertura y el contrato con la preparación están en [`docs/delivery3/entrega3_descarga_microsoft.md`](docs/delivery3/entrega3_descarga_microsoft.md).
+
+| Archivo | Contenido |
+| --- | --- |
+| [`scripts/03_download_ms_buildings.py`](scripts/03_download_ms_buildings.py) | Lee el índice `dataset-links.csv`, elige las particiones quadkey que tocan los 170 municipios PDET, las descarga verificando `Content-MD5` y las lee completas |
+| [`outputs/ms_buildings_download_manifest.json`](outputs/ms_buildings_download_manifest.json) | Manifiesto: URL, versión, fecha de acceso, bytes, MD5, SHA256, campos, geometrías y CRS de cada partición |
+| [`outputs/ms_buildings_coverage.csv`](outputs/ms_buildings_coverage.csv) | Una fila por municipio PDET: particiones que lo tocan y fracción de su área cubierta por particiones publicadas |
+| [`tests/test_download_ms_buildings.py`](tests/test_download_ms_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
+
 ## Fuentes de datos
 
 - **DANE, Marco Geoestadístico Nacional (MGN 2025)**, nivel municipal: <https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111>
@@ -94,7 +105,7 @@ python scripts/01_validate_mgn.py                 # cruce con la lista PDET; res
 python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/; sin loaded_at
 python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at; repetirla no duplica
 python scripts/02_verify_spatial.py               # Sebastián
-python scripts/03_download_buildings.py
+python scripts/03_download_ms_buildings.py        # Miguel: particiones de Microsoft que tocan los PDET + manifiesto
 python scripts/04_load_buildings.py
 python scripts/00_init_db.py --building-indexes   # índices de buildings, después de la carga
 jupyter notebook scripts/05_eda.ipynb
