@@ -44,6 +44,9 @@ sources:
     pdet_input_report: "outputs/municipalities_prepare_report.json"
     manifest: "outputs/ms_buildings_download_manifest.json"
     coverage_csv: "outputs/ms_buildings_coverage.csv"
+    prepare_report: "outputs/buildings_ms_prepare_report.json"              # compuerta para la carga
+    prepare_by_municipality: "outputs/buildings_ms_prepared_by_municipality.csv"
+    source_pass_report: "outputs/buildings_ms_source_pass_report.json"      # calidad sin capa PDET; nunca se carga
   google:
     id: "google"
     version: "v3"
@@ -52,6 +55,12 @@ sources:
 processing:
   target_crs: "EPSG:4326"     # requerido por el índice 2dsphere de MongoDB
   batch_size: 10000
+  buildings:                  # 03_prepare_buildings.py (Entrega 3)
+    output_dir: "data/processed/buildings"   # una carpeta por fuente; ignorada por git
+    pdet_input: "data/processed/municipalities.geojsonl"
+    pdet_input_report: "outputs/municipalities_prepare_report.json"
+    coordinate_precision: 7   # decimales de grado (~1 cm) para geometrías reparadas y centroides
+    sliver_ratio: 0.01        # make_valid: se descartan partes menores si suman < 1 % del área
 
 analysis:
   # Valores provisionales; los definitivos se fijan después del EDA (Entrega 3).
