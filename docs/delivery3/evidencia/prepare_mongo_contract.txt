@@ -1,0 +1,11 @@
+Comando: MONGO_URI=mongodb://admin:***@localhost:27017/ REAL_PREPARED_PART="data/processed/buildings/ms_source_pass/part-*.jsonl.gz" .venv/bin/python -m unittest discover -s tests -p "test_prepare_buildings_mongo.py" -v
+Servidor: mongo:7.0 (7.0.48) en Docker, base temporal borrada al final. Validador: SCHEMAS["buildings"] de 00_init_db.py con validationLevel strict.
+
+ok
+test_real_partition_loads_without_validator_rejections (test_prepare_buildings_mongo.MongoContractTests.test_real_partition_loads_without_validator_rejections) ... 
+[real] 125 archivos: 4595567 líneas, 4595567 insertadas con validador strict, 0 rechazos; $geoWithin de prueba: 630 documentos, plan FETCH -> IXSCAN
+ok
+----------------------------------------------------------------------
+Ran 2 tests in 141.986s
+OK
+wall_s=143
