@@ -23,7 +23,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
-| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descarga de Microsoft lista |
+| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descarga y preparación de Microsoft listas; falta la corrida con la capa PDET, Google, la carga y el EDA |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
@@ -71,6 +71,17 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 | [`outputs/ms_buildings_coverage.csv`](outputs/ms_buildings_coverage.csv) | Una fila por municipio PDET: particiones que lo tocan y fracción de su área cubierta por particiones publicadas |
 | [`tests/test_download_ms_buildings.py`](tests/test_download_ms_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
 
+`scripts/03_prepare_buildings.py` es el tramo asignado a Derek: convierte cada partición descargada en documentos de `buildings` (GeoJSON WGS84 lon/lat, centroide, área geodésica, atributos limpios), aplica el criterio espacial PDET, registra reparaciones y rechazos y deja un reporte por fuente que la carga usa como compuerta. El contrato común está en `scripts/entrega3_contracts.py`. Método, interfaces y evidencia: [`docs/delivery3/entrega3_preparacion_huellas.md`](docs/delivery3/entrega3_preparacion_huellas.md).
+
+| Archivo | Contenido |
+| --- | --- |
+| [`scripts/entrega3_contracts.py`](scripts/entrega3_contracts.py) | Contrato de la Entrega 3: manifiesto de descarga, registro preparado, motivos de rechazo y criterio espacial PDET |
+| [`scripts/03_prepare_buildings.py`](scripts/03_prepare_buildings.py) | Preparación por bloques y en paralelo por partición; hoy con la fuente `ms` |
+| [`outputs/buildings_ms_source_pass_report.json`](outputs/buildings_ms_source_pass_report.json) | Calidad de las 125 particiones de Microsoft sin la capa PDET: leídas, reparadas, rechazadas por motivo. No es un reporte de carga |
+| `outputs/buildings_ms_prepare_report.json` | Compuerta para `04_load_buildings.py` (`status = ready_for_load`); se genera con la capa PDET de la Entrega 2 |
+| [`tests/test_prepare_buildings.py`](tests/test_prepare_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
+| [`tests/test_prepare_buildings_mongo.py`](tests/test_prepare_buildings_mongo.py) | Contrato con el validador `$jsonSchema` de `buildings` y `$geoWithin` en MongoDB 7 |
+
 ## Fuentes de datos
 
 - **DANE, Marco Geoestadístico Nacional (MGN 2025)**, nivel municipal: <https://geoportal.dane.gov.co/servicios/descarga-y-metadatos/datos-geoestadisticos/?cod=111>
@@ -106,6 +117,7 @@ python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/;
 python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at; repetirla no duplica
 python scripts/02_verify_spatial.py               # Sebastián
 python scripts/03_download_ms_buildings.py        # Miguel: particiones de Microsoft que tocan los PDET + manifiesto
+python scripts/03_prepare_buildings.py --source ms # Derek: buildings preparados + reporte; exige la capa PDET
 python scripts/04_load_buildings.py
 python scripts/00_init_db.py --building-indexes   # índices de buildings, después de la carga
 jupyter notebook scripts/05_eda.ipynb

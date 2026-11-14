@@ -1,0 +1,11 @@
+Fecha: 2026-11-14. Dos corridas seguidas de
+  .venv/bin/python scripts/03_prepare_buildings.py --source ms --without-pdet-selection --workers 4
+sobre las 125 particiones reales de Microsoft (máquina de 4 CPU, 15 GiB).
+La segunda corrida se lanzó desde un proceso que leyó resource.getrusage(RUSAGE_CHILDREN).
+
+exit: 0
+tiempo de pared (2.a corrida): 95.3 s
+memoria residente máxima del proceso más grande: 485.5 MiB
+SHA256 de las 125 salidas part-*.jsonl.gz: idénticos entre las dos corridas
+totales del reporte: idénticos
+Leídas 4595615, rechazadas 48, excluidas fuera de PDET 0, preparadas 4595567 (duplicados quitados 0). Balance OK. Estado: source_pass_only

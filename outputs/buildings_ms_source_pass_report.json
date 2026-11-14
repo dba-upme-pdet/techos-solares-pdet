@@ -1,0 +1,2836 @@
+{
+  "claims_full_source": true,
+  "claims_pdet_selection": false,
+  "contract": "entrega3-buildings-v1",
+  "dataset_id": "ms",
+  "datasets_document": {
+    "_id": "ms",
+    "accessed_at": "2026-11-13T15:21:26+00:00",
+    "license": "ODbL-1.0",
+    "name": "Microsoft Global ML Building Footprints",
+    "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
+    "version": "2026-02-03"
+  },
+  "finished_at": "2026-11-14T20:35:14+00:00",
+  "input": {
+    "download_generated_at": "2026-11-13T15:28:57+00:00",
+    "download_manifest": "outputs/ms_buildings_download_manifest.json",
+    "download_manifest_sha256": "3079b5e234e142867523d6a30e9b5032d683561dec255c2ceab15d6dfef63f40",
+    "partitions_in_manifest": 125,
+    "partitions_processed": 125,
+    "pdet_input": null,
+    "pdet_input_sha256": null
+  },
+  "loader_contract": {
+    "add_fields": {
+      "run_id": "ObjectId del documento de ingestion_runs de la partición"
+    },
+    "files": "partitions[].output.path: GeoJSON Lines con gzip, un documento de buildings por línea",
+    "gate": "cargar solo si status = ready_for_load, claims_pdet_selection = true y el SHA256 de cada archivo coincide",
+    "ingestion_runs": "una por partición: source_file = input.local_path, rows_read = read, rows_rejected = rejected, rows_loaded = insertados; notes cita excluded_outside_pdet"
+  },
+  "parameters": {
+    "area": "pyproj.Geod(ellps='WGS84').geometry_area_perimeter, valor absoluto, m2",
+    "batch_size": 10000,
+    "centroid": "shapely centroid en lon/lat",
+    "coordinate_precision": 7,
+    "sliver_ratio": 0.01,
+    "workers": 4
+  },
+  "partitions": [
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032212332/part-00101-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "81b06ef46743db69f4a4d319b1ee62136edb8691abf0d35c1463cad057154db0",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032212332/part-00101-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5779859,
+        "path": "data/processed/buildings/ms_source_pass/part-032212332.jsonl.gz",
+        "records": 51890,
+        "sha256": "4d78cb348aacce14eb30c6b10331da9da60da95199f51cc573c700df23f61005"
+      },
+      "partition_id": "032212332",
+      "prepared": 51890,
+      "read": 51891,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032212332.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032212332.jsonl.gz",
+      "seconds": 4.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032212333/part-00069-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d5cff7008cfebd63fda7b1d6e1cbd52c2f8965a4425692390da9c645dd7b50e6",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032212333/part-00069-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1093717,
+        "path": "data/processed/buildings/ms_source_pass/part-032212333.jsonl.gz",
+        "records": 11532,
+        "sha256": "934b431a7265370134ed4795e2c6b48033fad929844fc7e5675db46084616bc9"
+      },
+      "partition_id": "032212333",
+      "prepared": 11532,
+      "read": 11532,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032212333.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032212333.jsonl.gz",
+      "seconds": 0.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032223313/part-00066-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "51e7d8006a671a827b8645a061d659409cc60f52d89af3bcbeeb119a34a8a731",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032223313/part-00066-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1244944,
+        "path": "data/processed/buildings/ms_source_pass/part-032223313.jsonl.gz",
+        "records": 12124,
+        "sha256": "b01136ad794570c5f14eddb29a5b79172d7cf3f4b82becffed81a58bef9cc929"
+      },
+      "partition_id": "032223313",
+      "prepared": 12124,
+      "read": 12125,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032223313.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032223313.jsonl.gz",
+      "seconds": 1.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032223331/part-00199-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "0754b3962b6f8d7dacf80aa6899b760005b7802b6fc1c684512bbbf9e87c994a",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032223331/part-00199-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1279,
+        "path": "data/processed/buildings/ms_source_pass/part-032223331.jsonl.gz",
+        "records": 11,
+        "sha256": "f99b2fdd0aa32b1baac63889f7c128e0a83ba3358bf2863cdd4a698251b4d545"
+      },
+      "partition_id": "032223331",
+      "prepared": 11,
+      "read": 11,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032223331.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032223331.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230023/part-00078-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "08a382fbe6cb216c5c0170f33cfa23a7fa4444d415738563e3a6d150229b56e5",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230023/part-00078-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 82928,
+        "path": "data/processed/buildings/ms_source_pass/part-032230023.jsonl.gz",
+        "records": 876,
+        "sha256": "9e24c48b972f8133045fa58dd04dab8e2a797079f511427704268c8d140b9dac"
+      },
+      "partition_id": "032230023",
+      "prepared": 876,
+      "read": 876,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230023.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230023.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230032/part-00090-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3d6773c9b68355d56841ead501d6f3b02cb9491b59e29253ad373cc313aab1aa",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230032/part-00090-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1039606,
+        "path": "data/processed/buildings/ms_source_pass/part-032230032.jsonl.gz",
+        "records": 10749,
+        "sha256": "da28df7367a3eef281cb8ee3146e209aa6feae0bac61e1631f4a73abd6a605ff"
+      },
+      "partition_id": "032230032",
+      "prepared": 10749,
+      "read": 10749,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230032.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230032.jsonl.gz",
+      "seconds": 0.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230033/part-00022-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "b3ed4e2a022e6398d0fc1cb58e700c3551fc7b408f5816a80f32f30438a68953",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230033/part-00022-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 6559179,
+        "path": "data/processed/buildings/ms_source_pass/part-032230033.jsonl.gz",
+        "records": 70224,
+        "sha256": "ffc5ef8eb9471fd11890caa6277775c96e0aaf8e390d845a2f63c9ef9c9e3031"
+      },
+      "partition_id": "032230033",
+      "prepared": 70224,
+      "read": 70224,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230033.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230033.jsonl.gz",
+      "seconds": 5.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230102/part-00196-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7fce8cb6001f423726945195a3319f3ba8daa5fdbc3d44acf03138b6e0183e61",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230102/part-00196-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 15715689,
+        "path": "data/processed/buildings/ms_source_pass/part-032230102.jsonl.gz",
+        "records": 151568,
+        "sha256": "e36322f1f40a223124063431c6580a7c0a3d9b60ed3861c20711fe411af45d7f"
+      },
+      "partition_id": "032230102",
+      "prepared": 151568,
+      "read": 151570,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230102.jsonl.gz",
+      "repaired": 3,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230102.jsonl.gz",
+      "seconds": 12.5
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230103/part-00088-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "2eeab0d96172e93e0f3b5b1ee08fa61aa8d1d0974a47a7e57e8fae491a989f48",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230103/part-00088-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 9805488,
+        "path": "data/processed/buildings/ms_source_pass/part-032230103.jsonl.gz",
+        "records": 104826,
+        "sha256": "e6506d338c409837c628851325ebf62f4823a5ae261f1472dbe680e3788ac62f"
+      },
+      "partition_id": "032230103",
+      "prepared": 104826,
+      "read": 104826,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230103.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230103.jsonl.gz",
+      "seconds": 8.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230110/part-00089-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7ade1e894df0a69778d9b97759e732cc18a2ea438ae131c477730bb63576a87c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230110/part-00089-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 7700679,
+        "path": "data/processed/buildings/ms_source_pass/part-032230110.jsonl.gz",
+        "records": 77934,
+        "sha256": "8cfd1b125e32de613994983b8d42d5b6568f99c5d36cef6454fcedffe199a7d3"
+      },
+      "partition_id": "032230110",
+      "prepared": 77934,
+      "read": 77936,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230110.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230110.jsonl.gz",
+      "seconds": 5.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230111/part-00155-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "50621cdcf1a882fd386169284a4332721a297ba78a25628abedd833cfa3779ab",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230111/part-00155-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2655244,
+        "path": "data/processed/buildings/ms_source_pass/part-032230111.jsonl.gz",
+        "records": 28873,
+        "sha256": "0a79ee9d9cd48ff0f14a3ad17b4a03c3deb1477fe375f7d776755d6007ba3f0d"
+      },
+      "partition_id": "032230111",
+      "prepared": 28873,
+      "read": 28873,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230111.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230111.jsonl.gz",
+      "seconds": 2.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230112/part-00102-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "49f779a711ca49f471ef2e77ff0213006fc8456e89c84ee7c3d1721d00e3200d",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230112/part-00102-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5179388,
+        "path": "data/processed/buildings/ms_source_pass/part-032230112.jsonl.gz",
+        "records": 54541,
+        "sha256": "3f8da48dbdace5e2c48fc52d299225c7d808e14095c9ad1420dafd0ef719ccce"
+      },
+      "partition_id": "032230112",
+      "prepared": 54541,
+      "read": 54541,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230112.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230112.jsonl.gz",
+      "seconds": 4.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230113/part-00028-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "2d3b7afa789d05d5a0c9997ecfc69be0fa70358acfb55aecbfb1aaab132a98e9",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230113/part-00028-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 9614508,
+        "path": "data/processed/buildings/ms_source_pass/part-032230113.jsonl.gz",
+        "records": 92883,
+        "sha256": "e8b34efe1e2aa867fac882b25808b93644c831609137175cd47caf03f837674f"
+      },
+      "partition_id": "032230113",
+      "prepared": 92883,
+      "read": 92883,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230113.jsonl.gz",
+      "repaired": 3,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230113.jsonl.gz",
+      "seconds": 7.3
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230120/part-00006-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "a1cb8b88d4bb0fd5703ae555972ea8233676664cf1d34db91be24e0fad5695d9",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230120/part-00006-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 18432680,
+        "path": "data/processed/buildings/ms_source_pass/part-032230120.jsonl.gz",
+        "records": 188353,
+        "sha256": "2e30ccd6288b924103f7b8cfa01addd010330ad6c9ee32f4258aa32eec2ff203"
+      },
+      "partition_id": "032230120",
+      "prepared": 188353,
+      "read": 188355,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230120.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230120.jsonl.gz",
+      "seconds": 14.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230121/part-00091-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "dea8a7471c53922c60851156ce946d375c4defc8e08c23d1d276cb0a7068ef13",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230121/part-00091-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 11413756,
+        "path": "data/processed/buildings/ms_source_pass/part-032230121.jsonl.gz",
+        "records": 121385,
+        "sha256": "6eb5077c00aedbe339899f313471faa5e780a69316e6649bd751c876099a7729"
+      },
+      "partition_id": "032230121",
+      "prepared": 121385,
+      "read": 121385,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230121.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230121.jsonl.gz",
+      "seconds": 8.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230131/part-00060-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "ef202373007b104427cb2211e86598bfb7355ae608c91d807dcc3f83a6c57827",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230131/part-00060-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 6441451,
+        "path": "data/processed/buildings/ms_source_pass/part-032230131.jsonl.gz",
+        "records": 68125,
+        "sha256": "f9a4000e2feb2c938b04c432d97391546e4643a4e16c5ec8f56d578beeac1255"
+      },
+      "partition_id": "032230131",
+      "prepared": 68125,
+      "read": 68125,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230131.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230131.jsonl.gz",
+      "seconds": 5.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230132/part-00023-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "06c2dd9590381d4d0e575f65a14b45bb86d31752570304a6d9959132b60e9f10",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230132/part-00023-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5134307,
+        "path": "data/processed/buildings/ms_source_pass/part-032230132.jsonl.gz",
+        "records": 54852,
+        "sha256": "b562cf8a81cd7530fa7039224adf5b0fc518b0c95a6348427ad0a4172e9a8f23"
+      },
+      "partition_id": "032230132",
+      "prepared": 54852,
+      "read": 54852,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230132.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230132.jsonl.gz",
+      "seconds": 4.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230133/part-00114-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "789ded8b38c329a0ae3c55fdcef1f37ff331854f725042be8832f907f49480c4",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230133/part-00114-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5023939,
+        "path": "data/processed/buildings/ms_source_pass/part-032230133.jsonl.gz",
+        "records": 51984,
+        "sha256": "3aa3de38ed43e49df2548ad496f0d4300220917c7010ee3e345c391683dc9f1e"
+      },
+      "partition_id": "032230133",
+      "prepared": 51984,
+      "read": 51984,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230133.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230133.jsonl.gz",
+      "seconds": 3.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230201/part-00054-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "0a3aa17a9deb3b69a705fa209d3289e8b464e733cff893d0289e4e5ac823c984",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230201/part-00054-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3779,
+        "path": "data/processed/buildings/ms_source_pass/part-032230201.jsonl.gz",
+        "records": 39,
+        "sha256": "f09a9a60d91dabcc331dee7130866b24c24540053f8c01b8172fd52647fd06ac"
+      },
+      "partition_id": "032230201",
+      "prepared": 39,
+      "read": 39,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230201.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230201.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230203/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "fd9914abeca5d26fe5ac72f67a9a70930f8de1c54d8f36a89ccd8e9c509b8c27",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230203/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 219870,
+        "path": "data/processed/buildings/ms_source_pass/part-032230203.jsonl.gz",
+        "records": 2350,
+        "sha256": "c679c702da89a8af0af69815c3ad37c4a9565695b562d0d9f105c3d2ee3d784e"
+      },
+      "partition_id": "032230203",
+      "prepared": 2350,
+      "read": 2350,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230203.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230203.jsonl.gz",
+      "seconds": 0.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230210/part-00061-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d64c4bb5c02a4121d2aaf105655fa5621d8b3c7e510d8184800b30a66b7c22e6",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230210/part-00061-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4647780,
+        "path": "data/processed/buildings/ms_source_pass/part-032230210.jsonl.gz",
+        "records": 47958,
+        "sha256": "93f5a98875deac65c6b449fdb2420a3ec1a212871103ca05952108fc1f1fd030"
+      },
+      "partition_id": "032230210",
+      "prepared": 47958,
+      "read": 47958,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230210.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230210.jsonl.gz",
+      "seconds": 3.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230211/part-00068-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d101a35fbea83eabbd2971dabf32141ee4eaf75096348363e06474ad86bc91e2",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230211/part-00068-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 7244807,
+        "path": "data/processed/buildings/ms_source_pass/part-032230211.jsonl.gz",
+        "records": 74994,
+        "sha256": "1be066b485507e0359d69eb93a993790e295ce0ecb467413028d8fba7d55ba19"
+      },
+      "partition_id": "032230211",
+      "prepared": 74994,
+      "read": 74994,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230211.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230211.jsonl.gz",
+      "seconds": 5.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230212/part-00181-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "5b5dc6154c6a3bebe8947e7bce088f1660029b846a8bcae812e5663afd76e599",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230212/part-00181-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2123210,
+        "path": "data/processed/buildings/ms_source_pass/part-032230212.jsonl.gz",
+        "records": 21568,
+        "sha256": "26ad43ad0f9e70c6ab516750c4e8fa7e77873814a1737fcccc9c2f08011df12d"
+      },
+      "partition_id": "032230212",
+      "prepared": 21568,
+      "read": 21568,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230212.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230212.jsonl.gz",
+      "seconds": 1.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230213/part-00069-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3d176e972cca75b5c1621c1867bfcce7ae1b142df92e1ea7c0d52b49ca537c7c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230213/part-00069-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1093173,
+        "path": "data/processed/buildings/ms_source_pass/part-032230213.jsonl.gz",
+        "records": 11583,
+        "sha256": "1699951ed6cffc9b8f23487cc6b8f4a0fde79329a6f16b5bac12c58742b37e0e"
+      },
+      "partition_id": "032230213",
+      "prepared": 11583,
+      "read": 11583,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230213.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230213.jsonl.gz",
+      "seconds": 0.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230221/part-00147-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7571edeff0f7d6a914464ae0e5cd03c826212e679374f6303efe20b75cbfff63",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230221/part-00147-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 49644,
+        "path": "data/processed/buildings/ms_source_pass/part-032230221.jsonl.gz",
+        "records": 520,
+        "sha256": "bbdf0a8d6a4813f04967afcb380d3d54bf310f2163253df5ee87faee7fadd533"
+      },
+      "partition_id": "032230221",
+      "prepared": 520,
+      "read": 520,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230221.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230221.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230230/part-00062-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "f17137382446145f6b64bf88301fcf56a46ee8c3b009c1935c79de440acc1c28",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230230/part-00062-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 450878,
+        "path": "data/processed/buildings/ms_source_pass/part-032230230.jsonl.gz",
+        "records": 4737,
+        "sha256": "fe6769fc8c988ca27ec82d1d35d00786c05dc1d5a7ecac385cb3d7b4c458d039"
+      },
+      "partition_id": "032230230",
+      "prepared": 4737,
+      "read": 4737,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230230.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230230.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230231/part-00138-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "6665328164b32deaef2da165e4ce6feeb3b78b2bb57cb4022601c8121295e036",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230231/part-00138-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3188445,
+        "path": "data/processed/buildings/ms_source_pass/part-032230231.jsonl.gz",
+        "records": 33283,
+        "sha256": "54f11b0919e90a19755fb3e068747362a0e027f86911a3486cc628796089315a"
+      },
+      "partition_id": "032230231",
+      "prepared": 33283,
+      "read": 33283,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230231.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230231.jsonl.gz",
+      "seconds": 2.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230232/part-00009-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d888d727ba030fb0bed3649f2274ab04d9268ee81a1d80f4d34e59e545ac1e30",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230232/part-00009-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2222361,
+        "path": "data/processed/buildings/ms_source_pass/part-032230232.jsonl.gz",
+        "records": 22266,
+        "sha256": "88587dca73348ed32787b7a3b72010fa00cacd67069c07c9b2870c1109b4a4f7"
+      },
+      "partition_id": "032230232",
+      "prepared": 22266,
+      "read": 22267,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230232.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230232.jsonl.gz",
+      "seconds": 1.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230233/part-00161-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "0e5546832d971e9b8ed9270149fde076e5931565f724769c6fd5c994ff1c2550",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230233/part-00161-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3514023,
+        "path": "data/processed/buildings/ms_source_pass/part-032230233.jsonl.gz",
+        "records": 36538,
+        "sha256": "011505fc27fce6f4e5ccea8e7802a33ca07d5e0d37bcbe17306809c20c2e033e"
+      },
+      "partition_id": "032230233",
+      "prepared": 36538,
+      "read": 36538,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230233.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230233.jsonl.gz",
+      "seconds": 2.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230300/part-00171-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "f31a6c23a41a0d9adca05a11b6dc0960ccd360adfc7d03a55734bfafd194b38b",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230300/part-00171-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 6177653,
+        "path": "data/processed/buildings/ms_source_pass/part-032230300.jsonl.gz",
+        "records": 63975,
+        "sha256": "02c4c8fd4ce98e84e219e3dbe41feb6c4ae885bee6a36a8ab8032dc2475c7063"
+      },
+      "partition_id": "032230300",
+      "prepared": 63975,
+      "read": 63976,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230300.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230300.jsonl.gz",
+      "seconds": 4.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230301/part-00081-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "67235af18d9c0585f7e55bbd73e283e54b071412b5a5f4a30a31474e24cc45bb",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230301/part-00081-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3506622,
+        "path": "data/processed/buildings/ms_source_pass/part-032230301.jsonl.gz",
+        "records": 35836,
+        "sha256": "90d5a54abe91757067a423e84e826bcfc18c208b1c9d9ec1fcd980d812295930"
+      },
+      "partition_id": "032230301",
+      "prepared": 35836,
+      "read": 35838,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230301.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230301.jsonl.gz",
+      "seconds": 2.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230302/part-00095-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8523469b483050b19fe230a939a9dece283b85039be22a72d7a516fcf9391749",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230302/part-00095-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3374156,
+        "path": "data/processed/buildings/ms_source_pass/part-032230302.jsonl.gz",
+        "records": 35564,
+        "sha256": "85162f6eba5a7d58eb3c9a59db58cfdcb14497e2dd248cf5ef309facc78d4f7e"
+      },
+      "partition_id": "032230302",
+      "prepared": 35564,
+      "read": 35564,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230302.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230302.jsonl.gz",
+      "seconds": 2.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230303/part-00154-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "70e3766a6421641f2bd3f5d46ea3bcd6e314aad70929cc7e628afda1ca5c8d8b",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230303/part-00154-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3920978,
+        "path": "data/processed/buildings/ms_source_pass/part-032230303.jsonl.gz",
+        "records": 41042,
+        "sha256": "47f378362082986f7ddd4f30598849840f1da0f250541032a44cf17a75485ea4"
+      },
+      "partition_id": "032230303",
+      "prepared": 41042,
+      "read": 41043,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230303.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230303.jsonl.gz",
+      "seconds": 3.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230310/part-00101-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "971f6d78af369b3da2e8b812350467285d7d9ec68d0372bc25fd506ecdcf0b5e",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230310/part-00101-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2884555,
+        "path": "data/processed/buildings/ms_source_pass/part-032230310.jsonl.gz",
+        "records": 29941,
+        "sha256": "170c9b762c1f7528e88c7226e270eeebb1e938527d6d065103dcde56d6d44c80"
+      },
+      "partition_id": "032230310",
+      "prepared": 29941,
+      "read": 29941,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230310.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230310.jsonl.gz",
+      "seconds": 2.3
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230311/part-00174-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "e4148c96c5faf5e97ea94ce7fd06b90f32d3c6178e2da8481652558c4829d458",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230311/part-00174-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 8500523,
+        "path": "data/processed/buildings/ms_source_pass/part-032230311.jsonl.gz",
+        "records": 81639,
+        "sha256": "4f42554c6378c1d9a57446be0843363f5c5021a9f454a468c0b0c66d53ea0fbb"
+      },
+      "partition_id": "032230311",
+      "prepared": 81639,
+      "read": 81640,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230311.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230311.jsonl.gz",
+      "seconds": 6.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230312/part-00120-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d4fe89ac731e4ce49637114a30d44e8003f90470721321d49606fa80f6a47054",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230312/part-00120-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4396013,
+        "path": "data/processed/buildings/ms_source_pass/part-032230312.jsonl.gz",
+        "records": 41311,
+        "sha256": "bda8bf36444f84d77e857928573b59335fee4879968247ad1601c25a3ae06360"
+      },
+      "partition_id": "032230312",
+      "prepared": 41311,
+      "read": 41314,
+      "rejected": 3,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230312.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230312.jsonl.gz",
+      "seconds": 3.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230313/part-00110-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "9f914945e73fc5444a2e97f75548f0e22b5d4fcb80c54289cb047ecd3eebaebc",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230313/part-00110-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 8873838,
+        "path": "data/processed/buildings/ms_source_pass/part-032230313.jsonl.gz",
+        "records": 87026,
+        "sha256": "63d45e63173f17267da1d28e0af09613660cd1f74226c46aad5c05548d619a97"
+      },
+      "partition_id": "032230313",
+      "prepared": 87026,
+      "read": 87026,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230313.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230313.jsonl.gz",
+      "seconds": 6.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230320/part-00064-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8e528e3b44255af37e5a0146d70ebafed8ea2be1fef757e32ce5ae5ecb18f524",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230320/part-00064-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 15388814,
+        "path": "data/processed/buildings/ms_source_pass/part-032230320.jsonl.gz",
+        "records": 152227,
+        "sha256": "88d38b23f46661b60a0b591daba5ef7509463c6de480437fbbf884ca14bdac94"
+      },
+      "partition_id": "032230320",
+      "prepared": 152227,
+      "read": 152232,
+      "rejected": 5,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230320.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230320.jsonl.gz",
+      "seconds": 11.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230321/part-00197-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "86426327e1c72045143e77e8316e4813a86ebb049018a67b08a42eb787decdd8",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230321/part-00197-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5090540,
+        "path": "data/processed/buildings/ms_source_pass/part-032230321.jsonl.gz",
+        "records": 52861,
+        "sha256": "f37fc841436c9e2a151956c74e8800f2f24af36126023fa6f49ef2f9f823c58d"
+      },
+      "partition_id": "032230321",
+      "prepared": 52861,
+      "read": 52861,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230321.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230321.jsonl.gz",
+      "seconds": 3.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032230330/part-00031-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8c43e33b612030c6e7648db3c00a2ba4550fbadd181f21c3cfc6b82e13882ab5",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032230330/part-00031-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2119002,
+        "path": "data/processed/buildings/ms_source_pass/part-032230330.jsonl.gz",
+        "records": 21218,
+        "sha256": "0fe9980b58f20e0c83ca1cf120d95e68fcf5863e2cada122566e2bd6996a948e"
+      },
+      "partition_id": "032230330",
+      "prepared": 21218,
+      "read": 21219,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032230330.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032230330.jsonl.gz",
+      "seconds": 1.7
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231000/part-00096-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "4d649bf842aefbeced096282dd7066adb108052b91f30ca9f4d4e513fe8164d1",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231000/part-00096-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 6443652,
+        "path": "data/processed/buildings/ms_source_pass/part-032231000.jsonl.gz",
+        "records": 67456,
+        "sha256": "9b20fc82dc65a647713ce46547db1dee5285ab18db62c3a50528f73cee3b219f"
+      },
+      "partition_id": "032231000",
+      "prepared": 67456,
+      "read": 67456,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231000.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231000.jsonl.gz",
+      "seconds": 5.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231002/part-00156-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "f986f1f4d072923d8af8ee76ae55119ea3d971d14e88ea6b086c4b099eb84551",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231002/part-00156-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 983023,
+        "path": "data/processed/buildings/ms_source_pass/part-032231002.jsonl.gz",
+        "records": 10370,
+        "sha256": "460d0288cb308345d9bf26881ab39b49cde147b1975ee46f8a001e7ebe6542e8"
+      },
+      "partition_id": "032231002",
+      "prepared": 10370,
+      "read": 10370,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231002.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231002.jsonl.gz",
+      "seconds": 0.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231020/part-00159-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "28314fd8f82a5975c355777f0929d61234b91fc7e3b04aa320b9e632f5757c56",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231020/part-00159-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 152776,
+        "path": "data/processed/buildings/ms_source_pass/part-032231020.jsonl.gz",
+        "records": 1630,
+        "sha256": "fbf88acdccddc1db8e94134ccd9a594afc74be7d2397e3e6fc3bb72835409f7a"
+      },
+      "partition_id": "032231020",
+      "prepared": 1630,
+      "read": 1630,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231020.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231020.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231022/part-00002-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "15f64a8edf4a958f73b1ba4a558da1c784acdbb26e7428d91485ac14c0b73abe",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231022/part-00002-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4601092,
+        "path": "data/processed/buildings/ms_source_pass/part-032231022.jsonl.gz",
+        "records": 48676,
+        "sha256": "c7f098987c38b048e0318d9ebfc11a09bdc6181ed0c881f91ccde145f8a0bc5a"
+      },
+      "partition_id": "032231022",
+      "prepared": 48676,
+      "read": 48676,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231022.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231022.jsonl.gz",
+      "seconds": 3.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231200/part-00066-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "03244de9865230bc382cfce379d8c192cea9b55fcc09ec76661ca7902691dbf5",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231200/part-00066-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 16794097,
+        "path": "data/processed/buildings/ms_source_pass/part-032231200.jsonl.gz",
+        "records": 155322,
+        "sha256": "8acefe068a6629643c81668ffdc20beb2dc03a9596fde3ba407bfaa86f88891e"
+      },
+      "partition_id": "032231200",
+      "prepared": 155322,
+      "read": 155327,
+      "rejected": 5,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231200.jsonl.gz",
+      "repaired": 2,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231200.jsonl.gz",
+      "seconds": 13.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231203/part-00089-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "df89d89a08580b0e8ff51e1c58f9cbc8b1664db58ec8dfa2470b9f9eda6b1e55",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231203/part-00089-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 503061,
+        "path": "data/processed/buildings/ms_source_pass/part-032231203.jsonl.gz",
+        "records": 5226,
+        "sha256": "a13291c76bf9bf98a06537313dc8c4346619df2251651a6c6447ce2b9559623c"
+      },
+      "partition_id": "032231203",
+      "prepared": 5226,
+      "read": 5226,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231203.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231203.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231212/part-00043-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "bf78e2965b83f6c4f413b577b84912967f65f84fff161626abbf449d414899be",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231212/part-00043-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 523012,
+        "path": "data/processed/buildings/ms_source_pass/part-032231212.jsonl.gz",
+        "records": 5255,
+        "sha256": "68a5617e56c463ad6315baf0e3e08621c5724230bd39082880f76cf710ee6865"
+      },
+      "partition_id": "032231212",
+      "prepared": 5255,
+      "read": 5255,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231212.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231212.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231221/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "da0e1e905b60a32c3cddfeb190c001150087131b66581fac64822d3b816845b3",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231221/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3583460,
+        "path": "data/processed/buildings/ms_source_pass/part-032231221.jsonl.gz",
+        "records": 34997,
+        "sha256": "5c568029afc70a5da02c30f306f252da75f0ec2d95effb066cbd31c53d65b87b"
+      },
+      "partition_id": "032231221",
+      "prepared": 34997,
+      "read": 34998,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231221.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231221.jsonl.gz",
+      "seconds": 2.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231223/part-00145-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c96deb29f3a20ce3e8901566707b72db7b69b8947368b3d8a4b17734a38e3e5b",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231223/part-00145-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1927669,
+        "path": "data/processed/buildings/ms_source_pass/part-032231223.jsonl.gz",
+        "records": 20143,
+        "sha256": "d6db5b49e8e9ffc9731b761a285571258b896b0dac9f240b435503acd77e1fdf"
+      },
+      "partition_id": "032231223",
+      "prepared": 20143,
+      "read": 20143,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231223.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231223.jsonl.gz",
+      "seconds": 1.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231230/part-00171-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "761d99e399b9aa5c566690bf4163edacc4651f6c1b7d7ce35df8e7147aae891f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231230/part-00171-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3786511,
+        "path": "data/processed/buildings/ms_source_pass/part-032231230.jsonl.gz",
+        "records": 39894,
+        "sha256": "be89eab10b9476aae616e9ade0240a1c8f613ad16263440a1eb46a853e42e22c"
+      },
+      "partition_id": "032231230",
+      "prepared": 39894,
+      "read": 39894,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231230.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231230.jsonl.gz",
+      "seconds": 3.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231231/part-00038-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c9f234410b766b1f50c0ddcc957aa22796eb9fca3d7807a7f51da1362bd4a63c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231231/part-00038-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 488646,
+        "path": "data/processed/buildings/ms_source_pass/part-032231231.jsonl.gz",
+        "records": 5102,
+        "sha256": "89470187d7fcb0f43601f11396a420fc6007ff37d255d37f8a39bc44c8a3a72f"
+      },
+      "partition_id": "032231231",
+      "prepared": 5102,
+      "read": 5102,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231231.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231231.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032231232/part-00187-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d6b67ec669ce4462b22549a2eacfe450a335d15b102a4f417ba0bc2c2af40204",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032231232/part-00187-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 702940,
+        "path": "data/processed/buildings/ms_source_pass/part-032231232.jsonl.gz",
+        "records": 7264,
+        "sha256": "020374a64e8365f96ce3cee102d7a25aea9ff0b73210da6f150de1972523c421"
+      },
+      "partition_id": "032231232",
+      "prepared": 7264,
+      "read": 7264,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032231232.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032231232.jsonl.gz",
+      "seconds": 0.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232003/part-00058-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "ac510a34a51546003812b319be63400b0a67dda9fd2e3186d1bcccaa14f03b97",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232003/part-00058-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 32604,
+        "path": "data/processed/buildings/ms_source_pass/part-032232003.jsonl.gz",
+        "records": 348,
+        "sha256": "803ca492ce16dae106d063e311afd0bc47363bd8fa908b788c146a9e8bd14e4d"
+      },
+      "partition_id": "032232003",
+      "prepared": 348,
+      "read": 348,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232003.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232003.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232010/part-00158-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3d3939dc5de4102ffd93d25c710960718f62bb43e7cd2717c2ed19b3d9e7ac91",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232010/part-00158-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1164309,
+        "path": "data/processed/buildings/ms_source_pass/part-032232010.jsonl.gz",
+        "records": 12224,
+        "sha256": "e9df067193e182efa3360ca58e0b45ae502e6127a06c0c69ef86745f2566fe9f"
+      },
+      "partition_id": "032232010",
+      "prepared": 12224,
+      "read": 12224,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232010.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232010.jsonl.gz",
+      "seconds": 0.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232011/part-00194-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d208fe12995c8d4a5cbb65cb9303e58111cede5e2e2301defbd01887cfcf77eb",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232011/part-00194-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2795178,
+        "path": "data/processed/buildings/ms_source_pass/part-032232011.jsonl.gz",
+        "records": 29030,
+        "sha256": "38895ad3d835f9da2ac2a340319800c6de925b05a7d7cacd964acc7d9143e3a7"
+      },
+      "partition_id": "032232011",
+      "prepared": 29030,
+      "read": 29030,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232011.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232011.jsonl.gz",
+      "seconds": 2.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232012/part-00124-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "41bc9f23bd274d8f37d631c1e47dd672e3dbf52fa97b6b59387fb2bcb9c0842b",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232012/part-00124-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 476518,
+        "path": "data/processed/buildings/ms_source_pass/part-032232012.jsonl.gz",
+        "records": 5013,
+        "sha256": "2af810eefb9c6daf87a1d403183fae35467e0fbac0b43531060ddf033f3d393d"
+      },
+      "partition_id": "032232012",
+      "prepared": 5013,
+      "read": 5013,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232012.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232012.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232013/part-00036-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "72f9c6062b9dae8396cbd7b1fd743d938a5606d61a3fb17a2cb0c27625cab520",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232013/part-00036-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 6290530,
+        "path": "data/processed/buildings/ms_source_pass/part-032232013.jsonl.gz",
+        "records": 60779,
+        "sha256": "4678392a45dc24b5bc93d1829241fd77a0288c65a93e115d229cdb91d5ccb84b"
+      },
+      "partition_id": "032232013",
+      "prepared": 60779,
+      "read": 60779,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232013.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232013.jsonl.gz",
+      "seconds": 4.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232021/part-00103-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "ef68279e11358efa59e55af8b4eac36f8054802fe6b55d27209b56743db98580",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232021/part-00103-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 95916,
+        "path": "data/processed/buildings/ms_source_pass/part-032232021.jsonl.gz",
+        "records": 1020,
+        "sha256": "c89e10d87782f0dbe7cc5ba00d1eef6f77ab7ef4655909d13947e026fd5d534e"
+      },
+      "partition_id": "032232021",
+      "prepared": 1020,
+      "read": 1020,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232021.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232021.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232023/part-00146-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "6449899aaafbec3c431ec626a5eb13e1ddf604e2d8a2fee53fe896e121bb7d88",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232023/part-00146-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 431671,
+        "path": "data/processed/buildings/ms_source_pass/part-032232023.jsonl.gz",
+        "records": 4522,
+        "sha256": "c9490285a7a923c5eec040a0ecddc51219a9babe95c926b67becd17602894fb4"
+      },
+      "partition_id": "032232023",
+      "prepared": 4522,
+      "read": 4522,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232023.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232023.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232030/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "a130b41b8d09bfe66ec9779ac68904a4534998102821b09108ef9e59d05a658f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232030/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5234001,
+        "path": "data/processed/buildings/ms_source_pass/part-032232030.jsonl.gz",
+        "records": 49569,
+        "sha256": "1963be7eb14f0c26884232c57cbd1af8620a533e2dc5dcdf27a68437f5576313"
+      },
+      "partition_id": "032232030",
+      "prepared": 49569,
+      "read": 49570,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232030.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232030.jsonl.gz",
+      "seconds": 4.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232031/part-00190-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c2699bc1a898b89f8da958331994dfdcc47696e8a378b0169d932af5f8927bcf",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232031/part-00190-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 19790003,
+        "path": "data/processed/buildings/ms_source_pass/part-032232031.jsonl.gz",
+        "records": 185560,
+        "sha256": "9632af8e539abeda8c6150a29c1d894ffe3ee0079ac0f036e33659ea01efefef"
+      },
+      "partition_id": "032232031",
+      "prepared": 185560,
+      "read": 185563,
+      "rejected": 3,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232031.jsonl.gz",
+      "repaired": 2,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232031.jsonl.gz",
+      "seconds": 14.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232032/part-00189-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "880b77f0a79f8553bf2498ebc421af2808fa4ef73715f8718f8be3f404f73f40",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232032/part-00189-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3176342,
+        "path": "data/processed/buildings/ms_source_pass/part-032232032.jsonl.gz",
+        "records": 33723,
+        "sha256": "4634f0957966d8ef3005780663449f32a032a1c40d290b159840d088ad7edbf8"
+      },
+      "partition_id": "032232032",
+      "prepared": 33723,
+      "read": 33723,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232032.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232032.jsonl.gz",
+      "seconds": 2.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232033/part-00158-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "b42d723f850818c3f752aa12be1e9a9c8999f7408bc3cca876e5aea5370081b1",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232033/part-00158-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 28924659,
+        "path": "data/processed/buildings/ms_source_pass/part-032232033.jsonl.gz",
+        "records": 258893,
+        "sha256": "8616b3412b267294f7bec7ef6f6e29cb6e3a7f3d3190da8252aa77ce00eb0896"
+      },
+      "partition_id": "032232033",
+      "prepared": 258893,
+      "read": 258898,
+      "rejected": 5,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232033.jsonl.gz",
+      "repaired": 3,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232033.jsonl.gz",
+      "seconds": 21.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232120/part-00119-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "076fbad1c6c5cd3182b444f4480fe4a9c6d0a502f191b1c35e009345dd049b68",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232120/part-00119-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3691895,
+        "path": "data/processed/buildings/ms_source_pass/part-032232120.jsonl.gz",
+        "records": 37603,
+        "sha256": "c66a01c2959be4a0f962cda68e82346dbe16ad67dbb4b330d632e6632908c3d5"
+      },
+      "partition_id": "032232120",
+      "prepared": 37603,
+      "read": 37603,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232120.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232120.jsonl.gz",
+      "seconds": 3.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232121/part-00137-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "74e3672607a1f3c8d2773fd78f11275a320a42b661bc5f9e4c77da7e020242ec",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232121/part-00137-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 9940939,
+        "path": "data/processed/buildings/ms_source_pass/part-032232121.jsonl.gz",
+        "records": 99020,
+        "sha256": "ddebb64356b3ad68d03e45dc0ce05e39dcf61ce6bb5f23d1bb632f232d3248d5"
+      },
+      "partition_id": "032232121",
+      "prepared": 99020,
+      "read": 99020,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232121.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232121.jsonl.gz",
+      "seconds": 7.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232122/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "67de5d128a1f65966f0126097f5bcb6bd6a30837a84d444a200da0b16afb8b60",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232122/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 7640879,
+        "path": "data/processed/buildings/ms_source_pass/part-032232122.jsonl.gz",
+        "records": 70647,
+        "sha256": "49ca7ffcf42e44cbf9629aeb9bdc16cf2f221f4ed38680c4b1480e57d0a24530"
+      },
+      "partition_id": "032232122",
+      "prepared": 70647,
+      "read": 70648,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232122.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232122.jsonl.gz",
+      "seconds": 6.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232123/part-00195-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "f775d1589f915f463b229d7597790780a38c6a66b0c87fcbb00cfb449bb5fe00",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232123/part-00195-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2378848,
+        "path": "data/processed/buildings/ms_source_pass/part-032232123.jsonl.gz",
+        "records": 24036,
+        "sha256": "1b4c2e0573a691a8172df977b31ab040a056184f740397f283d7a308a81cf2a4"
+      },
+      "partition_id": "032232123",
+      "prepared": 24036,
+      "read": 24036,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232123.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232123.jsonl.gz",
+      "seconds": 1.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232130/part-00062-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "98263823610ef66ee27bd468dc6785e424f1729ceafd73d2cac43f317354a965",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232130/part-00062-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2297702,
+        "path": "data/processed/buildings/ms_source_pass/part-032232130.jsonl.gz",
+        "records": 23917,
+        "sha256": "eb9ce6306a0d0657c5d67c79a27977a381c659b0031fc95056bafe364c3d025c"
+      },
+      "partition_id": "032232130",
+      "prepared": 23917,
+      "read": 23917,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232130.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232130.jsonl.gz",
+      "seconds": 1.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232132/part-00153-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "82e8eec266bcc66e47e5ef7f85c2d719c8dc7faae81ba579dceee31605efb5b3",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232132/part-00153-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1965966,
+        "path": "data/processed/buildings/ms_source_pass/part-032232132.jsonl.gz",
+        "records": 20283,
+        "sha256": "bd5859051812979c12efc00229c77e8963eb1ec55cfac30e2141e4279bc8411e"
+      },
+      "partition_id": "032232132",
+      "prepared": 20283,
+      "read": 20283,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232132.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232132.jsonl.gz",
+      "seconds": 1.5
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232133/part-00064-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "16fa742089733e2ab35cd54fe50b430babe4ed58e5f7675363630a986fc0c2df",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232133/part-00064-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2483657,
+        "path": "data/processed/buildings/ms_source_pass/part-032232133.jsonl.gz",
+        "records": 24979,
+        "sha256": "92434630b369fce49bbe827b784a929a8716fd9b6f8de62f510eff78886b7ecf"
+      },
+      "partition_id": "032232133",
+      "prepared": 24979,
+      "read": 24979,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232133.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232133.jsonl.gz",
+      "seconds": 2.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232200/part-00103-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "78455f55e4e0d1d7bd7c8fda4a398230f2e8fafba83ef69cf0eaadca3b6d19df",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232200/part-00103-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1344734,
+        "path": "data/processed/buildings/ms_source_pass/part-032232200.jsonl.gz",
+        "records": 13867,
+        "sha256": "8281d9136f75ba13c86669930c4d760f696ce6bbc4e0047b94cd7963c937b069"
+      },
+      "partition_id": "032232200",
+      "prepared": 13867,
+      "read": 13867,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232200.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232200.jsonl.gz",
+      "seconds": 1.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232201/part-00105-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "da7e29a7304cf1141ef53c36473884d9ce34867aa29e6995047735c381ccc537",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232201/part-00105-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1143677,
+        "path": "data/processed/buildings/ms_source_pass/part-032232201.jsonl.gz",
+        "records": 11823,
+        "sha256": "9f20d6a70dfb8d32be8b950faa608cebbf5906f384a03432f606caaceb086f49"
+      },
+      "partition_id": "032232201",
+      "prepared": 11823,
+      "read": 11823,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232201.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232201.jsonl.gz",
+      "seconds": 0.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232202/part-00198-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "9bacbc273eea293c09ffa8a43febaea698742c953ef17502231b6d00d05d7490",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232202/part-00198-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2866760,
+        "path": "data/processed/buildings/ms_source_pass/part-032232202.jsonl.gz",
+        "records": 29567,
+        "sha256": "bea3768f9d244a25189d75edc807d16cd4b4a92327f6517f01517677015a1de9"
+      },
+      "partition_id": "032232202",
+      "prepared": 29567,
+      "read": 29568,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232202.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232202.jsonl.gz",
+      "seconds": 2.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232203/part-00135-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "4fac09f6e3e86c5320116ace0621ed18a8220e4efe96a3408a1b4304d2db3b4e",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232203/part-00135-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3292897,
+        "path": "data/processed/buildings/ms_source_pass/part-032232203.jsonl.gz",
+        "records": 34567,
+        "sha256": "67e0d14eaa11c07696f9eec0c5daa67bab6fe0b5ba12c0a764e11b3e30fdba94"
+      },
+      "partition_id": "032232203",
+      "prepared": 34567,
+      "read": 34567,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232203.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232203.jsonl.gz",
+      "seconds": 2.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232210/part-00159-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "2873c94b1b539dec3000d3d0522fd058e213321936ccc62581966f46aba14fb2",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232210/part-00159-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 11126146,
+        "path": "data/processed/buildings/ms_source_pass/part-032232210.jsonl.gz",
+        "records": 116617,
+        "sha256": "54b2a1e4cb891eb73f03adafadc1dd26f88e637ccd95af23a62a794de3aa3731"
+      },
+      "partition_id": "032232210",
+      "prepared": 116617,
+      "read": 116618,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232210.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232210.jsonl.gz",
+      "seconds": 9.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232211/part-00020-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "978bc87f9017597cde9a6d7f9e29b407b0defa5c4808eff1c532ab0f1bfd9797",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232211/part-00020-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 13175404,
+        "path": "data/processed/buildings/ms_source_pass/part-032232211.jsonl.gz",
+        "records": 131752,
+        "sha256": "28b528be9c4d1f6148b762347e7d70ee77afac1457bf5a9a395490cb120f8874"
+      },
+      "partition_id": "032232211",
+      "prepared": 131752,
+      "read": 131752,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232211.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232211.jsonl.gz",
+      "seconds": 10.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232212/part-00108-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "df52bfea1e263c8db538cf0822f88e2ddf49c261bd0e6ce779f73e45b3d2390d",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232212/part-00108-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 11416183,
+        "path": "data/processed/buildings/ms_source_pass/part-032232212.jsonl.gz",
+        "records": 117879,
+        "sha256": "2e381ff465cae68cfa58611cf0b97c76bbd37e34bccd6ddbd39dcc416506ab0a"
+      },
+      "partition_id": "032232212",
+      "prepared": 117879,
+      "read": 117879,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232212.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232212.jsonl.gz",
+      "seconds": 9.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232213/part-00040-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c100b0774d844076ec11030cf495bd91a45a5d44d1d1fd051b25cbaccdb7f30f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232213/part-00040-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 9484016,
+        "path": "data/processed/buildings/ms_source_pass/part-032232213.jsonl.gz",
+        "records": 94540,
+        "sha256": "7a3c56708c868941292a7c41a211d7450c05ed59120ee4e4d92bee2aadbed929"
+      },
+      "partition_id": "032232213",
+      "prepared": 94540,
+      "read": 94541,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232213.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232213.jsonl.gz",
+      "seconds": 7.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232220/part-00107-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "0d5a8bf55a0fc9f1bfd82388d30db6602a19f224b23cfdce6a92c390cf407776",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232220/part-00107-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1521334,
+        "path": "data/processed/buildings/ms_source_pass/part-032232220.jsonl.gz",
+        "records": 15995,
+        "sha256": "576cd6dcfa8ea04da5fc752bb38005fc1c7c42c8dee789599e32b616b30ad5aa"
+      },
+      "partition_id": "032232220",
+      "prepared": 15995,
+      "read": 15995,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232220.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232220.jsonl.gz",
+      "seconds": 1.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232221/part-00019-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d4c82fcc467243af8676c4c28d14f6266797d3dd8656f54d1f48a3367651f83a",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232221/part-00019-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 13849047,
+        "path": "data/processed/buildings/ms_source_pass/part-032232221.jsonl.gz",
+        "records": 139788,
+        "sha256": "0c0ac8f542e6791f01914a741a229dc77d49c9cc1d83599c6798865257fe236a"
+      },
+      "partition_id": "032232221",
+      "prepared": 139788,
+      "read": 139789,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232221.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232221.jsonl.gz",
+      "seconds": 11.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232230/part-00013-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "e2bb41b11bc76ef10c9a0673e5308d77347a0e634009304ab6cfde02994186ef",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232230/part-00013-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 7970412,
+        "path": "data/processed/buildings/ms_source_pass/part-032232230.jsonl.gz",
+        "records": 74877,
+        "sha256": "0898398b14dc7ab944a878ba1971b9e58733725115974ca4978b5fa9ad3f5d32"
+      },
+      "partition_id": "032232230",
+      "prepared": 74877,
+      "read": 74879,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232230.jsonl.gz",
+      "repaired": 1,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232230.jsonl.gz",
+      "seconds": 6.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232231/part-00046-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "2dd394e7255681fe95c8fb6d3e57a68c4ccd5d1be49878f4ba3f6ffe73d32ff4",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232231/part-00046-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3117127,
+        "path": "data/processed/buildings/ms_source_pass/part-032232231.jsonl.gz",
+        "records": 31656,
+        "sha256": "c63ec97610fe24a99fb2efdda9b0ed3af24099bba61aedcce30328d9aaacf377"
+      },
+      "partition_id": "032232231",
+      "prepared": 31656,
+      "read": 31656,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232231.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232231.jsonl.gz",
+      "seconds": 2.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232232/part-00136-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8cceaed200e144fd44124cfb2a720d66fa0972dfa9cd78fa7030bacb967d98db",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232232/part-00136-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4151815,
+        "path": "data/processed/buildings/ms_source_pass/part-032232232.jsonl.gz",
+        "records": 42293,
+        "sha256": "dc6112cb339da397316e1ca82836ca521c03daead5539e8e3a90ee2791e86f36"
+      },
+      "partition_id": "032232232",
+      "prepared": 42293,
+      "read": 42293,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232232.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232232.jsonl.gz",
+      "seconds": 3.3
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232233/part-00125-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "159b025b415c5d2e5db98a0bf3bef6c6ec66161ca494dc7097afee396f979359",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232233/part-00125-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2429283,
+        "path": "data/processed/buildings/ms_source_pass/part-032232233.jsonl.gz",
+        "records": 23818,
+        "sha256": "e9ea8fefa4676959bf53c6e6696ed904351a91fbaaea24db6f8e7541ab10f33d"
+      },
+      "partition_id": "032232233",
+      "prepared": 23818,
+      "read": 23818,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232233.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232233.jsonl.gz",
+      "seconds": 1.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232300/part-00144-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c6ed96a85c4553873f05e2517312e5358f6015c57fcac73caf2204bfeb244216",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232300/part-00144-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 9311560,
+        "path": "data/processed/buildings/ms_source_pass/part-032232300.jsonl.gz",
+        "records": 91976,
+        "sha256": "4cd3ea7001f2ad0b0da95e13d94f769dbd9a4c11613feeb1776df888f82a119f"
+      },
+      "partition_id": "032232300",
+      "prepared": 91976,
+      "read": 91977,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232300.jsonl.gz",
+      "repaired": 2,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232300.jsonl.gz",
+      "seconds": 7.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232301/part-00041-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7267607025ab30f056a713c790657b697740e7882b700e58a85ccd026f6318fa",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232301/part-00041-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1583673,
+        "path": "data/processed/buildings/ms_source_pass/part-032232301.jsonl.gz",
+        "records": 15836,
+        "sha256": "96f72017f4571fa2a02ca9095d3ff704472533a95ce567dee9de5ff8b7f1e3f1"
+      },
+      "partition_id": "032232301",
+      "prepared": 15836,
+      "read": 15836,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232301.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232301.jsonl.gz",
+      "seconds": 1.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232302/part-00128-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "df1249024c95e886610b8de862003db8f62b4dce681520a9e04441618fcb84e9",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232302/part-00128-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 7366807,
+        "path": "data/processed/buildings/ms_source_pass/part-032232302.jsonl.gz",
+        "records": 70671,
+        "sha256": "b5437ce8275a486b23b4c880acb2fba58268e01184ba40098ce0d9f26336cde3"
+      },
+      "partition_id": "032232302",
+      "prepared": 70671,
+      "read": 70672,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232302.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232302.jsonl.gz",
+      "seconds": 5.8
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232303/part-00029-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "745ae3908d744f36e5a2cf2cdceada27db1fbb1363de0fbfd7afb1dfa58f11cc",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232303/part-00029-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1972151,
+        "path": "data/processed/buildings/ms_source_pass/part-032232303.jsonl.gz",
+        "records": 19351,
+        "sha256": "b3f2776d554765adf7a404c9204cf76bc443478fa0319c849ecc7e15f82943f3"
+      },
+      "partition_id": "032232303",
+      "prepared": 19351,
+      "read": 19352,
+      "rejected": 1,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232303.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232303.jsonl.gz",
+      "seconds": 1.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232310/part-00130-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "a7e695dc5ca58f84212b3de79555f6fd885d9002bf4e73bfbd697064583de6dc",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232310/part-00130-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 694595,
+        "path": "data/processed/buildings/ms_source_pass/part-032232310.jsonl.gz",
+        "records": 7039,
+        "sha256": "24b30ca84b984c49ea162d8ada3c77e9cb48d70a7846434ef148f3af5ec8827a"
+      },
+      "partition_id": "032232310",
+      "prepared": 7039,
+      "read": 7039,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232310.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232310.jsonl.gz",
+      "seconds": 0.5
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232311/part-00082-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "efc2c3430ca529820b9eafefc55ea0f2cd43e1c5f68e0deb98c7b42486e00388",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232311/part-00082-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 683833,
+        "path": "data/processed/buildings/ms_source_pass/part-032232311.jsonl.gz",
+        "records": 7014,
+        "sha256": "818d00bd4ca2af770a0ef3604eab1ca06b0dc171d55c1a0b2743176de81e1f63"
+      },
+      "partition_id": "032232311",
+      "prepared": 7014,
+      "read": 7014,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232311.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232311.jsonl.gz",
+      "seconds": 0.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232312/part-00184-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "ae7c979f3777f4a9869a15b24cfc37ab298ce1f371fc6e9ec3e2324d41947d84",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232312/part-00184-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 720307,
+        "path": "data/processed/buildings/ms_source_pass/part-032232312.jsonl.gz",
+        "records": 7304,
+        "sha256": "c9eb846a9efdd9cd4d30b8ed6f27aefcd22c39885f111efed201882304db2edb"
+      },
+      "partition_id": "032232312",
+      "prepared": 7304,
+      "read": 7304,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232312.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232312.jsonl.gz",
+      "seconds": 0.6
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232313/part-00048-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "6218c8ffc267a4f1a38b31d8250352cc9e2454d7e127237bf76f9b0f50c0809f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232313/part-00048-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 102156,
+        "path": "data/processed/buildings/ms_source_pass/part-032232313.jsonl.gz",
+        "records": 1071,
+        "sha256": "41b8a44cebe2097780db0199797d2c4c577183d5062ca4b5be5468a5427e0658"
+      },
+      "partition_id": "032232313",
+      "prepared": 1071,
+      "read": 1071,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232313.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232313.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232320/part-00086-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "9a26d3fcce72e215844d5115bac1e294111b8f4581cd2ca39440c6e52664b4eb",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232320/part-00086-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2176140,
+        "path": "data/processed/buildings/ms_source_pass/part-032232320.jsonl.gz",
+        "records": 21838,
+        "sha256": "8b5254633d99e0ee6ac6d80b9fdf7b51397b56c76fb5e21a04dad78d9bb4903f"
+      },
+      "partition_id": "032232320",
+      "prepared": 21838,
+      "read": 21838,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232320.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232320.jsonl.gz",
+      "seconds": 1.9
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232321/part-00077-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3ef001c07994e1764e63c16b28bde88f35b741098698f6b239df48934cd3a82c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232321/part-00077-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1769010,
+        "path": "data/processed/buildings/ms_source_pass/part-032232321.jsonl.gz",
+        "records": 17481,
+        "sha256": "9b698206e6c8c17d5df360372c4bfd37a0599724760de3d2679e01491b5bc5b1"
+      },
+      "partition_id": "032232321",
+      "prepared": 17481,
+      "read": 17481,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232321.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232321.jsonl.gz",
+      "seconds": 1.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232322/part-00170-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d46ce98a4e2913836eda3fc11567c612340fb6d95edea33b1db2aea81cc74cee",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232322/part-00170-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 389694,
+        "path": "data/processed/buildings/ms_source_pass/part-032232322.jsonl.gz",
+        "records": 3944,
+        "sha256": "1d087f28c7fe039fc0c140006347edc063359eb4059728e75f456a7904291a09"
+      },
+      "partition_id": "032232322",
+      "prepared": 3944,
+      "read": 3944,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232322.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232322.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232323/part-00013-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "39608fe1445d9a5f84f58ea919e8474691d97760a679546118efdbebfb94342c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232323/part-00013-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 184315,
+        "path": "data/processed/buildings/ms_source_pass/part-032232323.jsonl.gz",
+        "records": 1879,
+        "sha256": "3f1eb5f575e00ac5c1e9117f0c2076daba221e08da052613e330c5e5781ae1ff"
+      },
+      "partition_id": "032232323",
+      "prepared": 1879,
+      "read": 1879,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232323.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232323.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232330/part-00095-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "43ff0bd39722efea09b78b0febd0ba92180bbc70e98a90148662fb8d2211c43e",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232330/part-00095-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 172232,
+        "path": "data/processed/buildings/ms_source_pass/part-032232330.jsonl.gz",
+        "records": 1754,
+        "sha256": "fac6a629f6caaed6b448ef3f78f24f920b9a0d7035f0773ee211036034519587"
+      },
+      "partition_id": "032232330",
+      "prepared": 1754,
+      "read": 1754,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232330.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232330.jsonl.gz",
+      "seconds": 0.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232331/part-00161-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "140af5fdaa0c3f5c01140e5538609a13cfaafc46b660bc93c1a33da58b83aecb",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232331/part-00161-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4232,
+        "path": "data/processed/buildings/ms_source_pass/part-032232331.jsonl.gz",
+        "records": 42,
+        "sha256": "a4b5617edff0a8976d45a6f18167ef577a9afa6931ee26391a86d00419910d7a"
+      },
+      "partition_id": "032232331",
+      "prepared": 42,
+      "read": 42,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232331.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232331.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232332/part-00049-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7aabef2d4622938648adcc20f7354aa1cb67349813a80c756b2137032186cac3",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232332/part-00049-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 202086,
+        "path": "data/processed/buildings/ms_source_pass/part-032232332.jsonl.gz",
+        "records": 2037,
+        "sha256": "da0b5992aebba8a8a85be39d67b44361d2fb6849f803b38c4c13c390d47203d0"
+      },
+      "partition_id": "032232332",
+      "prepared": 2037,
+      "read": 2037,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232332.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232332.jsonl.gz",
+      "seconds": 0.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032232333/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3038ee3258d755e8f8e6e1efd5de02658ad64afb44550d511398387691b1684d",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032232333/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 3903,
+        "path": "data/processed/buildings/ms_source_pass/part-032232333.jsonl.gz",
+        "records": 38,
+        "sha256": "9aa8b7c397552ab5b8b81c1d566b03cdcb44b2719c74dd55d440f271016c834b"
+      },
+      "partition_id": "032232333",
+      "prepared": 38,
+      "read": 38,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032232333.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032232333.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233022/part-00044-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "a52c1b7ab21be48dcd0f3d7a0e87a9d4a4ef8fcd83caef036702ce2c92af73a3",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233022/part-00044-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 355465,
+        "path": "data/processed/buildings/ms_source_pass/part-032233022.jsonl.gz",
+        "records": 3619,
+        "sha256": "33d179a4499b499ab72c494071f3b3c8fdfeaf635d758d692bc9046706ecdf0a"
+      },
+      "partition_id": "032233022",
+      "prepared": 3619,
+      "read": 3619,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233022.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233022.jsonl.gz",
+      "seconds": 0.3
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233023/part-00166-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "aa235bcb7a2cf7c13e77823096d8ed2f3624c82dba0cc2a5b64ea058a5b6266d",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233023/part-00166-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 304391,
+        "path": "data/processed/buildings/ms_source_pass/part-032233023.jsonl.gz",
+        "records": 3062,
+        "sha256": "4f19498682735e818c9af28d79b70653600e782048ab6ec1d43b0992d5ce517c"
+      },
+      "partition_id": "032233023",
+      "prepared": 3062,
+      "read": 3062,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233023.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233023.jsonl.gz",
+      "seconds": 0.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233032/part-00054-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "40c6310ebc8fa634e1dcc9c9d51ee9617161152eb66a945cd24151ae718800b3",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233032/part-00054-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 23909,
+        "path": "data/processed/buildings/ms_source_pass/part-032233032.jsonl.gz",
+        "records": 237,
+        "sha256": "545cc7030da52ff69d6052fe90db08580d0f7bb801ef8ec911a5d5d1b7c9ff08"
+      },
+      "partition_id": "032233032",
+      "prepared": 237,
+      "read": 237,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233032.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233032.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233033/part-00047-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8c092847886fb9e2e14fdedad39e7788c432a04df6fccea8d52859a98ee4362f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233033/part-00047-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 771,
+        "path": "data/processed/buildings/ms_source_pass/part-032233033.jsonl.gz",
+        "records": 6,
+        "sha256": "920b387914cbd53f383c64ef3434bc4d5831df070d16d3ac66b3c8679f7f7536"
+      },
+      "partition_id": "032233033",
+      "prepared": 6,
+      "read": 6,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233033.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233033.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233200/part-00144-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "1edd72ba2701397181868514461494906ba3f3cac827cbb2f3b2787381a1cdde",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233200/part-00144-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 2782158,
+        "path": "data/processed/buildings/ms_source_pass/part-032233200.jsonl.gz",
+        "records": 27707,
+        "sha256": "6be77b74857300ba7c2ef8fbb593b3f7f79e69e97d9318fb99dca6336a7c51ae"
+      },
+      "partition_id": "032233200",
+      "prepared": 27707,
+      "read": 27707,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233200.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233200.jsonl.gz",
+      "seconds": 2.2
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233201/part-00035-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "cf3c1c006ac7dc184928e0b0ab94423ac55e406c8ea997610221692f8b83ead0",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233201/part-00035-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 451998,
+        "path": "data/processed/buildings/ms_source_pass/part-032233201.jsonl.gz",
+        "records": 4696,
+        "sha256": "8106bd8be2c5a459bbca338273e478f45065a9f3b95f39500dddc9dc49e97a6e"
+      },
+      "partition_id": "032233201",
+      "prepared": 4696,
+      "read": 4696,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233201.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233201.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233202/part-00083-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "4e5ce1c8fcfeb3645f2558637884062fa63d96b248461ba787903cca5a50a534",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233202/part-00083-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 483611,
+        "path": "data/processed/buildings/ms_source_pass/part-032233202.jsonl.gz",
+        "records": 4989,
+        "sha256": "64bf27248638d3fa38db059ceab0816c051a72674527e8131cb383a74957da29"
+      },
+      "partition_id": "032233202",
+      "prepared": 4989,
+      "read": 4989,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233202.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233202.jsonl.gz",
+      "seconds": 0.4
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233203/part-00145-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "345699b066c4b68b5b2529e7eeb170fa06ff502176a4854765464546ee7b3ed9",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233203/part-00145-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 133805,
+        "path": "data/processed/buildings/ms_source_pass/part-032233203.jsonl.gz",
+        "records": 1380,
+        "sha256": "c9290632d1dfda9ad3adc76ab4bd66c105d716dfc049ae248797fefe772e2521"
+      },
+      "partition_id": "032233203",
+      "prepared": 1380,
+      "read": 1380,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233203.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233203.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233211/part-00114-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d86604ad26ebe34054c1cb051a72dd42db1556c700f53b4c7410cdc92987c633",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233211/part-00114-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5041,
+        "path": "data/processed/buildings/ms_source_pass/part-032233211.jsonl.gz",
+        "records": 50,
+        "sha256": "83932688236c982204e3d27b0c9f356cbe9991c078195c733d183dd0fc6896bc"
+      },
+      "partition_id": "032233211",
+      "prepared": 50,
+      "read": 50,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233211.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233211.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233213/part-00197-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "85a332d171ba542794b0ef8a3bc83fbd14cd6dc8e0a99494f5e0c382279089f6",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233213/part-00197-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 4468,
+        "path": "data/processed/buildings/ms_source_pass/part-032233213.jsonl.gz",
+        "records": 46,
+        "sha256": "5298be2bf11fe53aaba5ec08cb0d557a809fd299f473fa97808d7be0d79caab8"
+      },
+      "partition_id": "032233213",
+      "prepared": 46,
+      "read": 46,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233213.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233213.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233220/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "b3efefc6232388ddd38cc9f331556a8e199e3ff058ecd550f9ed682f6eabcbbe",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233220/part-00085-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 347,
+        "path": "data/processed/buildings/ms_source_pass/part-032233220.jsonl.gz",
+        "records": 1,
+        "sha256": "682796a761c7a9ce92e66f5f9fa5e9eddc3ce825c2ed06d81ec63260b1784548"
+      },
+      "partition_id": "032233220",
+      "prepared": 1,
+      "read": 1,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233220.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233220.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233221/part-00091-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "402cd6eaedf55d6bbc87a84233f936bf5e34e432afcefe47c5b5d2a43e87c54f",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233221/part-00091-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 112534,
+        "path": "data/processed/buildings/ms_source_pass/part-032233221.jsonl.gz",
+        "records": 1114,
+        "sha256": "b37eefc9f13e8e3d0182688fa045f2ee4cead47ddcee963e601f9f88be48d16d"
+      },
+      "partition_id": "032233221",
+      "prepared": 1114,
+      "read": 1114,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233221.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233221.jsonl.gz",
+      "seconds": 0.1
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233222/part-00149-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "92cea1b31b65948bfdceeef83ff64ffa35df90f16b68ba3337db04cba920530c",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233222/part-00149-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 1278,
+        "path": "data/processed/buildings/ms_source_pass/part-032233222.jsonl.gz",
+        "records": 10,
+        "sha256": "f9fb55e9d8422a26ad51f4ec1cb23b30a71f538b712d6c4506927708f5cae2b6"
+      },
+      "partition_id": "032233222",
+      "prepared": 10,
+      "read": 10,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233222.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233222.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233223/part-00170-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "e8bb2cf66518663a14ee5914e797be5aedfc5ffe379baaa145d5b7eac11ea515",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233223/part-00170-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 988,
+        "path": "data/processed/buildings/ms_source_pass/part-032233223.jsonl.gz",
+        "records": 8,
+        "sha256": "f3b7878ed2a5da5ccd812b789f2d57ded9fd61de6d6cb0003f24320e7c044638"
+      },
+      "partition_id": "032233223",
+      "prepared": 8,
+      "read": 8,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233223.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233223.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233230/part-00125-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "7278162e689a79198978ab4dd469539e7922624558f111c24a8749f95f8168b0",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233230/part-00125-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 35152,
+        "path": "data/processed/buildings/ms_source_pass/part-032233230.jsonl.gz",
+        "records": 358,
+        "sha256": "cf9fd299e0d9b69a19162209a2e271fb41bb2311d0895820c81577fd3009859f"
+      },
+      "partition_id": "032233230",
+      "prepared": 358,
+      "read": 358,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233230.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233230.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233232/part-00076-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "b2e6e4cc37c04a67c5b8f2e640a65f6f3b335259ebc33748697b39e60ab74d88",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233232/part-00076-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 13529,
+        "path": "data/processed/buildings/ms_source_pass/part-032233232.jsonl.gz",
+        "records": 125,
+        "sha256": "4a04877441b7d30e536bd8f64cda61881653f04df61914dbaf58e68651d72792"
+      },
+      "partition_id": "032233232",
+      "prepared": 125,
+      "read": 125,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233232.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233232.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=032233300/part-00112-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "6fec8de63a885ad5101c0d5f6ff7c3611090476b64ea7a49c889bc4f805afb06",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=032233300/part-00112-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 5657,
+        "path": "data/processed/buildings/ms_source_pass/part-032233300.jsonl.gz",
+        "records": 58,
+        "sha256": "2f7a17657ff4d018b804836b3282b50ff29751546762b9cfdcdd7a12a3e9e560"
+      },
+      "partition_id": "032233300",
+      "prepared": 58,
+      "read": 58,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-032233300.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-032233300.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210010100/part-00015-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "d486203700e83ade4d8edf55c0a520479956e84fbf50fe835674eaa38ec24482",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210010100/part-00015-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 25324,
+        "path": "data/processed/buildings/ms_source_pass/part-210010100.jsonl.gz",
+        "records": 262,
+        "sha256": "02e8b9f23280865ef30f1f8b4802912b55e7ae516933f8ca6a482c14871a9a1e"
+      },
+      "partition_id": "210010100",
+      "prepared": 262,
+      "read": 262,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210010100.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210010100.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210010101/part-00094-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "b2e6e46cdb569301ee3580fe889ef27cd5e28ff51290e1b1c17807ed8ddfbb4b",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210010101/part-00094-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 431837,
+        "path": "data/processed/buildings/ms_source_pass/part-210010101.jsonl.gz",
+        "records": 4160,
+        "sha256": "79fcd97b9cc2b853ff4dfa132d6ba57ac85adbd8f433d294ec28cfcd7a958edc"
+      },
+      "partition_id": "210010101",
+      "prepared": 4160,
+      "read": 4160,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210010101.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210010101.jsonl.gz",
+      "seconds": 0.3
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210010110/part-00147-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "c2633a407cc4e5e7a6d5b49d65cc18e2e752502a65dfaf4545b46d4b0278bf96",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210010110/part-00147-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 33794,
+        "path": "data/processed/buildings/ms_source_pass/part-210010110.jsonl.gz",
+        "records": 343,
+        "sha256": "d541eed2fa60a67082d6ad0dd8c1e8c8584d868f3e6d83df40f5103de04f7935"
+      },
+      "partition_id": "210010110",
+      "prepared": 343,
+      "read": 343,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210010110.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210010110.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210010111/part-00181-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "8c31b0d0a38a6a7ae236051cd0ea968c23087e53603723c477ac59df0249a888",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210010111/part-00181-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 22019,
+        "path": "data/processed/buildings/ms_source_pass/part-210010111.jsonl.gz",
+        "records": 226,
+        "sha256": "5fe7485af74f0046a07f987ccc83d8cd8cb06cf3e9c403715da074a4d8741e8f"
+      },
+      "partition_id": "210010111",
+      "prepared": 226,
+      "read": 226,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210010111.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210010111.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210011000/part-00156-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "3766b5240aa877600280f607ab77589e0a26c7fb537d26fa72b79406a5ac73c4",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210011000/part-00156-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 31824,
+        "path": "data/processed/buildings/ms_source_pass/part-210011000.jsonl.gz",
+        "records": 329,
+        "sha256": "26cb52f969b2493e23360510ac833a32f868334afdfdfd45cb4b422b3ba4d438"
+      },
+      "partition_id": "210011000",
+      "prepared": 329,
+      "read": 329,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210011000.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210011000.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210011001/part-00081-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "664be8c78db8a0222cfa9a93a241b346be57e254f19f8edc3d7c6149e8d57fb1",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210011001/part-00081-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 51446,
+        "path": "data/processed/buildings/ms_source_pass/part-210011001.jsonl.gz",
+        "records": 534,
+        "sha256": "320c9b5d1213b1d9657dfac131b6951bda6c06bd8b03078a45fc8a4d88940cd1"
+      },
+      "partition_id": "210011001",
+      "prepared": 534,
+      "read": 534,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210011001.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210011001.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210011002/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "4aab70168a17569601dbf8556558dfe4e880e716ea6a1b24ff6d92588fb3ea91",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210011002/part-00024-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 14370,
+        "path": "data/processed/buildings/ms_source_pass/part-210011002.jsonl.gz",
+        "records": 148,
+        "sha256": "074f1b70b3016712c31c49e31867c2419178ee6f5f98cfe4815d2a9a86d9dc10"
+      },
+      "partition_id": "210011002",
+      "prepared": 148,
+      "read": 148,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210011002.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210011002.jsonl.gz",
+      "seconds": 0.0
+    },
+    {
+      "excluded_outside_pdet": 0,
+      "input": {
+        "local_path": "data/raw/ms_buildings/2026-02-03/quadkey=210011010/part-00122-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+        "sha256": "9b9986c1f2572b8f41a66ce8660143d1aa11a829cfdebd6cf1e50e7b471ddfae",
+        "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=Colombia/quadkey=210011010/part-00122-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz"
+      },
+      "output": {
+        "bytes": 8799,
+        "path": "data/processed/buildings/ms_source_pass/part-210011010.jsonl.gz",
+        "records": 78,
+        "sha256": "4e6460f9f63f248bb8431c15948bf8eeaf17cc1c9367092e0f546c27cdc3934f"
+      },
+      "partition_id": "210011010",
+      "prepared": 78,
+      "read": 78,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/ms_source_pass/rejected-210011010.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/ms_source_pass/repairs-210011010.jsonl.gz",
+      "seconds": 0.0
+    }
+  ],
+  "script": "scripts/03_prepare_buildings.py",
+  "script_version": "entrega3-prepare-v1",
+  "selection": {
+    "applied": false,
+    "by_municipality_csv": null,
+    "criterion": "centroide de la huella dentro o sobre el borde de un municipio PDET (shapely intersects)",
+    "municipalities": null,
+    "municipalities_with_prepared_buildings": null,
+    "tie_rule": "borde compartido: se asigna el código DIVIPOLA menor"
+  },
+  "started_at": "2026-11-14T20:33:39+00:00",
+  "status": "source_pass_only",
+  "totals": {
+    "area_m2": {
+      "count": 4595567,
+      "max": 76453.09,
+      "min": 9.66,
+      "p01": 17.75,
+      "p10": 29.84,
+      "p50": 82.69,
+      "p90": 261.09,
+      "p99": 1413.64,
+      "sum": 699938128.81
+    },
+    "attribute_notes": {
+      "confidence_unknown": 4595391,
+      "height_unknown": 4595567
+    },
+    "balanced": true,
+    "centroids_on_shared_boundary": 0,
+    "duplicates_removed": 0,
+    "excluded_outside_pdet": 0,
+    "prepared": 4595567,
+    "read": 4595615,
+    "rejected": 48,
+    "rejected_by_reason": {
+      "repair_split_multipolygon": 48
+    },
+    "repaired": 29,
+    "repaired_by_action": {
+      "make_valid": 18,
+      "make_valid_dropped_slivers": 11
+    }
+  }
+}
