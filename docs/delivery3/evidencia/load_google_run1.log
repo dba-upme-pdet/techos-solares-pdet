@@ -1,0 +1,24 @@
+[pasada 1] 8e1: leídas 80564 insertadas 80564 actualizadas 0 sin cambios 0 rechazadas 0 (2.5 s)
+[pasada 1] 8e3: leídas 953065 insertadas 953065 actualizadas 0 sin cambios 0 rechazadas 0 (29.57 s)
+[pasada 1] 8e5: leídas 805533 insertadas 805533 actualizadas 0 sin cambios 0 rechazadas 0 (25.36 s)
+[pasada 1] 8e7: leídas 282954 insertadas 282954 actualizadas 0 sin cambios 0 rechazadas 0 (8.96 s)
+[pasada 1] 8e9: leídas 260719 insertadas 260719 actualizadas 0 sin cambios 0 rechazadas 0 (8.29 s)
+[pasada 1] 8ef: leídas 304087 insertadas 304087 actualizadas 0 sin cambios 0 rechazadas 0 (9.76 s)
+[pasada 1] 91d: leídas 7662 insertadas 7662 actualizadas 0 sin cambios 0 rechazadas 0 (0.24 s)
+[pasada 1] 91f: leídas 191 insertadas 191 actualizadas 0 sin cambios 0 rechazadas 0 (0.01 s)
+[pasada 2] 8e1: leídas 80564 insertadas 0 actualizadas 0 sin cambios 80564 rechazadas 0 (1.63 s)
+[pasada 2] 8e3: leídas 953065 insertadas 0 actualizadas 0 sin cambios 953065 rechazadas 0 (18.97 s)
+[pasada 2] 8e5: leídas 805533 insertadas 0 actualizadas 0 sin cambios 805533 rechazadas 0 (16.26 s)
+[pasada 2] 8e7: leídas 282954 insertadas 0 actualizadas 0 sin cambios 282954 rechazadas 0 (5.91 s)
+[pasada 2] 8e9: leídas 260719 insertadas 0 actualizadas 0 sin cambios 260719 rechazadas 0 (5.54 s)
+[pasada 2] 8ef: leídas 304087 insertadas 0 actualizadas 0 sin cambios 304087 rechazadas 0 (6.74 s)
+[pasada 2] 91d: leídas 7662 insertadas 0 actualizadas 0 sin cambios 7662 rechazadas 0 (0.18 s)
+[pasada 2] 91f: leídas 191 insertadas 0 actualizadas 0 sin cambios 191 rechazadas 0 (0.01 s)
+[OK] no_duplicate_source_refs
+[OK] count_matches_prepared
+[OK] municipalities_match_preparation
+[OK] dataset_registered
+[OK] spatial_index
+[OK] spatial_query
+[OK] rerun_does_not_duplicate
+[loaded] 2694775 documentos de 'google' en 153.29 s; reporte en outputs/buildings_google_load_report.json

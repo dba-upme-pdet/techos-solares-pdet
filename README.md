@@ -23,7 +23,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
-| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descarga de Microsoft lista |
+| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: Microsoft y Google descargados, preparados y cargados en MongoDB (4.455.805 edificios PDET, carga repetida sin duplicados); falta el EDA |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
@@ -62,6 +62,8 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 
 ### Entrega 3 en el repositorio
 
+Sebastián implementó y ejecutó la [adquisición Google Open Buildings v3](docs/delivery3/entrega3_descarga_google.md): ocho particiones S2, 3.110.075.800 bytes comprimidos y 31.499.115 filas originales inspeccionadas; el manifiesto satisface el contrato común. Es cobertura de particiones, no un conteo de edificios PDET. El adaptador CSV/WKT quedó registrado en la preparación como `--source google`. El [traspaso documentado](docs/delivery3/entrega3_descarga_google.md#cierre-y-traspaso-a-derek) detalla los ocho originales, los límites municipales y un comando de verificación sin red; la recepción quedó confirmada con la preparación y la carga en MongoDB.
+
 `scripts/03_download_ms_buildings.py` es el tramo asignado a Miguel: descarga de Microsoft Building Footprints. El procedimiento, la cobertura y el contrato con la preparación están en [`docs/delivery3/entrega3_descarga_microsoft.md`](docs/delivery3/entrega3_descarga_microsoft.md).
 
 | Archivo | Contenido |
@@ -70,6 +72,34 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 | [`outputs/ms_buildings_download_manifest.json`](outputs/ms_buildings_download_manifest.json) | Manifiesto: URL, versión, fecha de acceso, bytes, MD5, SHA256, campos, geometrías y CRS de cada partición |
 | [`outputs/ms_buildings_coverage.csv`](outputs/ms_buildings_coverage.csv) | Una fila por municipio PDET: particiones que lo tocan y fracción de su área cubierta por particiones publicadas |
 | [`tests/test_download_ms_buildings.py`](tests/test_download_ms_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
+| [`scripts/03_download_google_buildings.py`](scripts/03_download_google_buildings.py) | Índice oficial, selección de celdas S2 con límites PDET verificados, descarga atómica y lectura por bloques sin filtros adicionales |
+| [`outputs/google_buildings_download_manifest.json`](outputs/google_buildings_download_manifest.json) | Ocho particiones verificadas: URLs, rutas, bytes, hashes, inspecciones y cobertura |
+| [`scripts/google_buildings_adapter.py`](scripts/google_buildings_adapter.py) | CSV.gz/WKT a la interfaz de lectores de Derek; no modifica su preparador |
+| [`tests/test_download_google_buildings.py`](tests/test_download_google_buildings.py) | Ocho pruebas, incluida integración sintética opcional con el preparador upstream |
+
+`scripts/03_prepare_buildings.py` es el tramo asignado a Derek: convierte cada partición descargada en documentos de `buildings` (GeoJSON WGS84 lon/lat, centroide, área geodésica, atributos limpios), aplica el criterio espacial PDET, registra reparaciones y rechazos y deja un reporte por fuente que la carga usa como compuerta. El contrato común está en `scripts/entrega3_contracts.py`. Método, interfaces y evidencia: [`docs/delivery3/entrega3_preparacion_huellas.md`](docs/delivery3/entrega3_preparacion_huellas.md).
+
+| Archivo | Contenido |
+| --- | --- |
+| [`scripts/entrega3_contracts.py`](scripts/entrega3_contracts.py) | Contrato de la Entrega 3: manifiesto de descarga, registro preparado, motivos de rechazo y criterio espacial PDET |
+| [`scripts/03_prepare_buildings.py`](scripts/03_prepare_buildings.py) | Preparación por bloques y en paralelo por partición, para las fuentes `ms` y `google` |
+| [`outputs/buildings_ms_source_pass_report.json`](outputs/buildings_ms_source_pass_report.json) | Calidad de las 125 particiones de Microsoft sin la capa PDET: leídas, reparadas, rechazadas por motivo. No es un reporte de carga |
+| [`outputs/buildings_ms_prepare_report.json`](outputs/buildings_ms_prepare_report.json) | Compuerta de Microsoft para `04_load_buildings.py` (`status = ready_for_load`): 1.761.030 edificios PDET preparados de 4.595.615 leídos |
+| [`outputs/buildings_google_prepare_report.json`](outputs/buildings_google_prepare_report.json) | Compuerta de Google (`status = ready_for_load`), generada con la capa PDET de la Entrega 2 |
+| [`outputs/buildings_ms_prepared_by_municipality.csv`](outputs/buildings_ms_prepared_by_municipality.csv) | Edificaciones y área preparadas por municipio PDET, Microsoft |
+| [`outputs/buildings_google_prepared_by_municipality.csv`](outputs/buildings_google_prepared_by_municipality.csv) | Edificaciones y área preparadas por municipio PDET, Google |
+| [`tests/test_prepare_buildings.py`](tests/test_prepare_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
+| [`tests/test_prepare_buildings_mongo.py`](tests/test_prepare_buildings_mongo.py) | Contrato con el validador `$jsonSchema` de `buildings` y `$geoWithin` en MongoDB 7 |
+
+José implementó la carga en `buildings`: verifica el reporte y el SHA256 de cada partición, valida cada registro, escribe por lotes con `_id` determinista, registra `datasets` e `ingestion_runs`, crea los índices de `buildings` y deja un reporte con cantidades, tiempos y verificaciones. Se corre dos veces por fuente (`--passes 2`) para comprobar que no duplica. Método y evidencia: [`docs/delivery3/entrega3_carga_buildings.md`](docs/delivery3/entrega3_carga_buildings.md).
+
+| Archivo | Contenido |
+| --- | --- |
+| [`scripts/04_load_buildings.py`](scripts/04_load_buildings.py) | Carga las dos fuentes por lotes; compuerta `ready_for_load`, `run_id`, rechazos, `datasets`, `ingestion_runs`, índices y verificación |
+| [`outputs/buildings_ms_load_report.json`](outputs/buildings_ms_load_report.json) | Carga de Microsoft: cantidades, tiempos, dos pasadas, índices y verificaciones |
+| [`outputs/buildings_google_load_report.json`](outputs/buildings_google_load_report.json) | Carga de Google: cantidades, tiempos, dos pasadas, índices y verificaciones |
+| [`tests/test_load_buildings.py`](tests/test_load_buildings.py) | 20 pruebas sintéticas de compuerta, `_id`, contrato y lotes (sin MongoDB) |
+| [`tests/test_load_buildings_mongo.py`](tests/test_load_buildings_mongo.py) | Self-check de integración en MongoDB temporal: idempotencia, `ingestion_runs` e `IXSCAN` |
 
 ## Fuentes de datos
 
@@ -106,8 +136,12 @@ python scripts/02_prepare_municipalities.py       # GeoJSONL en data/processed/;
 python scripts/02_load_municipalities.py          # Miguel: inserta y pone loaded_at; repetirla no duplica
 python scripts/02_verify_spatial.py               # Sebastián
 python scripts/03_download_ms_buildings.py        # Miguel: particiones de Microsoft que tocan los PDET + manifiesto
-python scripts/04_load_buildings.py
-python scripts/00_init_db.py --building-indexes   # índices de buildings, después de la carga
+python scripts/03_download_google_buildings.py      # Sebastián: índice, celdas S2 PDET y manifiesto de Google
+python scripts/03_prepare_buildings.py --source ms     # Derek: buildings preparados + reporte; exige la capa PDET
+python scripts/03_prepare_buildings.py --source google # Derek: misma preparación para Google
+python scripts/04_load_buildings.py --source ms --passes 2     # José: carga idempotente + verificación
+python scripts/04_load_buildings.py --source google --passes 2
+python scripts/00_init_db.py --building-indexes   # idempotente; la carga ya crea estos índices
 jupyter notebook scripts/05_eda.ipynb
 python scripts/06_rooftop_stats.py
 jupyter notebook scripts/07_maps.ipynb
