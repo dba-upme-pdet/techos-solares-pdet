@@ -47,6 +47,7 @@ sources:
     prepare_report: "outputs/buildings_ms_prepare_report.json"              # compuerta para la carga
     prepare_by_municipality: "outputs/buildings_ms_prepared_by_municipality.csv"
     source_pass_report: "outputs/buildings_ms_source_pass_report.json"      # calidad sin capa PDET; nunca se carga
+    load_report: "outputs/buildings_ms_load_report.json"
   google:
     id: "google"
     version: "v3"
@@ -60,6 +61,7 @@ sources:
     prepare_report: "outputs/buildings_google_prepare_report.json"
     prepare_by_municipality: "outputs/buildings_google_prepared_by_municipality.csv"
     source_pass_report: "outputs/buildings_google_source_pass_report.json"
+    load_report: "outputs/buildings_google_load_report.json"
 
 processing:
   target_crs: "EPSG:4326"     # requerido por el índice 2dsphere de MongoDB

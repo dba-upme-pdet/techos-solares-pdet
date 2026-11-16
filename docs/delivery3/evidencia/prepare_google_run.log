@@ -1,0 +1,12 @@
+8 particiones de 'google', selección PDET activa, 4 procesos
+[  1/8] 8e1: leídas  277823 preparadas   80564 rechazadas   0 (16.9 s)
+[  2/8] 8e3: leídas 6821072 preparadas  953065 rechazadas  32 (410.2 s)
+[  3/8] 8e5: leídas 5800973 preparadas  805533 rechazadas  32 (349.2 s)
+[  4/8] 8e7: leídas 6021057 preparadas  282954 rechazadas  23 (283.7 s)
+[  5/8] 8e9: leídas 6132325 preparadas  260719 rechazadas  23 (306.0 s)
+[  6/8] 8ef: leídas 1461800 preparadas  304087 rechazadas   6 (118.0 s)
+[  7/8] 91d: leídas 4620572 preparadas    7662 rechazadas  21 (138.0 s)
+[  8/8] 91f: leídas  363493 preparadas     191 rechazadas   2 (15.5 s)
+
+Leídas 31499115, rechazadas 139, excluidas fuera de PDET 28804201, preparadas 2694775 (duplicados quitados 0). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_google_prepare_report.json

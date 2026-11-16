@@ -64,6 +64,7 @@ from entrega3_contracts import (  # noqa: E402
     repair_polygon,
     verify_partition_file,
 )
+from google_buildings_adapter import google_attributes, google_features  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_VERSION = "entrega3-prepare-v1"
@@ -96,10 +97,11 @@ def ms_features(path: Path):
                 yield number, None
 
 
-# Una entrada por fuente. Google (Slice 2) agrega aquí su lector y sus atributos
-# cuando exista su manifiesto de descarga.
+# Una entrada por fuente. Google usa el lector y los atributos del adaptador de
+# Sebastián (CSV.gz/WKT -> la misma interfaz de Features que Microsoft).
 SOURCES = {
     "ms": {"config_key": "microsoft", "features": ms_features, "attributes": ms_attributes},
+    "google": {"config_key": "google", "features": google_features, "attributes": google_attributes},
 }
 
 
