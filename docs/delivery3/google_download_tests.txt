@@ -1,0 +1,13 @@
+test_adapter_inspection_no_confidence_filter (test_download_google_buildings.GoogleDownloadTests.test_adapter_inspection_no_confidence_filter) ... ok
+test_derek_preparer_with_google_adapter (test_download_google_buildings.GoogleDownloadTests.test_derek_preparer_with_google_adapter) ... ok
+test_download_repeat_and_corruption (test_download_google_buildings.GoogleDownloadTests.test_download_repeat_and_corruption) ... ok
+test_failed_transfer_preserves_old_file (test_download_google_buildings.GoogleDownloadTests.test_failed_transfer_preserves_old_file) ... ok
+test_index_invalid (test_download_google_buildings.GoogleDownloadTests.test_index_invalid) ... ok
+test_manifest_contract (test_download_google_buildings.GoogleDownloadTests.test_manifest_contract) ... ok
+test_missing_columns_and_bad_gzip (test_download_google_buildings.GoogleDownloadTests.test_missing_columns_and_bad_gzip) ... ok
+test_selection_and_gap (test_download_google_buildings.GoogleDownloadTests.test_selection_and_gap) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.027s
+
+OK

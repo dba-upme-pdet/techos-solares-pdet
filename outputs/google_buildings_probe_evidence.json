@@ -1,0 +1,38 @@
+{
+  "scope": "muestra real expl\u00edcita para comprobar formato, no seleccionada por PDET",
+  "claims_pdet_coverage": false,
+  "partition_id": "8df",
+  "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8df_buildings.csv.gz",
+  "local_path": "data/raw/google_buildings/8df_buildings.csv.gz",
+  "bytes": 2179392,
+  "sha256": "2169b60f1ec0503a5b0d7a71f44d3bc01bfb3760a766c15663ab7e8ddb40ce78",
+  "inspection": {
+    "rows": 22806,
+    "invalid_rows": 0,
+    "geometry_types": {
+      "Polygon": 22806
+    },
+    "ranges": {
+      "area_in_meters": [
+        3.6293,
+        7568.6203
+      ],
+      "confidence": [
+        0.65,
+        0.9611
+      ],
+      "longitude": [
+        -67.38004845,
+        -61.32686883
+      ],
+      "latitude": [
+        1.88e-06,
+        4.65311753
+      ]
+    },
+    "read_entire_gzip": true,
+    "confidence_filter_applied": false,
+    "batch_rows": 10000,
+    "ok": true
+  }
+}

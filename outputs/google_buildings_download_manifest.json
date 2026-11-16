@@ -1,0 +1,425 @@
+{
+  "checked_at": "2026-11-16T17:24:36.317388+00:00",
+  "claims_pdet_coverage": true,
+  "contract": "entrega3-buildings-v1",
+  "coverage_meaning": "se descargaron y leyeron todas las particiones que cubren los límites PDET; no garantiza edificios detectados en cada municipio ni ausencia de omisiones del modelo",
+  "datasets_document": {
+    "_id": "google",
+    "accessed_at": "2026-11-16T17:24:36.317388+00:00",
+    "license": "CC-BY-4.0",
+    "name": "Google Open Buildings",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "disk_free_bytes_before": 15717060608,
+  "index": {
+    "download": {
+      "bytes": 250366,
+      "etag": "\"-rnJ8g\"",
+      "last_modified": null,
+      "md5": "U9lnHWQNmU2pTtMOLxoz1g==",
+      "reused": false,
+      "server_md5": null,
+      "sha256": "f63227f3da41a40381d16b5bf6a9a1101a3a462650a69ff3049c6d775e6f1e77"
+    },
+    "local_path": "data/raw/google_buildings/tiles.geojson",
+    "tile_count": 333,
+    "url": "https://openbuildings-public-dot-gweb-research.uw.r.appspot.com/public/tiles.geojson"
+  },
+  "manifest_contract_problems": [],
+  "partitions": [
+    {
+      "download": {
+        "bytes": 27247257,
+        "etag": "\"44a904932f68c49130d3a1bf757f08ad\"",
+        "last_modified": "Fri, 23 Jun 2023 09:38:57 GMT",
+        "md5": "RKkEky9oxJEw06G/dX8IrQ==",
+        "reused": true,
+        "server_md5": "RKkEky9oxJEw06G/dX8IrQ==",
+        "sha256": "ebc043c9a0936cf77513196ce7a590fd236423096e55ba00ec481e1ce6514d43"
+      },
+      "estimated_bytes": 27200000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "Polygon": 277823
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.5336,
+            10537.8079
+          ],
+          "confidence": [
+            0.65,
+            0.9773
+          ],
+          "latitude": [
+            0.00072972,
+            4.85109371
+          ],
+          "longitude": [
+            -73.46515869,
+            -67.38021344
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 277823
+      },
+      "local_path": "data/raw/google_buildings/8e1_buildings.csv.gz",
+      "partition_id": "8e1",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e1_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 683305918,
+        "etag": "\"b93d561ecefba6690d54e3f80df94297\"",
+        "md5": "uT1WHs77pmkNVOP4DflClw==",
+        "reused": true,
+        "server_md5": "uT1WHs77pmkNVOP4DflClw==",
+        "sha256": "c58f7f950860565ad4d01b1d757d1a251c9d2ec5cd1d4aaca71d4cb20b1e61d1"
+      },
+      "estimated_bytes": 683300000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 32,
+          "Polygon": 6821040
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.5155,
+            48110.5085
+          ],
+          "confidence": [
+            0.65,
+            0.9879
+          ],
+          "latitude": [
+            7e-08,
+            4.93680969
+          ],
+          "longitude": [
+            -79.38033868,
+            -73.46516483
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 6821072
+      },
+      "local_path": "data/raw/google_buildings/8e3_buildings.csv.gz",
+      "partition_id": "8e3",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e3_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 572958296,
+        "etag": "\"993cb58c968acf0b09de1f9ae775aed5\"",
+        "last_modified": "Fri, 23 Jun 2023 09:41:34 GMT",
+        "md5": "mTy1jJaKzwsJ3h+a53Wu1Q==",
+        "reused": false,
+        "server_md5": "mTy1jJaKzwsJ3h+a53Wu1Q==",
+        "sha256": "79262e5bcba7b0e94acaae34a4cb85d27f7d2f2bef6c5a8a404bb86487c04453"
+      },
+      "estimated_bytes": 573000000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 32,
+          "Polygon": 5800941
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.5145,
+            38288.8877
+          ],
+          "confidence": [
+            0.65,
+            0.9834
+          ],
+          "latitude": [
+            4.85276741,
+            10.28992032
+          ],
+          "longitude": [
+            -79.38034462,
+            -73.46516418
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 5800973
+      },
+      "local_path": "data/raw/google_buildings/8e5_buildings.csv.gz",
+      "partition_id": "8e5",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e5_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 596659569,
+        "etag": "\"0fb551d70f910298e430f1da203dcf98\"",
+        "last_modified": "Fri, 23 Jun 2023 09:42:03 GMT",
+        "md5": "D7VR1w+RApjkMPHaID3PmA==",
+        "reused": false,
+        "server_md5": "D7VR1w+RApjkMPHaID3PmA==",
+        "sha256": "a2c5ce8c1ea94061e29cb4e5ccce6c58007075a26b7554a587f8423d1d119c5c"
+      },
+      "estimated_bytes": 596700000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 23,
+          "Polygon": 6021034
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.508,
+            23220.3341
+          ],
+          "confidence": [
+            0.65,
+            0.9825
+          ],
+          "latitude": [
+            4.68701773,
+            10.18883523
+          ],
+          "longitude": [
+            -73.46516178,
+            -67.38013545
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 6021057
+      },
+      "local_path": "data/raw/google_buildings/8e7_buildings.csv.gz",
+      "partition_id": "8e7",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e7_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 595261949,
+        "etag": "\"c3d0e410eb943ee28f4570d80d304b36\"",
+        "last_modified": "Fri, 23 Jun 2023 09:42:42 GMT",
+        "md5": "w9DkEOuUPuKPRXDYDTBLNg==",
+        "reused": false,
+        "server_md5": "w9DkEOuUPuKPRXDYDTBLNg==",
+        "sha256": "72cf2e0dbbe641dc941fe401410f894f8e4dc8f62e964d9ab18016bb24af1a44"
+      },
+      "estimated_bytes": 595300000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 23,
+          "Polygon": 6132302
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.512,
+            48793.411
+          ],
+          "confidence": [
+            0.65,
+            0.9841
+          ],
+          "latitude": [
+            9.82069723,
+            12.62887624
+          ],
+          "longitude": [
+            -73.46515786,
+            -67.38013527
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 6132325
+      },
+      "local_path": "data/raw/google_buildings/8e9_buildings.csv.gz",
+      "partition_id": "8e9",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e9_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 139802560,
+        "etag": "\"fe8a9a10f8e82e8860e81e4642de9b35\"",
+        "last_modified": "Fri, 23 Jun 2023 09:41:08 GMT",
+        "md5": "/oqaEPjoLohg6B5GQt6bNQ==",
+        "reused": false,
+        "server_md5": "/oqaEPjoLohg6B5GQt6bNQ==",
+        "sha256": "184f7f95df215f65380d8a5d2090e048fcf54cff64c34401a5993a2a73cb0602"
+      },
+      "estimated_bytes": 139800000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 6,
+          "Polygon": 1461794
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.5141,
+            44443.7336
+          ],
+          "confidence": [
+            0.65,
+            0.9813
+          ],
+          "latitude": [
+            10.19289274,
+            11.51651871
+          ],
+          "longitude": [
+            -75.65129193,
+            -73.46516262
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 1461800
+      },
+      "local_path": "data/raw/google_buildings/8ef_buildings.csv.gz",
+      "partition_id": "8ef",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8ef_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 459727938,
+        "etag": "\"9df7d8722098a6e3865a07b78219033e\"",
+        "last_modified": "Fri, 23 Jun 2023 09:36:05 GMT",
+        "md5": "nffYciCYpuOGWge3ghkDPg==",
+        "reused": false,
+        "server_md5": "nffYciCYpuOGWge3ghkDPg==",
+        "sha256": "3d3904f8ec7ce5656fc7aa224dea37261eb8ef01c102a0cf76dda082468e21fd"
+      },
+      "estimated_bytes": 459700000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 21,
+          "Polygon": 4620551
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.517,
+            46797.5987
+          ],
+          "confidence": [
+            0.65,
+            0.9813
+          ],
+          "latitude": [
+            -4.97267249,
+            -1.51e-06
+          ],
+          "longitude": [
+            -79.38034333,
+            -73.46517809
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 4620572
+      },
+      "local_path": "data/raw/google_buildings/91d_buildings.csv.gz",
+      "partition_id": "91d",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91d_buildings.csv.gz"
+    },
+    {
+      "download": {
+        "bytes": 35112313,
+        "etag": "\"0f4818f06963f7cceab0949e2ab83262\"",
+        "last_modified": "Fri, 23 Jun 2023 09:36:11 GMT",
+        "md5": "D0gY8Glj98zqsJSeKrgyYg==",
+        "reused": false,
+        "server_md5": "D0gY8Glj98zqsJSeKrgyYg==",
+        "sha256": "a2a0578db8353148a7f2d9d818b3ae1692a99622479b0909d19c75182b5d7b75"
+      },
+      "estimated_bytes": 35100000,
+      "inspection": {
+        "batch_rows": 10000,
+        "confidence_filter_applied": false,
+        "geometry_types": {
+          "MultiPolygon": 2,
+          "Polygon": 363491
+        },
+        "invalid_rows": 0,
+        "ok": true,
+        "ranges": {
+          "area_in_meters": [
+            2.5224,
+            14410.1256
+          ],
+          "confidence": [
+            0.65,
+            0.9714
+          ],
+          "latitude": [
+            -4.83796655,
+            -0.00076709
+          ],
+          "longitude": [
+            -73.46515942,
+            -67.40065537
+          ]
+        },
+        "read_entire_gzip": true,
+        "rows": 363493
+      },
+      "local_path": "data/raw/google_buildings/91f_buildings.csv.gz",
+      "partition_id": "91f",
+      "status": "ok",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91f_buildings.csv.gz"
+    }
+  ],
+  "preparation_reader_registered": false,
+  "selection": {
+    "criterion": "intersección de polígonos municipales con celdas del índice S2 nivel 4; sin filtro de confianza",
+    "estimated_compressed_bytes": 3110100000,
+    "municipal_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
+    "municipalities": 170,
+    "probe_tile": null,
+    "tile_ids": [
+      "8e1",
+      "8e3",
+      "8e5",
+      "8e7",
+      "8e9",
+      "8ef",
+      "91d",
+      "91f"
+    ],
+    "uncovered_municipalities": []
+  },
+  "source": {
+    "crs": "EPSG:4326",
+    "dataset_id": "google",
+    "format": "CSV.gz/WKT",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "status": "complete"
+}

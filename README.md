@@ -23,7 +23,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
-| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descarga de Microsoft lista |
+| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: descargas de Microsoft y Google listas; preparación/carga de Google pendientes |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
@@ -62,6 +62,8 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 
 ### Entrega 3 en el repositorio
 
+Sebastián implementó y ejecutó la [adquisición Google Open Buildings v3](docs/delivery3/entrega3_descarga_google.md): ocho particiones S2, 3.110.075.800 bytes comprimidos y 31.499.115 filas originales inspeccionadas; el manifiesto satisface el contrato común. Es cobertura de particiones, no un conteo de edificios PDET preparados o cargados. El adaptador CSV/WKT está probado; Derek debe registrarlo en su preparador. El [traspaso documentado](docs/delivery3/entrega3_descarga_google.md#cierre-y-traspaso-a-derek) detalla los ocho originales, los límites municipales y un comando de verificación sin red; la recepción por Derek aún no está confirmada.
+
 `scripts/03_download_ms_buildings.py` es el tramo asignado a Miguel: descarga de Microsoft Building Footprints. El procedimiento, la cobertura y el contrato con la preparación están en [`docs/delivery3/entrega3_descarga_microsoft.md`](docs/delivery3/entrega3_descarga_microsoft.md).
 
 | Archivo | Contenido |
@@ -70,6 +72,10 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 | [`outputs/ms_buildings_download_manifest.json`](outputs/ms_buildings_download_manifest.json) | Manifiesto: URL, versión, fecha de acceso, bytes, MD5, SHA256, campos, geometrías y CRS de cada partición |
 | [`outputs/ms_buildings_coverage.csv`](outputs/ms_buildings_coverage.csv) | Una fila por municipio PDET: particiones que lo tocan y fracción de su área cubierta por particiones publicadas |
 | [`tests/test_download_ms_buildings.py`](tests/test_download_ms_buildings.py) | 15 pruebas sintéticas (sin red ni MongoDB) |
+| [`scripts/03_download_google_buildings.py`](scripts/03_download_google_buildings.py) | Índice oficial, selección de celdas S2 con límites PDET verificados, descarga atómica y lectura por bloques sin filtros adicionales |
+| [`outputs/google_buildings_download_manifest.json`](outputs/google_buildings_download_manifest.json) | Ocho particiones verificadas: URLs, rutas, bytes, hashes, inspecciones y cobertura |
+| [`scripts/google_buildings_adapter.py`](scripts/google_buildings_adapter.py) | CSV.gz/WKT a la interfaz de lectores de Derek; no modifica su preparador |
+| [`tests/test_download_google_buildings.py`](tests/test_download_google_buildings.py) | Ocho pruebas, incluida integración sintética opcional con el preparador upstream |
 
 ## Fuentes de datos
 
