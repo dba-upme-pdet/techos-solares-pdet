@@ -24,7 +24,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | Entregada: Microsoft y Google descargados, preparados y cargados en MongoDB (4.455.805 edificios PDET, carga repetida sin duplicados), EDA en el [informe PDF](docs/delivery3/Entrega3_Carga_e_Integracion_de_Huellas.pdf) |
-| 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
+| 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | [`docs/delivery4/`](docs/delivery4/) | Pendiente. Punto de partida: Microsoft es la fuente base; 15 municipios con cobertura insuficiente de Google ([detalle](docs/delivery4/README.md)) |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
 ### Entrega 3: informe
