@@ -42,7 +42,7 @@ El enunciado pide para la Entrega 3 los mismos requisitos de la Entrega 2, aplic
 | Data Integrity & Format (10) | Sección 7: contrato `entrega3-buildings-v1`, reparaciones, rechazos, validador estricto de MongoDB |
 | NoSQL Spatial Integration | Secciones 1 y 8: índice `2dsphere` y consulta `$geoWithin` con `IXSCAN` |
 | Data Loading Efficiency (25) | Sección 3 y sección 8 |
-| Brief EDA (10) | Sección 4 |
+| Brief EDA (10) | Sección 4: `scripts/05_eda_buildings.py`, dos figuras y tres tablas |
 
 # 3. Eficiencia en la carga de grandes volúmenes
 
@@ -55,8 +55,3 @@ Google entrega 31,5 millones de filas en 3,1 GB comprimidos, así que ninguna et
 5. **`_id` determinista e idempotencia.** Cada documento tiene `_id = <dataset_id>:<blake2b-96(dataset_id + source_ref)>`. Si la carga se repite, escribe sobre los mismos documentos y no crea duplicados. La segunda pasada de cada fuente dejó 0 inserciones y 0 modificaciones.
 6. **Índices pensados para la Entrega 4.** `centroid_2dsphere` responde consultas espaciales y `dataset_id_1_mpio_code_1` agrupa por fuente y municipio para el conteo y el área de techos.
 7. **Compuerta de contrato.** La carga se niega a empezar si el reporte de preparación no está balanceado o si un SHA256 no coincide. Así nunca se carga un archivo incompleto.
-
-# 4. Análisis exploratorio breve (EDA)
-
-Los datos de esta sección salen de `outputs/buildings_ms_prepared_by_municipality.csv` y `outputs/buildings_google_prepared_by_municipality.csv`, que la preparación genera por municipio.
-

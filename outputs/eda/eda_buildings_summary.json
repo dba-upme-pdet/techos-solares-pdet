@@ -1,0 +1,1716 @@
+{
+  "inputs": "outputs/buildings_*_prepare_report.json, outputs/buildings_*_prepared_by_municipality.csv, outputs/pdet_mgn_crosswalk.csv",
+  "sources": {
+    "ms": {
+      "read": 4595615,
+      "excluded_outside_pdet": 2834537,
+      "rejected": 48,
+      "repaired": 29,
+      "prepared": 1761030,
+      "area_m2": {
+        "count": 1761030,
+        "max": 44720.44,
+        "min": 9.69,
+        "p01": 17.62,
+        "p10": 28.84,
+        "p50": 76.92,
+        "p90": 229.47,
+        "p99": 911.97,
+        "sum": 220976633.53
+      },
+      "municipalities_with_buildings": 170,
+      "municipalities_without_buildings": [],
+      "buildings_per_municipality": {
+        "median": 8161.0,
+        "min": 653,
+        "max": 67663
+      }
+    },
+    "google": {
+      "read": 31499115,
+      "excluded_outside_pdet": 28804201,
+      "rejected": 139,
+      "repaired": 0,
+      "prepared": 2694775,
+      "area_m2": {
+        "count": 2694775,
+        "max": 20829.74,
+        "min": 2.5,
+        "p01": 7.36,
+        "p10": 16.66,
+        "p50": 57.83,
+        "p90": 159.9,
+        "p99": 444.91,
+        "sum": 222051170.99
+      },
+      "municipalities_with_buildings": 165,
+      "municipalities_without_buildings": [
+        "05475",
+        "05873",
+        "27099",
+        "27450",
+        "27491"
+      ],
+      "buildings_per_municipality": {
+        "median": 11018,
+        "min": 1,
+        "max": 183651
+      }
+    }
+  },
+  "comparison": {
+    "pdet_municipalities": 170,
+    "municipalities_in_both": 165,
+    "google_over_ms_buildings": 1.53,
+    "google_over_ms_area": 1.005,
+    "municipalities_google_more_buildings": 133,
+    "spearman_buildings_per_municipality": 0.904,
+    "spearman_area_per_municipality": 0.938
+  },
+  "by_subregion": {
+    "SIERRA NEVADA - PERIJÁ": {
+      "municipalities": 15,
+      "ms_buildings": 295380,
+      "ms_area_m2": 46328885.25,
+      "google_buildings": 645006,
+      "google_area_m2": 53538067.68
+    },
+    "ALTO PATÍA Y NORTE DEL CAUCA": {
+      "municipalities": 24,
+      "ms_buildings": 271665,
+      "ms_area_m2": 30279149.130000006,
+      "google_buildings": 388376,
+      "google_area_m2": 30774803.509999998
+    },
+    "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO": {
+      "municipalities": 17,
+      "ms_buildings": 133939,
+      "ms_area_m2": 22571078.299999997,
+      "google_buildings": 182694,
+      "google_area_m2": 20925317.949999996
+    },
+    "URABÁ ANTIOQUEÑO": {
+      "municipalities": 8,
+      "ms_buildings": 113400,
+      "ms_area_m2": 15305690.809999999,
+      "google_buildings": 218241,
+      "google_area_m2": 18151631.37
+    },
+    "PUTUMAYO": {
+      "municipalities": 9,
+      "ms_buildings": 108450,
+      "ms_area_m2": 13827003.58,
+      "google_buildings": 136711,
+      "google_area_m2": 12552445.040000001
+    },
+    "MONTES DE MARÍA": {
+      "municipalities": 15,
+      "ms_buildings": 129387,
+      "ms_area_m2": 11822132.019999998,
+      "google_buildings": 215874,
+      "google_area_m2": 14231611.100000001
+    },
+    "MACARENA - GUAVIARE": {
+      "municipalities": 12,
+      "ms_buildings": 94110,
+      "ms_area_m2": 11501790.320000002,
+      "google_buildings": 113455,
+      "google_area_m2": 10186068.219999999
+    },
+    "BAJO CAUCA Y NORDESTE ANTIOQUEÑO": {
+      "municipalities": 13,
+      "ms_buildings": 102403,
+      "ms_area_m2": 10694413.68,
+      "google_buildings": 142780,
+      "google_area_m2": 10909993.29
+    },
+    "ARAUCA": {
+      "municipalities": 4,
+      "ms_buildings": 74674,
+      "ms_area_m2": 10206439.71,
+      "google_buildings": 111739,
+      "google_area_m2": 9432975.969999999
+    },
+    "CATATUMBO": {
+      "municipalities": 8,
+      "ms_buildings": 89632,
+      "ms_area_m2": 9233149.9,
+      "google_buildings": 104279,
+      "google_area_m2": 8226571.41
+    },
+    "PACÍFICO MEDIO": {
+      "municipalities": 4,
+      "ms_buildings": 49595,
+      "ms_area_m2": 8750738.23,
+      "google_buildings": 116254,
+      "google_area_m2": 8616510.190000001
+    },
+    "SUR DE CÓRDOBA": {
+      "municipalities": 5,
+      "ms_buildings": 80633,
+      "ms_area_m2": 8324186.65,
+      "google_buildings": 114887,
+      "google_area_m2": 8688769.59
+    },
+    "PACÍFICO Y FRONTERA NARIÑENSE": {
+      "municipalities": 11,
+      "ms_buildings": 79142,
+      "ms_area_m2": 8111831.540000001,
+      "google_buildings": 71020,
+      "google_area_m2": 5260092.64
+    },
+    "SUR DE BOLÍVAR": {
+      "municipalities": 7,
+      "ms_buildings": 52856,
+      "ms_area_m2": 5843151.08,
+      "google_buildings": 80075,
+      "google_area_m2": 6034053.779999999
+    },
+    "SUR DEL TOLIMA": {
+      "municipalities": 4,
+      "ms_buildings": 48072,
+      "ms_area_m2": 4762873.35,
+      "google_buildings": 32662,
+      "google_area_m2": 2798614.5199999996
+    },
+    "CHOCÓ": {
+      "municipalities": 14,
+      "ms_buildings": 37692,
+      "ms_area_m2": 3414119.9399999995,
+      "google_buildings": 20722,
+      "google_area_m2": 1723644.77
+    }
+  },
+  "municipalities": [
+    {
+      "mpio_code": "05031",
+      "name": "AMALFI",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 6860,
+      "ms_area_m2": 868185.48,
+      "google_buildings": 2983,
+      "google_area_m2": 184845.62
+    },
+    {
+      "mpio_code": "05040",
+      "name": "ANORÍ",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 7234,
+      "ms_area_m2": 653176.83,
+      "google_buildings": 7651,
+      "google_area_m2": 492258.66
+    },
+    {
+      "mpio_code": "05045",
+      "name": "APARTADÓ",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 9813,
+      "ms_area_m2": 3360593.56,
+      "google_buildings": 36337,
+      "google_area_m2": 3591350.44
+    },
+    {
+      "mpio_code": "05107",
+      "name": "BRICEÑO",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 3316,
+      "ms_area_m2": 294960.38,
+      "google_buildings": 3565,
+      "google_area_m2": 208148.81
+    },
+    {
+      "mpio_code": "05120",
+      "name": "CÁCERES",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 10142,
+      "ms_area_m2": 928092.02,
+      "google_buildings": 12424,
+      "google_area_m2": 968413.16
+    },
+    {
+      "mpio_code": "05147",
+      "name": "CAREPA",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 8699,
+      "ms_area_m2": 1565753.96,
+      "google_buildings": 16657,
+      "google_area_m2": 1719323.47
+    },
+    {
+      "mpio_code": "05154",
+      "name": "CAUCASIA",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 11453,
+      "ms_area_m2": 1925450.18,
+      "google_buildings": 30474,
+      "google_area_m2": 2760068.79
+    },
+    {
+      "mpio_code": "05172",
+      "name": "CHIGORODÓ",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 9008,
+      "ms_area_m2": 1620343.86,
+      "google_buildings": 18871,
+      "google_area_m2": 1875112.2
+    },
+    {
+      "mpio_code": "05234",
+      "name": "DABEIBA",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 7911,
+      "ms_area_m2": 721815.01,
+      "google_buildings": 7696,
+      "google_area_m2": 504009.33
+    },
+    {
+      "mpio_code": "05250",
+      "name": "EL BAGRE",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 9660,
+      "ms_area_m2": 891710.23,
+      "google_buildings": 14768,
+      "google_area_m2": 1309219.18
+    },
+    {
+      "mpio_code": "05361",
+      "name": "ITUANGO",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 8361,
+      "ms_area_m2": 754069.35,
+      "google_buildings": 9063,
+      "google_area_m2": 624826.47
+    },
+    {
+      "mpio_code": "05475",
+      "name": "MURINDÓ",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1331,
+      "ms_area_m2": 109953.18,
+      "google_buildings": 0,
+      "google_area_m2": 0.0
+    },
+    {
+      "mpio_code": "05480",
+      "name": "MUTATÁ",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 4295,
+      "ms_area_m2": 464562.61,
+      "google_buildings": 5537,
+      "google_area_m2": 467389.81
+    },
+    {
+      "mpio_code": "05490",
+      "name": "NECOCLÍ",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 18357,
+      "ms_area_m2": 1631448.51,
+      "google_buildings": 32183,
+      "google_area_m2": 2334986.49
+    },
+    {
+      "mpio_code": "05495",
+      "name": "NECHÍ",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 4519,
+      "ms_area_m2": 354351.31,
+      "google_buildings": 3492,
+      "google_area_m2": 230999.79
+    },
+    {
+      "mpio_code": "05604",
+      "name": "REMEDIOS",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 10207,
+      "ms_area_m2": 1032120.4,
+      "google_buildings": 13247,
+      "google_area_m2": 958834.21
+    },
+    {
+      "mpio_code": "05665",
+      "name": "SAN PEDRO DE URABÁ",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 11957,
+      "ms_area_m2": 1290875.52,
+      "google_buildings": 22034,
+      "google_area_m2": 1637861.15
+    },
+    {
+      "mpio_code": "05736",
+      "name": "SEGOVIA",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 9766,
+      "ms_area_m2": 1055713.58,
+      "google_buildings": 16158,
+      "google_area_m2": 1191081.81
+    },
+    {
+      "mpio_code": "05790",
+      "name": "TARAZÁ",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 8815,
+      "ms_area_m2": 907090.64,
+      "google_buildings": 11438,
+      "google_area_m2": 813634.26
+    },
+    {
+      "mpio_code": "05837",
+      "name": "TURBO",
+      "subregion": "URABÁ ANTIOQUEÑO",
+      "ms_buildings": 43360,
+      "ms_area_m2": 4650297.78,
+      "google_buildings": 78926,
+      "google_area_m2": 6021598.48
+    },
+    {
+      "mpio_code": "05854",
+      "name": "VALDIVIA",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 4485,
+      "ms_area_m2": 380670.55,
+      "google_buildings": 6329,
+      "google_area_m2": 438224.41
+    },
+    {
+      "mpio_code": "05873",
+      "name": "VIGÍA DEL FUERTE",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1714,
+      "ms_area_m2": 162315.29,
+      "google_buildings": 0,
+      "google_area_m2": 0.0
+    },
+    {
+      "mpio_code": "05893",
+      "name": "YONDÓ",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 7133,
+      "ms_area_m2": 866414.32,
+      "google_buildings": 10687,
+      "google_area_m2": 886261.49
+    },
+    {
+      "mpio_code": "05895",
+      "name": "ZARAGOZA",
+      "subregion": "BAJO CAUCA Y NORDESTE ANTIOQUEÑO",
+      "ms_buildings": 7585,
+      "ms_area_m2": 648822.73,
+      "google_buildings": 11188,
+      "google_area_m2": 729438.12
+    },
+    {
+      "mpio_code": "13042",
+      "name": "ARENAL",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 3888,
+      "ms_area_m2": 355137.76,
+      "google_buildings": 7022,
+      "google_area_m2": 492611.91
+    },
+    {
+      "mpio_code": "13160",
+      "name": "CANTAGALLO",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 3936,
+      "ms_area_m2": 379202.54,
+      "google_buildings": 4822,
+      "google_area_m2": 337552.41
+    },
+    {
+      "mpio_code": "13212",
+      "name": "CÓRDOBA",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 5980,
+      "ms_area_m2": 495903.89,
+      "google_buildings": 10271,
+      "google_area_m2": 674595.96
+    },
+    {
+      "mpio_code": "13244",
+      "name": "EL CARMEN DE BOLÍVAR",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 24235,
+      "ms_area_m2": 2189724.78,
+      "google_buildings": 38386,
+      "google_area_m2": 2541723.75
+    },
+    {
+      "mpio_code": "13248",
+      "name": "EL GUAMO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 3056,
+      "ms_area_m2": 292855.92,
+      "google_buildings": 4923,
+      "google_area_m2": 368978.5
+    },
+    {
+      "mpio_code": "13442",
+      "name": "MARÍA LA BAJA",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 13881,
+      "ms_area_m2": 1323983.74,
+      "google_buildings": 20569,
+      "google_area_m2": 1454940.53
+    },
+    {
+      "mpio_code": "13473",
+      "name": "MORALES",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 6896,
+      "ms_area_m2": 705365.56,
+      "google_buildings": 11982,
+      "google_area_m2": 877684.32
+    },
+    {
+      "mpio_code": "13654",
+      "name": "SAN JACINTO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 9088,
+      "ms_area_m2": 870760.3,
+      "google_buildings": 14706,
+      "google_area_m2": 972396.15
+    },
+    {
+      "mpio_code": "13657",
+      "name": "SAN JUAN NEPOMUCENO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 11579,
+      "ms_area_m2": 1195154.06,
+      "google_buildings": 21831,
+      "google_area_m2": 1441065.23
+    },
+    {
+      "mpio_code": "13670",
+      "name": "SAN PABLO",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 9776,
+      "ms_area_m2": 1119076.99,
+      "google_buildings": 15636,
+      "google_area_m2": 1115615.59
+    },
+    {
+      "mpio_code": "13688",
+      "name": "SANTA ROSA DEL SUR",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 14033,
+      "ms_area_m2": 1613819.82,
+      "google_buildings": 18908,
+      "google_area_m2": 1485208.25
+    },
+    {
+      "mpio_code": "13744",
+      "name": "SIMITÍ",
+      "subregion": "SUR DE BOLÍVAR",
+      "ms_buildings": 7194,
+      "ms_area_m2": 804134.09,
+      "google_buildings": 11018,
+      "google_area_m2": 839119.81
+    },
+    {
+      "mpio_code": "13894",
+      "name": "ZAMBRANO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 3500,
+      "ms_area_m2": 353251.08,
+      "google_buildings": 6080,
+      "google_area_m2": 440904.89
+    },
+    {
+      "mpio_code": "18001",
+      "name": "FLORENCIA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 26897,
+      "ms_area_m2": 6684673.19,
+      "google_buildings": 58135,
+      "google_area_m2": 7330519.35
+    },
+    {
+      "mpio_code": "18029",
+      "name": "ALBANIA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 2096,
+      "ms_area_m2": 349804.24,
+      "google_buildings": 3012,
+      "google_area_m2": 329488.72
+    },
+    {
+      "mpio_code": "18094",
+      "name": "BELÉN DE LOS ANDAQUÍES",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 3765,
+      "ms_area_m2": 575356.45,
+      "google_buildings": 5328,
+      "google_area_m2": 572086.52
+    },
+    {
+      "mpio_code": "18150",
+      "name": "CARTAGENA DEL CHAIRÁ",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 14037,
+      "ms_area_m2": 2141704.25,
+      "google_buildings": 15932,
+      "google_area_m2": 1850242.13
+    },
+    {
+      "mpio_code": "18205",
+      "name": "CURILLO",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 2503,
+      "ms_area_m2": 393261.19,
+      "google_buildings": 3856,
+      "google_area_m2": 396110.85
+    },
+    {
+      "mpio_code": "18247",
+      "name": "EL DONCELLO",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 5815,
+      "ms_area_m2": 1154240.99,
+      "google_buildings": 9151,
+      "google_area_m2": 1178897.38
+    },
+    {
+      "mpio_code": "18256",
+      "name": "EL PAUJÍL",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 4686,
+      "ms_area_m2": 798059.93,
+      "google_buildings": 6283,
+      "google_area_m2": 736052.61
+    },
+    {
+      "mpio_code": "18410",
+      "name": "LA MONTAÑITA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 7701,
+      "ms_area_m2": 977904.18,
+      "google_buildings": 9501,
+      "google_area_m2": 927352.16
+    },
+    {
+      "mpio_code": "18460",
+      "name": "MILÁN",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 3690,
+      "ms_area_m2": 532945.96,
+      "google_buildings": 3630,
+      "google_area_m2": 363097.2
+    },
+    {
+      "mpio_code": "18479",
+      "name": "MORELIA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 1558,
+      "ms_area_m2": 249710.21,
+      "google_buildings": 2402,
+      "google_area_m2": 274393.64
+    },
+    {
+      "mpio_code": "18592",
+      "name": "PUERTO RICO",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 11430,
+      "ms_area_m2": 1746859.9,
+      "google_buildings": 12306,
+      "google_area_m2": 1321737.29
+    },
+    {
+      "mpio_code": "18610",
+      "name": "SAN JOSÉ DEL FRAGUA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 4850,
+      "ms_area_m2": 623106.2,
+      "google_buildings": 5240,
+      "google_area_m2": 524265.67
+    },
+    {
+      "mpio_code": "18753",
+      "name": "SAN VICENTE DEL CAGUÁN",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 23587,
+      "ms_area_m2": 3759329.49,
+      "google_buildings": 21599,
+      "google_area_m2": 2549723.5
+    },
+    {
+      "mpio_code": "18756",
+      "name": "SOLANO",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 6171,
+      "ms_area_m2": 711996.38,
+      "google_buildings": 6067,
+      "google_area_m2": 602845.05
+    },
+    {
+      "mpio_code": "18785",
+      "name": "SOLITA",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 2508,
+      "ms_area_m2": 321851.3,
+      "google_buildings": 2992,
+      "google_area_m2": 306420.88
+    },
+    {
+      "mpio_code": "18860",
+      "name": "VALPARAÍSO",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 4367,
+      "ms_area_m2": 633967.7,
+      "google_buildings": 4922,
+      "google_area_m2": 536646.2
+    },
+    {
+      "mpio_code": "19050",
+      "name": "ARGELIA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 9940,
+      "ms_area_m2": 1036416.55,
+      "google_buildings": 13691,
+      "google_area_m2": 972541.78
+    },
+    {
+      "mpio_code": "19075",
+      "name": "BALBOA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 8853,
+      "ms_area_m2": 896911.11,
+      "google_buildings": 12679,
+      "google_area_m2": 878871.98
+    },
+    {
+      "mpio_code": "19110",
+      "name": "BUENOS AIRES",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 11444,
+      "ms_area_m2": 1125050.66,
+      "google_buildings": 13439,
+      "google_area_m2": 1077214.71
+    },
+    {
+      "mpio_code": "19130",
+      "name": "CAJIBÍO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 23771,
+      "ms_area_m2": 2264692.94,
+      "google_buildings": 41281,
+      "google_area_m2": 2567391.24
+    },
+    {
+      "mpio_code": "19137",
+      "name": "CALDONO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 12547,
+      "ms_area_m2": 1176925.49,
+      "google_buildings": 15303,
+      "google_area_m2": 1232399.04
+    },
+    {
+      "mpio_code": "19142",
+      "name": "CALOTO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 9562,
+      "ms_area_m2": 1234083.78,
+      "google_buildings": 12220,
+      "google_area_m2": 1286135.84
+    },
+    {
+      "mpio_code": "19212",
+      "name": "CORINTO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 8784,
+      "ms_area_m2": 1020260.18,
+      "google_buildings": 10516,
+      "google_area_m2": 894371.61
+    },
+    {
+      "mpio_code": "19256",
+      "name": "EL TAMBO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 34366,
+      "ms_area_m2": 3042676.6,
+      "google_buildings": 38900,
+      "google_area_m2": 2441931.56
+    },
+    {
+      "mpio_code": "19318",
+      "name": "GUAPI",
+      "subregion": "PACÍFICO MEDIO",
+      "ms_buildings": 5344,
+      "ms_area_m2": 560957.47,
+      "google_buildings": 6403,
+      "google_area_m2": 534176.09
+    },
+    {
+      "mpio_code": "19364",
+      "name": "JAMBALÓ",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 5065,
+      "ms_area_m2": 430037.93,
+      "google_buildings": 6514,
+      "google_area_m2": 412970.1
+    },
+    {
+      "mpio_code": "19418",
+      "name": "LÓPEZ DE MICAY",
+      "subregion": "PACÍFICO MEDIO",
+      "ms_buildings": 5968,
+      "ms_area_m2": 509774.16,
+      "google_buildings": 24,
+      "google_area_m2": 1028.8
+    },
+    {
+      "mpio_code": "19450",
+      "name": "MERCADERES",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 7167,
+      "ms_area_m2": 786145.02,
+      "google_buildings": 11486,
+      "google_area_m2": 901383.12
+    },
+    {
+      "mpio_code": "19455",
+      "name": "MIRANDA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 6625,
+      "ms_area_m2": 1054841.14,
+      "google_buildings": 10353,
+      "google_area_m2": 1209342.85
+    },
+    {
+      "mpio_code": "19473",
+      "name": "MORALES",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 16396,
+      "ms_area_m2": 1483854.58,
+      "google_buildings": 31057,
+      "google_area_m2": 1960334.84
+    },
+    {
+      "mpio_code": "19532",
+      "name": "PATÍA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 11030,
+      "ms_area_m2": 1354893.21,
+      "google_buildings": 17995,
+      "google_area_m2": 1492693.64
+    },
+    {
+      "mpio_code": "19548",
+      "name": "PIENDAMÓ - TUNÍA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 16673,
+      "ms_area_m2": 2212346.28,
+      "google_buildings": 30220,
+      "google_area_m2": 2616887.77
+    },
+    {
+      "mpio_code": "19698",
+      "name": "SANTANDER DE QUILICHAO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 30842,
+      "ms_area_m2": 4225852.5,
+      "google_buildings": 35691,
+      "google_area_m2": 3834722.2
+    },
+    {
+      "mpio_code": "19780",
+      "name": "SUÁREZ",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 10556,
+      "ms_area_m2": 923669.87,
+      "google_buildings": 14544,
+      "google_area_m2": 888543.68
+    },
+    {
+      "mpio_code": "19809",
+      "name": "TIMBIQUÍ",
+      "subregion": "PACÍFICO MEDIO",
+      "ms_buildings": 5178,
+      "ms_area_m2": 557673.49,
+      "google_buildings": 5938,
+      "google_area_m2": 448635.65
+    },
+    {
+      "mpio_code": "19821",
+      "name": "TORIBÍO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 10253,
+      "ms_area_m2": 899548.77,
+      "google_buildings": 11452,
+      "google_area_m2": 777746.95
+    },
+    {
+      "mpio_code": "20001",
+      "name": "VALLEDUPAR",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 63722,
+      "ms_area_m2": 13532274.6,
+      "google_buildings": 171424,
+      "google_area_m2": 15330297.1
+    },
+    {
+      "mpio_code": "20013",
+      "name": "AGUSTÍN CODAZZI",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 21305,
+      "ms_area_m2": 2267721.99,
+      "google_buildings": 34733,
+      "google_area_m2": 2703560.82
+    },
+    {
+      "mpio_code": "20045",
+      "name": "BECERRIL",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 8044,
+      "ms_area_m2": 798811.2,
+      "google_buildings": 12958,
+      "google_area_m2": 924275.18
+    },
+    {
+      "mpio_code": "20400",
+      "name": "LA JAGUA DE IBIRICO",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 14624,
+      "ms_area_m2": 1672602.39,
+      "google_buildings": 20110,
+      "google_area_m2": 1642966.25
+    },
+    {
+      "mpio_code": "20443",
+      "name": "MANAURE BALCÓN DEL CESAR",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 3441,
+      "ms_area_m2": 421921.86,
+      "google_buildings": 5951,
+      "google_area_m2": 461866.25
+    },
+    {
+      "mpio_code": "20570",
+      "name": "PUEBLO BELLO",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 10975,
+      "ms_area_m2": 909266.5,
+      "google_buildings": 15833,
+      "google_area_m2": 984970.99
+    },
+    {
+      "mpio_code": "20621",
+      "name": "LA PAZ",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 10597,
+      "ms_area_m2": 1203761.21,
+      "google_buildings": 20413,
+      "google_area_m2": 1374305.02
+    },
+    {
+      "mpio_code": "20750",
+      "name": "SAN DIEGO",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 6632,
+      "ms_area_m2": 697677.29,
+      "google_buildings": 12205,
+      "google_area_m2": 900664.24
+    },
+    {
+      "mpio_code": "23466",
+      "name": "MONTELÍBANO",
+      "subregion": "SUR DE CÓRDOBA",
+      "ms_buildings": 19045,
+      "ms_area_m2": 2517656.18,
+      "google_buildings": 28089,
+      "google_area_m2": 2506165.4
+    },
+    {
+      "mpio_code": "23580",
+      "name": "PUERTO LIBERTADOR",
+      "subregion": "SUR DE CÓRDOBA",
+      "ms_buildings": 13728,
+      "ms_area_m2": 1260197.87,
+      "google_buildings": 14553,
+      "google_area_m2": 1127509.34
+    },
+    {
+      "mpio_code": "23682",
+      "name": "SAN JOSÉ DE URÉ",
+      "subregion": "SUR DE CÓRDOBA",
+      "ms_buildings": 4003,
+      "ms_area_m2": 363997.8,
+      "google_buildings": 4028,
+      "google_area_m2": 270966.97
+    },
+    {
+      "mpio_code": "23807",
+      "name": "TIERRALTA",
+      "subregion": "SUR DE CÓRDOBA",
+      "ms_buildings": 30255,
+      "ms_area_m2": 2971068.52,
+      "google_buildings": 43123,
+      "google_area_m2": 3074968.76
+    },
+    {
+      "mpio_code": "23855",
+      "name": "VALENCIA",
+      "subregion": "SUR DE CÓRDOBA",
+      "ms_buildings": 13602,
+      "ms_area_m2": 1211266.28,
+      "google_buildings": 25094,
+      "google_area_m2": 1709159.12
+    },
+    {
+      "mpio_code": "27006",
+      "name": "ACANDÍ",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 5372,
+      "ms_area_m2": 516651.92,
+      "google_buildings": 6395,
+      "google_area_m2": 461580.92
+    },
+    {
+      "mpio_code": "27099",
+      "name": "BOJAYÁ",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 2004,
+      "ms_area_m2": 172272.49,
+      "google_buildings": 0,
+      "google_area_m2": 0.0
+    },
+    {
+      "mpio_code": "27150",
+      "name": "CARMEN DEL DARIÉN",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 3832,
+      "ms_area_m2": 307006.68,
+      "google_buildings": 281,
+      "google_area_m2": 12580.82
+    },
+    {
+      "mpio_code": "27205",
+      "name": "CONDOTO",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 2110,
+      "ms_area_m2": 263674.71,
+      "google_buildings": 239,
+      "google_area_m2": 17962.67
+    },
+    {
+      "mpio_code": "27250",
+      "name": "EL LITORAL DEL SAN JUAN",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 2010,
+      "ms_area_m2": 175225.89,
+      "google_buildings": 309,
+      "google_area_m2": 37994.39
+    },
+    {
+      "mpio_code": "27361",
+      "name": "ISTMINA",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1928,
+      "ms_area_m2": 168308.15,
+      "google_buildings": 6766,
+      "google_area_m2": 667247.94
+    },
+    {
+      "mpio_code": "27425",
+      "name": "MEDIO ATRATO",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1615,
+      "ms_area_m2": 155362.97,
+      "google_buildings": 313,
+      "google_area_m2": 19370.36
+    },
+    {
+      "mpio_code": "27450",
+      "name": "MEDIO SAN JUAN",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1627,
+      "ms_area_m2": 154585.85,
+      "google_buildings": 0,
+      "google_area_m2": 0.0
+    },
+    {
+      "mpio_code": "27491",
+      "name": "NÓVITA",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 1403,
+      "ms_area_m2": 137968.29,
+      "google_buildings": 0,
+      "google_area_m2": 0.0
+    },
+    {
+      "mpio_code": "27615",
+      "name": "RIOSUCIO",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 6107,
+      "ms_area_m2": 498631.92,
+      "google_buildings": 1000,
+      "google_area_m2": 55517.11
+    },
+    {
+      "mpio_code": "27745",
+      "name": "SIPÍ",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 653,
+      "ms_area_m2": 53242.15,
+      "google_buildings": 1,
+      "google_area_m2": 9.83
+    },
+    {
+      "mpio_code": "27800",
+      "name": "UNGUÍA",
+      "subregion": "CHOCÓ",
+      "ms_buildings": 5986,
+      "ms_area_m2": 538920.45,
+      "google_buildings": 5418,
+      "google_area_m2": 451380.73
+    },
+    {
+      "mpio_code": "41020",
+      "name": "ALGECIRAS",
+      "subregion": "CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO",
+      "ms_buildings": 8278,
+      "ms_area_m2": 916306.74,
+      "google_buildings": 12338,
+      "google_area_m2": 1125438.8
+    },
+    {
+      "mpio_code": "44090",
+      "name": "DIBULLA",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 12003,
+      "ms_area_m2": 957970.07,
+      "google_buildings": 23094,
+      "google_area_m2": 1321838.72
+    },
+    {
+      "mpio_code": "44279",
+      "name": "FONSECA",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 13332,
+      "ms_area_m2": 1545674.69,
+      "google_buildings": 23632,
+      "google_area_m2": 1700071.84
+    },
+    {
+      "mpio_code": "44650",
+      "name": "SAN JUAN DEL CESAR",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 15579,
+      "ms_area_m2": 1725742.39,
+      "google_buildings": 28564,
+      "google_area_m2": 2014489.17
+    },
+    {
+      "mpio_code": "47001",
+      "name": "SANTA MARTA",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 67663,
+      "ms_area_m2": 14224994.96,
+      "google_buildings": 183651,
+      "google_area_m2": 15985601.54
+    },
+    {
+      "mpio_code": "47053",
+      "name": "ARACATACA",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 9652,
+      "ms_area_m2": 968353.93,
+      "google_buildings": 19780,
+      "google_area_m2": 1707892.62
+    },
+    {
+      "mpio_code": "47189",
+      "name": "CIÉNAGA",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 21990,
+      "ms_area_m2": 3478014.08,
+      "google_buildings": 42068,
+      "google_area_m2": 3960281.44
+    },
+    {
+      "mpio_code": "47288",
+      "name": "FUNDACIÓN",
+      "subregion": "SIERRA NEVADA - PERIJÁ",
+      "ms_buildings": 15821,
+      "ms_area_m2": 1924098.09,
+      "google_buildings": 30590,
+      "google_area_m2": 2524986.5
+    },
+    {
+      "mpio_code": "50325",
+      "name": "MAPIRIPÁN",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 4059,
+      "ms_area_m2": 435427.22,
+      "google_buildings": 6776,
+      "google_area_m2": 513781.9
+    },
+    {
+      "mpio_code": "50330",
+      "name": "MESETAS",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 6706,
+      "ms_area_m2": 820257.32,
+      "google_buildings": 5795,
+      "google_area_m2": 535114.31
+    },
+    {
+      "mpio_code": "50350",
+      "name": "LA MACARENA",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 12895,
+      "ms_area_m2": 1790308.65,
+      "google_buildings": 9900,
+      "google_area_m2": 1056138.81
+    },
+    {
+      "mpio_code": "50370",
+      "name": "URIBE",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 6705,
+      "ms_area_m2": 705582.05,
+      "google_buildings": 3567,
+      "google_area_m2": 294761.77
+    },
+    {
+      "mpio_code": "50450",
+      "name": "PUERTO CONCORDIA",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 3682,
+      "ms_area_m2": 385644.26,
+      "google_buildings": 5893,
+      "google_area_m2": 471064.17
+    },
+    {
+      "mpio_code": "50577",
+      "name": "PUERTO LLERAS",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 5569,
+      "ms_area_m2": 648931.94,
+      "google_buildings": 6595,
+      "google_area_m2": 575124.35
+    },
+    {
+      "mpio_code": "50590",
+      "name": "PUERTO RICO",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 7422,
+      "ms_area_m2": 783867.52,
+      "google_buildings": 9290,
+      "google_area_m2": 747409.45
+    },
+    {
+      "mpio_code": "50711",
+      "name": "VISTAHERMOSA",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 9989,
+      "ms_area_m2": 1093448.72,
+      "google_buildings": 12234,
+      "google_area_m2": 1077056.71
+    },
+    {
+      "mpio_code": "52079",
+      "name": "BARBACOAS",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 8429,
+      "ms_area_m2": 824282.3,
+      "google_buildings": 6234,
+      "google_area_m2": 447879.21
+    },
+    {
+      "mpio_code": "52233",
+      "name": "CUMBITARA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 3975,
+      "ms_area_m2": 362921.85,
+      "google_buildings": 5350,
+      "google_area_m2": 354714.94
+    },
+    {
+      "mpio_code": "52250",
+      "name": "EL CHARCO",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 6503,
+      "ms_area_m2": 611390.82,
+      "google_buildings": 5210,
+      "google_area_m2": 366526.09
+    },
+    {
+      "mpio_code": "52256",
+      "name": "EL ROSARIO",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 4855,
+      "ms_area_m2": 399459.05,
+      "google_buildings": 7594,
+      "google_area_m2": 448705.28
+    },
+    {
+      "mpio_code": "52390",
+      "name": "LA TOLA",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 1510,
+      "ms_area_m2": 156482.91,
+      "google_buildings": 2009,
+      "google_area_m2": 156835.51
+    },
+    {
+      "mpio_code": "52405",
+      "name": "LEIVA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 3980,
+      "ms_area_m2": 373797.33,
+      "google_buildings": 6096,
+      "google_area_m2": 391636.47
+    },
+    {
+      "mpio_code": "52418",
+      "name": "LOS ANDES",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 3875,
+      "ms_area_m2": 301857.16,
+      "google_buildings": 7184,
+      "google_area_m2": 415793.25
+    },
+    {
+      "mpio_code": "52427",
+      "name": "MAGÜÍ",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 3442,
+      "ms_area_m2": 397775.2,
+      "google_buildings": 2548,
+      "google_area_m2": 233743.58
+    },
+    {
+      "mpio_code": "52473",
+      "name": "MOSQUERA",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 1731,
+      "ms_area_m2": 185291.51,
+      "google_buildings": 597,
+      "google_area_m2": 39666.65
+    },
+    {
+      "mpio_code": "52490",
+      "name": "OLAYA HERRERA",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 4394,
+      "ms_area_m2": 448328.02,
+      "google_buildings": 1208,
+      "google_area_m2": 72655.26
+    },
+    {
+      "mpio_code": "52520",
+      "name": "FRANCISCO PIZARRO",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 1845,
+      "ms_area_m2": 168212.62,
+      "google_buildings": 656,
+      "google_area_m2": 41383.43
+    },
+    {
+      "mpio_code": "52540",
+      "name": "POLICARPA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 5303,
+      "ms_area_m2": 483013.1,
+      "google_buildings": 7627,
+      "google_area_m2": 504015.63
+    },
+    {
+      "mpio_code": "52612",
+      "name": "RICAURTE",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 4878,
+      "ms_area_m2": 356892.23,
+      "google_buildings": 196,
+      "google_area_m2": 10788.0
+    },
+    {
+      "mpio_code": "52621",
+      "name": "ROBERTO PAYÁN",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 2501,
+      "ms_area_m2": 216801.81,
+      "google_buildings": 364,
+      "google_area_m2": 24262.69
+    },
+    {
+      "mpio_code": "52696",
+      "name": "SANTA BÁRBARA",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 2488,
+      "ms_area_m2": 259288.99,
+      "google_buildings": 1505,
+      "google_area_m2": 104843.95
+    },
+    {
+      "mpio_code": "52835",
+      "name": "SAN ANDRÉS DE TUMACO",
+      "subregion": "PACÍFICO Y FRONTERA NARIÑENSE",
+      "ms_buildings": 41421,
+      "ms_area_m2": 4487085.13,
+      "google_buildings": 50493,
+      "google_area_m2": 3761508.27
+    },
+    {
+      "mpio_code": "54206",
+      "name": "CONVENCIÓN",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 8465,
+      "ms_area_m2": 905963.5,
+      "google_buildings": 14277,
+      "google_area_m2": 1112941.61
+    },
+    {
+      "mpio_code": "54245",
+      "name": "EL CARMEN",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 5884,
+      "ms_area_m2": 543996.92,
+      "google_buildings": 8903,
+      "google_area_m2": 673073.75
+    },
+    {
+      "mpio_code": "54250",
+      "name": "EL TARRA",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 10956,
+      "ms_area_m2": 1179214.58,
+      "google_buildings": 9826,
+      "google_area_m2": 787099.89
+    },
+    {
+      "mpio_code": "54344",
+      "name": "HACARÍ",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 4874,
+      "ms_area_m2": 474678.42,
+      "google_buildings": 6756,
+      "google_area_m2": 492034.1
+    },
+    {
+      "mpio_code": "54670",
+      "name": "SAN CALIXTO",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 5360,
+      "ms_area_m2": 505672.42,
+      "google_buildings": 7736,
+      "google_area_m2": 537498.08
+    },
+    {
+      "mpio_code": "54720",
+      "name": "SARDINATA",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 10090,
+      "ms_area_m2": 1114422.15,
+      "google_buildings": 13388,
+      "google_area_m2": 1103145.13
+    },
+    {
+      "mpio_code": "54800",
+      "name": "TEORAMA",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 8525,
+      "ms_area_m2": 934038.86,
+      "google_buildings": 10550,
+      "google_area_m2": 879906.75
+    },
+    {
+      "mpio_code": "54810",
+      "name": "TIBÚ",
+      "subregion": "CATATUMBO",
+      "ms_buildings": 35478,
+      "ms_area_m2": 3575163.05,
+      "google_buildings": 32843,
+      "google_area_m2": 2640872.1
+    },
+    {
+      "mpio_code": "70204",
+      "name": "COLOSÓ",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 3999,
+      "ms_area_m2": 318940.53,
+      "google_buildings": 6278,
+      "google_area_m2": 401553.67
+    },
+    {
+      "mpio_code": "70230",
+      "name": "CHALÁN",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 1902,
+      "ms_area_m2": 151649.35,
+      "google_buildings": 3144,
+      "google_area_m2": 206266.75
+    },
+    {
+      "mpio_code": "70418",
+      "name": "LOS PALMITOS",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 7011,
+      "ms_area_m2": 669053.82,
+      "google_buildings": 13792,
+      "google_area_m2": 855530.02
+    },
+    {
+      "mpio_code": "70473",
+      "name": "MORROA",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 5015,
+      "ms_area_m2": 511017.18,
+      "google_buildings": 10424,
+      "google_area_m2": 651957.73
+    },
+    {
+      "mpio_code": "70508",
+      "name": "OVEJAS",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 9648,
+      "ms_area_m2": 812827.08,
+      "google_buildings": 16588,
+      "google_area_m2": 1067947.21
+    },
+    {
+      "mpio_code": "70523",
+      "name": "PALMITO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 4812,
+      "ms_area_m2": 377502.54,
+      "google_buildings": 8938,
+      "google_area_m2": 497971.14
+    },
+    {
+      "mpio_code": "70713",
+      "name": "SAN ONOFRE",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 17348,
+      "ms_area_m2": 1490437.9,
+      "google_buildings": 24614,
+      "google_area_m2": 1691473.3
+    },
+    {
+      "mpio_code": "70823",
+      "name": "SAN JOSÉ DE TOLUVIEJO",
+      "subregion": "MONTES DE MARÍA",
+      "ms_buildings": 8333,
+      "ms_area_m2": 769069.85,
+      "google_buildings": 15330,
+      "google_area_m2": 964306.27
+    },
+    {
+      "mpio_code": "73067",
+      "name": "ATACO",
+      "subregion": "SUR DEL TOLIMA",
+      "ms_buildings": 10931,
+      "ms_area_m2": 1014742.69,
+      "google_buildings": 5354,
+      "google_area_m2": 439175.57
+    },
+    {
+      "mpio_code": "73168",
+      "name": "CHAPARRAL",
+      "subregion": "SUR DEL TOLIMA",
+      "ms_buildings": 16849,
+      "ms_area_m2": 1973627.99,
+      "google_buildings": 18703,
+      "google_area_m2": 1718898.75
+    },
+    {
+      "mpio_code": "73555",
+      "name": "PLANADAS",
+      "subregion": "SUR DEL TOLIMA",
+      "ms_buildings": 11274,
+      "ms_area_m2": 982721.08,
+      "google_buildings": 7276,
+      "google_area_m2": 537768.99
+    },
+    {
+      "mpio_code": "73616",
+      "name": "RIOBLANCO",
+      "subregion": "SUR DEL TOLIMA",
+      "ms_buildings": 9018,
+      "ms_area_m2": 791781.59,
+      "google_buildings": 1329,
+      "google_area_m2": 102771.21
+    },
+    {
+      "mpio_code": "76109",
+      "name": "BUENAVENTURA",
+      "subregion": "PACÍFICO MEDIO",
+      "ms_buildings": 33105,
+      "ms_area_m2": 7122333.11,
+      "google_buildings": 103889,
+      "google_area_m2": 7632669.65
+    },
+    {
+      "mpio_code": "76275",
+      "name": "FLORIDA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 8375,
+      "ms_area_m2": 1624062.75,
+      "google_buildings": 14231,
+      "google_area_m2": 1661317.3
+    },
+    {
+      "mpio_code": "76563",
+      "name": "PRADERA",
+      "subregion": "ALTO PATÍA Y NORTE DEL CAUCA",
+      "ms_buildings": 7428,
+      "ms_area_m2": 1565831.28,
+      "google_buildings": 12953,
+      "google_area_m2": 1553137.73
+    },
+    {
+      "mpio_code": "81065",
+      "name": "ARAUQUITA",
+      "subregion": "ARAUCA",
+      "ms_buildings": 27815,
+      "ms_area_m2": 3319887.29,
+      "google_buildings": 35077,
+      "google_area_m2": 2921881.84
+    },
+    {
+      "mpio_code": "81300",
+      "name": "FORTUL",
+      "subregion": "ARAUCA",
+      "ms_buildings": 9760,
+      "ms_area_m2": 1157041.6,
+      "google_buildings": 15564,
+      "google_area_m2": 1329676.43
+    },
+    {
+      "mpio_code": "81736",
+      "name": "SARAVENA",
+      "subregion": "ARAUCA",
+      "ms_buildings": 16141,
+      "ms_area_m2": 2965531.98,
+      "google_buildings": 25140,
+      "google_area_m2": 1994678.63
+    },
+    {
+      "mpio_code": "81794",
+      "name": "TAME",
+      "subregion": "ARAUCA",
+      "ms_buildings": 20958,
+      "ms_area_m2": 2763978.84,
+      "google_buildings": 35958,
+      "google_area_m2": 3186739.07
+    },
+    {
+      "mpio_code": "86001",
+      "name": "MOCOA",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 12229,
+      "ms_area_m2": 2082368.35,
+      "google_buildings": 22816,
+      "google_area_m2": 2236919.56
+    },
+    {
+      "mpio_code": "86320",
+      "name": "ORITO",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 17840,
+      "ms_area_m2": 2023105.36,
+      "google_buildings": 18074,
+      "google_area_m2": 1619891.09
+    },
+    {
+      "mpio_code": "86568",
+      "name": "PUERTO ASÍS",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 21234,
+      "ms_area_m2": 3049821.71,
+      "google_buildings": 27581,
+      "google_area_m2": 2654508.2
+    },
+    {
+      "mpio_code": "86569",
+      "name": "PUERTO CAICEDO",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 6093,
+      "ms_area_m2": 729030.14,
+      "google_buildings": 7768,
+      "google_area_m2": 688080.45
+    },
+    {
+      "mpio_code": "86571",
+      "name": "PUERTO GUZMÁN",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 10746,
+      "ms_area_m2": 1119232.68,
+      "google_buildings": 8326,
+      "google_area_m2": 694774.25
+    },
+    {
+      "mpio_code": "86573",
+      "name": "PUERTO LEGUÍZAMO",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 7851,
+      "ms_area_m2": 968434.51,
+      "google_buildings": 10392,
+      "google_area_m2": 953609.72
+    },
+    {
+      "mpio_code": "86757",
+      "name": "SAN MIGUEL",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 8558,
+      "ms_area_m2": 885133.17,
+      "google_buildings": 12160,
+      "google_area_m2": 922860.23
+    },
+    {
+      "mpio_code": "86865",
+      "name": "VALLE DEL GUAMUEZ",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 14349,
+      "ms_area_m2": 1626894.66,
+      "google_buildings": 16228,
+      "google_area_m2": 1488034.37
+    },
+    {
+      "mpio_code": "86885",
+      "name": "VILLAGARZÓN",
+      "subregion": "PUTUMAYO",
+      "ms_buildings": 9550,
+      "ms_area_m2": 1342983.0,
+      "google_buildings": 13366,
+      "google_area_m2": 1293767.17
+    },
+    {
+      "mpio_code": "95001",
+      "name": "SAN JOSÉ DEL GUAVIARE",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 21446,
+      "ms_area_m2": 3104658.7,
+      "google_buildings": 32695,
+      "google_area_m2": 3152261.06
+    },
+    {
+      "mpio_code": "95015",
+      "name": "CALAMAR",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 5411,
+      "ms_area_m2": 625766.27,
+      "google_buildings": 5708,
+      "google_area_m2": 521303.22
+    },
+    {
+      "mpio_code": "95025",
+      "name": "EL RETORNO",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 8453,
+      "ms_area_m2": 899769.65,
+      "google_buildings": 11332,
+      "google_area_m2": 923637.25
+    },
+    {
+      "mpio_code": "95200",
+      "name": "MIRAFLORES",
+      "subregion": "MACARENA - GUAVIARE",
+      "ms_buildings": 1773,
+      "ms_area_m2": 208128.02,
+      "google_buildings": 3670,
+      "google_area_m2": 318415.22
+    }
+  ]
+}
