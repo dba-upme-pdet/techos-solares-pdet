@@ -1,0 +1,72 @@
+{
+  "verified_at": "2026-11-16T17:49:51.004910+00:00",
+  "scope": "Verificación local de traspaso: sin red, sin nuevas descargas ni inspección completa repetida",
+  "success": true,
+  "manifest_sha256": "354f7afefba6217318ad3c2df540508eee691948ea1ece3ae6d314f59ffa4cdb",
+  "contract_upstream": "origin/entrega3/preparacion-huellas-ms@1e3fdee",
+  "contract_matches_upstream": true,
+  "manifest_contract_problems": [],
+  "partitions": [
+    {
+      "partition_id": "8e1",
+      "local_path": "data/raw/google_buildings/8e1_buildings.csv.gz",
+      "bytes": 27247257,
+      "sha256": "ebc043c9a0936cf77513196ce7a590fd236423096e55ba00ec481e1ce6514d43",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "8e3",
+      "local_path": "data/raw/google_buildings/8e3_buildings.csv.gz",
+      "bytes": 683305918,
+      "sha256": "c58f7f950860565ad4d01b1d757d1a251c9d2ec5cd1d4aaca71d4cb20b1e61d1",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "8e5",
+      "local_path": "data/raw/google_buildings/8e5_buildings.csv.gz",
+      "bytes": 572958296,
+      "sha256": "79262e5bcba7b0e94acaae34a4cb85d27f7d2f2bef6c5a8a404bb86487c04453",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "8e7",
+      "local_path": "data/raw/google_buildings/8e7_buildings.csv.gz",
+      "bytes": 596659569,
+      "sha256": "a2c5ce8c1ea94061e29cb4e5ccce6c58007075a26b7554a587f8423d1d119c5c",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "8e9",
+      "local_path": "data/raw/google_buildings/8e9_buildings.csv.gz",
+      "bytes": 595261949,
+      "sha256": "72cf2e0dbbe641dc941fe401410f894f8e4dc8f62e964d9ab18016bb24af1a44",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "8ef",
+      "local_path": "data/raw/google_buildings/8ef_buildings.csv.gz",
+      "bytes": 139802560,
+      "sha256": "184f7f95df215f65380d8a5d2090e048fcf54cff64c34401a5993a2a73cb0602",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "91d",
+      "local_path": "data/raw/google_buildings/91d_buildings.csv.gz",
+      "bytes": 459727938,
+      "sha256": "3d3904f8ec7ce5656fc7aa224dea37261eb8ef01c102a0cf76dda082468e21fd",
+      "matches_manifest": true
+    },
+    {
+      "partition_id": "91f",
+      "local_path": "data/raw/google_buildings/91f_buildings.csv.gz",
+      "bytes": 35112313,
+      "sha256": "a2a0578db8353148a7f2d9d818b3ae1692a99622479b0909d19c75182b5d7b75",
+      "matches_manifest": true
+    }
+  ],
+  "total_compressed_bytes": 3110075800,
+  "municipalities": 170,
+  "municipalities_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
+  "index_sha256": "f63227f3da41a40381d16b5bf6a9a1101a3a462650a69ff3049c6d775e6f1e77",
+  "receipt_by_derek_confirmed": false
+}

@@ -120,3 +120,74 @@ Se ejecutaron también juntas las pruebas de descarga Microsoft y Google: **23/2
 **Alcance cerrado:** adquisición Google, integridad de archivos, selección/cobertura de particiones, manifiesto compatible y adaptador independiente probado. **Pendiente de integración del equipo:** Derek debe registrar el lector en su preparador y ejecutar la preparación espacial real; después corresponde la carga y el EDA. No se declaran esos pasos realizados.
 
 La inspección real encontró **139 MultiPolygon** entre las 31.499.115 filas; las restantes 31.498.976 son Polygon. No se convirtieron ni descartaron. El preparador de Derek los rechaza antes de la selección municipal por su regla de Polygon; deberá decidir y documentar ese tratamiento. No se ha determinado cuántos de esos MultiPolygon pertenecen a PDET. La prueba del adaptador confirma que conserva también ese tipo.
+
+## Cierre y traspaso a Derek
+
+Se consultaron nuevamente las referencias remotas antes de integrar este aporte. La rama de preparación sigue en `1e3fdee`: su contrato es idéntico al incorporado y su registro de fuentes sigue conteniendo solo Microsoft. Se repitió la prueba sintética contra ese preparador vigente sin modificarlo. La adquisición no necesita una corrección de interfaz para poder integrarse; registrar el lector es un paso de preparación separado.
+
+La verificación de traspaso está en `outputs/google_buildings_handoff_verification.json`: se recalcularon los SHA256 de los ocho archivos locales y se comprobaron tamaños, índice y límites municipales contra sus reportes. No se repitieron descargas ni se sobrescribió el manifiesto definitivo. Las 23 pruebas combinadas de descarga volvieron a aprobar (15 Microsoft y 8 Google, incluida la prueba con el preparador de Derek). La lectura integral de los 31.499.115 registros es la ejecución de adquisición documentada anteriormente, no una nueva inspección en este cierre.
+
+### Paquete exacto que debe disponer en su computador
+
+| Pieza | Ruta o archivos | Estado del traspaso |
+| --- | --- | --- |
+| Código, contrato y adaptador | `scripts/03_download_google_buildings.py`, `scripts/entrega3_contracts.py`, `scripts/google_buildings_adapter.py`, configuración Google y pruebas | Se publican en Git; debe incorporar el `main` que contiene este aporte a su trabajo |
+| Manifiesto de adquisición | `outputs/google_buildings_download_manifest.json` | Versionado; es la referencia de URLs, tamaños y hashes |
+| Originales Google | En `data/raw/google_buildings/`: `8e1_buildings.csv.gz`, `8e3_buildings.csv.gz`, `8e5_buildings.csv.gz`, `8e7_buildings.csv.gz`, `8e9_buildings.csv.gz`, `8ef_buildings.csv.gz`, `91d_buildings.csv.gz`, `91f_buildings.csv.gz` | Disponibles y verificados en este Mac; **no se ha confirmado que Derek los haya recibido**. Total: 3.110.075.800 bytes |
+| Índice de referencia | `data/raw/google_buildings/tiles.geojson` | Conservado localmente; URL y hash en el manifiesto. El preparador consume las particiones, pero el índice permite auditar la selección |
+| Límites municipales | `data/processed/municipalities.geojsonl` | Disponible localmente; debe transferirse o regenerarse con el flujo oficial |
+| Reporte de los límites | `outputs/municipalities_prepare_report.json` | Versionado; debe corresponder al archivo recibido. SHA256 esperado: `612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed` |
+
+La muestra `8df` no forma parte de este paquete PDET; no es necesaria para preparar la fuente. Los archivos pesados no se incorporan a GitHub. Su transferencia debe conservar los bytes y las rutas indicadas; otra alternativa es descargarlos desde las URLs oficiales del manifiesto. Este cierre no envía archivos ni mensajes a Derek ni certifica su recepción.
+
+### Verificar lo recibido sin red ni descargas
+
+Desde la raíz del checkout con estos scripts y dependencias, ejecutar:
+
+```bash
+.venv/bin/python - <<'PY'
+import json, sys
+from pathlib import Path
+sys.path.insert(0, 'scripts')
+from entrega3_contracts import (
+    download_manifest_problems, verify_partition_file, load_pdet_layer,
+)
+root = Path.cwd()
+manifest = json.loads((root / 'outputs/google_buildings_download_manifest.json').read_text())
+problems = download_manifest_problems(manifest, 'google')
+if problems:
+    raise SystemExit('\n'.join(problems))
+for part in manifest['partitions']:
+    path, digest = verify_partition_file(root, part)
+    assert path.stat().st_size == part['download']['bytes'], str(path)
+    print(part['partition_id'], path.stat().st_size, digest, 'OK')
+municipalities, digest = load_pdet_layer(
+    root, 'data/processed/municipalities.geojsonl',
+    'outputs/municipalities_prepare_report.json', 170,
+)
+assert digest == manifest['selection']['municipal_sha256']
+print('Contrato, ocho archivos y 170 límites municipales: OK')
+PY
+```
+
+Este comando falla si falta un archivo o no coincide con su referencia; no corrige ni omite las diferencias. No necesita MongoDB. El manifiesto compartido es compatible con preparación, pero ese resultado por sí solo no registra el lector en su programa.
+
+### Si necesita obtener los archivos otra vez
+
+1. Conservar una copia del manifiesto de referencia recibido para comparar la nueva ejecución. Si ya recibió los ocho archivos correctos, usar la verificación anterior y evitar una descarga repetida.
+2. Obtener primero el GeoJSONL municipal con su reporte. Alternativamente, con acceso al WFS del DANE, regenerarlo mediante `01_download_mgn.py`, `01_validate_mgn.py` y `02_prepare_municipalities.py`. Esos comandos producen sus propios reportes de corrida y deben ejecutarse en un checkout/entorno de reproducción, sin sustituir las evidencias originales compartidas.
+3. Con los límites consistentes, ejecutar:
+
+```bash
+.venv/bin/python scripts/03_download_google_buildings.py --plan-only
+.venv/bin/python scripts/03_download_google_buildings.py
+```
+
+El plan permite revisar selección, volumen y espacio antes de descargar. El descargador valida y reutiliza los archivos registrados que ya coinciden. Una nueva corrida tendrá metadatos de su propio entorno; debe comparar los hashes con la referencia y no confundirla con una entrega de archivos que todavía no ocurrió.
+
+### Pendientes separados por responsabilidad
+
+- **Adquisición de Sebastián cerrada:** fuente oficial, ocho originales, integridad, cobertura por particiones, manifiesto validado, adaptador y pruebas, documentación y comandos de traspaso. La evidencia de cierre no altera las evidencias de adquisición.
+- **Coordinación / transferencia:** acordar con Derek la copia o descarga de los ocho CSV.gz y el archivo municipal; ejecutar la verificación en su computador y confirmar recepción. Solo hay evidencia de disponibilidad local, no de recepción remota.
+- **Preparación de Derek:** incorporar su preparador y configuración `processing.buildings`, registrar `google_features` / `google_attributes` en `SOURCES["google"]`, y decidir/documentar cómo tratar los **139 MultiPolygon** frente al esquema Polygon. No se conoce todavía cuántos pertenecen a PDET. El lector conserva esos registros; no se cambió la lógica de Derek ni se ejecutó la preparación real de la fuente.
+- **Carga y EDA:** corresponden a sus responsables una vez exista la salida preparada; no se atribuyen resultados MongoDB o EDA a este cierre.

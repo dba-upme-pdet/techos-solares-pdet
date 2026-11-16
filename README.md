@@ -62,7 +62,7 @@ El [informe completo en PDF](docs/delivery2/entrega2.pdf) se genera desde [entre
 
 ### Entrega 3 en el repositorio
 
-Sebastián implementó y ejecutó la [adquisición Google Open Buildings v3](docs/delivery3/entrega3_descarga_google.md): ocho particiones S2, 3.110.075.800 bytes comprimidos y 31.499.115 filas originales inspeccionadas; el manifiesto satisface el contrato común. Es cobertura de particiones, no un conteo de edificios PDET preparados o cargados. El adaptador CSV/WKT está probado; Derek debe registrarlo en su preparador.
+Sebastián implementó y ejecutó la [adquisición Google Open Buildings v3](docs/delivery3/entrega3_descarga_google.md): ocho particiones S2, 3.110.075.800 bytes comprimidos y 31.499.115 filas originales inspeccionadas; el manifiesto satisface el contrato común. Es cobertura de particiones, no un conteo de edificios PDET preparados o cargados. El adaptador CSV/WKT está probado; Derek debe registrarlo en su preparador. El [traspaso documentado](docs/delivery3/entrega3_descarga_google.md#cierre-y-traspaso-a-derek) detalla los ocho originales, los límites municipales y un comando de verificación sin red; la recepción por Derek aún no está confirmada.
 
 `scripts/03_download_ms_buildings.py` es el tramo asignado a Miguel: descarga de Microsoft Building Footprints. El procedimiento, la cobertura y el contrato con la preparación están en [`docs/delivery3/entrega3_descarga_microsoft.md`](docs/delivery3/entrega3_descarga_microsoft.md).
 
