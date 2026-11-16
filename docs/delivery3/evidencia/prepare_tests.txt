@@ -1,0 +1,5 @@
+Comando: .venv/bin/python -m unittest discover -s tests -p "test_*.py"
+Fecha: 2026-11-14, Python 3.13, shapely 2.2.0, pyproj 3.8.0, sin MONGO_URI (las 2 pruebas de MongoDB se omiten aquí; ver prepare_mongo_contract.txt)
+
+Ran 55 tests in 1.161s
+OK (skipped=2)
