@@ -16,7 +16,8 @@ Esta entrega carga en MongoDB 7 (colección `upme_pdet.buildings`) las huellas d
 | --- | ---: | ---: |
 | Registros leídos de la fuente | 4 595 615 | 31 499 115 |
 | Excluidos por caer fuera de los PDET | 2 834 537 | 28 804 201 |
-| Rechazados en la preparación | 48 (29 reparados) en la pasada sin filtro | 139 (MultiPolygon) |
+| Reparados en la preparación | 29 | 0 |
+| Rechazados en la preparación | 48 (división en MultiPolygon tras reparar) | 139 (MultiPolygon) |
 | Cargados en `buildings` | 1 761 030 | 2 694 775 |
 | Rechazados en la carga | 0 | 0 |
 | Municipios PDET con edificaciones | 170 de 170 | 165 de 170 |
