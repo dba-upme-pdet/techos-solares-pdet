@@ -3,6 +3,7 @@ import re, sys
 from pathlib import Path
 
 SECCIONES = [  # (archivo, título numerado)
+    ("entrega3_eda.md", "4. Análisis exploratorio breve (EDA)"),
     ("entrega3_descarga_microsoft.md", "5. Descarga de Microsoft Building Footprints"),
     ("entrega3_descarga_google.md", "6. Descarga de Google Open Buildings v3"),
     ("entrega3_preparacion_huellas.md", "7. Preparación de huellas de edificaciones"),
@@ -23,7 +24,7 @@ def diagramas(texto):
 
 def seccion(texto, titulo):
     texto = diagramas(texto)
-    texto = re.sub(r"!\[[^\]]*\]\((?!diagrama)[^)]*\)", "", texto)
+    texto = re.sub(r"!\[[^\]]*\]\((?!diagrama|figuras/)[^)]*\)", "", texto)
     texto = re.sub(r"(?<!!)\[([^\]]+)\]\([^)]*\)", r"\1", texto).replace("\u2014", "-")
     salida, cerca, saltar, nivel_saltado, primero = [], False, False, 0, True
     for linea in texto.split("\n"):
