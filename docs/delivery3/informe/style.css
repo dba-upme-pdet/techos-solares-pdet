@@ -1,0 +1,9 @@
+@page{size:A4;margin:2cm 2cm 2.2cm}
+body{font-family:"Latin Modern Roman","Times New Roman",serif;font-size:10.5pt;line-height:1.4;color:#111;max-width:none}
+h1{color:#1F5FAF;font-size:15pt;border-bottom:1px solid #1F5FAF;margin-top:1.4em;break-after:avoid}
+h2{font-size:12.5pt;color:#1F5FAF;break-after:avoid} h3{font-size:11pt;break-after:avoid}
+header#title-block-header{text-align:center;margin-bottom:2em} .title{font-size:20pt;color:#1F5FAF;border:0} .subtitle{font-size:13pt} .author,.date{font-size:11pt}
+table{border-collapse:collapse;width:100%;font-size:9pt;margin:.6em 0;break-inside:avoid} th{border-bottom:1.5px solid #000;border-top:1.5px solid #000;text-align:left} td,th{padding:3px 6px} tr:last-child td{border-bottom:1.5px solid #000}
+code{font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;word-break:break-all} pre{background:#f4f6fa;padding:6px;white-space:pre-wrap;font-size:8.5pt;break-inside:avoid}
+figure{text-align:center;break-inside:avoid} figcaption{font-size:9pt} img{max-width:100%}
+nav#TOC{break-after:page} nav#TOC ul{list-style:none}
