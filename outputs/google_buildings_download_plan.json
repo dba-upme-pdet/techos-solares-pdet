@@ -1,0 +1,133 @@
+{
+  "checked_at": "2026-11-16T17:30:57.397873+00:00",
+  "claims_pdet_coverage": false,
+  "contract": "entrega3-buildings-v1",
+  "datasets_document": {
+    "_id": "google",
+    "accessed_at": "2026-11-16T17:30:57.397873+00:00",
+    "license": "CC-BY-4.0",
+    "name": "Google Open Buildings",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "disk_free_bytes_before": 13272260608,
+  "index": {
+    "download": {
+      "bytes": 250366,
+      "etag": "\"-rnJ8g\"",
+      "last_modified": null,
+      "md5": "U9lnHWQNmU2pTtMOLxoz1g==",
+      "reused": false,
+      "server_md5": null,
+      "sha256": "f63227f3da41a40381d16b5bf6a9a1101a3a462650a69ff3049c6d775e6f1e77"
+    },
+    "local_path": "data/raw/google_buildings/tiles.geojson",
+    "tile_count": 333,
+    "url": "https://openbuildings-public-dot-gweb-research.uw.r.appspot.com/public/tiles.geojson"
+  },
+  "manifest_contract_problems": [
+    "status es 'planned', no 'complete'",
+    "claims_pdet_coverage no es true",
+    "partición 8e1 con status 'planned'",
+    "partición 8e1 sin download.sha256",
+    "partición 8e3 con status 'planned'",
+    "partición 8e3 sin download.sha256",
+    "partición 8e5 con status 'planned'",
+    "partición 8e5 sin download.sha256",
+    "partición 8e7 con status 'planned'",
+    "partición 8e7 sin download.sha256",
+    "partición 8e9 con status 'planned'",
+    "partición 8e9 sin download.sha256",
+    "partición 8ef con status 'planned'",
+    "partición 8ef sin download.sha256",
+    "partición 91d con status 'planned'",
+    "partición 91d sin download.sha256",
+    "partición 91f con status 'planned'",
+    "partición 91f sin download.sha256"
+  ],
+  "partitions": [
+    {
+      "estimated_bytes": 27200000,
+      "local_path": "data/raw/google_buildings/8e1_buildings.csv.gz",
+      "partition_id": "8e1",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e1_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 683300000,
+      "local_path": "data/raw/google_buildings/8e3_buildings.csv.gz",
+      "partition_id": "8e3",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e3_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 573000000,
+      "local_path": "data/raw/google_buildings/8e5_buildings.csv.gz",
+      "partition_id": "8e5",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e5_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 596700000,
+      "local_path": "data/raw/google_buildings/8e7_buildings.csv.gz",
+      "partition_id": "8e7",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e7_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 595300000,
+      "local_path": "data/raw/google_buildings/8e9_buildings.csv.gz",
+      "partition_id": "8e9",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e9_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 139800000,
+      "local_path": "data/raw/google_buildings/8ef_buildings.csv.gz",
+      "partition_id": "8ef",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8ef_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 459700000,
+      "local_path": "data/raw/google_buildings/91d_buildings.csv.gz",
+      "partition_id": "91d",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91d_buildings.csv.gz"
+    },
+    {
+      "estimated_bytes": 35100000,
+      "local_path": "data/raw/google_buildings/91f_buildings.csv.gz",
+      "partition_id": "91f",
+      "status": "planned",
+      "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91f_buildings.csv.gz"
+    }
+  ],
+  "preparation_reader_registered": false,
+  "selection": {
+    "criterion": "intersección de polígonos municipales con celdas del índice S2 nivel 4; sin filtro de confianza",
+    "estimated_compressed_bytes": 3110100000,
+    "municipal_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
+    "municipalities": 170,
+    "probe_tile": null,
+    "tile_ids": [
+      "8e1",
+      "8e3",
+      "8e5",
+      "8e7",
+      "8e9",
+      "8ef",
+      "91d",
+      "91f"
+    ],
+    "uncovered_municipalities": []
+  },
+  "source": {
+    "crs": "EPSG:4326",
+    "dataset_id": "google",
+    "format": "CSV.gz/WKT",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "status": "planned"
+}

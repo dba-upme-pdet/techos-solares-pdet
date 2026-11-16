@@ -51,6 +51,15 @@ sources:
     id: "google"
     version: "v3"
     url: "https://sites.research.google/gr/open-buildings/"
+    license: "CC-BY-4.0"
+    index_url: "https://openbuildings-public-dot-gweb-research.uw.r.appspot.com/public/tiles.geojson"
+    raw_dir: "google_buildings"
+    pdet_input: "data/processed/municipalities.geojsonl"
+    pdet_input_report: "outputs/municipalities_prepare_report.json"
+    manifest: "outputs/google_buildings_download_manifest.json"
+    prepare_report: "outputs/buildings_google_prepare_report.json"
+    prepare_by_municipality: "outputs/buildings_google_prepared_by_municipality.csv"
+    source_pass_report: "outputs/buildings_google_source_pass_report.json"
 
 processing:
   target_crs: "EPSG:4326"     # requerido por el índice 2dsphere de MongoDB

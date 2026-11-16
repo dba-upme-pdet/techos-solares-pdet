@@ -1,0 +1,49 @@
+{
+  "purpose": "Regeneración real de límites para adquisición Google; no carga MongoDB",
+  "download_status": "complete",
+  "download_feature_count": 1122,
+  "download_layer_sha256": "f38b83c766ae85c10c59c4001cac04f6d41f32559131e8ac519d4d90b65257b1",
+  "page_matches": [
+    {
+      "match": "content",
+      "name": "page_0000.gml",
+      "observed_sha256": "47da67ed170fba50ef778d2feaa52f4de39d23a21592eafc30077592596e3a46",
+      "server_timestamp": "2026-11-16T17:16:53Z"
+    },
+    {
+      "match": "content",
+      "name": "page_0200.gml",
+      "observed_sha256": "f04067735e9cfb237257851ba89f640a7c8dbd0167d6af417f436e4492d692cb",
+      "server_timestamp": "2026-11-16T17:17:00Z"
+    },
+    {
+      "match": "content",
+      "name": "page_0400.gml",
+      "observed_sha256": "1e465907f93056f0e6d20f2667097e26e9cb91b2845edb397269f73596757be7",
+      "server_timestamp": "2026-11-16T17:17:05Z"
+    },
+    {
+      "match": "content",
+      "name": "page_0600.gml",
+      "observed_sha256": "f601d7e8f5459f0bb437b35f6325c6d82e2a884ab42c17ad5e972b6266215302",
+      "server_timestamp": "2026-11-16T17:17:12Z"
+    },
+    {
+      "match": "content",
+      "name": "page_0800.gml",
+      "observed_sha256": "5cf1f4c20d609249d17d9d2e7e0d87d266c93c501ec9f4c5301d0c304588e0c4",
+      "server_timestamp": "2026-11-16T17:17:19Z"
+    },
+    {
+      "match": "content",
+      "name": "page_1000.gml",
+      "observed_sha256": "55b0dfd5ac7521ad1eef0fa0fb287fb71bc64ab780c9c75fb5145a56b29192d3",
+      "server_timestamp": "2026-11-16T17:17:25Z"
+    }
+  ],
+  "prepare_status": "ready_for_load",
+  "municipalities_written": 170,
+  "municipal_geojsonl_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
+  "matches_project_prepare_report": true,
+  "source_requests_this_run": true
+}
