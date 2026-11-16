@@ -7,3 +7,4 @@ table{border-collapse:collapse;width:100%;font-size:9pt;margin:.6em 0;break-insi
 code{font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;word-break:break-all} pre{background:#f4f6fa;padding:6px;white-space:pre-wrap;font-size:8.5pt;break-inside:avoid}
 figure{text-align:center;break-inside:avoid} figcaption{font-size:9pt} img{max-width:100%}
 nav#TOC{break-after:page} nav#TOC ul{list-style:none}
+p:has(+table),p:has(+figure){break-after:avoid}

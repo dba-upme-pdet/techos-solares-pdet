@@ -23,9 +23,13 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | --- | --- | --- | --- | --- |
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
-| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | En curso: Microsoft y Google descargados, preparados y cargados en MongoDB (4.455.805 edificios PDET, carga repetida sin duplicados); falta el EDA |
+| 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | Entregada: Microsoft y Google descargados, preparados y cargados en MongoDB (4.455.805 edificios PDET, carga repetida sin duplicados), EDA en el [informe PDF](docs/delivery3/Entrega3_Carga_e_Integracion_de_Huellas.pdf) |
 | 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | `docs/delivery4/` | Pendiente |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
+
+### Entrega 3: informe
+
+[`Entrega3_Carga_e_Integracion_de_Huellas.pdf`](docs/delivery3/Entrega3_Carga_e_Integracion_de_Huellas.pdf) es la versión enviada a BrightSpace el 16 nov 2026 (SHA256 `c20561530f2a5772fae2a7eb8c7e18c472ee71df1e0281938bf7adf361001aa2`). Sus fuentes están en [`docs/delivery3/informe/`](docs/delivery3/informe/) y `docs/delivery3/informe/build.sh` lo regenera desde los reportes de `outputs/`. Las fuentes ya incluyen tres correcciones para el informe final: la fila de reparados y rechazados de Microsoft, la tabla de distribución de áreas y el diagrama de flujo dibujado. Además, el informe ya no incluye las notas internas de coordinación del equipo.
 
 ### Entrega 1 en el repositorio
 
