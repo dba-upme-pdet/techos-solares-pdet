@@ -77,3 +77,8 @@ analysis:
   # Valores provisionales; los definitivos se fijan después del EDA (Entrega 3).
   min_area_m2: 20
   min_confidence: 0.70
+  comparison:
+    # Solo entradas/salidas de la comparación; no fija filtros del motor común.
+    municipalities: "outputs/pdet_mgn_crosswalk.csv"
+    reference_eda: "outputs/eda/eda_buildings_summary.json"
+    output_dir: "outputs/delivery4"

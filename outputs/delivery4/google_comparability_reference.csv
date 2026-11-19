@@ -1,0 +1,171 @@
+mpio_code,evidence_kind,signal_basis,name,subregion_name,reference_ms_buildings,reference_google_buildings,reference_google_over_ms,reference_ms_zero,reference_google_zero,google_insufficient_detections
+05031,historical_eda,entrega3_eda_unfiltered,AMALFI,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,6860,2983,0.4348396501457726,false,false,false
+05040,historical_eda,entrega3_eda_unfiltered,ANORÍ,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,7234,7651,1.0576444567320984,false,false,false
+05045,historical_eda,entrega3_eda_unfiltered,APARTADÓ,URABÁ ANTIOQUEÑO,9813,36337,3.7029450728625295,false,false,false
+05107,historical_eda,entrega3_eda_unfiltered,BRICEÑO,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,3316,3565,1.075090470446321,false,false,false
+05120,historical_eda,entrega3_eda_unfiltered,CÁCERES,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,10142,12424,1.225004929994084,false,false,false
+05147,historical_eda,entrega3_eda_unfiltered,CAREPA,URABÁ ANTIOQUEÑO,8699,16657,1.9148177951488676,false,false,false
+05154,historical_eda,entrega3_eda_unfiltered,CAUCASIA,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,11453,30474,2.6607875665764427,false,false,false
+05172,historical_eda,entrega3_eda_unfiltered,CHIGORODÓ,URABÁ ANTIOQUEÑO,9008,18871,2.094915630550622,false,false,false
+05234,historical_eda,entrega3_eda_unfiltered,DABEIBA,URABÁ ANTIOQUEÑO,7911,7696,0.9728226520035393,false,false,false
+05250,historical_eda,entrega3_eda_unfiltered,EL BAGRE,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,9660,14768,1.5287784679089027,false,false,false
+05361,historical_eda,entrega3_eda_unfiltered,ITUANGO,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,8361,9063,1.0839612486544672,false,false,false
+05475,historical_eda,entrega3_eda_unfiltered,MURINDÓ,CHOCÓ,1331,0,0.0,false,true,true
+05480,historical_eda,entrega3_eda_unfiltered,MUTATÁ,URABÁ ANTIOQUEÑO,4295,5537,1.289173457508731,false,false,false
+05490,historical_eda,entrega3_eda_unfiltered,NECOCLÍ,URABÁ ANTIOQUEÑO,18357,32183,1.753173176444953,false,false,false
+05495,historical_eda,entrega3_eda_unfiltered,NECHÍ,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,4519,3492,0.7727373312679796,false,false,false
+05604,historical_eda,entrega3_eda_unfiltered,REMEDIOS,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,10207,13247,1.2978348192416969,false,false,false
+05665,historical_eda,entrega3_eda_unfiltered,SAN PEDRO DE URABÁ,URABÁ ANTIOQUEÑO,11957,22034,1.8427699255666137,false,false,false
+05736,historical_eda,entrega3_eda_unfiltered,SEGOVIA,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,9766,16158,1.6545156665984027,false,false,false
+05790,historical_eda,entrega3_eda_unfiltered,TARAZÁ,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,8815,11438,1.2975609756097561,false,false,false
+05837,historical_eda,entrega3_eda_unfiltered,TURBO,URABÁ ANTIOQUEÑO,43360,78926,1.820249077490775,false,false,false
+05854,historical_eda,entrega3_eda_unfiltered,VALDIVIA,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,4485,6329,1.4111482720178372,false,false,false
+05873,historical_eda,entrega3_eda_unfiltered,VIGÍA DEL FUERTE,CHOCÓ,1714,0,0.0,false,true,true
+05893,historical_eda,entrega3_eda_unfiltered,YONDÓ,SUR DE BOLÍVAR,7133,10687,1.4982475816626946,false,false,false
+05895,historical_eda,entrega3_eda_unfiltered,ZARAGOZA,BAJO CAUCA Y NORDESTE ANTIOQUEÑO,7585,11188,1.4750164798945287,false,false,false
+13042,historical_eda,entrega3_eda_unfiltered,ARENAL,SUR DE BOLÍVAR,3888,7022,1.8060699588477367,false,false,false
+13160,historical_eda,entrega3_eda_unfiltered,CANTAGALLO,SUR DE BOLÍVAR,3936,4822,1.2251016260162602,false,false,false
+13212,historical_eda,entrega3_eda_unfiltered,CÓRDOBA,MONTES DE MARÍA,5980,10271,1.7175585284280936,false,false,false
+13244,historical_eda,entrega3_eda_unfiltered,EL CARMEN DE BOLÍVAR,MONTES DE MARÍA,24235,38386,1.5839075716938313,false,false,false
+13248,historical_eda,entrega3_eda_unfiltered,EL GUAMO,MONTES DE MARÍA,3056,4923,1.6109293193717278,false,false,false
+13442,historical_eda,entrega3_eda_unfiltered,MARÍA LA BAJA,MONTES DE MARÍA,13881,20569,1.4818096678913624,false,false,false
+13473,historical_eda,entrega3_eda_unfiltered,MORALES,SUR DE BOLÍVAR,6896,11982,1.7375290023201857,false,false,false
+13654,historical_eda,entrega3_eda_unfiltered,SAN JACINTO,MONTES DE MARÍA,9088,14706,1.6181778169014085,false,false,false
+13657,historical_eda,entrega3_eda_unfiltered,SAN JUAN NEPOMUCENO,MONTES DE MARÍA,11579,21831,1.8853959754728387,false,false,false
+13670,historical_eda,entrega3_eda_unfiltered,SAN PABLO,SUR DE BOLÍVAR,9776,15636,1.5994271685761048,false,false,false
+13688,historical_eda,entrega3_eda_unfiltered,SANTA ROSA DEL SUR,SUR DE BOLÍVAR,14033,18908,1.347395425069479,false,false,false
+13744,historical_eda,entrega3_eda_unfiltered,SIMITÍ,SUR DE BOLÍVAR,7194,11018,1.5315540728384764,false,false,false
+13894,historical_eda,entrega3_eda_unfiltered,ZAMBRANO,MONTES DE MARÍA,3500,6080,1.737142857142857,false,false,false
+18001,historical_eda,entrega3_eda_unfiltered,FLORENCIA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,26897,58135,2.161393463955088,false,false,false
+18029,historical_eda,entrega3_eda_unfiltered,ALBANIA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,2096,3012,1.4370229007633588,false,false,false
+18094,historical_eda,entrega3_eda_unfiltered,BELÉN DE LOS ANDAQUÍES,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,3765,5328,1.4151394422310757,false,false,false
+18150,historical_eda,entrega3_eda_unfiltered,CARTAGENA DEL CHAIRÁ,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,14037,15932,1.1350003562014674,false,false,false
+18205,historical_eda,entrega3_eda_unfiltered,CURILLO,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,2503,3856,1.5405513383939273,false,false,false
+18247,historical_eda,entrega3_eda_unfiltered,EL DONCELLO,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,5815,9151,1.5736887360275151,false,false,false
+18256,historical_eda,entrega3_eda_unfiltered,EL PAUJÍL,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,4686,6283,1.3408023900981647,false,false,false
+18410,historical_eda,entrega3_eda_unfiltered,LA MONTAÑITA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,7701,9501,1.2337358784573431,false,false,false
+18460,historical_eda,entrega3_eda_unfiltered,MILÁN,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,3690,3630,0.983739837398374,false,false,false
+18479,historical_eda,entrega3_eda_unfiltered,MORELIA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,1558,2402,1.5417201540436456,false,false,false
+18592,historical_eda,entrega3_eda_unfiltered,PUERTO RICO,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,11430,12306,1.0766404199475066,false,false,false
+18610,historical_eda,entrega3_eda_unfiltered,SAN JOSÉ DEL FRAGUA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,4850,5240,1.0804123711340206,false,false,false
+18753,historical_eda,entrega3_eda_unfiltered,SAN VICENTE DEL CAGUÁN,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,23587,21599,0.9157162843939458,false,false,false
+18756,historical_eda,entrega3_eda_unfiltered,SOLANO,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,6171,6067,0.9831469777993842,false,false,false
+18785,historical_eda,entrega3_eda_unfiltered,SOLITA,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,2508,2992,1.1929824561403508,false,false,false
+18860,historical_eda,entrega3_eda_unfiltered,VALPARAÍSO,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,4367,4922,1.1270895351499886,false,false,false
+19050,historical_eda,entrega3_eda_unfiltered,ARGELIA,ALTO PATÍA Y NORTE DEL CAUCA,9940,13691,1.377364185110664,false,false,false
+19075,historical_eda,entrega3_eda_unfiltered,BALBOA,ALTO PATÍA Y NORTE DEL CAUCA,8853,12679,1.4321698859143792,false,false,false
+19110,historical_eda,entrega3_eda_unfiltered,BUENOS AIRES,ALTO PATÍA Y NORTE DEL CAUCA,11444,13439,1.174327158336246,false,false,false
+19130,historical_eda,entrega3_eda_unfiltered,CAJIBÍO,ALTO PATÍA Y NORTE DEL CAUCA,23771,41281,1.7366118379538094,false,false,false
+19137,historical_eda,entrega3_eda_unfiltered,CALDONO,ALTO PATÍA Y NORTE DEL CAUCA,12547,15303,1.2196541005818125,false,false,false
+19142,historical_eda,entrega3_eda_unfiltered,CALOTO,ALTO PATÍA Y NORTE DEL CAUCA,9562,12220,1.2779753189709266,false,false,false
+19212,historical_eda,entrega3_eda_unfiltered,CORINTO,ALTO PATÍA Y NORTE DEL CAUCA,8784,10516,1.197176684881603,false,false,false
+19256,historical_eda,entrega3_eda_unfiltered,EL TAMBO,ALTO PATÍA Y NORTE DEL CAUCA,34366,38900,1.1319327242041552,false,false,false
+19318,historical_eda,entrega3_eda_unfiltered,GUAPI,PACÍFICO MEDIO,5344,6403,1.1981661676646707,false,false,false
+19364,historical_eda,entrega3_eda_unfiltered,JAMBALÓ,ALTO PATÍA Y NORTE DEL CAUCA,5065,6514,1.286080947680158,false,false,false
+19418,historical_eda,entrega3_eda_unfiltered,LÓPEZ DE MICAY,PACÍFICO MEDIO,5968,24,0.004021447721179625,false,false,true
+19450,historical_eda,entrega3_eda_unfiltered,MERCADERES,ALTO PATÍA Y NORTE DEL CAUCA,7167,11486,1.60262313380773,false,false,false
+19455,historical_eda,entrega3_eda_unfiltered,MIRANDA,ALTO PATÍA Y NORTE DEL CAUCA,6625,10353,1.5627169811320756,false,false,false
+19473,historical_eda,entrega3_eda_unfiltered,MORALES,ALTO PATÍA Y NORTE DEL CAUCA,16396,31057,1.8941815076848012,false,false,false
+19532,historical_eda,entrega3_eda_unfiltered,PATÍA,ALTO PATÍA Y NORTE DEL CAUCA,11030,17995,1.631459655485041,false,false,false
+19548,historical_eda,entrega3_eda_unfiltered,PIENDAMÓ - TUNÍA,ALTO PATÍA Y NORTE DEL CAUCA,16673,30220,1.812511245726624,false,false,false
+19698,historical_eda,entrega3_eda_unfiltered,SANTANDER DE QUILICHAO,ALTO PATÍA Y NORTE DEL CAUCA,30842,35691,1.1572206731080994,false,false,false
+19780,historical_eda,entrega3_eda_unfiltered,SUÁREZ,ALTO PATÍA Y NORTE DEL CAUCA,10556,14544,1.3777946191739294,false,false,false
+19809,historical_eda,entrega3_eda_unfiltered,TIMBIQUÍ,PACÍFICO MEDIO,5178,5938,1.1467748165314793,false,false,false
+19821,historical_eda,entrega3_eda_unfiltered,TORIBÍO,ALTO PATÍA Y NORTE DEL CAUCA,10253,11452,1.1169413830098507,false,false,false
+20001,historical_eda,entrega3_eda_unfiltered,VALLEDUPAR,SIERRA NEVADA - PERIJÁ,63722,171424,2.690185493236245,false,false,false
+20013,historical_eda,entrega3_eda_unfiltered,AGUSTÍN CODAZZI,SIERRA NEVADA - PERIJÁ,21305,34733,1.6302745834311194,false,false,false
+20045,historical_eda,entrega3_eda_unfiltered,BECERRIL,SIERRA NEVADA - PERIJÁ,8044,12958,1.610890104425659,false,false,false
+20400,historical_eda,entrega3_eda_unfiltered,LA JAGUA DE IBIRICO,SIERRA NEVADA - PERIJÁ,14624,20110,1.375136761487965,false,false,false
+20443,historical_eda,entrega3_eda_unfiltered,MANAURE BALCÓN DEL CESAR,SIERRA NEVADA - PERIJÁ,3441,5951,1.7294391165358907,false,false,false
+20570,historical_eda,entrega3_eda_unfiltered,PUEBLO BELLO,SIERRA NEVADA - PERIJÁ,10975,15833,1.4426423690205012,false,false,false
+20621,historical_eda,entrega3_eda_unfiltered,LA PAZ,SIERRA NEVADA - PERIJÁ,10597,20413,1.9262998961970368,false,false,false
+20750,historical_eda,entrega3_eda_unfiltered,SAN DIEGO,SIERRA NEVADA - PERIJÁ,6632,12205,1.840319662243667,false,false,false
+23466,historical_eda,entrega3_eda_unfiltered,MONTELÍBANO,SUR DE CÓRDOBA,19045,28089,1.474875295353111,false,false,false
+23580,historical_eda,entrega3_eda_unfiltered,PUERTO LIBERTADOR,SUR DE CÓRDOBA,13728,14553,1.0600961538461537,false,false,false
+23682,historical_eda,entrega3_eda_unfiltered,SAN JOSÉ DE URÉ,SUR DE CÓRDOBA,4003,4028,1.0062453160129903,false,false,false
+23807,historical_eda,entrega3_eda_unfiltered,TIERRALTA,SUR DE CÓRDOBA,30255,43123,1.4253181292348371,false,false,false
+23855,historical_eda,entrega3_eda_unfiltered,VALENCIA,SUR DE CÓRDOBA,13602,25094,1.8448757535656521,false,false,false
+27006,historical_eda,entrega3_eda_unfiltered,ACANDÍ,CHOCÓ,5372,6395,1.1904318689501117,false,false,false
+27099,historical_eda,entrega3_eda_unfiltered,BOJAYÁ,CHOCÓ,2004,0,0.0,false,true,true
+27150,historical_eda,entrega3_eda_unfiltered,CARMEN DEL DARIÉN,CHOCÓ,3832,281,0.07332985386221294,false,false,true
+27205,historical_eda,entrega3_eda_unfiltered,CONDOTO,CHOCÓ,2110,239,0.11327014218009479,false,false,true
+27250,historical_eda,entrega3_eda_unfiltered,EL LITORAL DEL SAN JUAN,CHOCÓ,2010,309,0.1537313432835821,false,false,true
+27361,historical_eda,entrega3_eda_unfiltered,ISTMINA,CHOCÓ,1928,6766,3.509336099585062,false,false,false
+27425,historical_eda,entrega3_eda_unfiltered,MEDIO ATRATO,CHOCÓ,1615,313,0.1938080495356037,false,false,true
+27450,historical_eda,entrega3_eda_unfiltered,MEDIO SAN JUAN,CHOCÓ,1627,0,0.0,false,true,true
+27491,historical_eda,entrega3_eda_unfiltered,NÓVITA,CHOCÓ,1403,0,0.0,false,true,true
+27615,historical_eda,entrega3_eda_unfiltered,RIOSUCIO,CHOCÓ,6107,1000,0.1637465203864418,false,false,true
+27745,historical_eda,entrega3_eda_unfiltered,SIPÍ,CHOCÓ,653,1,0.0015313935681470138,false,false,true
+27800,historical_eda,entrega3_eda_unfiltered,UNGUÍA,CHOCÓ,5986,5418,0.9051119278316071,false,false,false
+41020,historical_eda,entrega3_eda_unfiltered,ALGECIRAS,CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO,8278,12338,1.4904566320367238,false,false,false
+44090,historical_eda,entrega3_eda_unfiltered,DIBULLA,SIERRA NEVADA - PERIJÁ,12003,23094,1.9240189952511872,false,false,false
+44279,historical_eda,entrega3_eda_unfiltered,FONSECA,SIERRA NEVADA - PERIJÁ,13332,23632,1.7725772577257726,false,false,false
+44650,historical_eda,entrega3_eda_unfiltered,SAN JUAN DEL CESAR,SIERRA NEVADA - PERIJÁ,15579,28564,1.8334938057641696,false,false,false
+47001,historical_eda,entrega3_eda_unfiltered,SANTA MARTA,SIERRA NEVADA - PERIJÁ,67663,183651,2.7142012621373572,false,false,false
+47053,historical_eda,entrega3_eda_unfiltered,ARACATACA,SIERRA NEVADA - PERIJÁ,9652,19780,2.049316203895566,false,false,false
+47189,historical_eda,entrega3_eda_unfiltered,CIÉNAGA,SIERRA NEVADA - PERIJÁ,21990,42068,1.9130513869940882,false,false,false
+47288,historical_eda,entrega3_eda_unfiltered,FUNDACIÓN,SIERRA NEVADA - PERIJÁ,15821,30590,1.9335060994880222,false,false,false
+50325,historical_eda,entrega3_eda_unfiltered,MAPIRIPÁN,MACARENA - GUAVIARE,4059,6776,1.6693766937669376,false,false,false
+50330,historical_eda,entrega3_eda_unfiltered,MESETAS,MACARENA - GUAVIARE,6706,5795,0.8641515061139279,false,false,false
+50350,historical_eda,entrega3_eda_unfiltered,LA MACARENA,MACARENA - GUAVIARE,12895,9900,0.7677394338891043,false,false,false
+50370,historical_eda,entrega3_eda_unfiltered,URIBE,MACARENA - GUAVIARE,6705,3567,0.5319910514541387,false,false,false
+50450,historical_eda,entrega3_eda_unfiltered,PUERTO CONCORDIA,MACARENA - GUAVIARE,3682,5893,1.6004888647474198,false,false,false
+50577,historical_eda,entrega3_eda_unfiltered,PUERTO LLERAS,MACARENA - GUAVIARE,5569,6595,1.1842341533488956,false,false,false
+50590,historical_eda,entrega3_eda_unfiltered,PUERTO RICO,MACARENA - GUAVIARE,7422,9290,1.2516841821611426,false,false,false
+50711,historical_eda,entrega3_eda_unfiltered,VISTAHERMOSA,MACARENA - GUAVIARE,9989,12234,1.2247472219441387,false,false,false
+52079,historical_eda,entrega3_eda_unfiltered,BARBACOAS,PACÍFICO Y FRONTERA NARIÑENSE,8429,6234,0.7395895123976747,false,false,false
+52233,historical_eda,entrega3_eda_unfiltered,CUMBITARA,ALTO PATÍA Y NORTE DEL CAUCA,3975,5350,1.3459119496855345,false,false,false
+52250,historical_eda,entrega3_eda_unfiltered,EL CHARCO,PACÍFICO Y FRONTERA NARIÑENSE,6503,5210,0.8011686913732123,false,false,false
+52256,historical_eda,entrega3_eda_unfiltered,EL ROSARIO,ALTO PATÍA Y NORTE DEL CAUCA,4855,7594,1.5641606591143151,false,false,false
+52390,historical_eda,entrega3_eda_unfiltered,LA TOLA,PACÍFICO Y FRONTERA NARIÑENSE,1510,2009,1.3304635761589403,false,false,false
+52405,historical_eda,entrega3_eda_unfiltered,LEIVA,ALTO PATÍA Y NORTE DEL CAUCA,3980,6096,1.5316582914572865,false,false,false
+52418,historical_eda,entrega3_eda_unfiltered,LOS ANDES,ALTO PATÍA Y NORTE DEL CAUCA,3875,7184,1.8539354838709678,false,false,false
+52427,historical_eda,entrega3_eda_unfiltered,MAGÜÍ,PACÍFICO Y FRONTERA NARIÑENSE,3442,2548,0.7402672864613596,false,false,false
+52473,historical_eda,entrega3_eda_unfiltered,MOSQUERA,PACÍFICO Y FRONTERA NARIÑENSE,1731,597,0.34488734835355284,false,false,false
+52490,historical_eda,entrega3_eda_unfiltered,OLAYA HERRERA,PACÍFICO Y FRONTERA NARIÑENSE,4394,1208,0.2749203459262631,false,false,false
+52520,historical_eda,entrega3_eda_unfiltered,FRANCISCO PIZARRO,PACÍFICO Y FRONTERA NARIÑENSE,1845,656,0.35555555555555557,false,false,false
+52540,historical_eda,entrega3_eda_unfiltered,POLICARPA,ALTO PATÍA Y NORTE DEL CAUCA,5303,7627,1.4382425042428815,false,false,false
+52612,historical_eda,entrega3_eda_unfiltered,RICAURTE,PACÍFICO Y FRONTERA NARIÑENSE,4878,196,0.04018040180401804,false,false,true
+52621,historical_eda,entrega3_eda_unfiltered,ROBERTO PAYÁN,PACÍFICO Y FRONTERA NARIÑENSE,2501,364,0.14554178328668532,false,false,true
+52696,historical_eda,entrega3_eda_unfiltered,SANTA BÁRBARA,PACÍFICO Y FRONTERA NARIÑENSE,2488,1505,0.604903536977492,false,false,false
+52835,historical_eda,entrega3_eda_unfiltered,SAN ANDRÉS DE TUMACO,PACÍFICO Y FRONTERA NARIÑENSE,41421,50493,1.2190193380169478,false,false,false
+54206,historical_eda,entrega3_eda_unfiltered,CONVENCIÓN,CATATUMBO,8465,14277,1.6865918487891318,false,false,false
+54245,historical_eda,entrega3_eda_unfiltered,EL CARMEN,CATATUMBO,5884,8903,1.5130863358259687,false,false,false
+54250,historical_eda,entrega3_eda_unfiltered,EL TARRA,CATATUMBO,10956,9826,0.8968601679445053,false,false,false
+54344,historical_eda,entrega3_eda_unfiltered,HACARÍ,CATATUMBO,4874,6756,1.3861304883052934,false,false,false
+54670,historical_eda,entrega3_eda_unfiltered,SAN CALIXTO,CATATUMBO,5360,7736,1.4432835820895522,false,false,false
+54720,historical_eda,entrega3_eda_unfiltered,SARDINATA,CATATUMBO,10090,13388,1.326858275520317,false,false,false
+54800,historical_eda,entrega3_eda_unfiltered,TEORAMA,CATATUMBO,8525,10550,1.2375366568914956,false,false,false
+54810,historical_eda,entrega3_eda_unfiltered,TIBÚ,CATATUMBO,35478,32843,0.9257286205535825,false,false,false
+70204,historical_eda,entrega3_eda_unfiltered,COLOSÓ,MONTES DE MARÍA,3999,6278,1.5698924731182795,false,false,false
+70230,historical_eda,entrega3_eda_unfiltered,CHALÁN,MONTES DE MARÍA,1902,3144,1.6529968454258674,false,false,false
+70418,historical_eda,entrega3_eda_unfiltered,LOS PALMITOS,MONTES DE MARÍA,7011,13792,1.9671944087861932,false,false,false
+70473,historical_eda,entrega3_eda_unfiltered,MORROA,MONTES DE MARÍA,5015,10424,2.078564307078764,false,false,false
+70508,historical_eda,entrega3_eda_unfiltered,OVEJAS,MONTES DE MARÍA,9648,16588,1.7193200663349917,false,false,false
+70523,historical_eda,entrega3_eda_unfiltered,PALMITO,MONTES DE MARÍA,4812,8938,1.8574397339983375,false,false,false
+70713,historical_eda,entrega3_eda_unfiltered,SAN ONOFRE,MONTES DE MARÍA,17348,24614,1.4188379063869034,false,false,false
+70823,historical_eda,entrega3_eda_unfiltered,SAN JOSÉ DE TOLUVIEJO,MONTES DE MARÍA,8333,15330,1.8396735869434777,false,false,false
+73067,historical_eda,entrega3_eda_unfiltered,ATACO,SUR DEL TOLIMA,10931,5354,0.48979965236483397,false,false,false
+73168,historical_eda,entrega3_eda_unfiltered,CHAPARRAL,SUR DEL TOLIMA,16849,18703,1.1100362039290166,false,false,false
+73555,historical_eda,entrega3_eda_unfiltered,PLANADAS,SUR DEL TOLIMA,11274,7276,0.6453787475607593,false,false,false
+73616,historical_eda,entrega3_eda_unfiltered,RIOBLANCO,SUR DEL TOLIMA,9018,1329,0.14737192282102463,false,false,true
+76109,historical_eda,entrega3_eda_unfiltered,BUENAVENTURA,PACÍFICO MEDIO,33105,103889,3.1381664401147864,false,false,false
+76275,historical_eda,entrega3_eda_unfiltered,FLORIDA,ALTO PATÍA Y NORTE DEL CAUCA,8375,14231,1.699223880597015,false,false,false
+76563,historical_eda,entrega3_eda_unfiltered,PRADERA,ALTO PATÍA Y NORTE DEL CAUCA,7428,12953,1.7438072159396876,false,false,false
+81065,historical_eda,entrega3_eda_unfiltered,ARAUQUITA,ARAUCA,27815,35077,1.2610821499191085,false,false,false
+81300,historical_eda,entrega3_eda_unfiltered,FORTUL,ARAUCA,9760,15564,1.594672131147541,false,false,false
+81736,historical_eda,entrega3_eda_unfiltered,SARAVENA,ARAUCA,16141,25140,1.557524316956818,false,false,false
+81794,historical_eda,entrega3_eda_unfiltered,TAME,ARAUCA,20958,35958,1.71571714858288,false,false,false
+86001,historical_eda,entrega3_eda_unfiltered,MOCOA,PUTUMAYO,12229,22816,1.8657290048245974,false,false,false
+86320,historical_eda,entrega3_eda_unfiltered,ORITO,PUTUMAYO,17840,18074,1.0131165919282512,false,false,false
+86568,historical_eda,entrega3_eda_unfiltered,PUERTO ASÍS,PUTUMAYO,21234,27581,1.2989074126401055,false,false,false
+86569,historical_eda,entrega3_eda_unfiltered,PUERTO CAICEDO,PUTUMAYO,6093,7768,1.2749056294107992,false,false,false
+86571,historical_eda,entrega3_eda_unfiltered,PUERTO GUZMÁN,PUTUMAYO,10746,8326,0.7747999255536944,false,false,false
+86573,historical_eda,entrega3_eda_unfiltered,PUERTO LEGUÍZAMO,PUTUMAYO,7851,10392,1.3236530378295759,false,false,false
+86757,historical_eda,entrega3_eda_unfiltered,SAN MIGUEL,PUTUMAYO,8558,12160,1.4208927319467166,false,false,false
+86865,historical_eda,entrega3_eda_unfiltered,VALLE DEL GUAMUEZ,PUTUMAYO,14349,16228,1.130949891978535,false,false,false
+86885,historical_eda,entrega3_eda_unfiltered,VILLAGARZÓN,PUTUMAYO,9550,13366,1.3995811518324608,false,false,false
+95001,historical_eda,entrega3_eda_unfiltered,SAN JOSÉ DEL GUAVIARE,MACARENA - GUAVIARE,21446,32695,1.524526718269141,false,false,false
+95015,historical_eda,entrega3_eda_unfiltered,CALAMAR,MACARENA - GUAVIARE,5411,5708,1.0548881907226022,false,false,false
+95025,historical_eda,entrega3_eda_unfiltered,EL RETORNO,MACARENA - GUAVIARE,8453,11332,1.3405891399503136,false,false,false
+95200,historical_eda,entrega3_eda_unfiltered,MIRAFLORES,MACARENA - GUAVIARE,1773,3670,2.0699379582628312,false,false,false

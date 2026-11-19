@@ -27,8 +27,12 @@ Derek fijó esta regla el 16 nov 2026 a partir del EDA:
    menos del 20 % de las edificaciones de Microsoft, y en 5 no tiene ninguna. En las tablas y los
    mapas de la Entrega 4, esos municipios llevan la marca de cobertura insuficiente de Google, y su
    valor de Google no se compara. La causa no está verificada.
-4. En el resto, las fuentes coinciden: la correlación de Spearman por municipio es 0,904 en conteo
-   y 0,938 en área. Por eso Google sirve para validar el orden de los municipios.
+4. En el EDA histórico, la correlación de Spearman por municipio es 0,904 en conteo
+   y 0,938 en área sobre los **165 municipios con registros en ambas fuentes** (se excluyen
+   los cinco con Google igual a cero; no se excluyen los otros diez señalados). Es una
+   asociación de posiciones, no una certificación de exactitud ni una correlación calculada
+   sobre resultados filtrados de la Entrega 4. Microsoft es la base del proyecto, no una
+   verdad de referencia certificada; la discrepancia no demuestra su causa ni la cobertura real.
 
 | Código | Municipio | Subregión PDET | Edif. Microsoft | Edif. Google |
 | --- | --- | --- | ---: | ---: |
@@ -48,14 +52,17 @@ Derek fijó esta regla el 16 nov 2026 a partir del EDA:
 | 52621 | Roberto Payán | Pacífico Y Frontera Nariñense | 2.501 | 364 |
 | 73616 | Rioblanco | Sur Del Tolima | 9.018 | 1.329 |
 
-Los mismos códigos, para usar en el código:
+La tabla anterior describe la referencia histórica; la marca se **recalcula**, no se copia
+como lista permanente de códigos. Para generar una tabla auditable de la señal:
 
-```python
-GOOGLE_COBERTURA_INSUFICIENTE = {"05475", "05873", "19418", "27099", "27150", "27205", "27250", "27425", "27450", "27491", "27615", "27745", "52612", "52621", "73616"}
+```bash
+.venv/bin/python scripts/06_compare_rooftop_stats.py --reference-only
 ```
 
 Si los datos cambian, la regla de origen es la misma: `google_buildings < 0.2 * ms_buildings`
 sobre `municipalities` en `outputs/eda/eda_buildings_summary.json`.
+Se usa esa línea base sin filtros analíticos de la Entrega 4, no el escenario final.
+Los valores observados se conservan aun cuando la marca excluya sus diferencias analíticas.
 
 ### Preguntas abiertas para la metodología
 
@@ -73,3 +80,20 @@ sobre `municipalities` en `outputs/eda/eda_buildings_summary.json`.
   `centroid_2dsphere` para consultas espaciales.
 - Antes de calcular, comprobar la base con
   `python scripts/04_load_buildings.py --source ms --verify-only` (y `--source google`).
+  Las cantidades anteriores son evidencia de la Entrega 3 en el entorno de la carga;
+  no garantizan que otra instalación local tenga esos documentos.
+
+## Avance de Sebastián: comparación y dependencia del cálculo común
+
+El [módulo de comparación y su interfaz provisional](entrega4_google_comparacion.md)
+están probados. Exporta tablas por DIVIPOLA, diferencias, porcentajes con denominador
+Microsoft, rankings y señales recalculadas; conserva las observaciones originales.
+La [tabla de señales históricas](../../outputs/delivery4/google_comparability_reference.csv)
+está disponible para Samuel. No es una tabla final de estadísticas filtradas.
+
+Al revisar `origin/main` en `a86e3d2` y las ramas remotas el 19 nov, no estaban
+publicados el contrato final de Derek ni el motor común de Miguel. Tampoco había
+exportaciones de la Entrega 4; la ejecución de Google y la comparación definitiva
+siguen pendientes. No se fijaron umbrales nuevos ni se reconstruyeron estadísticas
+filtradas con agregados de la Entrega 3. Las pruebas y la referencia histórica se
+documentan separadas de las futuras evidencias definitivas.
