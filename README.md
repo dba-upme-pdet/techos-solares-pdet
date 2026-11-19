@@ -147,7 +147,8 @@ python scripts/04_load_buildings.py --source ms --passes 2     # José: carga id
 python scripts/04_load_buildings.py --source google --passes 2
 python scripts/00_init_db.py --building-indexes   # idempotente; la carga ya crea estos índices
 jupyter notebook scripts/05_eda.ipynb
-python scripts/06_rooftop_stats.py
+python scripts/06_rooftop_stats.py --source ms --passes 2     # Miguel: conteo y área por municipio; repetirlo no duplica
+python scripts/06_rooftop_stats.py --source google            # mismo motor y filtros (más confianza mínima)
 jupyter notebook scripts/07_maps.ipynb
 ```
 

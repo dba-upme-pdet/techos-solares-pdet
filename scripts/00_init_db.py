@@ -85,8 +85,9 @@ SCHEMAS = {
             "_id": {"bsonType": "object", "required": ["mpio_code", "dataset_id"]},
             "building_count": {"bsonType": ["int", "long"], "minimum": 0},
             "total_area_m2": {"bsonType": NUM, "minimum": 0},
-            "mean_area_m2": {"bsonType": NUM},
-            "median_area_m2": {"bsonType": NUM},
+            # null solo si building_count = 0: sin edificaciones no hay promedio ni mediana.
+            "mean_area_m2": {"bsonType": NUM + ["null"]},
+            "median_area_m2": {"bsonType": NUM + ["null"]},
             "filters": {"bsonType": "object"},
             "computed_at": {"bsonType": "date"},
         },

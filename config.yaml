@@ -74,6 +74,17 @@ processing:
     sliver_ratio: 0.01        # make_valid: se descartan partes menores si suman < 1 % del área
 
 analysis:
-  # Valores provisionales; los definitivos se fijan después del EDA (Entrega 3).
-  min_area_m2: 20
-  min_confidence: 0.70
+  # Filtros de la metodología (Entrega 1, sección de umbrales; revisados con el EDA de la
+  # Entrega 3). 06_rooftop_stats.py los lee de aquí y los guarda en cada resultado.
+  min_area_m2: 20             # huellas menores no se cuentan como techo (casetas, ruido del modelo)
+  max_area_m2: null           # sin tope: las huellas grandes (bodegas) se cuentan; null = sin máximo
+  min_confidence: 0.70        # solo para las fuentes de confidence_sources
+  confidence_sources: ["google"]   # Microsoft no trae confianza (null salvo 176 huellas)
+  # 15 municipios con cobertura insuficiente de Google (< 20 % de las edificaciones de
+  # Microsoft; docs/delivery4/README.md). Sus filas de Google se marcan y no se comparan.
+  google_low_coverage: ["05475", "05873", "19418", "27099", "27150", "27205", "27250",
+                        "27425", "27450", "27491", "27615", "27745", "52612", "52621", "73616"]
+  rooftop_stats:
+    collection: "rooftop_stats"
+    csv: "outputs/rooftop_stats_{source}.csv"
+    report: "outputs/rooftop_stats_{source}_report.json"

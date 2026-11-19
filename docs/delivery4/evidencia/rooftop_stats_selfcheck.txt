@@ -1,0 +1,14 @@
+[OK] escribe los 3 municipios, también los vacíos
+[OK] conteo y suma tras filtros
+[OK] mediana exacta y promedio
+[OK] excluidas por motivo
+[OK] municipio vacío: 0 edificaciones y promedio/mediana null
+[OK] huella sin municipio queda fuera y cierra el balance
+[OK] Microsoft no aplica confianza
+[OK] verificaciones en OK
+[OK] segunda pasada no duplica
+[OK] Google aplica confianza (incluida null)
+[OK] las dos fuentes conviven sin pisarse
+[OK] Python y MongoDB aplican la misma regla de filtros
+[OK] el validador rechaza un resultado incompleto
+self-check: OK

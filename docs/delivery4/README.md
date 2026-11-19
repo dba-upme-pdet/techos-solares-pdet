@@ -65,6 +65,12 @@ sobre `municipalities` en `outputs/eda/eda_buildings_summary.json`.
 - **Área aprovechable frente a área de huella.** La huella es la proyección del edificio. El
   informe debe decir si se aplica un factor de aprovechamiento y de dónde sale.
 
+## Trabajo de la Entrega 4
+
+| Tramo | Documento | Estado |
+| --- | --- | --- |
+| Motor común de estadísticas (`scripts/06_rooftop_stats.py --source ms\|google`) y resultados de Microsoft (Miguel) | [`entrega4_rooftop_stats.md`](entrega4_rooftop_stats.md) | Microsoft calculado y verificado: 170 municipios, 1.720.535 edificaciones, 220,27 km²; resultados en `outputs/rooftop_stats_ms.csv` |
+
 ## Datos y herramientas disponibles
 
 - MongoDB `upme_pdet`: `buildings` (1.761.030 `ms` + 2.694.775 `google`, cada una con
