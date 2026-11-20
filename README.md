@@ -148,7 +148,9 @@ python scripts/04_load_buildings.py --source google --passes 2
 python scripts/00_init_db.py --building-indexes   # idempotente; la carga ya crea estos índices
 jupyter notebook scripts/05_eda.ipynb
 python scripts/06_rooftop_stats.py --source ms --passes 2     # Miguel: conteo y área por municipio; repetirlo no duplica
-python scripts/06_rooftop_stats.py --source google            # mismo motor y filtros (más confianza mínima)
+python scripts/06_rooftop_stats.py --source google --passes 2 # mismo motor y filtros (más confianza mínima)
+python scripts/10_validate_analysis.py                        # José: validación independiente de conteos, áreas, asignación e índices
+python scripts/11_run_analysis.py                             # José: todo el análisis en orden; se detiene ante el primer error
 jupyter notebook scripts/07_maps.ipynb
 ```
 

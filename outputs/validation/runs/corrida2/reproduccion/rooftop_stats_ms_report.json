@@ -1,0 +1,171 @@
+{
+  "area_per_municipality_m2": {
+    "max": 14204771.93,
+    "median_of_totals": 865919.21,
+    "min_with_buildings": 53057.3
+  },
+  "collection": "rooftop_stats",
+  "computed_at": "2026-11-20T21:35:21+00:00",
+  "database": "upme_pdet",
+  "dataset": {
+    "_id": "ms",
+    "accessed_at": "2026-11-13T15:21:26+00:00",
+    "license": "ODbL-1.0",
+    "name": "Microsoft Global ML Building Footprints",
+    "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
+    "version": "2026-02-03"
+  },
+  "dataset_id": "ms",
+  "duration_s": 4.73,
+  "filter_order": [
+    "below_min_area",
+    "above_max_area",
+    "low_confidence"
+  ],
+  "filters": {
+    "max_area_m2": null,
+    "min_area_m2": 20.0,
+    "min_confidence": null
+  },
+  "finished_at": "2026-11-20T21:35:24+00:00",
+  "mongo_version": "7.0.48",
+  "municipalities": {
+    "expected": 170,
+    "with_buildings": 170,
+    "without_buildings": [],
+    "written": 170
+  },
+  "outputs": {
+    "csv": "outputs/rooftop_stats_ms.csv",
+    "csv_sha256": "9fa48e498f9af3d8d6071827f6df7408518f113aa7a32a8909f4386be3bd38d4",
+    "report": "outputs/rooftop_stats_ms_report.json"
+  },
+  "passes": [
+    {
+      "computed_at": "2026-11-20T21:35:19+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 1,
+      "replaced": 170,
+      "upserted": 0
+    },
+    {
+      "computed_at": "2026-11-20T21:35:21+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 2,
+      "replaced": 170,
+      "same_values_as_previous": true,
+      "upserted": 0
+    }
+  ],
+  "passes_requested": 2,
+  "role": "rooftop-stats-report",
+  "script_version": "entrega4-rooftop-stats-v1",
+  "started_at": "2026-11-20T21:35:19+00:00",
+  "status": "computed",
+  "top10_total_area": [
+    {
+      "building_count": 66497,
+      "mpio_code": "47001",
+      "name": "SANTA MARTA",
+      "rank": 1,
+      "total_area_m2": 14204771.93
+    },
+    {
+      "building_count": 62178,
+      "mpio_code": "20001",
+      "name": "VALLEDUPAR",
+      "rank": 2,
+      "total_area_m2": 13505108.58
+    },
+    {
+      "building_count": 32632,
+      "mpio_code": "76109",
+      "name": "BUENAVENTURA",
+      "rank": 3,
+      "total_area_m2": 7114165.23
+    },
+    {
+      "building_count": 26487,
+      "mpio_code": "18001",
+      "name": "FLORENCIA",
+      "rank": 4,
+      "total_area_m2": 6677490.67
+    },
+    {
+      "building_count": 42084,
+      "mpio_code": "05837",
+      "name": "TURBO",
+      "rank": 5,
+      "total_area_m2": 4628041.48
+    },
+    {
+      "building_count": 40707,
+      "mpio_code": "52835",
+      "name": "SAN ANDRÉS DE TUMACO",
+      "rank": 6,
+      "total_area_m2": 4474673.86
+    },
+    {
+      "building_count": 30341,
+      "mpio_code": "19698",
+      "name": "SANTANDER DE QUILICHAO",
+      "rank": 7,
+      "total_area_m2": 4217095.4
+    },
+    {
+      "building_count": 22997,
+      "mpio_code": "18753",
+      "name": "SAN VICENTE DEL CAGUÁN",
+      "rank": 8,
+      "total_area_m2": 3748950.95
+    },
+    {
+      "building_count": 34622,
+      "mpio_code": "54810",
+      "name": "TIBÚ",
+      "rank": 9,
+      "total_area_m2": 3560268.84
+    },
+    {
+      "building_count": 21475,
+      "mpio_code": "47189",
+      "name": "CIÉNAGA",
+      "rank": 10,
+      "total_area_m2": 3469181.96
+    }
+  ],
+  "totals": {
+    "assigned_pdet": 1761030,
+    "balanced": true,
+    "buildings_in_source": 1761030,
+    "excluded": {
+      "above_max_area": 0,
+      "below_min_area": 40495,
+      "low_confidence": 0,
+      "total": 40495
+    },
+    "included": 1720535,
+    "outside_pdet_or_unassigned": 0,
+    "total_area_m2": 220266588.08
+  },
+  "verification": {
+    "buildings_in_source": 1761030,
+    "checks": {
+      "all_pdet_municipalities": true,
+      "balance_with_source": true,
+      "empty_municipalities_without_mean": true,
+      "filters_recorded": true,
+      "included_matches_independent_count": true,
+      "no_duplicate_municipalities": true,
+      "rerun_does_not_duplicate": true,
+      "stored_matches_computed": true
+    },
+    "documents": 170,
+    "duplicates": [],
+    "expected_municipalities": 170,
+    "independent_included_count": 1720535,
+    "ok": true
+  }
+}

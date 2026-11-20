@@ -37,6 +37,8 @@ Thumbs.db
 *.log
 # Evidencia de ejecución de la Entrega 3: texto necesario para el informe
 !docs/delivery3/evidencia/*.log
+# Logs de las corridas de validación de la Entrega 4
+!outputs/validation/runs/*/run.log
 *.out
 *.synctex.gz
 *.toc

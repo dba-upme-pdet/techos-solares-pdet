@@ -70,6 +70,7 @@ sobre `municipalities` en `outputs/eda/eda_buildings_summary.json`.
 | Tramo | Documento | Estado |
 | --- | --- | --- |
 | Motor común de estadísticas (`scripts/06_rooftop_stats.py --source ms\|google`) y resultados de Microsoft (Miguel) | [`entrega4_rooftop_stats.md`](entrega4_rooftop_stats.md) | Microsoft calculado y verificado: 170 municipios, 1.720.535 edificaciones, 220,27 km²; resultados en `outputs/rooftop_stats_ms.csv` |
+| Validación independiente, resultados de Google y corrida completa (`scripts/10_validate_analysis.py`, `scripts/11_run_analysis.py`) (José) | [`entrega4_validacion.md`](entrega4_validacion.md) | 47/47 verificaciones en `OK`. Dos corridas completas con resultados idénticos y una corrida que se detiene ante el error. Google: 2.067.004 edificaciones, 203,75 km², en `outputs/rooftop_stats_google.csv` |
 
 ## Datos y herramientas disponibles
 
