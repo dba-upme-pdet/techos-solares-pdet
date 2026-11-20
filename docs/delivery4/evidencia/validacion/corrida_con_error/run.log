@@ -1,0 +1,97 @@
+
+=== [1] entorno: python scripts/00_check_environment.py
+[OK] Python 3.14.7 (se requiere 3.11+)
+[OK]    pymongo 4.20.0
+[OK]    geopandas 1.2.0
+[OK]    shapely 2.2.0
+[OK]    pyproj 3.8.0
+[OK]    pandas 3.1.1
+[OK]    openpyxl 3.1.5
+[OK]    pyyaml 6.0.3
+[OK]    requests 2.34.2
+[OK]    tqdm 4.70.1
+[OK]    matplotlib 3.11.2
+[OK]    folium 1.0.0
+[OK]    jupyter 1.1.1
+--- [1] entorno: OK en 0.06 s
+
+=== [2] esquema_e_indices: python scripts/00_init_db.py --building-indexes
+Traceback (most recent call last):
+  File "/Users/josemedina/Documents/Universidad José/Séptimo Semestre/DBA/techos-solares-pdet/scripts/00_init_db.py", line 166, in <module>
+    main()
+    ~~~~^^
+  File "/Users/josemedina/Documents/Universidad José/Séptimo Semestre/DBA/techos-solares-pdet/scripts/00_init_db.py", line 157, in main
+    db = get_db()
+  File "/Users/josemedina/Documents/Universidad José/Séptimo Semestre/DBA/techos-solares-pdet/scripts/00_init_db.py", line 128, in get_db
+    client.admin.command("ping")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/_csot.py", line 133, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/database.py", line 944, in command
+    return self._client._retryable_read(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        inner, read_preference, session, command_name, None, False, is_run_command=True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 2124, in _retryable_read
+    return self._retry_internal(
+           ~~~~~~~~~~~~~~~~~~~~^
+        func,
+        ^^^^^
+    ...<9 lines>...
+        is_aggregate_write=is_aggregate_write,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/_csot.py", line 133, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 2086, in _retry_internal
+    ).run()
+      ~~~^^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 2890, in run
+    res = self._read() if self._is_read else self._write()
+          ~~~~~~~~~~^^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 3077, in _read
+    self._server = self._get_server()
+                   ~~~~~~~~~~~~~~~~^^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 3031, in _get_server
+    return self._client._select_server(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self._server_selector,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        operation_id=self._operation_id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/mongo_client.py", line 1926, in _select_server
+    server = topology.select_server(
+        server_selector,
+    ...<2 lines>...
+        operation_id=operation_id,
+    )
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/topology.py", line 304, in select_server
+    server = self._select_server(
+        selector,
+    ...<4 lines>...
+        operation_id=operation_id,
+    )
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/topology.py", line 278, in _select_server
+    servers = self.select_servers(
+        selector,
+    ...<4 lines>...
+        deprioritized_servers,
+    )
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/topology.py", line 196, in select_servers
+    server_descriptions = self._select_servers_loop(
+        selector,
+    ...<4 lines>...
+        deprioritized_servers=deprioritized_servers,
+    )
+  File "/Users/josemedina/techos-solares-pdet/.venv/lib/python3.14/site-packages/pymongo/synchronous/topology.py", line 244, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+        f"{self._error_message(selector)}, Timeout: {timeout}s, Topology Description: {self.description!r}"
+    )
+pymongo.errors.ServerSelectionTimeoutError: localhost:27999: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6b03b1f3d90927a6c5cc7571, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27999) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27999: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+--- [2] esquema_e_indices: FALLA (código 1) en 5.67 s

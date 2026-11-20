@@ -1,0 +1,194 @@
+{
+  "area_per_municipality_m2": {
+    "max": 14778927.51,
+    "median_of_totals": 807015.84,
+    "min_with_buildings": 823.36
+  },
+  "collection": "rooftop_stats",
+  "computed_at": "2026-11-23T03:22:15+00:00",
+  "contract": "entrega4-rooftop-stats-v1",
+  "database": "upme_pdet",
+  "dataset": {
+    "_id": "google",
+    "accessed_at": "2026-11-16T17:24:36.317000+00:00",
+    "license": "CC-BY-4.0",
+    "name": "Google Open Buildings",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "dataset_id": "google",
+  "duration_s": 11.07,
+  "filter_order": [
+    "below_min_area",
+    "above_max_area",
+    "low_confidence"
+  ],
+  "filters": {
+    "max_area_m2": null,
+    "min_area_m2": 20.0,
+    "min_confidence": 0.7
+  },
+  "finished_at": "2026-11-23T03:22:22+00:00",
+  "methodology": {
+    "area_metric": "footprint_geodesic_wgs84_m2",
+    "base_source": "ms",
+    "contrast_source": "google",
+    "empty_municipality_stats": "null",
+    "id": "upme-pdet-rooftop-stats",
+    "missing_confidence_policy": {
+      "google": "exclude_as_low_confidence",
+      "ms": "ignore_unfiltered"
+    },
+    "outlier_policy": "retain_all_above_min_area",
+    "spatial_assignment": "centroid_intersects_min_divipola_tiebreak",
+    "usable_area_factor": null,
+    "version": "entrega4-methodology-v1"
+  },
+  "mongo_version": "7.0.48",
+  "municipalities": {
+    "expected": 170,
+    "with_buildings": 164,
+    "without_buildings": [
+      "05475",
+      "05873",
+      "27099",
+      "27450",
+      "27491",
+      "27745"
+    ],
+    "written": 170
+  },
+  "outputs": {
+    "csv": "outputs/rooftop_stats_google.csv",
+    "csv_sha256": "d27779990e6be53ba19eee3bd6464f7c334493760cb08a465a7ff5ff8d3c2e60",
+    "report": "outputs/rooftop_stats_google_report.json"
+  },
+  "passes": [
+    {
+      "computed_at": "2026-11-23T03:22:11+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 1,
+      "replaced": 170,
+      "upserted": 0
+    },
+    {
+      "computed_at": "2026-11-23T03:22:15+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 2,
+      "replaced": 170,
+      "same_values_as_previous": true,
+      "upserted": 0
+    }
+  ],
+  "passes_requested": 2,
+  "role": "rooftop-stats-report",
+  "script_version": "entrega4-rooftop-stats-v1",
+  "started_at": "2026-11-23T03:22:11+00:00",
+  "status": "computed",
+  "top10_total_area": [
+    {
+      "building_count": 140676,
+      "mpio_code": "47001",
+      "name": "SANTA MARTA",
+      "rank": 1,
+      "total_area_m2": 14778927.51
+    },
+    {
+      "building_count": 127880,
+      "mpio_code": "20001",
+      "name": "VALLEDUPAR",
+      "rank": 2,
+      "total_area_m2": 14182186.23
+    },
+    {
+      "building_count": 82273,
+      "mpio_code": "76109",
+      "name": "BUENAVENTURA",
+      "rank": 3,
+      "total_area_m2": 6982537.65
+    },
+    {
+      "building_count": 46861,
+      "mpio_code": "18001",
+      "name": "FLORENCIA",
+      "rank": 4,
+      "total_area_m2": 6869053.55
+    },
+    {
+      "building_count": 60855,
+      "mpio_code": "05837",
+      "name": "TURBO",
+      "rank": 5,
+      "total_area_m2": 5504246.39
+    },
+    {
+      "building_count": 31409,
+      "mpio_code": "47189",
+      "name": "CIÉNAGA",
+      "rank": 6,
+      "total_area_m2": 3602440.36
+    },
+    {
+      "building_count": 28926,
+      "mpio_code": "19698",
+      "name": "SANTANDER DE QUILICHAO",
+      "rank": 7,
+      "total_area_m2": 3548444.1
+    },
+    {
+      "building_count": 39645,
+      "mpio_code": "52835",
+      "name": "SAN ANDRÉS DE TUMACO",
+      "rank": 8,
+      "total_area_m2": 3400769.15
+    },
+    {
+      "building_count": 28290,
+      "mpio_code": "05045",
+      "name": "APARTADÓ",
+      "rank": 9,
+      "total_area_m2": 3301249.39
+    },
+    {
+      "building_count": 27135,
+      "mpio_code": "81794",
+      "name": "TAME",
+      "rank": 10,
+      "total_area_m2": 2947836.68
+    }
+  ],
+  "totals": {
+    "assigned_pdet": 2694775,
+    "balanced": true,
+    "buildings_in_source": 2694775,
+    "excluded": {
+      "above_max_area": 0,
+      "below_min_area": 368619,
+      "low_confidence": 259152,
+      "total": 627771
+    },
+    "included": 2067004,
+    "outside_pdet_or_unassigned": 0,
+    "total_area_m2": 203747640.41
+  },
+  "verification": {
+    "buildings_in_source": 2694775,
+    "checks": {
+      "all_pdet_municipalities": true,
+      "balance_with_source": true,
+      "empty_municipalities_without_mean": true,
+      "filters_recorded": true,
+      "included_matches_independent_count": true,
+      "no_duplicate_municipalities": true,
+      "rerun_does_not_duplicate": true,
+      "stored_matches_computed": true
+    },
+    "documents": 170,
+    "duplicates": [],
+    "expected_municipalities": 170,
+    "independent_included_count": 2067004,
+    "ok": true
+  }
+}
