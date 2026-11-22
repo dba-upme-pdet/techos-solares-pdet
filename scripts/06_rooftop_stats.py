@@ -54,7 +54,17 @@ from pymongo.errors import PyMongoError
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
-from entrega2_contracts import load_config, sha256_file, write_json  # noqa: E402
+from entrega2_contracts import ContractError, load_config, sha256_file, write_json  # noqa: E402
+from entrega4_contracts import (  # noqa: E402
+    CONTRACT_VERSION,
+    FILTER_ORDER,
+    INCLUDED,
+    ROOFTOP_STATS_CSV_COLUMNS,
+    exclusion_reason,
+    filters_for as _contract_filters_for,
+    format_optional_bool,
+    methodology_metadata,
+)
 
 _spec = importlib.util.spec_from_file_location("init_db", ROOT / "scripts" / "00_init_db.py")
 init_db = importlib.util.module_from_spec(_spec)
@@ -65,14 +75,8 @@ BUILDINGS = "buildings"
 MUNICIPALITIES = "municipalities"
 # --source usa el dataset_id del contrato; config.yaml nombra la sección de Microsoft.
 SOURCE_CONFIG = {"ms": "microsoft", "google": "google"}
-REASONS = ("below_min_area", "above_max_area", "low_confidence")
-INCLUDED = "included"
-CSV_FIELDS = [
-    "rank_total_area", "mpio_code", "name", "dpto_code", "dpto_name", "subregion_id",
-    "subregion_name", "dataset_id", "building_count", "total_area_m2", "mean_area_m2",
-    "median_area_m2", "buildings_before_filters", "excluded_below_min_area",
-    "excluded_above_max_area", "excluded_low_confidence", "google_low_coverage", "computed_at",
-]
+REASONS = FILTER_ORDER
+CSV_FIELDS = list(ROOFTOP_STATS_CSV_COLUMNS)
 
 
 class StatsError(Exception):
@@ -84,28 +88,10 @@ class StatsError(Exception):
 
 def filters_for(config: dict, dataset_id: str) -> dict:
     """Filtros que se aplican a la fuente; se guardan tal cual en cada documento."""
-    analysis = config["analysis"]
-    min_area = float(analysis["min_area_m2"])
-    max_area = analysis.get("max_area_m2")
-    max_area = None if max_area is None else float(max_area)
-    if min_area < 0 or (max_area is not None and max_area <= min_area):
-        raise StatsError(f"umbrales de área inválidos: min={min_area}, max={max_area}")
-    applies = dataset_id in (analysis.get("confidence_sources") or [])
-    min_conf = float(analysis["min_confidence"]) if applies else None
-    if min_conf is not None and not 0 <= min_conf <= 1:
-        raise StatsError(f"min_confidence fuera de [0, 1]: {min_conf}")
-    return {"min_area_m2": min_area, "max_area_m2": max_area, "min_confidence": min_conf}
-
-
-def exclusion_reason(area_m2: float, confidence: float | None, filters: dict) -> str:
-    """Referencia en Python de ``reason_expression``: primer filtro que falla o ``included``."""
-    if area_m2 < filters["min_area_m2"]:
-        return "below_min_area"
-    if filters["max_area_m2"] is not None and area_m2 > filters["max_area_m2"]:
-        return "above_max_area"
-    if filters["min_confidence"] is not None and (confidence is None or confidence < filters["min_confidence"]):
-        return "low_confidence"
-    return INCLUDED
+    try:
+        return _contract_filters_for(config, dataset_id)
+    except ContractError as exc:
+        raise StatsError(str(exc)) from exc
 
 
 def reason_expression(filters: dict) -> dict:
@@ -321,7 +307,7 @@ def write_csv(path: Path, documents: list[dict]) -> None:
                 "excluded_low_confidence": doc["excluded"]["low_confidence"],
                 "mean_area_m2": "" if doc["mean_area_m2"] is None else doc["mean_area_m2"],
                 "median_area_m2": "" if doc["median_area_m2"] is None else doc["median_area_m2"],
-                "google_low_coverage": "" if "google_low_coverage" not in doc else doc["google_low_coverage"],
+                "google_low_coverage": format_optional_bool(doc.get("google_low_coverage")),
                 "computed_at": doc["computed_at"].isoformat(),
             })
 
@@ -368,6 +354,7 @@ def run(db, *, config: dict, dataset_id: str, passes: int, collection: str) -> t
     finished = datetime.now(timezone.utc)
     report = {
         "role": "rooftop-stats-report",
+        "contract": CONTRACT_VERSION,
         "script_version": SCRIPT_VERSION,
         "dataset_id": dataset_id,
         "dataset": dataset_info(db, dataset_id),
@@ -399,6 +386,8 @@ def run(db, *, config: dict, dataset_id: str, passes: int, collection: str) -> t
         "verification": verification,
         "status": "computed" if verification["ok"] else "verification_failed",
     }
+    if "methodology" in config.get("analysis", {}):
+        report["methodology"] = methodology_metadata(config)
     return report, documents
 
 

@@ -2,7 +2,7 @@
 # Entrega 4: Complete pipeline orchestration
 # Executes all phases: data reader, visualizations, tables, and PDF compilation
 
-set -e
+set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
@@ -19,31 +19,29 @@ if [ -d ".venv" ]; then
 fi
 
 echo ""
+echo "Phase 0: Shared Contract Validation"
+echo "-----------------------------------"
+python scripts/entrega4_contracts.py --check
+
+echo ""
 echo "Phase 1: Automated Data Reader"
 echo "-------------------------------"
 python scripts/07_entrega4_analysis.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 1 failed" >&2
-    exit 1
-fi
 
 echo ""
 echo "Phase 2: Maps and Charts Generation"
 echo "-----------------------------------"
-python scripts/08_entrega4_visualizations.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 2 failed" >&2
-    exit 1
+if [ -f "data/processed/municipalities.geojsonl" ]; then
+    python scripts/08_entrega4_visualizations.py
+else
+    echo "Notice: data/processed/municipalities.geojsonl not found; regenerating charts only (--charts-only)."
+    python scripts/08_entrega4_visualizations.py --charts-only
 fi
 
 echo ""
 echo "Phase 3: Tables and Markdown Summary"
 echo "------------------------------------"
 python scripts/09_entrega4_tables.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 3 failed" >&2
-    exit 1
-fi
 
 echo ""
 echo "Phase 4: PDF Compilation (LaTeX)"
@@ -57,16 +55,16 @@ if ! command -v latexmk &> /dev/null; then
 fi
 
 echo "Compiling LaTeX..."
-latexmk -pdf -interaction=nonstopmode -halt-on-error entrega4_informe.tex > /dev/null 2>&1
-if [ $? -ne 0 ]; then
+latexmk -pdf -interaction=nonstopmode -halt-on-error entrega4_informe.tex > /dev/null 2>&1 || {
     echo "ERROR: LaTeX compilation failed. Check entrega4_informe.log for details" >&2
-    # Try again with output for debugging
     latexmk -pdf -interaction=nonstopmode entrega4_informe.tex
     exit 1
-fi
+}
 
+mv -f entrega4_informe.pdf Entrega4_Analisis_Techos.pdf
 # Clean auxiliary files
-latexmk -c entrega4_informe.tex > /dev/null 2>&1
+latexmk -C entrega4_informe.tex > /dev/null 2>&1
+rm -f entrega4_informe.aux entrega4_informe.log entrega4_informe.out entrega4_informe.toc entrega4_informe.fls entrega4_informe.fdb_latexmk
 
 echo "✓ PDF generated successfully"
 

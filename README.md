@@ -24,7 +24,7 @@ Organización: [`dba-upme-pdet`](https://github.com/dba-upme-pdet) · Repositori
 | 1 | Diseño del esquema NoSQL y plan de implementación | Lun 2 nov 2026 | [`docs/delivery1/`](docs/delivery1/) | Entregada |
 | 2 | Integración de los límites de municipios PDET | Lun 9 nov 2026 | [`docs/delivery2/`](docs/delivery2/) | 170 municipios, 16 subregiones y 9/9 controles espaciales en el entorno de Miguel; PDF final preparado, envío a BrightSpace pendiente |
 | 3 | Carga e integración de huellas de edificaciones | Lun 16 nov 2026 | [`docs/delivery3/`](docs/delivery3/) | Entregada: Microsoft y Google descargados, preparados y cargados en MongoDB (4.455.805 edificios PDET, carga repetida sin duplicados), EDA en el [informe PDF](docs/delivery3/Entrega3_Carga_e_Integracion_de_Huellas.pdf) |
-| 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | [`docs/delivery4/`](docs/delivery4/) | Pendiente. Punto de partida: Microsoft es la fuente base; 15 municipios con cobertura insuficiente de Google ([detalle](docs/delivery4/README.md)) |
+| 4 | Flujo reproducible de análisis geoespacial | Lun 23 nov 2026 | [`docs/delivery4/`](docs/delivery4/) | En curso: metodología y contrato compartido listos (`scripts/entrega4_contracts.py`), motor común y resultados de Microsoft verificados (170 municipios, 1.720.535 edificaciones, 220,27 km²); pendientes Google, comparación definitiva, validación independiente y consolidación del PDF ([detalle y guía de integración](docs/delivery4/README.md)) |
 | 5 | Informe técnico final | Jue 26 nov 2026 | `docs/delivery5/` | Pendiente |
 
 ### Entrega 3: informe
@@ -148,8 +148,11 @@ python scripts/04_load_buildings.py --source google --passes 2
 python scripts/00_init_db.py --building-indexes   # idempotente; la carga ya crea estos índices
 jupyter notebook scripts/05_eda.ipynb
 python scripts/06_rooftop_stats.py --source ms --passes 2     # Miguel: conteo y área por municipio; repetirlo no duplica
-python scripts/06_rooftop_stats.py --source google            # mismo motor y filtros (más confianza mínima)
-jupyter notebook scripts/07_maps.ipynb
+python scripts/06_rooftop_stats.py --source google --passes 2 # mismo motor y filtros (más confianza mínima >= 0.70)
+python scripts/entrega4_contracts.py --check                  # Derek: valida config.yaml, esquema, SHA256 y balances
+python scripts/07_entrega4_analysis.py                        # Samuel: consolida salidas de rooftop_stats y EDA
+python scripts/08_entrega4_visualizations.py                  # Samuel: mapas coropletos y gráficos
+python scripts/09_entrega4_tables.py                          # Samuel: tablas Markdown sin transcripción manual
 ```
 
 Las credenciales de MongoDB tienen valores por defecto solo para desarrollo local. Para cambiarlas, copie `.env.example` a `.env` (ignorado por git): Docker Compose lee `MONGO_USER` y `MONGO_PASSWORD`, y los scripts usan `MONGO_URI` si está definida.
