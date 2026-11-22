@@ -90,8 +90,8 @@ analysis:
       ms: "ignore_unfiltered"                    # Microsoft no publica confianza (99,9994 % null en PDET)
       google: "exclude_as_low_confidence"        # Google publica confianza; ausente o < min_confidence se excluye
     outlier_policy: "retain_all_above_min_area"  # se conservan huellas grandes y se reportan media y mediana
-  min_area_m2: 20             # huellas menores no se cuentan como techo (casetas, ruido del modelo)
-  max_area_m2: null           # sin tope: las huellas grandes (bodegas, instalaciones) se conservan
+  min_area_m2: 20             # huellas menores se excluyen (estructuras menores y ruido del modelo)
+  max_area_m2: null           # sin tope superior: las huellas grandes se conservan; null = sin máximo
   min_confidence: 0.70        # aplicado solo a las fuentes de confidence_sources
   confidence_sources: ["google"]   # Microsoft no trae confianza (1.761.020 de 1.761.030 en null en PDET)
   filter_order: ["below_min_area", "above_max_area", "low_confidence"]

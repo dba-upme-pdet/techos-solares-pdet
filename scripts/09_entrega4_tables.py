@@ -128,13 +128,14 @@ def generate_comparison_section(analysis: dict, low_coverage: set[str], config: 
     min_area_label = _fmt_param(ms_f["min_area_m2"])
     min_conf_label = f"{g_f['min_confidence']:.2f}" if g_f["min_confidence"] is not None else "null"
     total_munis = analysis["metadata"]["total_municipalities"]
+    ms_with_buildings = sum(1 for m in analysis["municipalities"].values() if m["building_count"] > 0)
 
     lines = [
         "## Contraste Microsoft vs Google",
         "",
         "### Resultados definitivos de la Entrega 4 (con filtros metodológicos)",
         "",
-        f"- **Municipios PDET cubiertos (Microsoft):** {total_munis} / {total_munis}",
+        f"- **Municipios PDET cubiertos (Microsoft):** {ms_with_buildings} / {total_munis}",
         f"- **Edificaciones incluidas (Microsoft, `area_m2 >= {min_area_label}`):** {format_number(totals['total_buildings'], 0)}",
         f"- **Área total de huella (Microsoft):** {format_number(totals['total_area_km2'], 2)} km²",
     ]
