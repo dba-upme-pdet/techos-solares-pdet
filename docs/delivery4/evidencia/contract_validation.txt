@@ -1,0 +1,4 @@
+[OK] config.yaml: metodología, filtros y 15 códigos de baja cobertura verificados contra el EDA
+[OK] ms: 170/170 municipios, 1720535 edificaciones incluidas, 220.27 km², SHA256 y balance verificados
+[PENDIENTE] google: aún no existen outputs/rooftop_stats_google.csv ni outputs/rooftop_stats_google_report.json
+contrato entrega4-rooftop-stats-v1 (entrega4-methodology-v1): OK
