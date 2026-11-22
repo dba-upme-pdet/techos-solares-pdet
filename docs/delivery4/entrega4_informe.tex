@@ -9,7 +9,7 @@
 \usepackage{multirow}
 \usepackage{float}
 \usepackage[section]{placeins}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 
@@ -73,9 +73,9 @@ Las áreas se almacenan en metros cuadrados (\texttt{m$^2$}, redondeadas a 2 dec
 \subsection{Filtros Definitivos, Confianza Ausente y Huellas Grandes}
 
 \begin{itemize}
-    \item \textbf{Área mínima (\texttt{min\_area\_m2 = 20}):} aplicada a Microsoft y Google (\texttt{area\_m2 >= 20.0}). Confirmada con el EDA de la Entrega 3 (en Microsoft \texttt{p01 = 17,62 m$^2$}; en Google \texttt{p10 = 16,66 m$^2$}). Elimina casetas y ruido del modelo descartando solo el 2,30\% de las huellas de Microsoft y el 0,32\% de su área total (máximo municipal de 5,23\% en Dibulla).
-    \item \textbf{Área máxima (\texttt{max\_area\_m2 = null}) y valores atípicos:} no se impone tope superior. En Microsoft el percentil 99 es 911,97 m$^2$ y el máximo 44.720,44 m$^2$ (en Google 444,91 m$^2$ y 20.829,74 m$^2$). Corresponden a bodegas, empacadoras e instalaciones reales de alto interés solar. La asimetría se controla reportando simultáneamente media y mediana exacta por municipio (por ejemplo, Apartadó: media 347,86 m$^2$ vs mediana 97,00 m$^2$).
-    \item \textbf{Confianza mínima (\texttt{min\_confidence = 0.70}) y confianza ausente en Microsoft:} se aplica únicamente a \texttt{confidence\_sources = ["google"]}. En Microsoft, 1.761.020 de 1.761.030 huellas PDET (99,9994\%) tienen \texttt{confidence = null}. Filtrar Microsoft por confianza descartaría casi todo el conjunto, e imputar un valor fabricaría metadatos inexistentes. Por ello se conserva \texttt{confidence = null} y se registra \texttt{filters.min\_confidence = null} en Microsoft; en Google, registros con confianza ausente o $< 0,70$ se excluyen como \texttt{low\_confidence}.
+    \item \textbf{Área mínima (\texttt{min\_area\_m2 = 20}):} aplicada a Microsoft y Google (\texttt{area\_m2 >= 20.0}). Confirmada con el EDA de la Entrega 3 (en Microsoft \texttt{p01 = 17,62 m$^2$}; en Google \texttt{p10 = 16,66 m$^2$}). Excluye huellas muy pequeñas (plausiblemente estructuras menores o ruido del modelo) descartando el 2,30\% de las huellas de Microsoft y el 0,32\% de su área total (máximo municipal de 5,23\% de las huellas en Dibulla, 44090; 1,18\% de su área).
+    \item \textbf{Área máxima (\texttt{max\_area\_m2 = null}) y valores atípicos:} no se impone tope superior. En Microsoft el percentil 99 es 911,97 m$^2$ y el máximo 44.720,44 m$^2$ (en Google 444,91 m$^2$ y 20.829,74 m$^2$). Aunque las fuentes no incluyen tipología constructiva, estas huellas grandes pueden corresponder a cubiertas de gran formato (bodegas o instalaciones) y no se recortan sin respaldo catastral. La asimetría se controla reportando simultáneamente media y mediana exacta por municipio (por ejemplo, Apartadó: media 347,86 m$^2$ vs mediana 97,00 m$^2$).
+    \item \textbf{Confianza mínima (\texttt{min\_confidence = 0.70}) y confianza ausente en Microsoft:} se aplica únicamente a \texttt{confidence\_sources = ["google"]}. En Microsoft, 1.761.020 de 1.761.030 huellas PDET (99,9994\%) tienen \texttt{confidence = null}. Filtrar Microsoft por confianza descartaría casi todo el conjunto, e imputar un valor fabricaría metadatos inexistentes. Por ello se conserva \texttt{confidence = null} y se registra \texttt{filters.min\_confidence = null} en Microsoft; en Google, registros con confianza ausente o $< 0{,}70$ se excluyen como \texttt{low\_confidence}.
     \item \textbf{Orden determinista de exclusión:} cada huella excluida se clasifica por la primera regla que incumple (\texttt{below\_min\_area}, \texttt{above\_max\_area}, \texttt{low\_confidence}), cerrando exactamente el balance \texttt{buildings\_before\_filters = building\_count + excluded.total}.
 \end{itemize}
 
@@ -152,7 +152,7 @@ Los siguientes mapas muestran la distribución espacial de edificaciones y área
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\textwidth]{figuras/map_mean_area.png}
-\caption{Área media de huella por edificación (m$^2$) en cada municipio PDET (Microsoft). Valores elevados reflejan presencia de bodegas e infraestructura de gran formato.}
+\caption{Área media de huella por edificación (m$^2$) en cada municipio PDET (Microsoft). Valores elevados reflejan presencia de huellas de gran formato.}
 \label{fig:map_mean}
 \end{figure}
 
@@ -283,7 +283,7 @@ Chocó & 36.690 & 3,40 & 14 \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.78\textwidth]{figuras/scatter_count_vs_area.png}
-\caption{Dispersión entre cantidad de edificaciones y área total de huella (km$^2$) por municipio en Microsoft ($n = 170$, correlación de Spearman $\rho = 0,959$). Los puntos naranjas indican los 15 municipios marcados por baja cobertura de Google en el EDA de la Entrega 3.}
+\caption{Dispersión entre cantidad de edificaciones y área total de huella (km$^2$) por municipio en Microsoft ($n = 170$, correlación de Spearman $\rho = 0{,}959$). Los puntos naranjas indican los 15 municipios marcados por baja cobertura de Google en el EDA de la Entrega 3.}
 \label{fig:scatter}
 \end{figure}
 
@@ -336,8 +336,8 @@ La Tabla~\ref{tab:lowcov} lista los 15 municipios que cumplen \texttt{5 * google
 
 \begin{itemize}
     \item \textbf{Área de huella frente a área aprovechable:} las áreas reportadas corresponden a la proyección geodésica de cada edificación en m$^2$, no al área útil para instalar paneles solares. No se introduce ningún factor de aprovechamiento sin respaldo técnico.
-    \item \textbf{Huellas grandes:} se conservan todas las huellas válidas $\ge 20$ m$^2$ (p99 de 911,97 m$^2$, máximo 44.720,44 m$^2$ en Microsoft); la combinación de media y mediana municipal permite interpretar el peso de bodegas e infraestructura grande sin descartar datos reales.
-    \item \textbf{Confianza ausente en Microsoft:} el 99,9994\% de las huellas PDET de Microsoft no traen puntaje de confianza; el filtro de confianza ($\ge 0,70$) se aplica solo a Google.
+    \item \textbf{Huellas grandes:} se conservan todas las huellas válidas $\ge 20$ m$^2$ (p99 de 911,97 m$^2$, máximo 44.720,44 m$^2$ en Microsoft); la combinación de media y mediana municipal permite interpretar el peso de huellas de gran formato sin descartar datos sin verificación catastral.
+    \item \textbf{Confianza ausente en Microsoft:} el 99,9994\% de las huellas PDET de Microsoft no traen puntaje de confianza; el filtro de confianza ($\ge 0{,}70$) se aplica solo a Google.
     \item \textbf{Cobertura parcial de particiones de Microsoft en Guaviare:} El Retorno (66,4\%), San José del Guaviare (69,7\%) y Miraflores (89,0\%) quedan parcialmente fuera de las particiones quadkey publicadas por Microsoft.
     \item \textbf{Baja cobertura de Google en 15 municipios:} la causa de la baja cantidad de detecciones de Google en esos territorios (principalmente Chocó y Pacífico) no está demostrada.
     \item \textbf{Geometría planar vs esférica en bordes municipales:} la preparación asignó \texttt{mpio\_code} con \texttt{shapely} (planar lon/lat, 0 empates en límites compartidos) y la validación independiente contrasta contra \texttt{\$geoWithin} sobre \texttt{2dsphere}.

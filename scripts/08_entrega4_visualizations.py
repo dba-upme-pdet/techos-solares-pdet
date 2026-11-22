@@ -27,7 +27,7 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from entrega2_contracts import load_config  # noqa: E402
-from entrega4_contracts import google_low_coverage_codes  # noqa: E402
+from entrega4_contracts import filters_for, google_low_coverage_codes  # noqa: E402
 
 ANALYSIS_JSON = ROOT / "outputs" / "entrega4_analysis_summary.json"
 GEOJSONL = ROOT / "data" / "processed" / "municipalities.geojsonl"
@@ -36,6 +36,10 @@ FIGURAS_DIR = ROOT / "docs" / "delivery4" / "figuras"
 MS_BLUE = "#1F5FAF"
 GOOGLE_ORANGE = "#E08A1E"
 ZERO_GRAY = "#D9D9D9"
+
+
+def _fmt_num(value: float) -> str:
+    return str(int(value)) if float(value).is_integer() else f"{value:g}"
 
 
 def read_analysis() -> dict:
@@ -89,21 +93,22 @@ def _plot_zero_and_missing(ax, gdf, column: str, zero_mask):
         ax.legend(handles=legend_handles, loc="lower left", fontsize=9)
 
 
-def plot_choropleth_building_count(gdf, output_path: Path):
+def plot_choropleth_building_count(gdf, output_path: Path, min_area_label: str):
     fig, ax = plt.subplots(figsize=(14, 10), dpi=200)
     positive = gdf[gdf["building_count"] > 0]
     positive.plot(
         column="building_count",
         ax=ax,
         legend=True,
-        legend_kwds={"label": "Cantidad de edificaciones (area >= 20 m²)", "shrink": 0.8},
+        legend_kwds={"label": f"Cantidad de edificaciones (área >= {min_area_label} m²)", "shrink": 0.8},
         cmap="YlOrRd",
         edgecolor="black",
         linewidth=0.3,
     )
     _plot_zero_and_missing(ax, gdf, "building_count", gdf["building_count"] == 0)
     ax.set_title(
-        "Cantidad de edificaciones por municipio PDET\n(Microsoft Global ML Building Footprints, área >= 20 m²)",
+        f"Cantidad de edificaciones por municipio PDET\n"
+        f"(Microsoft Global ML Building Footprints, área >= {min_area_label} m²)",
         fontsize=14, fontweight="bold", pad=20,
     )
     ax.set_xlabel("Longitud", fontsize=10)
@@ -115,7 +120,7 @@ def plot_choropleth_building_count(gdf, output_path: Path):
     print(f"  Guardado: {output_path.relative_to(ROOT).as_posix()}")
 
 
-def plot_choropleth_total_area(gdf, output_path: Path):
+def plot_choropleth_total_area(gdf, output_path: Path, min_area_label: str):
     fig, ax = plt.subplots(figsize=(14, 10), dpi=200)
     gdf = gdf.copy()
     gdf["total_area_km2"] = gdf["total_area_m2"] / 1e6
@@ -131,7 +136,8 @@ def plot_choropleth_total_area(gdf, output_path: Path):
     )
     _plot_zero_and_missing(ax, gdf, "total_area_km2", gdf["building_count"] == 0)
     ax.set_title(
-        "Área total de huella de techos por municipio PDET\n(Microsoft Global ML Building Footprints, área >= 20 m²)",
+        f"Área total de huella de techos por municipio PDET\n"
+        f"(Microsoft Global ML Building Footprints, área >= {min_area_label} m²)",
         fontsize=14, fontweight="bold", pad=20,
     )
     ax.set_xlabel("Longitud", fontsize=10)
@@ -143,7 +149,7 @@ def plot_choropleth_total_area(gdf, output_path: Path):
     print(f"  Guardado: {output_path.relative_to(ROOT).as_posix()}")
 
 
-def plot_choropleth_mean_area(gdf, output_path: Path):
+def plot_choropleth_mean_area(gdf, output_path: Path, min_area_label: str):
     fig, ax = plt.subplots(figsize=(14, 10), dpi=200)
     valid = gdf[gdf["mean_area_m2"].notna()]
     valid.plot(
@@ -157,7 +163,8 @@ def plot_choropleth_mean_area(gdf, output_path: Path):
     )
     _plot_zero_and_missing(ax, gdf, "mean_area_m2", gdf["building_count"] == 0)
     ax.set_title(
-        "Área media de huella por edificación en municipios PDET\n(Microsoft Global ML Building Footprints, área >= 20 m²)",
+        f"Área media de huella por edificación en municipios PDET\n"
+        f"(Microsoft Global ML Building Footprints, área >= {min_area_label} m²)",
         fontsize=14, fontweight="bold", pad=20,
     )
     ax.set_xlabel("Longitud", fontsize=10)
@@ -169,7 +176,7 @@ def plot_choropleth_mean_area(gdf, output_path: Path):
     print(f"  Guardado: {output_path.relative_to(ROOT).as_posix()}")
 
 
-def plot_top_municipalities(df: pd.DataFrame, low_coverage: set[str], output_path: Path):
+def plot_top_municipalities(df: pd.DataFrame, low_coverage: set[str], output_path: Path, min_area_label: str, ratio_pct_label: str):
     top15 = df.nlargest(15, "total_area_m2").copy()
     top15["total_area_km2"] = top15["total_area_m2"] / 1e6
     top15 = top15.sort_values("total_area_km2", ascending=True)
@@ -181,13 +188,13 @@ def plot_top_municipalities(df: pd.DataFrame, low_coverage: set[str], output_pat
     ax.set_yticklabels([f"{row['name']} ({row['mpio_code']})" for _, row in top15.iterrows()], fontsize=9)
     ax.set_xlabel("Área total de huella (km²)", fontsize=11, fontweight="bold")
     ax.set_title(
-        "Top 15 municipios PDET por área total de huella (Microsoft, >= 20 m²)",
+        f"Top 15 municipios PDET por área total de huella (Microsoft, >= {min_area_label} m²)",
         fontsize=12, fontweight="bold", pad=15,
     )
     ax.grid(True, alpha=0.3, axis="x")
-    handles = [Patch(facecolor=MS_BLUE, label="Microsoft (base; cobertura Google >= 20 % en EDA)")]
+    handles = [Patch(facecolor=MS_BLUE, label=f"Microsoft (base; cobertura Google >= {ratio_pct_label} % en EDA)")]
     if any(code in low_coverage for code in top15["mpio_code"]):
-        handles.append(Patch(facecolor=GOOGLE_ORANGE, label="Marcado con baja cobertura de Google en EDA (< 20 %)"))
+        handles.append(Patch(facecolor=GOOGLE_ORANGE, label=f"Marcado con baja cobertura de Google en EDA (< {ratio_pct_label} %)"))
     ax.legend(handles=handles, loc="lower right", fontsize=9)
     plt.tight_layout()
     plt.savefig(output_path, dpi=200, bbox_inches="tight")
@@ -195,7 +202,7 @@ def plot_top_municipalities(df: pd.DataFrame, low_coverage: set[str], output_pat
     print(f"  Guardado: {output_path.relative_to(ROOT).as_posix()}")
 
 
-def plot_scatter_count_vs_area(df: pd.DataFrame, low_coverage: set[str], output_path: Path):
+def plot_scatter_count_vs_area(df: pd.DataFrame, low_coverage: set[str], output_path: Path, min_area_label: str, ratio_pct_label: str):
     fig, ax = plt.subplots(figsize=(11, 8), dpi=200)
     valid = df[df["building_count"] > 0].copy()
     valid["total_area_km2"] = valid["total_area_m2"] / 1e6
@@ -209,12 +216,12 @@ def plot_scatter_count_vs_area(df: pd.DataFrame, low_coverage: set[str], output_
     ax.scatter(
         normal["building_count"], normal["total_area_km2"],
         c=MS_BLUE, s=70, alpha=0.65, edgecolors="black", linewidth=0.5,
-        label=f"Cobertura Google >= 20 % en EDA (n={len(normal)})",
+        label=f"Cobertura Google >= {ratio_pct_label} % en EDA (n={len(normal)})",
     )
     ax.scatter(
         flagged["building_count"], flagged["total_area_km2"],
         c=GOOGLE_ORANGE, s=75, alpha=0.8, edgecolors="black", linewidth=0.5,
-        label=f"Google poco comparable en EDA (< 20 %, n={len(flagged)})",
+        label=f"Google poco comparable en EDA (< {ratio_pct_label} %, n={len(flagged)})",
     )
 
     top5 = valid.nlargest(5, "total_area_km2")
@@ -232,7 +239,7 @@ def plot_scatter_count_vs_area(df: pd.DataFrame, low_coverage: set[str], output_
     ax.set_xlim(right=valid["building_count"].max() * 1.09)
     ax.set_ylim(top=valid["total_area_km2"].max() * 1.08)
 
-    ax.set_xlabel("Cantidad de edificaciones (Microsoft, >= 20 m²)", fontsize=11, fontweight="bold")
+    ax.set_xlabel(f"Cantidad de edificaciones (Microsoft, >= {min_area_label} m²)", fontsize=11, fontweight="bold")
     ax.set_ylabel("Área total de huella (km²)", fontsize=11, fontweight="bold")
     ax.set_title(
         f"Relación entre cantidad de edificaciones y área total por municipio PDET\n"
@@ -247,7 +254,7 @@ def plot_scatter_count_vs_area(df: pd.DataFrame, low_coverage: set[str], output_
     print(f"  Guardado: {output_path.relative_to(ROOT).as_posix()}")
 
 
-def plot_subregion_totals(analysis: dict, output_path: Path):
+def plot_subregion_totals(analysis: dict, output_path: Path, min_area_label: str):
     subregions = analysis["subregions"]
     sub_list = [
         (name, data["building_count"], data["total_area_m2"] / 1e6)
@@ -270,8 +277,10 @@ def plot_subregion_totals(analysis: dict, output_path: Path):
     ax2.tick_params(axis="y", labelcolor=GOOGLE_ORANGE)
 
     ax1.set_xlabel("Subregión PDET", fontsize=11, fontweight="bold")
-    ax1.set_title("Edificaciones y área total de huella por subregión PDET (Microsoft, >= 20 m²)",
-                  fontsize=12, fontweight="bold", pad=15)
+    ax1.set_title(
+        f"Edificaciones y área total de huella por subregión PDET (Microsoft, >= {min_area_label} m²)",
+        fontsize=12, fontweight="bold", pad=15,
+    )
     ax1.set_xticks(x)
     ax1.set_xticklabels(names, rotation=45, ha="right", fontsize=9)
     ax1.grid(True, alpha=0.3, axis="y")
@@ -301,6 +310,8 @@ def main(argv=None) -> int:
 
     config = load_config(ROOT)
     low_coverage = google_low_coverage_codes(config)
+    min_area_label = _fmt_num(filters_for(config, "ms")["min_area_m2"])
+    ratio_pct_label = _fmt_num(config["analysis"]["google_low_coverage_rule"]["ratio_threshold"] * 100)
     analysis = read_analysis()
     stats_df = build_stats_df(analysis)
     FIGURAS_DIR.mkdir(parents=True, exist_ok=True)
@@ -311,14 +322,14 @@ def main(argv=None) -> int:
             return 1
         gdf = join_data(read_municipalities_gdf(), stats_df)
         print(f"Fase 2: generando mapas coropletos ({len(gdf)} municipios)...")
-        plot_choropleth_building_count(gdf, FIGURAS_DIR / "map_buildings_count.png")
-        plot_choropleth_total_area(gdf, FIGURAS_DIR / "map_total_area.png")
-        plot_choropleth_mean_area(gdf, FIGURAS_DIR / "map_mean_area.png")
+        plot_choropleth_building_count(gdf, FIGURAS_DIR / "map_buildings_count.png", min_area_label)
+        plot_choropleth_total_area(gdf, FIGURAS_DIR / "map_total_area.png", min_area_label)
+        plot_choropleth_mean_area(gdf, FIGURAS_DIR / "map_mean_area.png", min_area_label)
 
     print("Fase 2: generando gráficos comparativos...")
-    plot_top_municipalities(stats_df, low_coverage, FIGURAS_DIR / "bar_top_municipalities.png")
-    plot_scatter_count_vs_area(stats_df, low_coverage, FIGURAS_DIR / "scatter_count_vs_area.png")
-    plot_subregion_totals(analysis, FIGURAS_DIR / "subregion_totals.png")
+    plot_top_municipalities(stats_df, low_coverage, FIGURAS_DIR / "bar_top_municipalities.png", min_area_label, ratio_pct_label)
+    plot_scatter_count_vs_area(stats_df, low_coverage, FIGURAS_DIR / "scatter_count_vs_area.png", min_area_label, ratio_pct_label)
+    plot_subregion_totals(analysis, FIGURAS_DIR / "subregion_totals.png", min_area_label)
     return 0
 
 

@@ -61,13 +61,13 @@ Esta sección resume los puntos exactos de acople desde `main` para evitar forma
 
 ### Para Miguel (revisión breve de alineación)
 
-- `scripts/06_rooftop_stats.py` ahora importa `CSV_FIELDS`, `REASONS`, `INCLUDED`, `filters_for`, `exclusion_reason` y `format_optional_bool` desde `scripts/entrega4_contracts.py` y agrega `contract` y `methodology` al reporte JSON.
+- `scripts/06_rooftop_stats.py` ahora importa `ROOFTOP_STATS_CSV_COLUMNS` (como `CSV_FIELDS`), `FILTER_ORDER` (como `REASONS`), `INCLUDED`, `filters_for`, `exclusion_reason` y `format_optional_bool` desde `scripts/entrega4_contracts.py` y agrega `contract` y `methodology` en cada nueva corrida del reporte JSON.
 - Tus archivos versionados `outputs/rooftop_stats_ms.csv` y `outputs/rooftop_stats_ms_report.json` ya pasan todas las comprobaciones de `python scripts/entrega4_contracts.py --check` sin necesidad de recalcular Microsoft (los filtros no cambiaron).
 - Si vuelves a ejecutar `06_rooftop_stats.py` o apoyas la corrida de Google donde esté MongoDB cargado, el formato de `google_low_coverage` en CSV ahora escribe `true`/`false` en minúsculas (en `ms` sigue vacío `""`).
 
 ### Para Sebastián (ejecución de Google y acople del comparador)
 
-1. Actualizar tu rama desde `main` (`git fetch origin && git rebase origin/main` o merge): `config.yaml` ya incluye `analysis.comparison`, `analysis.methodology` y `scripts/entrega4_contracts.py`, y `scripts/06_rooftop_stats.py` ya está disponible.
+1. Actualizar tu rama `feature/sebastian-environment` desde `main` (`git fetch origin && git rebase origin/main` o merge): aparecerán conflictos de texto en tres archivos (`README.md`, `config.yaml` y `docs/delivery4/README.md`). Conserva la sección `analysis` de `main` en `config.yaml` (ya incluye `analysis.comparison`, `analysis.methodology` y la regla del 20 %) y la estructura de `docs/delivery4/README.md` (actualizando solo el estado del tramo de Google/comparación); `scripts/06_rooftop_stats.py` y `scripts/entrega4_contracts.py` ya están en `main`.
 2. Ejecutar el motor común sobre Google donde esté cargada `upme_pdet.buildings` (nunca crear un segundo motor de cálculo):
    ```bash
    python scripts/06_rooftop_stats.py --source google --passes 2

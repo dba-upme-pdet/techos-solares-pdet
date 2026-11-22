@@ -27,28 +27,21 @@ echo ""
 echo "Phase 1: Automated Data Reader"
 echo "-------------------------------"
 python scripts/07_entrega4_analysis.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 1 failed" >&2
-    exit 1
-fi
 
 echo ""
 echo "Phase 2: Maps and Charts Generation"
 echo "-----------------------------------"
-python scripts/08_entrega4_visualizations.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 2 failed" >&2
-    exit 1
+if [ -f "data/processed/municipalities.geojsonl" ]; then
+    python scripts/08_entrega4_visualizations.py
+else
+    echo "Notice: data/processed/municipalities.geojsonl not found; regenerating charts only (--charts-only)."
+    python scripts/08_entrega4_visualizations.py --charts-only
 fi
 
 echo ""
 echo "Phase 3: Tables and Markdown Summary"
 echo "------------------------------------"
 python scripts/09_entrega4_tables.py
-if [ $? -ne 0 ]; then
-    echo "ERROR: Phase 3 failed" >&2
-    exit 1
-fi
 
 echo ""
 echo "Phase 4: PDF Compilation (LaTeX)"

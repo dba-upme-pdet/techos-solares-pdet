@@ -119,8 +119,8 @@ Se conservan los registros observados y no se comparan directamente sus diferenc
 El detalle completo y la justificación están en [`entrega4_metodologia_y_contrato.md`](entrega4_metodologia_y_contrato.md) y en `config.yaml` (`analysis.*`).
 
 - **Fuente base y contraste:** Microsoft (`ms`, 170/170 municipios) como fuente base; Google (`google`, 165/170) como contraste separado, sin sumar ambas fuentes.
-- **Filtros definitivos:** `area_m2 >= 20` para ambas fuentes; `max_area_m2 = null` (sin tope superior); `confidence >= 0.70` únicamente para Google (`confidence_sources: ["google"]`).
-- **Confianza ausente en Microsoft:** el 99,9994 % de las huellas PDET de Microsoft tienen `confidence = null`, por lo que no se filtra por confianza ni se imputan valores artificiales.
-- **Huellas grandes y atípicos:** se conservan todas las huellas válidas `>= 20 m²` (bodegas e instalaciones reales) y se reportan media y mediana exacta por municipio.
+- **Filtros definitivos:** `area_m2 >= 20` para ambas fuentes; `max_area_m2 = null (sin tope superior)`; `confidence >= 0.70` únicamente para Google (`confidence_sources: ["google"]`).
+- **Confianza ausente en Microsoft:** en `buildings_ms_prepare_report.json` la casi totalidad de huellas PDET de Microsoft tiene `confidence = null`, por lo que no se filtra por confianza ni se imputan valores artificiales.
+- **Huellas grandes y atípicos:** se conservan todas las huellas válidas `>= 20 m²` y se reportan media y mediana exacta por municipio.
 - **Asignación espacial:** centroide WGS84 intersectando los 170 polígonos MGN2025, con desempate determinista por código DIVIPOLA menor (0 empates observados en ambas fuentes).
-- **Área de huella vs área aprovechable:** los resultados expresan área geodésica de huella en `m²` (`km² = m² / 10^6`), límite superior del techo físico; no se aplica ningún factor de aprovechamiento solar sin respaldo.
+- **Área de huella vs área aprovechable:** los resultados expresan área geodésica de huella en `m²` (`km² = m² / 10^6`), límite superior del techo físico; no se aplica ningún factor de aprovechamiento solar sin respaldo (`usable_area_factor: null`).
