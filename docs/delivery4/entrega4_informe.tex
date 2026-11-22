@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{float}
+\usepackage[section]{placeins}
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{fancyhdr}
@@ -51,7 +53,7 @@ Este informe presenta el flujo reproducible, la metodología definitiva y los re
 
 \section{Reproducibilidad, Metodología y Contrato Compartido}
 
-La especificación completa del contrato está documentada en \texttt{docs/delivery4/entrega4\_metodologia\_y\_contrato.md} y se verifica automáticamente ejecutando \texttt{python scripts/entrega4\_contracts.py --check}.
+La especificación completa del contrato está documentada en \texttt{docs/delivery4/entrega4\_metodologia\_y\_contrato.md} y se verifica automáticamente ejecutando \texttt{python scripts/entrega4\_contracts.py -{}-check}.
 
 \subsection{Fuentes de Datos y Configuración Compartida}
 
@@ -64,7 +66,7 @@ La especificación completa del contrato está documentada en \texttt{docs/deliv
 
 \subsection{Contrato de Salida (\texttt{rooftop\_stats}, CSV y Reporte JSON)}
 
-El motor común \texttt{scripts/06\_rooftop\_stats.py --source ms|google} escribe exactamente 170 documentos por fuente en \texttt{rooftop\_stats} con clave compuesta \texttt{\_id = \{mpio\_code, dataset\_id\}} (\texttt{ReplaceOne(upsert=True)}), garantizando que repetir el análisis no duplica registros y que ambas fuentes conviven sin sobrescribirse. Si un municipio queda con \texttt{building\_count = 0} tras filtrar, conserva su fila con \texttt{total\_area\_m2 = 0.0} y \texttt{mean\_area\_m2 = null}, \texttt{median\_area\_m2 = null} (vacíos en CSV).
+El motor común \texttt{scripts/06\_rooftop\_stats.py -{}-source ms|google} escribe exactamente 170 documentos por fuente en \texttt{rooftop\_stats} con clave compuesta \texttt{\_id = \{mpio\_code, dataset\_id\}} (\texttt{ReplaceOne(upsert=True)}), garantizando que repetir el análisis no duplica registros y que ambas fuentes conviven sin sobrescribirse. Si un municipio queda con \texttt{building\_count = 0} tras filtrar, conserva su fila con \texttt{total\_area\_m2 = 0.0} y \texttt{mean\_area\_m2 = null}, \texttt{median\_area\_m2 = null} (vacíos en CSV).
 
 Las áreas se almacenan en metros cuadrados (\texttt{m$^2$}, redondeadas a 2 decimales) y se convierten a \texttt{km$^2$} (\texttt{m$^2$ / 10$^6$}) solo para presentación. La mediana municipal se calcula de forma exacta en Python (\texttt{statistics.median}), ya que \texttt{\$median} en MongoDB 7 es aproximado. Cada corrida exporta un CSV de 18 columnas ordenadas por \texttt{rank\_total\_area} (\texttt{outputs/rooftop\_stats\_<fuente>.csv}) y un reporte JSON con filtros, balance y SHA256 (\texttt{outputs/rooftop\_stats\_<fuente>\_report.json}).
 
@@ -92,7 +94,7 @@ Cada huella se asigna al municipio PDET cuyo polígono MGN2025 intersecta su cen
 
 La Tabla~\ref{tab:global} resume las estadísticas verificadas de la corrida definitiva de Microsoft (\texttt{outputs/rooftop\_stats\_ms\_report.json} y \texttt{outputs/entrega4\_analysis\_summary.json}).
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{lr}
 \toprule
@@ -120,33 +122,36 @@ Duración del análisis (dos pasadas en MongoDB 7.0.45) & 33,7 s (8/8 verificaci
 \label{tab:global}
 \end{table}
 
+\newpage
 \section{Mapas Coropletos}
 
 Los siguientes mapas muestran la distribución espacial de edificaciones y área de huella de techos en los 170 municipios PDET para la fuente base (Microsoft).
 
 \subsection{Cantidad de Edificaciones}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/map_buildings_count.png}
+\includegraphics[width=0.82\textwidth]{figuras/map_buildings_count.png}
 \caption{Distribución espacial de la cantidad de edificaciones por municipio PDET (Microsoft, área $\ge 20$ m$^2$).}
 \label{fig:map_count}
 \end{figure}
 
+\newpage
 \subsection{Área Total de Huella de Techos}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/map_total_area.png}
+\includegraphics[width=0.82\textwidth]{figuras/map_total_area.png}
 \caption{Distribución espacial del área total de huella de techos (km$^2$) por municipio PDET (Microsoft, área $\ge 20$ m$^2$).}
 \label{fig:map_area}
 \end{figure}
 
+\newpage
 \subsection{Área Media por Edificación}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/map_mean_area.png}
+\includegraphics[width=0.82\textwidth]{figuras/map_mean_area.png}
 \caption{Área media de huella por edificación (m$^2$) en cada municipio PDET (Microsoft). Valores elevados reflejan presencia de bodegas e infraestructura de gran formato.}
 \label{fig:map_mean}
 \end{figure}
@@ -156,11 +161,11 @@ Los siguientes mapas muestran la distribución espacial de edificaciones y área
 
 \subsection{Top 15 Municipios por Área Total de Huella}
 
-\begin{table}[ht!]
+\begin{table}[H]
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3.5pt}
 \centering
-\begin{tabular}{rlp{3.1cm}p{3.6cm}rrrr}
+\begin{tabular}{rlp{3.0cm}p{3.5cm}rrrr}
 \toprule
 \textbf{\#} & \textbf{Cód.} & \textbf{Municipio} & \textbf{Subregión} & \textbf{Edif.} & \textbf{Área (km$^2$)} & \textbf{Media (m$^2$)} & \textbf{Med. (m$^2$)} \\
 \midrule
@@ -187,11 +192,11 @@ Los siguientes mapas muestran la distribución espacial de edificaciones y área
 
 \subsection{15 Municipios con Menor Área Total de Huella}
 
-\begin{table}[ht!]
+\begin{table}[H]
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3.5pt}
 \centering
-\begin{tabular}{rlp{3.3cm}p{3.4cm}rrrr}
+\begin{tabular}{rlp{3.2cm}p{3.3cm}rrrr}
 \toprule
 \textbf{\#} & \textbf{Cód.} & \textbf{Municipio} & \textbf{Subregión} & \textbf{Edif.} & \textbf{Área (km$^2$)} & \textbf{Media (m$^2$)} & \textbf{Med. (m$^2$)} \\
 \midrule
@@ -221,7 +226,7 @@ Los siguientes mapas muestran la distribución espacial de edificaciones y área
 
 \subsection{Tabla de Totales por Subregión}
 
-\begin{table}[h!]
+\begin{table}[H]
 \small
 \centering
 \begin{tabular}{lrr|r}
@@ -254,9 +259,9 @@ Chocó & 36.690 & 3,40 & 14 \\
 
 \subsection{Gráfica por Subregión}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{figuras/subregion_totals.png}
+\includegraphics[width=0.90\textwidth]{figuras/subregion_totals.png}
 \caption{Cantidad de edificaciones (barras azules) y área total de huella (barras naranjas) por subregión PDET (Microsoft).}
 \label{fig:subregions}
 \end{figure}
@@ -266,18 +271,18 @@ Chocó & 36.690 & 3,40 & 14 \\
 
 \subsection{Top 15 Municipios}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.88\textwidth]{figuras/bar_top_municipalities.png}
+\includegraphics[width=0.80\textwidth]{figuras/bar_top_municipalities.png}
 \caption{Área total de huella en los 15 municipios PDET con mayor valor (Microsoft, \texttt{area\_m2 >= 20}).}
 \label{fig:bar_top}
 \end{figure}
 
 \subsection{Relación entre Cantidad de Edificaciones y Área Total}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.88\textwidth]{figuras/scatter_count_vs_area.png}
+\includegraphics[width=0.78\textwidth]{figuras/scatter_count_vs_area.png}
 \caption{Dispersión entre cantidad de edificaciones y área total de huella (km$^2$) por municipio en Microsoft ($n = 170$, correlación de Spearman $\rho = 0,959$). Los puntos naranjas indican los 15 municipios marcados por baja cobertura de Google en el EDA de la Entrega 3.}
 \label{fig:scatter}
 \end{figure}
@@ -285,7 +290,7 @@ Chocó & 36.690 & 3,40 & 14 \\
 \newpage
 \section{Contraste Microsoft vs Google (Referencia EDA y Alcance)}
 
-La ejecución filtrada de Google (\texttt{06\_rooftop\_stats.py --source google}) y las tablas comparativas definitivas de la Entrega 4 se encuentran en fase de integración (tramo de Sebastián). Para evitar cifras estimadas sin ejecución real, esta sección reporta únicamente los valores medidos de Microsoft en la Entrega 4 y la línea base histórica del EDA de la Entrega 3 (\texttt{outputs/eda/eda\_buildings\_summary.json}):
+La ejecución filtrada de Google (\texttt{06\_rooftop\_stats.py -{}-source google}) y las tablas comparativas definitivas de la Entrega 4 se encuentran en fase de integración (tramo de Sebastián). Para evitar cifras estimadas sin ejecución real, esta sección reporta únicamente los valores medidos de Microsoft en la Entrega 4 y la línea base histórica del EDA de la Entrega 3 (\texttt{outputs/eda/eda\_buildings\_summary.json}):
 
 \begin{itemize}
     \item \textbf{Cobertura municipal:} Microsoft cubre 170 municipios PDET; Google cubre 165 (5 municipios con 0 detecciones).
@@ -298,7 +303,7 @@ La ejecución filtrada de Google (\texttt{06\_rooftop\_stats.py --source google}
 
 La Tabla~\ref{tab:lowcov} lista los 15 municipios que cumplen \texttt{5 * google\_buildings < ms\_buildings} en el EDA de la Entrega 3. Sus observaciones se conservan, no se comparan en diferencias porcentuales directas y la causa de la discrepancia no está demostrada.
 
-\begin{table}[ht!]
+\begin{table}[H]
 \footnotesize
 \setlength{\tabcolsep}{4.5pt}
 \centering
@@ -343,10 +348,10 @@ La Tabla~\ref{tab:lowcov} lista los 15 municipios que cumplen \texttt{5 * google
 Para reproducir el flujo de la Entrega 4 desde la raíz del repositorio:
 
 \begin{enumerate}
-    \item Verificar la carga de entrada en MongoDB: \texttt{python scripts/04\_load\_buildings.py --source ms --verify-only} (y \texttt{--source google}).
-    \item Ejecutar el motor común (idempotente con \texttt{--passes 2}): \texttt{python scripts/06\_rooftop\_stats.py --source ms --passes 2} y \texttt{--source google --passes 2}.
-    \item Validar configuración, esquema, SHA256 y balances: \texttt{python scripts/entrega4\_contracts.py --check}.
-    \item Generar resumen, figuras y tablas: \texttt{bash scripts/run\_entrega4\_pipeline.sh} (o \texttt{08\_entrega4\_visualizations.py --charts-only} cuando solo se actualizan gráficos sin capa municipal local).
+    \item Verificar la carga de entrada en MongoDB: \texttt{python scripts/04\_load\_buildings.py -{}-source ms -{}-verify-only} (y \texttt{-{}-source google}).
+    \item Ejecutar el motor común (idempotente con \texttt{-{}-passes 2}): \texttt{python scripts/06\_rooftop\_stats.py -{}-source ms -{}-passes 2} y \texttt{-{}-source google -{}-passes 2}.
+    \item Validar configuración, esquema, SHA256 y balances: \texttt{python scripts/entrega4\_contracts.py -{}-check}.
+    \item Generar resumen, figuras y tablas: \texttt{bash scripts/run\_entrega4\_pipeline.sh} (o \texttt{08\_entrega4\_visualizations.py -{}-charts-only} cuando solo se actualizan gráficos sin capa municipal local).
 \end{enumerate}
 
 \vspace{1.2cm}
