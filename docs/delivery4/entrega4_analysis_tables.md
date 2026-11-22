@@ -1,15 +1,15 @@
-# Entrega 4: Tablas de Análisis de Techos por Municipio PDET
+# Entrega 4: Tablas de análisis de techos por municipio PDET
 
 **Generado automáticamente desde:** `outputs/entrega4_analysis_summary.json`
 
 ---
 
-## Municipios con Mayor Área de Techos
+## Municipios con mayor área de huella de techos
 
-Los 15 municipios PDET con mayor área total de techos aprovechables (Microsoft):
+Los 15 municipios PDET con mayor área total de huella geodésica (Microsoft, `area_m2 >= 20`):
 
-| Rango | Código | Municipio | Subregión | Edificaciones | Área Total (km²) | Área Media (m²) | Área Mediana (m²) |
-|------:|--------|-----------|-----------|---------------:|------------------:|----------------:|------------------:|
+| Rango | Código | Municipio | Subregión | Edificaciones | Área total (km²) | Área media (m²) | Área mediana (m²) |
+|------:|--------|-----------|-----------|--------------:|-----------------:|----------------:|------------------:|
 | 1 | 47001 | SANTA MARTA | SIERRA NEVADA - PERIJÁ | 66,497 | 14.20 | 213.6 | 102.5 |
 | 2 | 20001 | VALLEDUPAR | SIERRA NEVADA - PERIJÁ | 62,178 | 13.51 | 217.2 | 96.4 |
 | 3 | 76109 | BUENAVENTURA | PACÍFICO MEDIO | 32,632 | 7.11 | 218.0 | 95.9 |
@@ -26,38 +26,38 @@ Los 15 municipios PDET con mayor área total de techos aprovechables (Microsoft)
 | 14 | 86568 | PUERTO ASÍS | PUTUMAYO | 20,868 | 3.04 | 145.8 | 87.1 |
 | 15 | 19256 | EL TAMBO | ALTO PATÍA Y NORTE DEL CAUCA | 33,433 | 3.03 | 90.5 | 69.8 |
 
-*⚠️ = Cobertura insuficiente de Google (< 20% de edificaciones respecto a Microsoft)*
+*`(*)` indica municipio marcado con baja cobertura de Google en el EDA de la Entrega 3 (< 20 % respecto a Microsoft).*
 
-## Municipios con Menor Área de Techos
+## Municipios con menor área de huella de techos
 
-Los 15 municipios PDET con menor área total de techos aprovechables (Microsoft):
+Los 15 municipios PDET con menor área total de huella geodésica (Microsoft, `area_m2 >= 20`):
 
-| Rango | Código | Municipio | Subregión | Edificaciones | Área Total (km²) | Área Media (m²) | Área Mediana (m²) |
-|------:|--------|-----------|-----------|---------------:|------------------:|----------------:|------------------:|
-| 170 | 27745 | ⚠️ SIPÍ | CHOCÓ | 642 | 0.05 | 82.6 | 64.4 |
-| 169 | 05475 | ⚠️ MURINDÓ | CHOCÓ | 1,311 | 0.11 | 83.6 | 70.3 |
-| 168 | 27491 | ⚠️ NÓVITA | CHOCÓ | 1,356 | 0.14 | 101.1 | 70.2 |
+| Rango | Código | Municipio | Subregión | Edificaciones | Área total (km²) | Área media (m²) | Área mediana (m²) |
+|------:|--------|-----------|-----------|--------------:|-----------------:|----------------:|------------------:|
+| 170 | 27745 | SIPÍ (*) | CHOCÓ | 642 | 0.05 | 82.6 | 64.4 |
+| 169 | 05475 | MURINDÓ (*) | CHOCÓ | 1,311 | 0.11 | 83.6 | 70.3 |
+| 168 | 27491 | NÓVITA (*) | CHOCÓ | 1,356 | 0.14 | 101.1 | 70.2 |
 | 167 | 70230 | CHALÁN | MONTES DE MARÍA | 1,863 | 0.15 | 81.0 | 65.3 |
-| 166 | 27450 | ⚠️ MEDIO SAN JUAN | CHOCÓ | 1,605 | 0.15 | 96.1 | 71.9 |
-| 165 | 27425 | ⚠️ MEDIO ATRATO | CHOCÓ | 1,570 | 0.15 | 98.5 | 68.2 |
+| 166 | 27450 | MEDIO SAN JUAN (*) | CHOCÓ | 1,605 | 0.15 | 96.1 | 71.9 |
+| 165 | 27425 | MEDIO ATRATO (*) | CHOCÓ | 1,570 | 0.15 | 98.5 | 68.2 |
 | 164 | 52390 | LA TOLA | PACÍFICO Y FRONTERA NARIÑENSE | 1,501 | 0.16 | 104.2 | 82.9 |
-| 163 | 05873 | ⚠️ VIGÍA DEL FUERTE | CHOCÓ | 1,678 | 0.16 | 96.3 | 73.2 |
+| 163 | 05873 | VIGÍA DEL FUERTE (*) | CHOCÓ | 1,678 | 0.16 | 96.3 | 73.2 |
 | 162 | 52520 | FRANCISCO PIZARRO | PACÍFICO Y FRONTERA NARIÑENSE | 1,811 | 0.17 | 92.5 | 73.9 |
 | 161 | 27361 | ISTMINA | CHOCÓ | 1,893 | 0.17 | 88.6 | 66.4 |
-| 160 | 27099 | ⚠️ BOJAYÁ | CHOCÓ | 1,959 | 0.17 | 87.5 | 68.0 |
-| 159 | 27250 | ⚠️ EL LITORAL DEL SAN JUAN | CHOCÓ | 1,965 | 0.17 | 88.8 | 72.4 |
+| 160 | 27099 | BOJAYÁ (*) | CHOCÓ | 1,959 | 0.17 | 87.5 | 68.0 |
+| 159 | 27250 | EL LITORAL DEL SAN JUAN (*) | CHOCÓ | 1,965 | 0.17 | 88.8 | 72.4 |
 | 158 | 52473 | MOSQUERA | PACÍFICO Y FRONTERA NARIÑENSE | 1,714 | 0.19 | 107.9 | 84.8 |
 | 157 | 95200 | MIRAFLORES | MACARENA - GUAVIARE | 1,721 | 0.21 | 120.4 | 75.5 |
-| 156 | 52621 | ⚠️ ROBERTO PAYÁN | PACÍFICO Y FRONTERA NARIÑENSE | 2,468 | 0.22 | 87.6 | 72.1 |
+| 156 | 52621 | ROBERTO PAYÁN (*) | PACÍFICO Y FRONTERA NARIÑENSE | 2,468 | 0.22 | 87.6 | 72.1 |
 
-*⚠️ = Cobertura insuficiente de Google*
+*`(*)` indica municipio marcado con baja cobertura de Google en el EDA de la Entrega 3 (< 20 % respecto a Microsoft).*
 
-## Totales por Subregión PDET
+## Totales por subregión PDET
 
-Agregaciones de edificaciones y área de techos por cada una de las 16 subregiones PDET:
+Agregaciones de edificaciones y área total de huella por cada una de las 16 subregiones PDET (Microsoft):
 
-| Subregión | Edificaciones | Área Total (km²) | Municipios |
-|-----------|---------------:|------------------:|----------:|
+| Subregión | Edificaciones | Área total (km²) | Municipios |
+|-----------|--------------:|-----------------:|-----------:|
 | SIERRA NEVADA - PERIJÁ | 287,899 | 46.20 | 15 |
 | ALTO PATÍA Y NORTE DEL CAUCA | 265,317 | 30.17 | 24 |
 | CUENCA DEL CAGUÁN Y PIEDEMONTE CAQUETEÑO | 131,224 | 22.52 | 17 |
@@ -75,67 +75,52 @@ Agregaciones de edificaciones y área de techos por cada una de las 16 subregion
 | SUR DEL TOLIMA | 46,767 | 4.74 | 4 |
 | CHOCÓ | 36,690 | 3.40 | 14 |
 
-## Comparación Microsoft vs Google: Hallazgos Clave
+## Contraste Microsoft vs Google
 
-- **Municipios con datos:** 170 PDET
-- **Edificaciones Microsoft:** 1,720,535
-- **Área total (Microsoft):** 220.27 km²
+### Resultados definitivos de la Entrega 4 (con filtros metodológicos)
 
-### Contraste con Google:
+- **Municipios PDET cubiertos (Microsoft):** 170 / 170
+- **Edificaciones incluidas (Microsoft, `area_m2 >= 20`):** 1,720,535
+- **Área total de huella (Microsoft):** 220.27 km²
+- **Google filtrado (Entrega 4):** pendiente de ejecución con `scripts/06_rooftop_stats.py --source google`; no se estiman cifras filtradas multiplicando razones del EDA.
 
-- **Edificaciones Google:** 2,632,419 (1.53x Microsoft)
-- **Área Google:** 221.37 km² (1.00x Microsoft)
-- **Correlación Spearman (edificaciones):** 0.904
-- **Correlación Spearman (área):** 0.938
-- **Municipios con cobertura insuficiente de Google:** 15 (< 20% de edificaciones respecto a Microsoft)
+### Referencia histórica del EDA de la Entrega 3 (sin filtros de Entrega 4)
 
-### Municipios con Cobertura Insuficiente:
+- **Microsoft sin filtros:** 1,761,030 edificaciones, 220.98 km² (170 municipios)
+- **Google sin filtros:** 2,694,775 edificaciones, 222.05 km² (165 municipios)
+- **Razón Google / Microsoft (EDA):** 1.53x en conteo, 1.005x en área
+- **Correlación Spearman (EDA, sobre los 165 municipios con Google > 0):** 0.904 en conteo y 0.938 en área
+- **Municipios con baja cobertura de Google (`5 * google < ms` en EDA):** 15
 
-Los siguientes municipios tienen representación deficiente en Google Building Footprints y no deben compararse directamente:
+### Municipios marcados por baja cobertura de Google (EDA Entrega 3)
 
-| Código | Municipio | Subregión | MS Edificaciones | Google Edificaciones |
-|--------|-----------|-----------|------------------:|---------------------:|
-| 05475 | MURINDÓ | CHOCÓ | 1,311 | Sparse |
-| 05873 | VIGÍA DEL FUERTE | CHOCÓ | 1,678 | Sparse |
-| 19418 | LÓPEZ DE MICAY | PACÍFICO MEDIO | 5,815 | Sparse |
-| 27099 | BOJAYÁ | CHOCÓ | 1,959 | Sparse |
-| 27150 | CARMEN DEL DARIÉN | CHOCÓ | 3,749 | Sparse |
-| 27205 | CONDOTO | CHOCÓ | 2,074 | Sparse |
-| 27250 | EL LITORAL DEL SAN JUAN | CHOCÓ | 1,965 | Sparse |
-| 27425 | MEDIO ATRATO | CHOCÓ | 1,570 | Sparse |
-| 27450 | MEDIO SAN JUAN | CHOCÓ | 1,605 | Sparse |
-| 27491 | NÓVITA | CHOCÓ | 1,356 | Sparse |
-| 27615 | RIOSUCIO | CHOCÓ | 5,951 | Sparse |
-| 27745 | SIPÍ | CHOCÓ | 642 | Sparse |
-| 52612 | RICAURTE | PACÍFICO Y FRONTERA NARIÑENSE | 4,721 | Sparse |
-| 52621 | ROBERTO PAYÁN | PACÍFICO Y FRONTERA NARIÑENSE | 2,468 | Sparse |
-| 73616 | RIOBLANCO | SUR DEL TOLIMA | 8,746 | Sparse |
+Se conservan los registros observados y no se comparan directamente sus diferencias entre fuentes; la causa de la discrepancia no está demostrada:
 
-## Metodología
+| Código | Municipio | Subregión | MS filtrado (E4) | MS sin filtros (EDA) | Google sin filtros (EDA) |
+|--------|-----------|-----------|-----------------:|---------------------:|-------------------------:|
+| 05475 | MURINDÓ | CHOCÓ | 1,311 | 1,331 | 0 |
+| 05873 | VIGÍA DEL FUERTE | CHOCÓ | 1,678 | 1,714 | 0 |
+| 19418 | LÓPEZ DE MICAY | PACÍFICO MEDIO | 5,815 | 5,968 | 24 |
+| 27099 | BOJAYÁ | CHOCÓ | 1,959 | 2,004 | 0 |
+| 27150 | CARMEN DEL DARIÉN | CHOCÓ | 3,749 | 3,832 | 281 |
+| 27205 | CONDOTO | CHOCÓ | 2,074 | 2,110 | 239 |
+| 27250 | EL LITORAL DEL SAN JUAN | CHOCÓ | 1,965 | 2,010 | 309 |
+| 27425 | MEDIO ATRATO | CHOCÓ | 1,570 | 1,615 | 313 |
+| 27450 | MEDIO SAN JUAN | CHOCÓ | 1,605 | 1,627 | 0 |
+| 27491 | NÓVITA | CHOCÓ | 1,356 | 1,403 | 0 |
+| 27615 | RIOSUCIO | CHOCÓ | 5,951 | 6,107 | 1,000 |
+| 27745 | SIPÍ | CHOCÓ | 642 | 653 | 1 |
+| 52612 | RICAURTE | PACÍFICO Y FRONTERA NARIÑENSE | 4,721 | 4,878 | 196 |
+| 52621 | ROBERTO PAYÁN | PACÍFICO Y FRONTERA NARIÑENSE | 2,468 | 2,501 | 364 |
+| 73616 | RIOBLANCO | SUR DEL TOLIMA | 8,746 | 9,018 | 1,329 |
 
-### Fuente de Datos
+## Resumen de metodología y contrato
 
-- **Microsoft Global ML Building Footprints** v2026-02-03 (ODbL-1.0), acceso 13 nov 2026
-- **Geometrías municipales:** Capas MGN2025 del DANE (170 municipios PDET)
+El detalle completo y la justificación están en [`entrega4_metodologia_y_contrato.md`](entrega4_metodologia_y_contrato.md) y en `config.yaml` (`analysis.*`).
 
-### Filtros Aplicados
-
-- **Área mínima:** 20 m² (umbral Entrega 1, confirmado en EDA)
-- **Área máxima:** Ninguna (bodegas e instalaciones son techo real)
-- **Ubicación:** Centroide dentro de geometría municipal PDET (`$geoWithin` sobre índice 2dsphere)
-
-### Cálculo
-
-1. Se lee el CSV `outputs/rooftop_stats_ms.csv` generado por `scripts/06_rooftop_stats.py`
-2. Se agrupa por municipio (código DANE 5 dígitos) con geometría de `data/processed/municipalities.geojsonl`
-3. Para cada municipio se calcula: conteo, suma de áreas, media, mediana
-4. Se genera un JSON de análisis (`outputs/entrega4_analysis_summary.json`)
-5. Se producen mapas coropletos con geopandas y gráficos con matplotlib
-6. Este informe integra todas las salidas en un PDF compilado con LaTeX
-
-### Limitaciones y Consideraciones
-
-- **Huellas muy grandes:** En Microsoft, el percentil 99 del área es 912 m² y el máximo 44.720 m². Son bodegas e instalaciones que sí representan techo real.
-- **Área aprovechable:** La cifra es la proyección del edificio (huella), sin descuento por orientación, sombra o pendiente. Para obtener área aprovechable, aplicar un factor de aprovechamiento según normativa.
-- **Cobertura de Google:** 15 municipios tienen < 20% de cobertura respecto a Microsoft. No se suman ambas fuentes; se reportan por separado.
-
+- **Fuente base y contraste:** Microsoft (`ms`, 170/170 municipios) como fuente base; Google (`google`, 165/170) como contraste separado, sin sumar ambas fuentes.
+- **Filtros definitivos:** `area_m2 >= 20` para ambas fuentes; `max_area_m2 = null` (sin tope superior); `confidence >= 0.70` únicamente para Google (`confidence_sources: ["google"]`).
+- **Confianza ausente en Microsoft:** el 99,9994 % de las huellas PDET de Microsoft tienen `confidence = null`, por lo que no se filtra por confianza ni se imputan valores artificiales.
+- **Huellas grandes y atípicos:** se conservan todas las huellas válidas `>= 20 m²` (bodegas e instalaciones reales) y se reportan media y mediana exacta por municipio.
+- **Asignación espacial:** centroide WGS84 intersectando los 170 polígonos MGN2025, con desempate determinista por código DIVIPOLA menor (0 empates observados en ambas fuentes).
+- **Área de huella vs área aprovechable:** los resultados expresan área geodésica de huella en `m²` (`km² = m² / 10^6`), límite superior del techo físico; no se aplica ningún factor de aprovechamiento solar sin respaldo.

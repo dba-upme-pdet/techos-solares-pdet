@@ -1,204 +1,229 @@
 #!/usr/bin/env python3
-"""Phase 3: Generate markdown tables and summary for Entrega 4.
+"""Fase 3: Generación automática de tablas Markdown de la Entrega 4.
 
-Reads analysis JSON and generates markdown with tables of:
-- Top 15 municipalities by area
-- Bottom 15 municipalities
-- 16 subregions with totals
-- Comparison metadata and low-coverage flags
-
-Output: docs/delivery4/entrega4_analysis_tables.md
+Lee ``outputs/entrega4_analysis_summary.json`` y ``config.yaml`` y genera
+``docs/delivery4/entrega4_analysis_tables.md`` sin cifras transcritas a mano
+ni factores de aprovechamiento sin respaldo.
 """
+from __future__ import annotations
+
 import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
+from entrega2_contracts import load_config  # noqa: E402
+from entrega4_contracts import google_low_coverage_codes  # noqa: E402
+
 ANALYSIS_JSON = ROOT / "outputs" / "entrega4_analysis_summary.json"
 OUTPUT_MD = ROOT / "docs" / "delivery4" / "entrega4_analysis_tables.md"
 
-# Low-coverage municipalities
-GOOGLE_COBERTURA_INSUFICIENTE = {
-    "05475", "05873", "19418", "27099", "27150", "27205", "27250",
-    "27425", "27450", "27491", "27615", "27745", "52612", "52621", "73616"
-}
 
-def read_analysis():
-    """Read analysis summary JSON."""
-    with open(ANALYSIS_JSON, 'r', encoding='utf-8') as f:
-        return json.load(f)
+def read_analysis() -> dict:
+    return json.loads(ANALYSIS_JSON.read_text(encoding="utf-8"))
 
-def format_number(num, decimals=2):
-    """Format number with thousands separator."""
+
+def format_number(num, decimals: int = 2) -> str:
     if num is None:
-        return "—"
+        return "-"
     if isinstance(num, float):
         return f"{num:,.{decimals}f}"
     return f"{num:,}"
 
-def generate_top_municipalities(analysis):
-    """Generate markdown table: top 15 municipalities."""
-    mun = analysis['municipalities']
 
-    # Sort by rank (rank 1 = highest area)
-    sorted_mun = sorted(mun.values(), key=lambda x: x['rank_total_area'])
-    top15 = sorted_mun[:15]
+def generate_top_municipalities(analysis: dict) -> str:
+    mun = analysis["municipalities"]
+    top15 = sorted(mun.values(), key=lambda x: x["rank_total_area"])[:15]
 
-    md = "## Municipios con Mayor Área de Techos\n\n"
-    md += "Los 15 municipios PDET con mayor área total de techos aprovechables (Microsoft):\n\n"
-    md += "| Rango | Código | Municipio | Subregión | Edificaciones | Área Total (km²) | Área Media (m²) | Área Mediana (m²) |\n"
-    md += "|------:|--------|-----------|-----------|---------------:|------------------:|----------------:|------------------:|\n"
+    lines = [
+        "## Municipios con mayor área de huella de techos",
+        "",
+        "Los 15 municipios PDET con mayor área total de huella geodésica (Microsoft, `area_m2 >= 20`):",
+        "",
+        "| Rango | Código | Municipio | Subregión | Edificaciones | Área total (km²) | Área media (m²) | Área mediana (m²) |",
+        "|------:|--------|-----------|-----------|--------------:|-----------------:|----------------:|------------------:|",
+    ]
+    for item in top15:
+        mark = " (*)" if item["google_low_coverage"] else ""
+        lines.append(
+            f"| {item['rank_total_area']} | {item['mpio_code']} | {item['name']}{mark} | "
+            f"{item['subregion_name']} | {format_number(item['building_count'], 0)} | "
+            f"{format_number(item['total_area_m2'] / 1e6, 2)} | "
+            f"{format_number(item['mean_area_m2'], 1)} | {format_number(item['median_area_m2'], 1)} |"
+        )
+    lines.extend([
+        "",
+        "*`(*)` indica municipio marcado con baja cobertura de Google en el EDA de la Entrega 3 (< 20 % respecto a Microsoft).*",
+        "",
+    ])
+    return "\n".join(lines)
 
-    for mun_data in top15:
-        flag = "⚠️ " if mun_data['google_low_coverage'] else ""
-        area_km2 = mun_data['total_area_m2'] / 1e6
-        md += f"| {mun_data['rank_total_area']} | {mun_data['mpio_code']} | {flag}{mun_data['name']} | "
-        md += f"{mun_data['subregion_name']} | {format_number(mun_data['building_count'], 0)} | "
-        md += f"{format_number(area_km2, 2)} | {format_number(mun_data['mean_area_m2'], 1)} | "
-        md += f"{format_number(mun_data['median_area_m2'], 1)} |\n"
 
-    md += "\n*⚠️ = Cobertura insuficiente de Google (< 20% de edificaciones respecto a Microsoft)*\n\n"
-    return md
+def generate_bottom_municipalities(analysis: dict) -> str:
+    mun = analysis["municipalities"]
+    bottom15 = sorted(mun.values(), key=lambda x: x["rank_total_area"], reverse=True)[:15]
 
-def generate_bottom_municipalities(analysis):
-    """Generate markdown table: bottom 15 municipalities."""
-    mun = analysis['municipalities']
+    lines = [
+        "## Municipios con menor área de huella de techos",
+        "",
+        "Los 15 municipios PDET con menor área total de huella geodésica (Microsoft, `area_m2 >= 20`):",
+        "",
+        "| Rango | Código | Municipio | Subregión | Edificaciones | Área total (km²) | Área media (m²) | Área mediana (m²) |",
+        "|------:|--------|-----------|-----------|--------------:|-----------------:|----------------:|------------------:|",
+    ]
+    for item in bottom15:
+        mark = " (*)" if item["google_low_coverage"] else ""
+        lines.append(
+            f"| {item['rank_total_area']} | {item['mpio_code']} | {item['name']}{mark} | "
+            f"{item['subregion_name']} | {format_number(item['building_count'], 0)} | "
+            f"{format_number(item['total_area_m2'] / 1e6, 2)} | "
+            f"{format_number(item['mean_area_m2'], 1)} | {format_number(item['median_area_m2'], 1)} |"
+        )
+    lines.extend([
+        "",
+        "*`(*)` indica municipio marcado con baja cobertura de Google en el EDA de la Entrega 3 (< 20 % respecto a Microsoft).*",
+        "",
+    ])
+    return "\n".join(lines)
 
-    # Sort by rank (rank 170 = lowest area)
-    sorted_mun = sorted(mun.values(), key=lambda x: x['rank_total_area'], reverse=True)
-    bottom15 = sorted_mun[:15]
 
-    md = "## Municipios con Menor Área de Techos\n\n"
-    md += "Los 15 municipios PDET con menor área total de techos aprovechables (Microsoft):\n\n"
-    md += "| Rango | Código | Municipio | Subregión | Edificaciones | Área Total (km²) | Área Media (m²) | Área Mediana (m²) |\n"
-    md += "|------:|--------|-----------|-----------|---------------:|------------------:|----------------:|------------------:|\n"
+def generate_subregion_totals(analysis: dict) -> str:
+    subs = sorted(
+        analysis["subregions"].items(),
+        key=lambda item: item[1]["total_area_m2"],
+        reverse=True,
+    )
+    lines = [
+        "## Totales por subregión PDET",
+        "",
+        "Agregaciones de edificaciones y área total de huella por cada una de las 16 subregiones PDET (Microsoft):",
+        "",
+        "| Subregión | Edificaciones | Área total (km²) | Municipios |",
+        "|-----------|--------------:|-----------------:|-----------:|",
+    ]
+    for sub_name, sub_data in subs:
+        lines.append(
+            f"| {sub_name} | {format_number(sub_data['building_count'], 0)} | "
+            f"{format_number(sub_data['total_area_m2'] / 1e6, 2)} | {sub_data['municipality_count']} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
 
-    for mun_data in bottom15:
-        flag = "⚠️ " if mun_data['google_low_coverage'] else ""
-        area_km2 = mun_data['total_area_m2'] / 1e6
-        md += f"| {mun_data['rank_total_area']} | {mun_data['mpio_code']} | {flag}{mun_data['name']} | "
-        md += f"{mun_data['subregion_name']} | {format_number(mun_data['building_count'], 0)} | "
-        md += f"{format_number(area_km2, 2)} | {format_number(mun_data['mean_area_m2'], 1)} | "
-        md += f"{format_number(mun_data['median_area_m2'], 1)} |\n"
 
-    md += "\n*⚠️ = Cobertura insuficiente de Google*\n\n"
-    return md
+def generate_comparison_section(analysis: dict, low_coverage: set[str]) -> str:
+    totals = analysis["global_totals"]
+    eda_ref = analysis.get("eda_reference", {})
+    eda_sources = eda_ref.get("sources", {})
+    eda_comp = eda_ref.get("comparison", analysis.get("comparison_metadata", {}))
+    g_filtered = analysis.get("google_filtered", {"available": False})
 
-def generate_subregion_totals(analysis):
-    """Generate markdown table: subregion totals."""
-    subs = analysis['subregions']
+    lines = [
+        "## Contraste Microsoft vs Google",
+        "",
+        "### Resultados definitivos de la Entrega 4 (con filtros metodológicos)",
+        "",
+        f"- **Municipios PDET cubiertos (Microsoft):** {analysis['metadata']['total_municipalities']} / 170",
+        f"- **Edificaciones incluidas (Microsoft, `area_m2 >= 20`):** {format_number(totals['total_buildings'], 0)}",
+        f"- **Área total de huella (Microsoft):** {format_number(totals['total_area_km2'], 2)} km²",
+    ]
+    if g_filtered.get("available"):
+        lines.extend([
+            f"- **Edificaciones incluidas (Google, `area_m2 >= 20`, `confidence >= 0.70`):** {format_number(g_filtered['total_buildings'], 0)}",
+            f"- **Área total de huella (Google):** {format_number(g_filtered['total_area_km2'], 2)} km²",
+            f"- **Municipios con edificaciones (Google):** {g_filtered['municipalities_with_buildings']} / 170",
+        ])
+    else:
+        lines.append(
+            "- **Google filtrado (Entrega 4):** pendiente de ejecución con `scripts/06_rooftop_stats.py --source google`; "
+            "no se estiman cifras filtradas multiplicando razones del EDA."
+        )
 
-    # Sort by area descending
-    sorted_subs = sorted(subs.items(), key=lambda x: x[1]['total_area_m2'], reverse=True)
+    ms_eda = eda_sources.get("ms", {})
+    g_eda = eda_sources.get("google", {})
+    lines.extend([
+        "",
+        "### Referencia histórica del EDA de la Entrega 3 (sin filtros de Entrega 4)",
+        "",
+        f"- **Microsoft sin filtros:** {format_number(ms_eda.get('prepared'), 0)} edificaciones, "
+        f"{format_number((ms_eda.get('area_m2') or {}).get('sum', 0) / 1e6, 2)} km² (170 municipios)",
+        f"- **Google sin filtros:** {format_number(g_eda.get('prepared'), 0)} edificaciones, "
+        f"{format_number((g_eda.get('area_m2') or {}).get('sum', 0) / 1e6, 2)} km² (165 municipios)",
+        f"- **Razón Google / Microsoft (EDA):** {format_number(eda_comp.get('google_over_ms_buildings'), 2)}x en conteo, "
+        f"{format_number(eda_comp.get('google_over_ms_area'), 3)}x en área",
+        f"- **Correlación Spearman (EDA, sobre los 165 municipios con Google > 0):** "
+        f"{format_number(eda_comp.get('spearman_buildings_per_municipality'), 3)} en conteo y "
+        f"{format_number(eda_comp.get('spearman_area_per_municipality'), 3)} en área",
+        f"- **Municipios con baja cobertura de Google (`5 * google < ms` en EDA):** {len(low_coverage)}",
+        "",
+        "### Municipios marcados por baja cobertura de Google (EDA Entrega 3)",
+        "",
+        "Se conservan los registros observados y no se comparan directamente sus diferencias entre fuentes; la causa de la discrepancia no está demostrada:",
+        "",
+        "| Código | Municipio | Subregión | MS filtrado (E4) | MS sin filtros (EDA) | Google sin filtros (EDA) |",
+        "|--------|-----------|-----------|-----------------:|---------------------:|-------------------------:|",
+    ])
 
-    md = "## Totales por Subregión PDET\n\n"
-    md += "Agregaciones de edificaciones y área de techos por cada una de las 16 subregiones PDET:\n\n"
-    md += "| Subregión | Edificaciones | Área Total (km²) | Municipios |\n"
-    md += "|-----------|---------------:|------------------:|----------:|\n"
+    for code in sorted(low_coverage):
+        mun = analysis["municipalities"].get(code)
+        if not mun:
+            continue
+        lines.append(
+            f"| {code} | {mun['name']} | {mun['subregion_name']} | "
+            f"{format_number(mun['building_count'], 0)} | "
+            f"{format_number(mun.get('eda_ms_buildings'), 0)} | "
+            f"{format_number(mun.get('eda_google_buildings'), 0)} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
 
-    for sub_name, sub_data in sorted_subs:
-        area_km2 = sub_data['total_area_m2'] / 1e6
-        md += f"| {sub_name} | {format_number(sub_data['building_count'], 0)} | "
-        md += f"{format_number(area_km2, 2)} | {sub_data['municipality_count']} |\n"
 
-    md += "\n"
-    return md
+def generate_methodology_section() -> str:
+    return "\n".join([
+        "## Resumen de metodología y contrato",
+        "",
+        "El detalle completo y la justificación están en [`entrega4_metodologia_y_contrato.md`](entrega4_metodologia_y_contrato.md) y en `config.yaml` (`analysis.*`).",
+        "",
+        "- **Fuente base y contraste:** Microsoft (`ms`, 170/170 municipios) como fuente base; Google (`google`, 165/170) como contraste separado, sin sumar ambas fuentes.",
+        "- **Filtros definitivos:** `area_m2 >= 20` para ambas fuentes; `max_area_m2 = null` (sin tope superior); `confidence >= 0.70` únicamente para Google (`confidence_sources: [\"google\"]`).",
+        "- **Confianza ausente en Microsoft:** el 99,9994 % de las huellas PDET de Microsoft tienen `confidence = null`, por lo que no se filtra por confianza ni se imputan valores artificiales.",
+        "- **Huellas grandes y atípicos:** se conservan todas las huellas válidas `>= 20 m²` (bodegas e instalaciones reales) y se reportan media y mediana exacta por municipio.",
+        "- **Asignación espacial:** centroide WGS84 intersectando los 170 polígonos MGN2025, con desempate determinista por código DIVIPOLA menor (0 empates observados en ambas fuentes).",
+        "- **Área de huella vs área aprovechable:** los resultados expresan área geodésica de huella en `m²` (`km² = m² / 10^6`), límite superior del techo físico; no se aplica ningún factor de aprovechamiento solar sin respaldo.",
+        "",
+    ])
 
-def generate_comparison_section(analysis):
-    """Generate markdown section: MS vs Google comparison."""
-    comp = analysis['comparison_metadata']
-    low_cov = analysis['low_coverage_count']
 
-    md = "## Comparación Microsoft vs Google: Hallazgos Clave\n\n"
-
-    md += f"- **Municipios con datos:** {analysis['metadata']['total_municipalities']} PDET\n"
-    md += f"- **Edificaciones Microsoft:** {format_number(analysis['global_totals']['total_buildings'], 0)}\n"
-    md += f"- **Área total (Microsoft):** {format_number(analysis['global_totals']['total_area_km2'], 2)} km²\n\n"
-
-    md += "### Contraste con Google:\n\n"
-    md += f"- **Edificaciones Google:** {format_number(analysis['global_totals']['total_buildings'] * comp.get('google_over_ms_buildings', 1), 0)} "
-    md += f"({format_number(comp.get('google_over_ms_buildings', 1), 2)}x Microsoft)\n"
-    md += f"- **Área Google:** {format_number(analysis['global_totals']['total_area_km2'] * comp.get('google_over_ms_area', 1), 2)} km² "
-    md += f"({format_number(comp.get('google_over_ms_area', 1), 2)}x Microsoft)\n"
-    md += f"- **Correlación Spearman (edificaciones):** {format_number(comp.get('spearman_buildings_per_municipality', 0), 3)}\n"
-    md += f"- **Correlación Spearman (área):** {format_number(comp.get('spearman_area_per_municipality', 0), 3)}\n"
-    md += f"- **Municipios con cobertura insuficiente de Google:** {low_cov} (< 20% de edificaciones respecto a Microsoft)\n\n"
-
-    md += "### Municipios con Cobertura Insuficiente:\n\n"
-    md += "Los siguientes municipios tienen representación deficiente en Google Building Footprints "
-    md += "y no deben compararse directamente:\n\n"
-    md += "| Código | Municipio | Subregión | MS Edificaciones | Google Edificaciones |\n"
-    md += "|--------|-----------|-----------|------------------:|---------------------:|\n"
-
-    for code in sorted(GOOGLE_COBERTURA_INSUFICIENTE):
-        if code in analysis['municipalities']:
-            mun = analysis['municipalities'][code]
-            # Note: we don't have exact Google count here, so we note it's sparse
-            md += f"| {code} | {mun['name']} | {mun['subregion_name']} | "
-            md += f"{format_number(mun['building_count'], 0)} | Sparse |\n"
-
-    md += "\n"
-    return md
-
-def generate_methodology_section():
-    """Generate markdown section: Methodology."""
-    md = "## Metodología\n\n"
-    md += "### Fuente de Datos\n\n"
-    md += "- **Microsoft Global ML Building Footprints** v2026-02-03 (ODbL-1.0), acceso 13 nov 2026\n"
-    md += "- **Geometrías municipales:** Capas MGN2025 del DANE (170 municipios PDET)\n\n"
-
-    md += "### Filtros Aplicados\n\n"
-    md += "- **Área mínima:** 20 m² (umbral Entrega 1, confirmado en EDA)\n"
-    md += "- **Área máxima:** Ninguna (bodegas e instalaciones son techo real)\n"
-    md += "- **Ubicación:** Centroide dentro de geometría municipal PDET (`$geoWithin` sobre índice 2dsphere)\n\n"
-
-    md += "### Cálculo\n\n"
-    md += "1. Se lee el CSV `outputs/rooftop_stats_ms.csv` generado por `scripts/06_rooftop_stats.py`\n"
-    md += "2. Se agrupa por municipio (código DANE 5 dígitos) con geometría de `data/processed/municipalities.geojsonl`\n"
-    md += "3. Para cada municipio se calcula: conteo, suma de áreas, media, mediana\n"
-    md += "4. Se genera un JSON de análisis (`outputs/entrega4_analysis_summary.json`)\n"
-    md += "5. Se producen mapas coropletos con geopandas y gráficos con matplotlib\n"
-    md += "6. Este informe integra todas las salidas en un PDF compilado con LaTeX\n\n"
-
-    md += "### Limitaciones y Consideraciones\n\n"
-    md += "- **Huellas muy grandes:** En Microsoft, el percentil 99 del área es 912 m² y el máximo 44.720 m². "
-    md += "Son bodegas e instalaciones que sí representan techo real.\n"
-    md += "- **Área aprovechable:** La cifra es la proyección del edificio (huella), sin descuento por orientación, "
-    md += "sombra o pendiente. Para obtener área aprovechable, aplicar un factor de aprovechamiento según normativa.\n"
-    md += "- **Cobertura de Google:** 15 municipios tienen < 20% de cobertura respecto a Microsoft. "
-    md += "No se suman ambas fuentes; se reportan por separado.\n\n"
-
-    return md
-
-def main():
+def main() -> int:
     if not ANALYSIS_JSON.exists():
-        print(f"ERROR: {ANALYSIS_JSON} not found. Run Phase 1 first.", file=sys.stderr)
+        print(f"ERROR: falta {ANALYSIS_JSON}. Corra antes scripts/07_entrega4_analysis.py.", file=sys.stderr)
         return 1
 
-    print("Phase 3: Generating tables and markdown summary...")
-
+    config = load_config(ROOT)
+    low_coverage = google_low_coverage_codes(config)
     analysis = read_analysis()
 
-    # Generate markdown
-    md = "# Entrega 4: Tablas de Análisis de Techos por Municipio PDET\n\n"
-    md += f"**Generado automáticamente desde:** `outputs/entrega4_analysis_summary.json`\n\n"
-    md += f"---\n\n"
+    content = "\n".join([
+        "# Entrega 4: Tablas de análisis de techos por municipio PDET",
+        "",
+        "**Generado automáticamente desde:** `outputs/entrega4_analysis_summary.json`",
+        "",
+        "---",
+        "",
+        generate_top_municipalities(analysis),
+        generate_bottom_municipalities(analysis),
+        generate_subregion_totals(analysis),
+        generate_comparison_section(analysis, low_coverage),
+        generate_methodology_section(),
+    ])
 
-    md += generate_top_municipalities(analysis)
-    md += generate_bottom_municipalities(analysis)
-    md += generate_subregion_totals(analysis)
-    md += generate_comparison_section(analysis)
-    md += generate_methodology_section()
-
-    # Write output
     OUTPUT_MD.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_MD, 'w', encoding='utf-8') as f:
-        f.write(md)
-
-    print(f"  Generated {len(md)} characters of markdown")
-    print(f"\nPhase 3 complete. Output: {OUTPUT_MD.relative_to(ROOT)}")
-
+    OUTPUT_MD.write_text(content, encoding="utf-8")
+    print(f"Fase 3 completa: {OUTPUT_MD.relative_to(ROOT).as_posix()} ({len(content)} caracteres)")
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     sys.exit(main())
