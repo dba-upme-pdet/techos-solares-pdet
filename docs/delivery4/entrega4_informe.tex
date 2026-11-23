@@ -427,9 +427,9 @@ La Entrega 4 establece una base verificada para la planificación de energía so
 
     \item \textbf{Identificación de municipios críticos:} 15 municipios tienen cobertura insuficiente de Google ($< 20\%$ de Microsoft). Estos territorios —principalmente en Chocó y Pacífico— requieren análisis cualitativo adicional para explicar la discrepancia.
 
-    \item \textbf{Reproducibilidad verificada:} El pipeline integrado pasa 47/47 comprobaciones de validación independiente. Dos corridas completas generan salidas idénticas (SHA256), demostrando determinismo operacional en MongoDB 7, índices `2dsphere`, y cálculos de Python.
+    \item \textbf{Reproducibilidad verificada:} El pipeline integrado pasa 47/47 comprobaciones de validación independiente. Dos corridas completas generan salidas idénticas (SHA256), demostrando determinismo operacional en MongoDB 7, índices \texttt{2dsphere}, y cálculos de Python.
 
-    \item \textbf{Metodología transparente:} Todos los umbrales (área mínima, confianza, orden de filtros) están centralizados en `config.yaml` y verificados por un contrato compartido (`entrega4_contracts.py`). Ningún script fija valores a mano.
+    \item \textbf{Metodología transparente:} Todos los umbrales (área mínima, confianza, orden de filtros) están centralizados en \texttt{config.yaml} y verificados por un contrato compartido (\texttt{entrega4\_contracts.py}). Ningún script fija valores a mano.
 \end{enumerate}
 
 \subsection{Implicaciones para Política Energética}
@@ -449,13 +449,13 @@ La Entrega 4 establece una base verificada para la planificación de energía so
 Este trabajo aporta:
 
 \begin{itemize}
-    \item \textbf{Motor reproducible:} Script idempotente (`06_rooftop_stats.py`) que reutiliza índices MongoDB y contrato explícito, permitiendo auditoría y réplica sin ambigüedad.
+    \item \textbf{Motor reproducible:} Script idempotente (\texttt{06\_rooftop\_stats.py}) que reutiliza índices MongoDB y contrato explícito, permitiendo auditoría y réplica sin ambigüedad.
 
-    \item \textbf{Contrato de datos:} Especificación formal de salidas (CSV, JSON, MongoDB) con 18 columnas ordenadas, tipos BSON explícitos, y balance verificable (`included + excluded = before_filters`).
+    \item \textbf{Contrato de datos:} Especificación formal de salidas (CSV, JSON, MongoDB) con 18 columnas ordenadas, tipos BSON explícitos, y balance verificable (\texttt{included + excluded = before\_filters}).
 
     \item \textbf{Visualizaciones geoespaciales:} Mapas coropletos (200 dpi PNG) que comunican distribución municipal a audiencias no técnicas, con marcas claras de municipios de baja cobertura.
 
-    \item \textbf{Validación independiente:} Mecanismo alternativo (script 10) que recalcula estadísticas directamente desde `buildings` sin usar el motor principal, cerrando riesgos de error sistemático.
+    \item \textbf{Validación independiente:} Mecanismo alternativo (script 10) que recalcula estadísticas directamente desde \texttt{buildings} sin usar el motor principal, cerrando riesgos de error sistemático.
 
     \item \textbf{Procedencia explícita:} Cada número reportado es trazable a su fuente (Microsoft, Google, EDA) y a la fecha de ejecución, facilitando auditoría y versionado futuro.
 \end{itemize}
