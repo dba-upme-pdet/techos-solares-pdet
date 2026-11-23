@@ -1,0 +1,209 @@
+Suite completa local, 22 nov 2026. Sintéticos aislados + lectura de evidencia MS real; sin repetir cargas masivas en pruebas.
+Entorno: MONGO_URI desde config (credenciales omitidas), DEREK_PREPARER_PATH=scripts/03_prepare_buildings.py. REAL_PREPARED_PART no solicitada.
+Primera ejecución: fallos transitorios de conexión, conservados en evidencia/full_suite_initial_20261122.txt; reintento Mongo correcto.
+test_cli_end_to_end_uses_shared_csv_report_contract_and_is_reproducible (test_compare_rooftop_stats.ComparisonTests.test_cli_end_to_end_uses_shared_csv_report_contract_and_is_reproducible) ... ok
+test_cli_failure_preserves_evidence_and_synthetic_definitive_do_not_mix (test_compare_rooftop_stats.ComparisonTests.test_cli_failure_preserves_evidence_and_synthetic_definitive_do_not_mix) ... ok
+test_competition_ties_and_original_sequential_rank (test_compare_rooftop_stats.ComparisonTests.test_competition_ties_and_original_sequential_rank) ... ok
+test_config_rule_drift_is_rejected_by_shared_contract (test_compare_rooftop_stats.ComparisonTests.test_config_rule_drift_is_rejected_by_shared_contract) ... ok
+test_flags_recomputed_and_observations_preserved_without_differences (test_compare_rooftop_stats.ComparisonTests.test_flags_recomputed_and_observations_preserved_without_differences) ... ok
+test_full_contract_and_all_original_metrics_and_engine_rank_preserved (test_compare_rooftop_stats.ComparisonTests.test_full_contract_and_all_original_metrics_and_engine_rank_preserved) ... ok
+test_real_microsoft_export_is_readable_without_recomputing (test_compare_rooftop_stats.ComparisonTests.test_real_microsoft_export_is_readable_without_recomputing) ... ok
+test_rejects_duplicate_missing_unexpected_or_numeric_divipola (test_compare_rooftop_stats.ComparisonTests.test_rejects_duplicate_missing_unexpected_or_numeric_divipola) ... ok
+test_rejects_filters_and_methodology_inconsistent_with_current_config (test_compare_rooftop_stats.ComparisonTests.test_rejects_filters_and_methodology_inconsistent_with_current_config) ... ok
+test_rejects_row_from_another_execution_and_missing_metric (test_compare_rooftop_stats.ComparisonTests.test_rejects_row_from_another_execution_and_missing_metric) ... ok
+test_rejects_source_swaps_in_report_and_rows (test_compare_rooftop_stats.ComparisonTests.test_rejects_source_swaps_in_report_and_rows) ... ok
+test_rejects_stale_google_flag (test_compare_rooftop_stats.ComparisonTests.test_rejects_stale_google_flag) ... ok
+test_rejects_unbalanced_reports_and_missing_rerun_evidence (test_compare_rooftop_stats.ComparisonTests.test_rejects_unbalanced_reports_and_missing_rerun_evidence) ... ok
+test_rejects_wrong_hash_and_unbound_csv (test_compare_rooftop_stats.ComparisonTests.test_rejects_wrong_hash_and_unbound_csv) ... ok
+test_signed_absolute_and_percentage_differences (test_compare_rooftop_stats.ComparisonTests.test_signed_absolute_and_percentage_differences) ... ok
+test_spearman_average_ties_known_answer_and_negative_relation (test_compare_rooftop_stats.ComparisonTests.test_spearman_average_ties_known_answer_and_negative_relation) ... ok
+test_spearman_dynamic_populations_codes_and_constant_null (test_compare_rooftop_stats.ComparisonTests.test_spearman_dynamic_populations_codes_and_constant_null) ... ok
+test_spearman_insufficient_observations (test_compare_rooftop_stats.ComparisonTests.test_spearman_insufficient_observations) ... ok
+test_zeros_null_statistics_and_zero_denominators (test_compare_rooftop_stats.ComparisonTests.test_zeros_null_statistics_and_zero_denominators) ... ok
+test_adapter_inspection_no_confidence_filter (test_download_google_buildings.GoogleDownloadTests.test_adapter_inspection_no_confidence_filter) ... ok
+test_derek_preparer_with_google_adapter (test_download_google_buildings.GoogleDownloadTests.test_derek_preparer_with_google_adapter) ... ok
+test_download_repeat_and_corruption (test_download_google_buildings.GoogleDownloadTests.test_download_repeat_and_corruption) ... ok
+test_failed_transfer_preserves_old_file (test_download_google_buildings.GoogleDownloadTests.test_failed_transfer_preserves_old_file) ... ok
+test_index_invalid (test_download_google_buildings.GoogleDownloadTests.test_index_invalid) ... ok
+test_manifest_contract (test_download_google_buildings.GoogleDownloadTests.test_manifest_contract) ... ok
+test_missing_columns_and_bad_gzip (test_download_google_buildings.GoogleDownloadTests.test_missing_columns_and_bad_gzip) ... ok
+test_selection_and_gap (test_download_google_buildings.GoogleDownloadTests.test_selection_and_gap) ... ok
+test_filters_country_and_rejects_bad_rows (test_download_ms_buildings.IndexTests.test_filters_country_and_rejects_bad_rows) ... ok
+test_missing_columns (test_download_ms_buildings.IndexTests.test_missing_columns) ... ok
+test_reads_fields_geometry_and_crs (test_download_ms_buildings.InspectionTests.test_reads_fields_geometry_and_crs) ... ok
+test_swapped_axes_are_flagged (test_download_ms_buildings.InspectionTests.test_swapped_axes_are_flagged) ... ok
+test_truncated_file_is_not_readable (test_download_ms_buildings.InspectionTests.test_truncated_file_is_not_readable) ... ok
+test_digests_and_server_mismatch (test_download_ms_buildings.IntegrityTests.test_digests_and_server_mismatch) ... ok
+test_http_metadata (test_download_ms_buildings.IntegrityTests.test_http_metadata) ... ok
+test_offline_requires_matching_manifest (test_download_ms_buildings.IntegrityTests.test_offline_requires_matching_manifest) ... ok
+test_bounds_contain_known_building (test_download_ms_buildings.QuadkeyTests.test_bounds_contain_known_building) ... ok
+test_invalid_quadkey (test_download_ms_buildings.QuadkeyTests.test_invalid_quadkey) ... ok
+test_level_one_quadrants (test_download_ms_buildings.QuadkeyTests.test_level_one_quadrants) ... ok
+test_round_trip (test_download_ms_buildings.QuadkeyTests.test_round_trip) ... ok
+test_tiles_covering_includes_point_tile (test_download_ms_buildings.QuadkeyTests.test_tiles_covering_includes_point_tile) ... ok
+test_reports_tiles_without_partition (test_download_ms_buildings.SelectionTests.test_reports_tiles_without_partition) ... ok
+test_selects_only_tiles_touching_pdet (test_download_ms_buildings.SelectionTests.test_selects_only_tiles_touching_pdet) ... ok
+test_rejects_csv_that_does_not_match_the_prepare_report (test_eda_buildings.EdaBuildingsTests.test_rejects_csv_that_does_not_match_the_prepare_report) ... ok
+test_summary_compares_sources_and_lists_missing_municipalities (test_eda_buildings.EdaBuildingsTests.test_summary_compares_sources_and_lists_missing_municipalities) ... ms: 60 edificaciones en 3 municipios; área total 0.0 km², mediana 10.0 m²
+google: 75 edificaciones en 2 municipios; área total 0.0 km², mediana 10.0 m²
+{"pdet_municipalities": 3, "municipalities_in_both": 2, "google_over_ms_buildings": 1.25, "google_over_ms_area": 1.25, "municipalities_google_more_buildings": 2, "spearman_buildings_per_municipality": 1.0, "spearman_area_per_municipality": 1.0}
+Resumen: outputs/eda/eda_buildings_summary.json; figuras: docs/delivery3/figuras/eda_conteo_ms_vs_google.png, docs/delivery3/figuras/eda_area_por_subregion.png
+ok
+test_exclusion_reason_precedence_and_missing_confidence (test_entrega4_contracts.ConfigAndRulesTests.test_exclusion_reason_precedence_and_missing_confidence) ... ok
+test_filters_for_microsoft_and_google (test_entrega4_contracts.ConfigAndRulesTests.test_filters_for_microsoft_and_google) ... ok
+test_google_low_coverage_exact_integer_boundary (test_entrega4_contracts.ConfigAndRulesTests.test_google_low_coverage_exact_integer_boundary) ... ok
+test_optional_bool_parsing_is_case_insensitive (test_entrega4_contracts.ConfigAndRulesTests.test_optional_bool_parsing_is_case_insensitive) ... ok
+test_real_config_matches_contract_and_eda (test_entrega4_contracts.ConfigAndRulesTests.test_real_config_matches_contract_and_eda) ... ok
+test_csv_validator_catches_tampered_columns_and_order (test_entrega4_contracts.DocumentAndCsvContractTests.test_csv_validator_catches_tampered_columns_and_order) ... ok
+test_real_microsoft_outputs_pass_full_contract (test_entrega4_contracts.DocumentAndCsvContractTests.test_real_microsoft_outputs_pass_full_contract) ... ok
+test_rejects_broken_document_invariants (test_entrega4_contracts.DocumentAndCsvContractTests.test_rejects_broken_document_invariants) ... ok
+test_valid_documents_ms_google_and_empty (test_entrega4_contracts.DocumentAndCsvContractTests.test_valid_documents_ms_google_and_empty) ... ok
+test_batches_keep_order_and_bounded_size (test_load_buildings.BatchTests.test_batches_keep_order_and_bounded_size) ... ok
+test_iter_prepared_skips_blank_lines (test_load_buildings.BatchTests.test_iter_prepared_skips_blank_lines) ... ok
+test_id_changes_with_dataset_and_reference (test_load_buildings.IdentityTests.test_id_changes_with_dataset_and_reference) ... ok
+test_id_is_deterministic (test_load_buildings.IdentityTests.test_id_is_deterministic) ... ok
+test_many_references_do_not_collide (test_load_buildings.IdentityTests.test_many_references_do_not_collide) ... ok
+test_changed_bytes_stop_the_load (test_load_buildings.PartitionEntryTests.test_changed_bytes_stop_the_load) ... ok
+test_changed_sha_stops_the_load (test_load_buildings.PartitionEntryTests.test_changed_sha_stops_the_load) ... ok
+test_entries_are_verified_and_selected (test_load_buildings.PartitionEntryTests.test_entries_are_verified_and_selected) ... ok
+test_missing_partition_stops_the_load (test_load_buildings.PartitionEntryTests.test_missing_partition_stops_the_load) ... ok
+test_contract_violation_is_rejected (test_load_buildings.PreparedDocumentTests.test_contract_violation_is_rejected) ... ok
+test_dataset_mismatch_is_rejected (test_load_buildings.PreparedDocumentTests.test_dataset_mismatch_is_rejected) ... ok
+test_invalid_json_is_rejected (test_load_buildings.PreparedDocumentTests.test_invalid_json_is_rejected) ... ok
+test_missing_source_ref_is_rejected (test_load_buildings.PreparedDocumentTests.test_missing_source_ref_is_rejected) ... ok
+test_record_already_carrying_id_is_rejected (test_load_buildings.PreparedDocumentTests.test_record_already_carrying_id_is_rejected) ... ok
+test_valid_record_passes_as_is (test_load_buildings.PreparedDocumentTests.test_valid_record_passes_as_is) ... ok
+test_ready_report_passes_and_declares_totals (test_load_buildings.ReportGateTests.test_ready_report_passes_and_declares_totals) ... ok
+test_report_with_unbalanced_rows_is_rejected (test_load_buildings.ReportGateTests.test_report_with_unbalanced_rows_is_rejected) ... ok
+test_report_without_pdet_selection_is_rejected (test_load_buildings.ReportGateTests.test_report_without_pdet_selection_is_rejected) ... ok
+test_sample_or_source_pass_never_loads (test_load_buildings.ReportGateTests.test_sample_or_source_pass_never_loads) ... ok
+test_wrong_dataset_is_rejected (test_load_buildings.ReportGateTests.test_wrong_dataset_is_rejected) ... ok
+test_self_check_passes (test_load_buildings_mongo.LoadSelfCheckTests.test_self_check_passes) ... [pasada 1] 032212332: leídas 4 insertadas 2 actualizadas 0 sin cambios 0 rechazadas 2 (0.04 s)
+[pasada 1] 032212333: leídas 1 insertadas 1 actualizadas 0 sin cambios 0 rechazadas 0 (0.06 s)
+[pasada 2] 032212332: leídas 4 insertadas 0 actualizadas 0 sin cambios 2 rechazadas 2 (0.04 s)
+[pasada 2] 032212333: leídas 1 insertadas 0 actualizadas 0 sin cambios 1 rechazadas 0 (0.13 s)
+[OK] primera pasada inserta 3 y rechaza 2
+[OK] segunda pasada inserta 0 y no cambia el conteo
+[OK] la carga completa queda verificada e idempotente
+[OK] los índices previstos existen
+[OK] cada partición deja su corrida en ingestion_runs
+[OK] ingestion_runs registra leídas, cargadas y rechazadas
+[OK] la fuente queda registrada en datasets
+[OK] el _id determinista evita duplicados de source_ref
+[OK] repetir no cambia el run_id de lo ya cargado
+[OK] un registro sin run_id no pasa el validador
+[OK] un centroide inválido no pasa el validador
+[OK] $geoWithin usa centroid_2dsphere (IXSCAN)
+[OK] sin selección PDET la compuerta detiene la carga
+[OK] un reporte de muestra no habilita la carga
+[OK] la base temporal se borró
+Self-check: 15/15 OK
+ok
+test_full_run_counts_and_records (test_prepare_buildings.EndToEndTests.test_full_run_counts_and_records) ... 2 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       5 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 1, preparadas 6 (duplicados quitados 1). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_ms_prepare_report.json
+ok
+test_rerun_is_deterministic (test_prepare_buildings.EndToEndTests.test_rerun_is_deterministic) ... 2 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       5 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 1, preparadas 6 (duplicados quitados 1). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_ms_prepare_report.json
+2 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       5 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 1, preparadas 6 (duplicados quitados 1). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_ms_prepare_report.json
+ok
+test_sample_is_never_ready (test_prepare_buildings.EndToEndTests.test_sample_is_never_ready) ... 1 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/1] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 2, rechazadas 0, excluidas fuera de PDET 0, preparadas 2 (duplicados quitados 0). Balance OK. Estado: sample_only
+Reporte: outputs/buildings_ms_prepare_report.json
+ok
+test_tampered_partition_is_refused (test_prepare_buildings.EndToEndTests.test_tampered_partition_is_refused) ... ok
+test_without_pdet_layer_refuses_unless_source_pass (test_prepare_buildings.EndToEndTests.test_without_pdet_layer_refuses_unless_source_pass) ... Sin capa PDET verificada: falta data/processed/municipalities.geojsonl; corra antes scripts/02_prepare_municipalities.py
+Use --without-pdet-selection solo para medir la calidad de la fuente.
+2 particiones de 'ms', selección PDET desactivada, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       6 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 0, preparadas 7 (duplicados quitados 1). Balance OK. Estado: source_pass_only
+Reporte: outputs/buildings_ms_source_pass_report.json
+ok
+test_area_is_positive_for_clockwise_ring (test_prepare_buildings.GeometryTests.test_area_is_positive_for_clockwise_ring) ... ok
+test_attribute_cleaning (test_prepare_buildings.GeometryTests.test_attribute_cleaning) ... ok
+test_geodesic_area_matches_equal_area_projection (test_prepare_buildings.GeometryTests.test_geodesic_area_matches_equal_area_projection) ... ok
+test_record_contract (test_prepare_buildings.GeometryTests.test_record_contract) ... ok
+test_repair_rules (test_prepare_buildings.GeometryTests.test_repair_rules) ... ok
+test_broken_manifests (test_prepare_buildings.ManifestContractTests.test_broken_manifests) ... ok
+test_partition_id_prefers_contract_key (test_prepare_buildings.ManifestContractTests.test_partition_id_prefers_contract_key) ... ok
+test_real_microsoft_manifest_passes (test_prepare_buildings.ManifestContractTests.test_real_microsoft_manifest_passes) ... ok
+test_boundary_point_counts_as_inside (test_prepare_buildings.SelectionTests.test_boundary_point_counts_as_inside) ... ok
+test_inside_outside_and_shared_border (test_prepare_buildings.SelectionTests.test_inside_outside_and_shared_border) ... ok
+test_prepared_records_pass_validator_and_match_geowithin (test_prepare_buildings_mongo.MongoContractTests.test_prepared_records_pass_validator_and_match_geowithin) ... 2 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       5 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 1, preparadas 6 (duplicados quitados 1). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_ms_prepare_report.json
+ok
+test_real_partition_loads_without_validator_rejections (test_prepare_buildings_mongo.MongoContractTests.test_real_partition_loads_without_validator_rejections) ... skipped 'REAL_PREPARED_PART no definida'
+test_all_municipalities_even_without_buildings (test_rooftop_stats.DocumentsTests.test_all_municipalities_even_without_buildings) ... ok
+test_csv_rows_and_blank_median (test_rooftop_stats.DocumentsTests.test_csv_rows_and_blank_median) ... ok
+test_google_low_coverage_flag (test_rooftop_stats.DocumentsTests.test_google_low_coverage_flag) ... ok
+test_outside_pdet_counted_apart (test_rooftop_stats.DocumentsTests.test_outside_pdet_counted_apart) ... ok
+test_rank_by_total_area (test_rooftop_stats.DocumentsTests.test_rank_by_total_area) ... ok
+test_stats_and_compound_id (test_rooftop_stats.DocumentsTests.test_stats_and_compound_id) ... ok
+test_unbalanced_group_fails (test_rooftop_stats.DocumentsTests.test_unbalanced_group_fails) ... ok
+test_confidence_only_for_configured_sources (test_rooftop_stats.FiltersTests.test_confidence_only_for_configured_sources) ... ok
+test_expression_omits_disabled_filters (test_rooftop_stats.FiltersTests.test_expression_omits_disabled_filters) ... ok
+test_invalid_thresholds_rejected (test_rooftop_stats.FiltersTests.test_invalid_thresholds_rejected) ... ok
+test_reason_order_and_boundaries (test_rooftop_stats.FiltersTests.test_reason_order_and_boundaries) ... ok
+test_self_check_passes (test_rooftop_stats_mongo.RooftopStatsSelfCheckTests.test_self_check_passes) ... [OK] escribe los 3 municipios, también los vacíos
+[OK] conteo y suma tras filtros
+[OK] mediana exacta y promedio
+[OK] excluidas por motivo
+[OK] municipio vacío: 0 edificaciones y promedio/mediana null
+[OK] huella sin municipio queda fuera y cierra el balance
+[OK] Microsoft no aplica confianza
+[OK] verificaciones en OK
+[OK] segunda pasada no duplica
+[OK] Google aplica confianza (incluida null)
+[OK] las dos fuentes conviven sin pisarse
+[OK] Python y MongoDB aplican la misma regla de filtros
+[OK] el validador rechaza un resultado incompleto
+self-check: OK
+ok
+test_invalid_positions (test_verify_spatial.TestGeometry.test_invalid_positions) ... ok
+test_invalid_structures_and_topology (test_verify_spatial.TestGeometry.test_invalid_structures_and_topology) ... ok
+test_rejects_crs_override (test_verify_spatial.TestGeometry.test_rejects_crs_override) ... ok
+test_valid_polygon_multipolygon_and_hole (test_verify_spatial.TestGeometry.test_valid_polygon_multipolygon_and_hole) ... ok
+test_accepts_170_synthetic_documents_and_real_explain (test_verify_spatial.TestMongoIntegration.test_accepts_170_synthetic_documents_and_real_explain) ... ok
+test_incorrect_counts (test_verify_spatial.TestMongoIntegration.test_incorrect_counts) ... ok
+test_incorrect_query_results_are_rejected (test_verify_spatial.TestMongoIntegration.test_incorrect_query_results_are_rejected) ... ok
+test_invalid_geometry_without_index (test_verify_spatial.TestMongoIntegration.test_invalid_geometry_without_index) ... ok
+test_invalid_identifiers_and_mongo_uniqueness (test_verify_spatial.TestMongoIntegration.test_invalid_identifiers_and_mongo_uniqueness) ... ok
+test_missing_index_real_collection_scan (test_verify_spatial.TestMongoIntegration.test_missing_index_real_collection_scan) ... ok
+test_multipolygon_hole_and_overlapping_results (test_verify_spatial.TestMongoIntegration.test_multipolygon_hole_and_overlapping_results) ... ok
+test_pending_reference_prevents_success (test_verify_spatial.TestMongoIntegration.test_pending_reference_prevents_success) ... ok
+test_schema_and_contract_errors (test_verify_spatial.TestMongoIntegration.test_schema_and_contract_errors) ... ok
+test_schema_enforced_by_real_mongo (test_verify_spatial.TestMongoIntegration.test_schema_enforced_by_real_mongo) ... ok
+test_spatial_rejected_plan_and_zero_keys_cannot_pass (test_verify_spatial.TestMongoIntegration.test_spatial_rejected_plan_and_zero_keys_cannot_pass) ... ok
+test_wrong_codes_with_correct_count (test_verify_spatial.TestMongoIntegration.test_wrong_codes_with_correct_count) ... ok
+test_cli_exit_codes (test_verify_spatial.TestReferenceAndPlan.test_cli_exit_codes) ... ok
+test_cli_missing_and_invalid_reference_and_json (test_verify_spatial.TestReferenceAndPlan.test_cli_missing_and_invalid_reference_and_json) ... ok
+test_duplicate_identifiers (test_verify_spatial.TestReferenceAndPlan.test_duplicate_identifiers) ... ok
+test_official_reference (test_verify_spatial.TestReferenceAndPlan.test_official_reference) ... ok
+test_reference_rejects_duplicates_bad_codes_and_count (test_verify_spatial.TestReferenceAndPlan.test_reference_rejects_duplicates_bad_codes_and_count) ... ok
+test_rejected_plan_cannot_pass (test_verify_spatial.TestReferenceAndPlan.test_rejected_plan_cannot_pass) ... ok
+test_winning_plan_classic_and_sbe (test_verify_spatial.TestReferenceAndPlan.test_winning_plan_classic_and_sbe) ... ok
+
+----------------------------------------------------------------------
+Ran 126 tests in 77.978s
+
+OK (skipped=1)

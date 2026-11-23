@@ -1,0 +1,35 @@
+[OK] SHA256 de los ocho originales y de la capa de 170 municipios
+8 particiones de 'google', selección PDET activa, 4 procesos
+[  1/8] 8e1: leídas  277823 preparadas   80564 rechazadas   0 (56.0 s)
+[  2/8] 8e3: leídas 6821072 preparadas  953065 rechazadas  32 (714.0 s)
+[  3/8] 8e5: leídas 5800973 preparadas  805533 rechazadas  32 (598.8 s)
+[  4/8] 8e7: leídas 6021057 preparadas  282954 rechazadas  23 (498.4 s)
+[  5/8] 8e9: leídas 6132325 preparadas  260719 rechazadas  23 (510.3 s)
+[  6/8] 8ef: leídas 1461800 preparadas  304087 rechazadas   6 (188.3 s)
+[  7/8] 91d: leídas 4620572 preparadas    7662 rechazadas  21 (262.5 s)
+[  8/8] 91f: leídas  363493 preparadas     191 rechazadas   2 (25.9 s)
+
+Leídas 31499115, rechazadas 139, excluidas fuera de PDET 28804201, preparadas 2694775 (duplicados quitados 0). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_google_prepare_report.json
+[FALLA] error de MongoDB: ServerSelectionTimeoutError
+[OK] SHA256 de los ocho originales y de la capa de 170 municipios
+[OK] count
+[OK] ids_match_input
+[OK] no_duplicate_ids
+[OK] no_duplicate_name_dpto
+[OK] schema_valid
+[OK] loaded_at_present
+[OK] spatial_index
+[OK] geo_query_hits_sample
+[OK] geo_query_uses_index
+[loaded] insertados 170, reemplazados 0, sin cambios 0, borrados 0, rechazados 0; colección con 170 documentos; reporte en outputs/municipalities_load_report.json
+[pasada 1] 8e1: leídas 80564 insertadas 80564 actualizadas 0 sin cambios 0 rechazadas 0 (34.61 s)
+[FALLA] error de MongoDB: ServerSelectionTimeoutError
+Reportes locales de reproducción: /Users/sebastiansanchez/techos-solares-pdet/data/delivery4_google_reproduction/outputs
+[OK] SHA256 de los ocho originales y de la capa de 170 municipios
+[FALLA] error de MongoDB: ServerSelectionTimeoutError
+Reportes locales de reproducción: /Users/sebastiansanchez/techos-solares-pdet/data/delivery4_google_reproduction/outputs
+[OK] SHA256 de los ocho originales y de la capa de 170 municipios
+[pasada 1] 8e1: leídas 80564 insertadas 0 actualizadas 0 sin cambios 80564 rechazadas 0 (3.78 s)
+[FALLA] error de MongoDB: AutoReconnect
+Reportes locales de reproducción: /Users/sebastiansanchez/techos-solares-pdet/data/delivery4_google_reproduction/outputs

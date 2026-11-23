@@ -1,0 +1,38 @@
+{
+  "all_prepared_partition_sha256_match_history": true,
+  "checked_at": "2026-11-23T03:29:27.778781+00:00",
+  "environment": "Equipo local de Juan Sebastián Sánchez Vásquez",
+  "files": [
+    {
+      "path": "outputs/delivery4/reproduction/buildings_google_load_report.json",
+      "sha256": "d33760116c19c387f520cb73457d6fa80dba6307820d642955853f6f48bec6d9"
+    },
+    {
+      "path": "outputs/delivery4/reproduction/buildings_google_prepare_report.json",
+      "sha256": "868c9456ddbe9c71f242b2f3fb6ff3a2d4ef5d6781334fcd405cb3d2105b1503"
+    },
+    {
+      "path": "outputs/delivery4/reproduction/buildings_google_prepared_by_municipality.csv",
+      "sha256": "22286cc6e29bdd41f92189160588878538e271922780384dc1431972f299f694",
+      "source_sha256_before_lf_archive": "c8924786ac39d1365cad2fc91a81466ef830a15e8d0e96e3c2148f455e46cc20"
+    },
+    {
+      "path": "outputs/delivery4/reproduction/municipalities_load_report.json",
+      "sha256": "9e03c1334ae96d0b3e00161b91ffa38cc3ff5e3e1b47bdac6f60990d2ea8a49f"
+    }
+  ],
+  "historical_reports_replaced": false,
+  "input_root": "data/delivery4_google_reproduction",
+  "local_database_probe": {
+    "available": true,
+    "cache_max_bytes": 274726912,
+    "google_buildings": 377599,
+    "mongo_version": "7.0.45",
+    "municipalities": 170,
+    "rooftop_stats": 0
+  },
+  "prepared_buildings": 2694775,
+  "prepared_totals_match_history": true,
+  "production_data_deleted": false,
+  "status": "prepared_complete_load_interrupted"
+}

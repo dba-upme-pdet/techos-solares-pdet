@@ -1,0 +1,22 @@
+{
+  "environment": "máquina de José; MongoDB 7.0.48",
+  "executed_locally_by_sebastian": false,
+  "executor": "José Medina",
+  "files": [
+    {
+      "archived_path": "docs/delivery4/evidencia/validacion/corrida2/reproduccion/rooftop_stats_google.csv",
+      "copied_path": "outputs/rooftop_stats_google.csv",
+      "copy_sha256": "d27779990e6be53ba19eee3bd6464f7c334493760cb08a465a7ff5ff8d3c2e60",
+      "sha256": "d27779990e6be53ba19eee3bd6464f7c334493760cb08a465a7ff5ff8d3c2e60"
+    },
+    {
+      "archived_path": "docs/delivery4/evidencia/validacion/corrida2/reproduccion/rooftop_stats_google_report.json",
+      "copied_path": "outputs/rooftop_stats_google_report.json",
+      "copy_sha256": "19f0d0d716b37c6718b39e38cd7e0bf7c36f3dee9c4fb36b27385a53ab3c02fa",
+      "sha256": "19f0d0d716b37c6718b39e38cd7e0bf7c36f3dee9c4fb36b27385a53ab3c02fa"
+    }
+  ],
+  "source_commit": "7564aa3",
+  "source_document": "docs/delivery4/entrega4_validacion.md",
+  "status": "reused_verified_archived_execution"
+}

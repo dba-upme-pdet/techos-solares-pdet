@@ -1,0 +1,42 @@
+Ejecución local, 19 nov 2026. Comparación SINTÉTICA + referencia EDA histórica. Sin MongoDB.
+Equivale a unittest discover -s tests -p test_compare_rooftop_stats.py -v y test_eda_buildings.py -v
+test_comparison_cli_json_csv_and_input_hashes (test_compare_rooftop_stats.CliTests.test_comparison_cli_json_csv_and_input_hashes) ... ok
+test_current_real_reference_matches_official_universe (test_compare_rooftop_stats.CliTests.test_current_real_reference_matches_official_universe) ... ok
+test_failure_preserves_existing_outputs_and_inputs (test_compare_rooftop_stats.CliTests.test_failure_preserves_existing_outputs_and_inputs) ... ok
+test_json_duplicate_keys_and_nonfinite_constants_fail (test_compare_rooftop_stats.CliTests.test_json_duplicate_keys_and_nonfinite_constants_fail) ... ok
+test_reference_only_is_separate_from_definitive_results (test_compare_rooftop_stats.CliTests.test_reference_only_is_separate_from_definitive_results) ... ok
+test_accepts_170_and_preserves_original_exports_and_source_specific_filters (test_compare_rooftop_stats.ComparisonTests.test_accepts_170_and_preserves_original_exports_and_source_specific_filters) ... ok
+test_descending_competition_ranking_with_exact_ties_and_zeros (test_compare_rooftop_stats.ComparisonTests.test_descending_competition_ranking_with_exact_ties_and_zeros) ... ok
+test_google_observed_zero_differs_from_missing_data (test_compare_rooftop_stats.ComparisonTests.test_google_observed_zero_differs_from_missing_data) ... ok
+test_join_uses_code_independently_of_order (test_compare_rooftop_stats.ComparisonTests.test_join_uses_code_independently_of_order) ... ok
+test_ms_zero_denominators_and_both_zero_are_null_percentages (test_compare_rooftop_stats.ComparisonTests.test_ms_zero_denominators_and_both_zero_are_null_percentages) ... ok
+test_rejects_different_method_id_version_definition_and_source_filter_maps (test_compare_rooftop_stats.ComparisonTests.test_rejects_different_method_id_version_definition_and_source_filter_maps) ... ok
+test_rejects_duplicates (test_compare_rooftop_stats.ComparisonTests.test_rejects_duplicates) ... ok
+test_rejects_effective_filters_different_from_methodology (test_compare_rooftop_stats.ComparisonTests.test_rejects_effective_filters_different_from_methodology) ... ok
+test_rejects_engine_version_mismatch (test_compare_rooftop_stats.ComparisonTests.test_rejects_engine_version_mismatch) ... ok
+test_rejects_historical_or_mixed_evidence_and_incomplete_exports (test_compare_rooftop_stats.ComparisonTests.test_rejects_historical_or_mixed_evidence_and_incomplete_exports) ... ok
+test_rejects_invalid_numbers_and_inconsistent_statistics (test_compare_rooftop_stats.ComparisonTests.test_rejects_invalid_numbers_and_inconsistent_statistics) ... ok
+test_rejects_invalid_reference_counts_duplicates_and_missing_codes (test_compare_rooftop_stats.ComparisonTests.test_rejects_invalid_reference_counts_duplicates_and_missing_codes) ... ok
+test_rejects_missing_and_unexpected_municipalities (test_compare_rooftop_stats.ComparisonTests.test_rejects_missing_and_unexpected_municipalities) ... ok
+test_rejects_missing_provenance_and_hash (test_compare_rooftop_stats.ComparisonTests.test_rejects_missing_provenance_and_hash) ... ok
+test_rejects_naive_timestamp (test_compare_rooftop_stats.ComparisonTests.test_rejects_naive_timestamp) ... ok
+test_rejects_nontext_short_unicode_and_whitespace_codes (test_compare_rooftop_stats.ComparisonTests.test_rejects_nontext_short_unicode_and_whitespace_codes) ... ok
+test_rejects_source_at_envelope_and_row (test_compare_rooftop_stats.ComparisonTests.test_rejects_source_at_envelope_and_row) ... ok
+test_respects_explicit_empty_statistics_null_policy (test_compare_rooftop_stats.ComparisonTests.test_respects_explicit_empty_statistics_null_policy) ... ok
+test_signed_absolute_and_percentage_differences (test_compare_rooftop_stats.ComparisonTests.test_signed_absolute_and_percentage_differences) ... ok
+test_strict_reference_threshold_recomputed_and_independent_of_final_counts (test_compare_rooftop_stats.ComparisonTests.test_strict_reference_threshold_recomputed_and_independent_of_final_counts) ... ok
+test_rejects_csv_that_does_not_match_the_prepare_report (test_eda_buildings.EdaBuildingsTests.test_rejects_csv_that_does_not_match_the_prepare_report) ... ok
+test_summary_compares_sources_and_lists_missing_municipalities (test_eda_buildings.EdaBuildingsTests.test_summary_compares_sources_and_lists_missing_municipalities) ... ms: 60 edificaciones en 3 municipios; área total 0.0 km², mediana 10.0 m²
+google: 75 edificaciones en 2 municipios; área total 0.0 km², mediana 10.0 m²
+{"pdet_municipalities": 3, "municipalities_in_both": 2, "google_over_ms_buildings": 1.25, "google_over_ms_area": 1.25, "municipalities_google_more_buildings": 2, "spearman_buildings_per_municipality": 1.0, "spearman_area_per_municipality": 1.0}
+Resumen: outputs/eda/eda_buildings_summary.json; figuras: docs/delivery3/figuras/eda_conteo_ms_vs_google.png, docs/delivery3/figuras/eda_area_por_subregion.png
+ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.714s
+
+OK
+
+[OK] CLI desde /tmp: dos ejecuciones idénticas. SHA256 JSON: 6f9b5bd4c518e5f737a3fe8e7a35453251d642567aef6edfb122edb02b299aa2
+[OK] Entradas ausentes: salida 1, sin crear comparación definitiva.
+[OK] Argumentos ausentes: salida 2.

@@ -1,0 +1,59 @@
+Regresiones finales sin MongoDB, con las exportaciones reales de Microsoft y Google disponibles. Datos unitarios sintéticos; pruebas de evidencia de solo lectura.
+test_cli_end_to_end_uses_shared_csv_report_contract_and_is_reproducible (test_compare_rooftop_stats.ComparisonTests.test_cli_end_to_end_uses_shared_csv_report_contract_and_is_reproducible) ... ok
+test_cli_failure_preserves_evidence_and_synthetic_definitive_do_not_mix (test_compare_rooftop_stats.ComparisonTests.test_cli_failure_preserves_evidence_and_synthetic_definitive_do_not_mix) ... ok
+test_competition_ties_and_original_sequential_rank (test_compare_rooftop_stats.ComparisonTests.test_competition_ties_and_original_sequential_rank) ... ok
+test_config_rule_drift_is_rejected_by_shared_contract (test_compare_rooftop_stats.ComparisonTests.test_config_rule_drift_is_rejected_by_shared_contract) ... ok
+test_flags_recomputed_and_observations_preserved_without_differences (test_compare_rooftop_stats.ComparisonTests.test_flags_recomputed_and_observations_preserved_without_differences) ... ok
+test_full_contract_and_all_original_metrics_and_engine_rank_preserved (test_compare_rooftop_stats.ComparisonTests.test_full_contract_and_all_original_metrics_and_engine_rank_preserved) ... ok
+test_real_microsoft_export_is_readable_without_recomputing (test_compare_rooftop_stats.ComparisonTests.test_real_microsoft_export_is_readable_without_recomputing) ... ok
+test_rejects_definitive_export_from_a_partial_source_load (test_compare_rooftop_stats.ComparisonTests.test_rejects_definitive_export_from_a_partial_source_load) ... ok
+test_rejects_duplicate_missing_unexpected_or_numeric_divipola (test_compare_rooftop_stats.ComparisonTests.test_rejects_duplicate_missing_unexpected_or_numeric_divipola) ... ok
+test_rejects_filters_and_methodology_inconsistent_with_current_config (test_compare_rooftop_stats.ComparisonTests.test_rejects_filters_and_methodology_inconsistent_with_current_config) ... ok
+test_rejects_row_from_another_execution_and_missing_metric (test_compare_rooftop_stats.ComparisonTests.test_rejects_row_from_another_execution_and_missing_metric) ... ok
+test_rejects_source_swaps_in_report_and_rows (test_compare_rooftop_stats.ComparisonTests.test_rejects_source_swaps_in_report_and_rows) ... ok
+test_rejects_stale_google_flag (test_compare_rooftop_stats.ComparisonTests.test_rejects_stale_google_flag) ... ok
+test_rejects_unbalanced_reports_and_missing_rerun_evidence (test_compare_rooftop_stats.ComparisonTests.test_rejects_unbalanced_reports_and_missing_rerun_evidence) ... ok
+test_rejects_wrong_hash_and_unbound_csv (test_compare_rooftop_stats.ComparisonTests.test_rejects_wrong_hash_and_unbound_csv) ... ok
+test_signed_absolute_and_percentage_differences (test_compare_rooftop_stats.ComparisonTests.test_signed_absolute_and_percentage_differences) ... ok
+test_spearman_average_ties_known_answer_and_negative_relation (test_compare_rooftop_stats.ComparisonTests.test_spearman_average_ties_known_answer_and_negative_relation) ... ok
+test_spearman_dynamic_populations_codes_and_constant_null (test_compare_rooftop_stats.ComparisonTests.test_spearman_dynamic_populations_codes_and_constant_null) ... ok
+test_spearman_insufficient_observations (test_compare_rooftop_stats.ComparisonTests.test_spearman_insufficient_observations) ... ok
+test_zeros_null_statistics_and_zero_denominators (test_compare_rooftop_stats.ComparisonTests.test_zeros_null_statistics_and_zero_denominators) ... ok
+test_exclusion_reason_precedence_and_missing_confidence (test_entrega4_contracts.ConfigAndRulesTests.test_exclusion_reason_precedence_and_missing_confidence) ... ok
+test_filters_for_microsoft_and_google (test_entrega4_contracts.ConfigAndRulesTests.test_filters_for_microsoft_and_google) ... ok
+test_google_low_coverage_exact_integer_boundary (test_entrega4_contracts.ConfigAndRulesTests.test_google_low_coverage_exact_integer_boundary) ... ok
+test_optional_bool_parsing_is_case_insensitive (test_entrega4_contracts.ConfigAndRulesTests.test_optional_bool_parsing_is_case_insensitive) ... ok
+test_real_config_matches_contract_and_eda (test_entrega4_contracts.ConfigAndRulesTests.test_real_config_matches_contract_and_eda) ... ok
+test_csv_validator_catches_tampered_columns_and_order (test_entrega4_contracts.DocumentAndCsvContractTests.test_csv_validator_catches_tampered_columns_and_order) ... ok
+test_real_microsoft_outputs_pass_full_contract (test_entrega4_contracts.DocumentAndCsvContractTests.test_real_microsoft_outputs_pass_full_contract) ... ok
+test_rejects_broken_document_invariants (test_entrega4_contracts.DocumentAndCsvContractTests.test_rejects_broken_document_invariants) ... ok
+test_valid_documents_ms_google_and_empty (test_entrega4_contracts.DocumentAndCsvContractTests.test_valid_documents_ms_google_and_empty) ... ok
+test_all_municipalities_even_without_buildings (test_rooftop_stats.DocumentsTests.test_all_municipalities_even_without_buildings) ... ok
+test_csv_rows_and_blank_median (test_rooftop_stats.DocumentsTests.test_csv_rows_and_blank_median) ... ok
+test_google_low_coverage_flag (test_rooftop_stats.DocumentsTests.test_google_low_coverage_flag) ... ok
+test_outside_pdet_counted_apart (test_rooftop_stats.DocumentsTests.test_outside_pdet_counted_apart) ... ok
+test_rank_by_total_area (test_rooftop_stats.DocumentsTests.test_rank_by_total_area) ... ok
+test_stats_and_compound_id (test_rooftop_stats.DocumentsTests.test_stats_and_compound_id) ... ok
+test_unbalanced_group_fails (test_rooftop_stats.DocumentsTests.test_unbalanced_group_fails) ... ok
+test_confidence_only_for_configured_sources (test_rooftop_stats.FiltersTests.test_confidence_only_for_configured_sources) ... ok
+test_expression_omits_disabled_filters (test_rooftop_stats.FiltersTests.test_expression_omits_disabled_filters) ... ok
+test_invalid_thresholds_rejected (test_rooftop_stats.FiltersTests.test_invalid_thresholds_rejected) ... ok
+test_reason_order_and_boundaries (test_rooftop_stats.FiltersTests.test_reason_order_and_boundaries) ... ok
+test_confidence_only_google (test_validate_analysis.ClassifyTests.test_confidence_only_google) ... ok
+test_same_rule_as_engine (test_validate_analysis.ClassifyTests.test_same_rule_as_engine)
+La reescritura en pandas da el mismo motivo que la regla del motor, huella por huella. ... ok
+test_area_rounding_and_cross_environment (test_validate_analysis.CompareTests.test_area_rounding_and_cross_environment) ... ok
+test_count_difference_fails (test_validate_analysis.CompareTests.test_count_difference_fails) ... ok
+test_identical (test_validate_analysis.CompareTests.test_identical) ... ok
+test_missing_row_fails (test_validate_analysis.CompareTests.test_missing_row_fails) ... ok
+test_aggregate_explain_uses_cursor_stage (test_validate_analysis.HelpersTests.test_aggregate_explain_uses_cursor_stage) ... ok
+test_fingerprint_ignores_computed_at (test_validate_analysis.HelpersTests.test_fingerprint_ignores_computed_at) ... ok
+test_geodesic_area_of_small_square (test_validate_analysis.HelpersTests.test_geodesic_area_of_small_square) ... ok
+test_pipeline_order (test_validate_analysis.HelpersTests.test_pipeline_order) ... ok
+test_spearman_is_rank_based (test_validate_analysis.HelpersTests.test_spearman_is_rank_based) ... ok
+test_winning_stages_finds_index (test_validate_analysis.HelpersTests.test_winning_stages_finds_index) ... ok
+
+----------------------------------------------------------------------
+Ran 52 tests in 1.473s
+
+OK

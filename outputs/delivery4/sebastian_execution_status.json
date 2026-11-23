@@ -1,0 +1,86 @@
+{
+  "branch": "feature/sebastian-environment",
+  "checked_at": "2026-11-23T03:36:28.862574+00:00",
+  "comparison_summary": {
+    "comparison_eligible": 155,
+    "municipalities": 170,
+    "reference_flagged": 15
+  },
+  "containers_restored_originals": 42,
+  "data_deleted": false,
+  "definitive_google_statistics_available": true,
+  "definitive_source_comparison_executed_locally": true,
+  "google_statistics_executor": "José Medina",
+  "google_totals": {
+    "assigned_pdet": 2694775,
+    "balanced": true,
+    "buildings_in_source": 2694775,
+    "excluded": {
+      "above_max_area": 0,
+      "below_min_area": 368619,
+      "low_confidence": 259152,
+      "total": 627771
+    },
+    "included": 2067004,
+    "outside_pdet_or_unassigned": 0,
+    "total_area_m2": 203747640.41
+  },
+  "historical_reports_modified": false,
+  "implementation_completed": true,
+  "local_google_metrics_equal_jose_export": true,
+  "local_google_statistics_executed_by_sebastian": true,
+  "local_google_stats_passes": [
+    {
+      "computed_at": "2026-11-23T04:02:10+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 1,
+      "replaced": 0,
+      "upserted": 170
+    },
+    {
+      "computed_at": "2026-11-23T04:02:29+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 2,
+      "replaced": 170,
+      "same_values_as_previous": true,
+      "upserted": 0
+    }
+  ],
+  "local_probe": {
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
+  },
+  "local_probe_after_restoring_services": {
+    "checked_at": "2026-11-23T04:06:43.965664+00:00",
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
+  },
+  "local_reproduction": "completed independently after authorized service suspension; original published exports preserved",
+  "local_reproduction_completed": true,
+  "local_runtime_limitation": "Docker VM global OOM confirmed; MongoDB killed when original services were restored; reproduction itself verified before restoration",
+  "local_verification_report": "outputs/delivery4/local_verification/recovery_and_restoration.json",
+  "microsoft_executor": "Miguel, 19 nov 2026",
+  "origin_main_integrated": "7564aa3",
+  "published_google_statistics_executed_locally_by_sebastian": false,
+  "remaining_team_work": [
+    "Review and integrate Sebastian PR",
+    "Samuel: Google maps and consolidated report/PDF",
+    "Team: BrightSpace submission"
+  ],
+  "responsible": "Juan Sebastián Sánchez Vásquez",
+  "source_receipt": "outputs/delivery4/google_execution_receipt.json",
+  "status": "definitive_comparison_completed_from_verified_team_exports",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "final_comparator_passed": 20,
+    "final_delivery4_regressions_passed": 52,
+    "full_suite_run": 126,
+    "passed": 125,
+    "skipped": 1
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "global_oom_events": 74,
+  "retained_excerpt": [
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=restricted,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=21596,uid=1000",
+      "time": "2026-11-23T03:53:59.633343796Z"
+    },
+    {
+      "message": "Out of memory: Killed process 21596 (python) total-vm:1190120kB, anon-rss:304912kB, file-rss:336kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:53:59.633390838Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python3.13,pid=92559,uid=1000",
+      "time": "2026-11-23T03:54:13.372241886Z"
+    },
+    {
+      "message": "Out of memory: Killed process 92559 (python3.13) total-vm:1188932kB, anon-rss:296552kB, file-rss:472kB, shmem-rss:0kB, UID:1000 pgtables:1184kB oom_score_adj:0",
+      "time": "2026-11-23T03:54:13.372304928Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=7ea67b138567fd2cbab041a79ae0d63fda2bba5ceb3be58f1fb73393ea7200f3,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python3.13,pid=68210,uid=1000",
+      "time": "2026-11-23T03:54:29.248803296Z"
+    },
+    {
+      "message": "Out of memory: Killed process 68210 (python3.13) total-vm:1188912kB, anon-rss:283848kB, file-rss:428kB, shmem-rss:0kB, UID:1000 pgtables:1184kB oom_score_adj:0",
+      "time": "2026-11-23T03:54:29.248856005Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=7ea67b138567fd2cbab041a79ae0d63fda2bba5ceb3be58f1fb73393ea7200f3,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=24842,uid=1000",
+      "time": "2026-11-23T03:54:46.156537054Z"
+    },
+    {
+      "message": "Out of memory: Killed process 24842 (python) total-vm:1190032kB, anon-rss:305416kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:54:46.156594846Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=1e57da8070463b27f07b7bcdbd4adee0fda5f40f25a38418ab4bddef43f5eeb2,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=23955,uid=1000",
+      "time": "2026-11-23T03:55:01.508745881Z"
+    },
+    {
+      "message": "Out of memory: Killed process 23955 (python) total-vm:1190084kB, anon-rss:303728kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:55:01.508790797Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=3c0c812ef97f84ab11695ea240feb4e171ad9168d3472961eb79d134de700cd6,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=22180,uid=1000",
+      "time": "2026-11-23T03:55:14.199633720Z"
+    },
+    {
+      "message": "Out of memory: Killed process 22180 (python) total-vm:1190044kB, anon-rss:302032kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:55:14.199738220Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=7ea67b138567fd2cbab041a79ae0d63fda2bba5ceb3be58f1fb73393ea7200f3,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python3.13,pid=26553,uid=1000",
+      "time": "2026-11-23T03:55:26.842409878Z"
+    },
+    {
+      "message": "Out of memory: Killed process 26553 (python3.13) total-vm:1189428kB, anon-rss:303284kB, file-rss:140kB, shmem-rss:0kB, UID:1000 pgtables:1184kB oom_score_adj:0",
+      "time": "2026-11-23T03:55:26.842431295Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=19257,uid=1000",
+      "time": "2026-11-23T03:55:42.849322094Z"
+    },
+    {
+      "message": "Out of memory: Killed process 19257 (python) total-vm:1190100kB, anon-rss:303428kB, file-rss:0kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:55:42.849351803Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=6f586d54b7f0e715802b88e8d1152e25168205b16b642d972096f58062d540ee,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=29166,uid=1000",
+      "time": "2026-11-23T03:55:54.230893085Z"
+    },
+    {
+      "message": "Out of memory: Killed process 29166 (python) total-vm:1190072kB, anon-rss:304948kB, file-rss:188kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:55:54.231078169Z"
+    },
+    {
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/docker/[redactado],task=python,pid=29637,uid=1000",
+      "time": "2026-11-23T03:56:11.242095385Z"
+    },
+    {
+      "message": "Out of memory: Killed process 29637 (python) total-vm:1190064kB, anon-rss:304904kB, file-rss:152kB, shmem-rss:0kB, UID:1000 pgtables:1196kB oom_score_adj:0",
+      "time": "2026-11-23T03:56:11.242114969Z"
+    }
+  ],
+  "specific_mongod_kill_record_retained": false
+}

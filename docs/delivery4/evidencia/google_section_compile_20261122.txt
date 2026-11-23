@@ -1,0 +1,4 @@
+Sección con confirmación local compilada aisladamente; no es el PDF del grupo.
+SHA256: 3140c4415c8b73ac894ed0962d1dc1cc74af6034fb84ca785eec1046dc9b5c38
+Dos pasadas pdflatex, salida 0.
+Output written on section.pdf (1 page, 137976 bytes).

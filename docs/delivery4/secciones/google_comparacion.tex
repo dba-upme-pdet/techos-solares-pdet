@@ -1,0 +1,39 @@
+\section{Google y comparación municipal definitiva}
+\textbf{Responsable: Juan Sebastián Sánchez Vásquez.}
+Se adaptó el comparador al contrato de Derek y al motor común de Miguel.
+Google reutiliza la ejecución de José del 22 de noviembre (MongoDB 7.0.48,
+dos pasadas); Microsoft conserva la ejecución de Miguel del 19 de noviembre.
+Sebastián validó localmente las exportaciones y ejecutó la comparación, sin
+atribuirse las ejecuciones de MongoDB de los compañeros.
+
+Google incluyó 2.067.004 edificaciones y 203.747.640,41~m$^2$ de huella horizontal:
+170 municipios con resultado, 164 con observaciones y seis con conteo cero
+(05475, 05873, 27099, 27450, 27491 y 27745). Se excluyeron 368.619 por
+área mínima y 259.152 por confianza, en ese orden. Se aplicó área de al menos
+20~m$^2$, confianza Google de al menos 0,70 y ningún tope superior ni factor
+solar. Los vacíos conservan media y mediana nulas. Los ocho controles del
+motor aprobaron y la segunda pasada mantuvo 170 documentos sin nuevas inserciones.
+
+La comparación conserva las métricas y el ranking original de ambas fuentes;
+no las suma como edificios únicos. Las diferencias son Google menos Microsoft,
+con porcentajes respecto a Microsoft y resultado nulo para denominador cero.
+Se agregan rankings de competición (1,1,3), conservando el ranking secuencial
+del motor. Los quince municipios señalados por la regla histórica compartida
+conservan sus valores, pero quedan excluidos de diferencias directas. La causa
+de la discrepancia no está demostrada y Microsoft no es una verdad certificada.
+
+Spearman se recalculó sobre las exportaciones filtradas. Sobre los 155 pares
+positivos no señalados: $\rho=0.912019$ en conteo y $\rho=0.941336$ en área.
+Las sensibilidades incluyen 170 municipios completos o 164 pares positivos,
+con códigos exactos incluidos y excluidos en el JSON. No se reutilizan coeficientes
+del EDA ni se interpreta correlación como prueba de exactitud.
+
+Los resultados están en \path{outputs/delivery4/rooftop_stats_comparison.csv}
+y su JSON homónimo. Procedencia y comandos:
+\path{docs/delivery4/entrega4_google_comparacion.md}.
+La reproducción local de Sebastián se completó posteriormente tras liberar
+recursos de Docker: 2.694.775 edificios, 170 estadísticas y ocho controles
+aprobados, con las mismas métricas de Google. Se conservaron las exportaciones
+originales y se restauraron los servicios detenidos. El área de huella no equivale a área útil de techo
+ni a potencial energético. Esta sección no acredita la terminación del PDF
+consolidado ni el envío a BrightSpace.

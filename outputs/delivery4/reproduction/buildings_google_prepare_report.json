@@ -1,0 +1,256 @@
+{
+  "claims_full_source": true,
+  "claims_pdet_selection": true,
+  "contract": "entrega3-buildings-v1",
+  "dataset_id": "google",
+  "datasets_document": {
+    "_id": "google",
+    "accessed_at": "2026-11-16T17:24:36.317388+00:00",
+    "license": "CC-BY-4.0",
+    "name": "Google Open Buildings",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "finished_at": "2026-11-23T03:16:08+00:00",
+  "input": {
+    "download_generated_at": null,
+    "download_manifest": "outputs/google_buildings_download_manifest.json",
+    "download_manifest_sha256": "354f7afefba6217318ad3c2df540508eee691948ea1ece3ae6d314f59ffa4cdb",
+    "partitions_in_manifest": 8,
+    "partitions_processed": 8,
+    "pdet_input": "data/processed/municipalities.geojsonl",
+    "pdet_input_sha256": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed"
+  },
+  "loader_contract": {
+    "add_fields": {
+      "run_id": "ObjectId del documento de ingestion_runs de la partición"
+    },
+    "files": "partitions[].output.path: GeoJSON Lines con gzip, un documento de buildings por línea",
+    "gate": "cargar solo si status = ready_for_load, claims_pdet_selection = true y el SHA256 de cada archivo coincide",
+    "ingestion_runs": "una por partición: source_file = input.local_path, rows_read = read, rows_rejected = rejected, rows_loaded = insertados; notes cita excluded_outside_pdet"
+  },
+  "parameters": {
+    "area": "pyproj.Geod(ellps='WGS84').geometry_area_perimeter, valor absoluto, m2",
+    "batch_size": 10000,
+    "centroid": "shapely centroid en lon/lat",
+    "coordinate_precision": 7,
+    "sliver_ratio": 0.01,
+    "workers": 4
+  },
+  "partitions": [
+    {
+      "excluded_outside_pdet": 197259,
+      "input": {
+        "local_path": "data/raw/google_buildings/8e1_buildings.csv.gz",
+        "sha256": "ebc043c9a0936cf77513196ce7a590fd236423096e55ba00ec481e1ce6514d43",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e1_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 8336305,
+        "path": "data/processed/buildings/google/part-8e1.jsonl.gz",
+        "records": 80564,
+        "sha256": "f844f683394c48a0048994d9c48b478665f276b2018c47ee931627dbf49a8eb0"
+      },
+      "partition_id": "8e1",
+      "prepared": 80564,
+      "read": 277823,
+      "rejected": 0,
+      "rejected_log": "data/processed/buildings/google/rejected-8e1.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8e1.jsonl.gz",
+      "seconds": 56.0
+    },
+    {
+      "excluded_outside_pdet": 5867975,
+      "input": {
+        "local_path": "data/raw/google_buildings/8e3_buildings.csv.gz",
+        "sha256": "c58f7f950860565ad4d01b1d757d1a251c9d2ec5cd1d4aaca71d4cb20b1e61d1",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e3_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 100767567,
+        "path": "data/processed/buildings/google/part-8e3.jsonl.gz",
+        "records": 953065,
+        "sha256": "4db79c4e6577ac1a38860e21bf48afa1f04b56be6fe815a05b985bdbab6c9747"
+      },
+      "partition_id": "8e3",
+      "prepared": 953065,
+      "read": 6821072,
+      "rejected": 32,
+      "rejected_log": "data/processed/buildings/google/rejected-8e3.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8e3.jsonl.gz",
+      "seconds": 714.0
+    },
+    {
+      "excluded_outside_pdet": 4995408,
+      "input": {
+        "local_path": "data/raw/google_buildings/8e5_buildings.csv.gz",
+        "sha256": "79262e5bcba7b0e94acaae34a4cb85d27f7d2f2bef6c5a8a404bb86487c04453",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e5_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 84263792,
+        "path": "data/processed/buildings/google/part-8e5.jsonl.gz",
+        "records": 805533,
+        "sha256": "d6b93182ebef1d44a8ceda6c813a4a9152c36a9cfccd86ce237ddad3ba877fa6"
+      },
+      "partition_id": "8e5",
+      "prepared": 805533,
+      "read": 5800973,
+      "rejected": 32,
+      "rejected_log": "data/processed/buildings/google/rejected-8e5.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8e5.jsonl.gz",
+      "seconds": 598.8
+    },
+    {
+      "excluded_outside_pdet": 5738080,
+      "input": {
+        "local_path": "data/raw/google_buildings/8e7_buildings.csv.gz",
+        "sha256": "a2c5ce8c1ea94061e29cb4e5ccce6c58007075a26b7554a587f8423d1d119c5c",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e7_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 29591532,
+        "path": "data/processed/buildings/google/part-8e7.jsonl.gz",
+        "records": 282954,
+        "sha256": "092a37682aaf9b47bc6ec5519ad701803fba1a5e643ee6da90cc8359a1ebfe37"
+      },
+      "partition_id": "8e7",
+      "prepared": 282954,
+      "read": 6021057,
+      "rejected": 23,
+      "rejected_log": "data/processed/buildings/google/rejected-8e7.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8e7.jsonl.gz",
+      "seconds": 498.4
+    },
+    {
+      "excluded_outside_pdet": 5871583,
+      "input": {
+        "local_path": "data/raw/google_buildings/8e9_buildings.csv.gz",
+        "sha256": "72cf2e0dbbe641dc941fe401410f894f8e4dc8f62e964d9ab18016bb24af1a44",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8e9_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 26600225,
+        "path": "data/processed/buildings/google/part-8e9.jsonl.gz",
+        "records": 260719,
+        "sha256": "43784951dbb716420ea1119d15d0998f93a67e9b72c32a78686aef0a513c79b1"
+      },
+      "partition_id": "8e9",
+      "prepared": 260719,
+      "read": 6132325,
+      "rejected": 23,
+      "rejected_log": "data/processed/buildings/google/rejected-8e9.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8e9.jsonl.gz",
+      "seconds": 510.3
+    },
+    {
+      "excluded_outside_pdet": 1157707,
+      "input": {
+        "local_path": "data/raw/google_buildings/8ef_buildings.csv.gz",
+        "sha256": "184f7f95df215f65380d8a5d2090e048fcf54cff64c34401a5993a2a73cb0602",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/8ef_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 30766559,
+        "path": "data/processed/buildings/google/part-8ef.jsonl.gz",
+        "records": 304087,
+        "sha256": "5bf482efb946d0e987e114452ba65b9d8e727c2410a2c5909e93951711f3ff18"
+      },
+      "partition_id": "8ef",
+      "prepared": 304087,
+      "read": 1461800,
+      "rejected": 6,
+      "rejected_log": "data/processed/buildings/google/rejected-8ef.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-8ef.jsonl.gz",
+      "seconds": 188.3
+    },
+    {
+      "excluded_outside_pdet": 4612889,
+      "input": {
+        "local_path": "data/raw/google_buildings/91d_buildings.csv.gz",
+        "sha256": "3d3904f8ec7ce5656fc7aa224dea37261eb8ef01c102a0cf76dda082468e21fd",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91d_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 802719,
+        "path": "data/processed/buildings/google/part-91d.jsonl.gz",
+        "records": 7662,
+        "sha256": "86ddb757915facd0a968025ce4379f87565ba45007cf4298927cf577ae7b5a16"
+      },
+      "partition_id": "91d",
+      "prepared": 7662,
+      "read": 4620572,
+      "rejected": 21,
+      "rejected_log": "data/processed/buildings/google/rejected-91d.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-91d.jsonl.gz",
+      "seconds": 262.5
+    },
+    {
+      "excluded_outside_pdet": 363300,
+      "input": {
+        "local_path": "data/raw/google_buildings/91f_buildings.csv.gz",
+        "sha256": "a2a0578db8353148a7f2d9d818b3ae1692a99622479b0909d19c75182b5d7b75",
+        "url": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/91f_buildings.csv.gz"
+      },
+      "output": {
+        "bytes": 19543,
+        "path": "data/processed/buildings/google/part-91f.jsonl.gz",
+        "records": 191,
+        "sha256": "5e32283d3f544c64c44112f18e0782876b44dcbc5988e7d31ca95e73c8e04dda"
+      },
+      "partition_id": "91f",
+      "prepared": 191,
+      "read": 363493,
+      "rejected": 2,
+      "rejected_log": "data/processed/buildings/google/rejected-91f.jsonl.gz",
+      "repaired": 0,
+      "repairs_log": "data/processed/buildings/google/repairs-91f.jsonl.gz",
+      "seconds": 25.9
+    }
+  ],
+  "script": "scripts/03_prepare_buildings.py",
+  "script_version": "entrega3-prepare-v1",
+  "selection": {
+    "applied": true,
+    "by_municipality_csv": "outputs/buildings_google_prepared_by_municipality.csv",
+    "criterion": "centroide de la huella dentro o sobre el borde de un municipio PDET (shapely intersects)",
+    "municipalities": 170,
+    "municipalities_with_prepared_buildings": 165,
+    "tie_rule": "borde compartido: se asigna el código DIVIPOLA menor"
+  },
+  "started_at": "2026-11-23T03:02:08+00:00",
+  "status": "ready_for_load",
+  "totals": {
+    "area_m2": {
+      "count": 2694775,
+      "max": 20829.74,
+      "min": 2.5,
+      "p01": 7.36,
+      "p10": 16.66,
+      "p50": 57.83,
+      "p90": 159.9,
+      "p99": 444.91,
+      "sum": 222051170.99
+    },
+    "attribute_notes": {},
+    "balanced": true,
+    "centroids_on_shared_boundary": 0,
+    "duplicates_removed": 0,
+    "excluded_outside_pdet": 28804201,
+    "prepared": 2694775,
+    "read": 31499115,
+    "rejected": 139,
+    "rejected_by_reason": {
+      "geometry_type_unsupported": 139
+    },
+    "repaired": 0,
+    "repaired_by_action": {}
+  }
+}
