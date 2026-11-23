@@ -74,11 +74,40 @@ processing:
     sliver_ratio: 0.01        # make_valid: se descartan partes menores si suman < 1 % del área
 
 analysis:
-  # Valores provisionales; los definitivos se fijan después del EDA (Entrega 3).
-  min_area_m2: 20
-  min_confidence: 0.70
+  # Metodología definitiva y contrato compartido de la Entrega 4
+  # (ver docs/delivery4/entrega4_metodologia_y_contrato.md y scripts/entrega4_contracts.py).
+  # Todos los scripts de cálculo, comparación, validación y visualización leen de aquí.
+  methodology:
+    id: "upme-pdet-rooftop-stats"
+    version: "entrega4-methodology-v1"
+    base_source: "ms"
+    contrast_source: "google"
+    area_metric: "footprint_geodesic_wgs84_m2"   # área geodésica de huella, no área aprovechable
+    usable_area_factor: null                     # sin factor de aprovechamiento sin respaldo
+    spatial_assignment: "centroid_intersects_min_divipola_tiebreak"
+    empty_municipality_stats: "null"             # mean_area_m2 y median_area_m2 en null si building_count = 0
+    missing_confidence_policy:
+      ms: "ignore_unfiltered"                    # Microsoft no publica confianza (99,9994 % null en PDET)
+      google: "exclude_as_low_confidence"        # Google publica confianza; ausente o < min_confidence se excluye
+    outlier_policy: "retain_all_above_min_area"  # se conservan huellas grandes y se reportan media y mediana
+  min_area_m2: 20             # huellas menores se excluyen (estructuras menores y ruido del modelo)
+  max_area_m2: null           # sin tope superior: las huellas grandes se conservan; null = sin máximo
+  min_confidence: 0.70        # aplicado solo a las fuentes de confidence_sources
+  confidence_sources: ["google"]   # Microsoft no trae confianza (1.761.020 de 1.761.030 en null en PDET)
+  filter_order: ["below_min_area", "above_max_area", "low_confidence"]
+  google_low_coverage_rule:
+    ratio_threshold: 0.20     # 5 * google_buildings < ms_buildings (estricto) sobre EDA Entrega 3
+    basis: "entrega3_eda_unfiltered"
+    reference_eda: "outputs/eda/eda_buildings_summary.json"
+  # 15 municipios con cobertura insuficiente de Google (< 20 % de las edificaciones de
+  # Microsoft en el EDA Entrega 3). Verificado contra outputs/eda/eda_buildings_summary.json.
+  google_low_coverage: ["05475", "05873", "19418", "27099", "27150", "27205", "27250",
+                        "27425", "27450", "27491", "27615", "27745", "52612", "52621", "73616"]
+  rooftop_stats:
+    collection: "rooftop_stats"
+    csv: "outputs/rooftop_stats_{source}.csv"
+    report: "outputs/rooftop_stats_{source}_report.json"
   comparison:
-    # Solo entradas/salidas de la comparación; no fija filtros del motor común.
     municipalities: "outputs/pdet_mgn_crosswalk.csv"
     reference_eda: "outputs/eda/eda_buildings_summary.json"
     output_dir: "outputs/delivery4"

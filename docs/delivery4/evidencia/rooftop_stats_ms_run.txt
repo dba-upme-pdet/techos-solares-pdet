@@ -1,0 +1,10 @@
+[OK] all_pdet_municipalities
+[OK] no_duplicate_municipalities
+[OK] stored_matches_computed
+[OK] included_matches_independent_count
+[OK] balance_with_source
+[OK] filters_recorded
+[OK] empty_municipalities_without_mean
+[OK] rerun_does_not_duplicate
+[computed] 'ms': 170 municipios (170 con edificaciones); incluidas 1720535, excluidas 40495 de 1761030 en PDET; área 220.27 km² en 33.7 s
+CSV: outputs/rooftop_stats_ms.csv  ·  reporte: outputs/rooftop_stats_ms_report.json
