@@ -1,30 +1,37 @@
-\section{Google y comparación municipal entre fuentes}
+\section{Google y comparación municipal definitiva}
 \textbf{Responsable: Juan Sebastián Sánchez Vásquez.}
-La implementación de comparación se adaptó al contrato definitivo de Derek y
-al motor común de Miguel. Se conservan los 170 códigos DIVIPOLA, las métricas y
-el ranking original de cada fuente; las diferencias son Google menos Microsoft,
-con porcentajes respecto a Microsoft y tratamiento explícito de denominadores
-cero y estadísticas nulas. No se suman las fuentes como edificios únicos.
+Se adaptó el comparador al contrato de Derek y al motor común de Miguel.
+Google reutiliza la ejecución de José del 22 de noviembre (MongoDB 7.0.48,
+dos pasadas); Microsoft conserva la ejecución de Miguel del 19 de noviembre.
+Sebastián validó localmente las exportaciones y ejecutó la comparación, sin
+atribuirse las ejecuciones de MongoDB de los compañeros.
 
-La señal \texttt{google\_low\_coverage} se recalcula con la regla compartida
-sobre el EDA sin filtros analíticos de la Entrega~4. Los señalados conservan sus
-valores y rankings, pero se excluyen de diferencias directas. Su discrepancia no
-prueba una causa ni la cobertura real; Microsoft tampoco es una verdad certificada.
-Spearman se implementó con poblaciones dinámicas y códigos exactos incluidos y
-excluidos para cada métrica, sin reutilizar los coeficientes del EDA.
+Google incluyó 2.067.004 edificaciones y 203.747.640,41~m$^2$ de huella horizontal:
+170 municipios con resultado, 164 con observaciones y seis con conteo cero
+(05475, 05873, 27099, 27450, 27491 y 27745). Se excluyeron 368.619 por
+área mínima y 259.152 por confianza, en ese orden. Se aplicó área de al menos
+20~m$^2$, confianza Google de al menos 0,70 y ningún tope superior ni factor
+solar. Los vacíos conservan media y mediana nulas. Los ocho controles del
+motor aprobaron y la segunda pasada mantuvo 170 documentos sin nuevas inserciones.
 
-En el computador de Sebastián se verificaron los ocho originales y se completó
-la preparación oficial: 31.499.115 filas leídas, 139 rechazadas y 2.694.775 huellas
-PDET preparadas. Los ocho SHA256 preparados coinciden con la evidencia histórica.
-Se cargaron los 170 municipios, pero los reinicios de MongoDB interrumpieron la
-carga de edificios. Por ello todavía no se ejecutó el cálculo definitivo Google
-ni se generaron diferencias o correlaciones definitivas.
+La comparación conserva las métricas y el ranking original de ambas fuentes;
+no las suma como edificios únicos. Las diferencias son Google menos Microsoft,
+con porcentajes respecto a Microsoft y resultado nulo para denominador cero.
+Se agregan rankings de competición (1,1,3), conservando el ranking secuencial
+del motor. Los quince municipios señalados por la regla histórica compartida
+conservan sus valores, pero quedan excluidos de diferencias directas. La causa
+de la discrepancia no está demostrada y Microsoft no es una verdad certificada.
 
-Microsoft conserva la ejecución de Miguel del 19 de noviembre: 1.720.535
-edificaciones y 220.266.587,30~m$^2$ de huella. El cierre requiere el CSV y reporte
-Google completos del motor común, con dos pasadas y controles aprobados.
-La documentación y comandos se encuentran en
+Spearman se recalculó sobre las exportaciones filtradas. Sobre los 155 pares
+positivos no señalados: $\rho=0.912019$ en conteo y $\rho=0.941336$ en área.
+Las sensibilidades incluyen 170 municipios completos o 164 pares positivos,
+con códigos exactos incluidos y excluidos en el JSON. No se reutilizan coeficientes
+del EDA ni se interpreta correlación como prueba de exactitud.
+
+Los resultados están en \path{outputs/delivery4/rooftop_stats_comparison.csv}
+y su JSON homónimo. Procedencia y comandos:
 \path{docs/delivery4/entrega4_google_comparacion.md}.
-El área horizontal de huella no equivale a área útil de techo ni a potencial energético.
-Esta sección no acredita la validación independiente de José, los mapas de Samuel,
-la terminación del PDF completo ni el envío a BrightSpace.
+La reproducción local de Sebastián quedó parcial por reinicios de MongoDB;
+no se usó para estas cifras. El área de huella no equivale a área útil de techo
+ni a potencial energético. Esta sección no acredita la terminación del PDF
+consolidado ni el envío a BrightSpace.

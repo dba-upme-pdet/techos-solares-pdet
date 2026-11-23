@@ -1,0 +1,12 @@
+Comando: .venv/bin/python scripts/06_compare_rooftop_stats.py
+[OK] definitive: {"municipalities": 170, "comparison_eligible": 155, "reference_flagged": 15}
+JSON: /Users/sebastiansanchez/techos-solares-pdet/outputs/delivery4/rooftop_stats_comparison.json
+CSV: /Users/sebastiansanchez/techos-solares-pdet/outputs/delivery4/rooftop_stats_comparison.csv
+
+Dos ejecuciones reales con JSON idéntico. SHA256: e0d8d118f36ec76872399a73d0bf8cce4059b0a67bc9bc58732b1fa6fedf3b97
+all_municipalities/building_count: n=170, rho=0.911018372520, pandas rank/corr OK
+all_municipalities/total_area_m2: n=170, rho=0.942907653300, pandas rank/corr OK
+comparable_positive_in_both/building_count: n=155, rho=0.912019361300, pandas rank/corr OK
+comparable_positive_in_both/total_area_m2: n=155, rho=0.941336083272, pandas rank/corr OK
+positive_in_both/building_count: n=164, rho=0.901637058505, pandas rank/corr OK
+positive_in_both/total_area_m2: n=164, rho=0.936947206617, pandas rank/corr OK

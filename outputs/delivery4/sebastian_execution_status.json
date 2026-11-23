@@ -1,41 +1,58 @@
 {
   "branch": "feature/sebastian-environment",
-  "checked_at": "2026-11-23T03:31:41.713207+00:00",
+  "checked_at": "2026-11-23T03:36:28.862574+00:00",
+  "comparison_summary": {
+    "comparison_eligible": 155,
+    "municipalities": 170,
+    "reference_flagged": 15
+  },
   "data_deleted": false,
-  "definitive_google_statistics_executed": false,
-  "definitive_source_comparison_executed": false,
-  "dependencies": {
-    "common_engine": "available and integrated",
-    "google_originals": "8 verified locally",
-    "google_preparation": "2694775; all prepared SHA256 match historical report",
-    "local_database_probe": {
-      "available": true,
-      "cache_max_bytes": 274726912,
-      "google_buildings": 377599,
-      "mongo_version": "7.0.45",
-      "municipalities": 170,
-      "rooftop_stats": 0
+  "definitive_google_statistics_available": true,
+  "definitive_source_comparison_executed_locally": true,
+  "google_statistics_executed_locally_by_sebastian": false,
+  "google_statistics_executor": "José Medina",
+  "google_totals": {
+    "assigned_pdet": 2694775,
+    "balanced": true,
+    "buildings_in_source": 2694775,
+    "excluded": {
+      "above_max_area": 0,
+      "below_min_area": 368619,
+      "low_confidence": 259152,
+      "total": 627771
     },
-    "methodology_and_contract": "available and integrated",
-    "microsoft_export": "validated and reused from Miguel, 19 nov 2026"
+    "included": 2067004,
+    "outside_pdet_or_unassigned": 0,
+    "total_area_m2": 203747640.41
   },
   "historical_reports_modified": false,
   "implementation_completed": true,
-  "next_steps": [
-    "Stabilize MongoDB and resume verified local inputs, or run Google on team loaded environment",
-    "Provide outputs/rooftop_stats_google.csv and outputs/rooftop_stats_google_report.json with full source and passes 2",
-    "Run scripts/entrega4_contracts.py --check --require-google and scripts/06_compare_rooftop_stats.py",
-    "Update real results and section; independent validation and group PDF remain separate"
+  "local_probe": {
+    "available": true,
+    "cache_max_bytes": 274726912,
+    "google_buildings": 377599,
+    "mongo_version": "7.0.45",
+    "municipalities": 170,
+    "rooftop_stats": 0
+  },
+  "local_reproduction": "partial and not used for definitive results",
+  "microsoft_executor": "Miguel, 19 nov 2026",
+  "origin_main_integrated": "7564aa3",
+  "remaining_team_work": [
+    "Review and integrate Sebastian PR",
+    "Samuel: Google maps and consolidated report/PDF",
+    "Team: BrightSpace submission"
   ],
-  "origin_main_integrated": "4e94c48",
   "responsible": "Juan Sebastián Sánchez Vásquez",
-  "status": "comparison_adapted_google_execution_blocked_by_local_mongodb_restarts",
+  "source_receipt": "outputs/delivery4/google_execution_receipt.json",
+  "status": "definitive_comparison_completed_from_verified_team_exports",
   "tests": {
+    "errors": 0,
+    "failed": 0,
     "final_comparator_passed": 20,
-    "full_suite_errors": 0,
-    "full_suite_failed": 0,
-    "full_suite_passed": 125,
+    "final_delivery4_regressions_passed": 52,
     "full_suite_run": 126,
-    "full_suite_skipped": 1
+    "passed": 125,
+    "skipped": 1
   }
 }

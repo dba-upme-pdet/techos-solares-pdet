@@ -1,256 +1,224 @@
-# Google y comparación municipal — Entrega 4
+# Google y comparación municipal definitiva — Entrega 4
 
 Responsable: Juan Sebastián Sánchez Vásquez. Revisión: 22 nov 2026 (America/Bogota).
 
-## Estado comprobado
+## Cierre y procedencia de las ejecuciones
 
-La implementación se adaptó al contrato definitivo `entrega4-rooftop-stats-v1`
-y a la metodología `entrega4-methodology-v1`. `origin/main` (`4e94c48`) se
-incorporó mediante merge normal; los conflictos se resolvieron conservando su
-configuración y documentación de coordinación. **El contrato de Derek y el motor
-de Miguel están disponibles; ya no son dependencias pendientes.** No se modificaron
-sus implementaciones ni se creó otro motor de estadísticas.
+El comparador está adaptado a `entrega4-rooftop-stats-v1` y
+`entrega4-methodology-v1`. Se incorporaron con merges normales el contrato y motor
+comunes (`4e94c48`) y la validación independiente publicada durante esta sesión
+(`7564aa3`). Se conservaron las implementaciones, la configuración y las autorías.
+No se creó otro motor de estadísticas.
 
-La ejecución definitiva de Google **no está terminada**. MongoDB local estaba
-detenido y vacío; se inició su contenedor y se verificaron los originales disponibles.
-La preparación oficial se completó, pero MongoDB se reinició durante la carga y
-los intentos de reanudación terminaron en `ServerSelectionTimeoutError` o
-`AutoReconnect`. No se ejecutó el cálculo sobre esa carga parcial y no se generaron
-CSV/reporte de estadísticas Google ni una comparación presentados como definitivos.
+**Google se reutilizó de la ejecución real de José**, archivada en
+`docs/delivery4/evidencia/validacion/corrida2/reproduccion/rooftop_stats_google.csv`
+y su reporte homónimo. Fue ejecutada el 22 nov en su computador (MongoDB
+7.0.48; marca UTC 2026-11-23T03:22:15+00:00, que corresponde al 22 nov en Bogotá),
+con `scripts/06_rooftop_stats.py --source google --passes 2`.
+Se copiaron ambos archivos **sin modificar sus bytes** a las rutas comunes de
+`outputs/`; no existían allí. Sus SHA256 y procedencia están en
+`outputs/delivery4/google_execution_receipt.json`.
+**No se atribuye a Sebastián la ejecución del motor ni sus 170 documentos MongoDB.**
 
-No se necesitan nuevas descargas. Los originales, los municipios y las ocho
-particiones preparadas están disponibles localmente y verificados. El bloqueo
-actual es **una instancia MongoDB estable para completar la carga/cálculo**, o
-recibir el CSV y reporte Google completos de una instancia ya cargada del equipo.
+Microsoft conserva el CSV/reporte de **Miguel del 19 nov**, sin sobrescribirlos ni
+recalcularlos: 1.720.535 edificaciones y
+220.266.587,30 m² de huella. Ambos resultados tienen metodología
+y filtros compatibles. La validación de José documenta una diferencia de apenas
+0,78 m² en el total Microsoft entre su entorno original y la reconstrucción de Miguel,
+por redondeo de áreas individuales; se conservan los valores originales de Miguel,
+sin ajustes para hacerlos coincidir. Este contraste declara ambos entornos.
 
-## Ejecución real y conservación de evidencias
+**Sebastián ejecutó localmente la validación de los pares exportados y la comparación
+definitiva**, sin usar su base parcial ni repetir la carga del equipo.
+La validación independiente de José está publicada en `main` (47/47 controles);
+no se sigue describiendo como pendiente. Su corrida maestra dejó el comparador
+omitido porque este aún no estaba integrado; puede repetir ese paso tras el PR.
 
-1. Se inició Docker Desktop y se comprobó el volumen existente del proyecto, sin
-   borrar ni reinicializar datos. Antes de cargar había 0 municipios, 0 edificios
-   y 0 estadísticas. Esa constatación se limita a este computador.
-2. Se verificaron los SHA256 de los ocho CSV.gz originales y de
-   `data/processed/municipalities.geojsonl` contra sus manifiestos/reportes.
-3. Se ejecutó el preparador de Derek mediante el auxiliar
-   `scripts/06_reproduce_google_local.py`, con cuatro procesos y selección PDET.
-   Los reportes se aislaron en `data/delivery4_google_reproduction/outputs/`.
-4. Resultado real: **31.499.115 filas leídas, 139 rechazadas, 28.804.201 excluidas
-   fuera de PDET y 2.694.775 huellas preparadas**, sin duplicados, balance correcto.
-   Los totales y los **ocho SHA256 de archivos preparados coinciden exactamente**
-   con la evidencia de la Entrega 3. No se sustituyeron sus reportes históricos.
-5. Se cargaron los **170 municipios**, con nueve controles del cargador aprobados,
-   incluidos índice, consulta espacial y plan ganador. Se usó `prune=False` y no
-   se permitió ninguna excepción de hash.
-6. La carga oficial de José se interrumpió. Se reanudó idempotentemente desde los
-   archivos ya preparados, sin repetir la preparación ni borrar lo insertado.
-   El log acredita una pasada de `8e1` con 80.564 inserciones y otra con las mismas
-   80.564 sin cambios, sin rechazos. **Esto no acredita la carga completa.**
-7. Se observó recuperación de MongoDB tras reinicios no limpios. Se redujo solo
-   la caché de esta instancia con una sobreescritura Compose local de 0,256 GiB,
-   conservando su volumen, y se amplió a 30 s la tolerancia de conexión del auxiliar.
-   Las interrupciones persistieron. No se certifica una causa de memoria únicamente
-   a partir de esos reinicios. No se detuvieron contenedores de otros proyectos.
+## Método y resultado real de Google
 
-El estado de la carga parcial al último sondeo está en
-`outputs/delivery4/google_local_reproduction.json`; no se debe usar como resultado
-municipal definitivo. Los reportes locales copiados conservan su estado real:
-`outputs/delivery4/reproduction/`. Sus rutas internas se interpretan respecto de
-`data/delivery4_google_reproduction/`, la raíz aislada de ejecución.
-El log completo está en `docs/delivery4/evidencia/google_local_reproduction_20261122.txt`.
-Los archivos pesados permanecen en `data/`, ignorados por Git.
-
-Microsoft **sí** tiene una exportación definitiva validada y reutilizable:
-`outputs/rooftop_stats_ms.csv` y `outputs/rooftop_stats_ms_report.json`.
-Corresponde a **Miguel, 19 nov 2026**, con 1.720.535 edificaciones y
-220.266.587,30 m² de huella. Se validaron esquema, SHA256, filtros, balances y dos
-pasadas; no se repitió su cálculo ni se atribuye esa ejecución a Sebastián.
-
-## Método efectivo y lectura del contrato
-
-El comparador llama directamente a
-`load_rooftop_stats_export(csv_path, report_path, config, root)` para cada fuente.
-El sobre provisional anterior dejó de ser una entrada aceptada. Se reutilizan
-nombres, nulos y métricas del contrato; la persistencia y la exportación por fuente
-siguen perteneciendo al motor común de Miguel.
-
-La configuración definitiva de `main` se conserva:
+Se reutilizan el motor común de Miguel y la metodología de Derek, sin umbrales nuevos:
 
 | Política | Microsoft | Google |
 | --- | --- | --- |
-| Área mínima | `area_m2 >= 20` | `area_m2 >= 20` |
+| Área mínima de huella | ≥ 20 m² | ≥ 20 m² |
 | Área máxima | Sin tope (`null`) | Sin tope (`null`) |
-| Confianza | No se filtra ni se imputa | `confidence >= 0.70`; ausente excluida |
+| Confianza | No aplica; no se imputa | ≥ 0,70; ausente excluida |
 | Orden de exclusiones | Área mínima → máxima → confianza | Igual |
-| Municipio vacío tras filtrar | Conteo/área cero; media y mediana `null` | Igual |
-| Pertenencia municipal | Centroide WGS84; desempate por menor DIVIPOLA | Igual |
+| Municipio vacío tras filtrar | Conteo/área cero, media/mediana `null` | Igual |
+| Asignación municipal | Centroide WGS84; borde → menor DIVIPOLA | Igual |
 
-El área es la proyección horizontal geodésica de la huella; **no equivale
-automáticamente a área útil del techo ni a potencial energético**. No hay factor
-arbitrario de aprovechamiento. Suma, media y mediana exacta se obtienen exclusivamente
-con el motor común, no a partir de agregados históricos del EDA.
+El motor calcula suma con `math.fsum`, media y mediana exacta, preserva los 170
+municipios y persiste por identificador compuesto fuente/municipio. El área es
+la proyección horizontal geodésica de la huella: no equivale automáticamente a
+área útil del techo ni a potencial energético. No se aplica factor de aprovechamiento.
 
-Además de la validación compartida, el comparador comprueba:
+| Métrica / control Google | Resultado del reporte de José |
+| --- | ---: |
+| Huellas PDET antes del filtro | 2.694.775 |
+| Excluidas por área mínima | 368.619 |
+| Excluidas por área máxima | 0 |
+| Excluidas por confianza, después del área | 259.152 |
+| Incluidas | **2.067.004** |
+| Área total | **203.747.640,41 m²** (203,75 km²) |
+| Municipios con resultado / con observaciones | 170 / 164 |
+| Verificaciones del motor | 8/8 OK |
+| Duración de dos pasadas | 11.07 s |
 
-- Que el CSV solicitado sea el declarado por su reporte y tenga su SHA256.
-- Fuente, versión del dataset, versión del motor, metodología explícita cuando
-  existe, filtros efectivos y fechas coherentes entre filas y reporte.
-- Dos pasadas con los mismos valores, sin inserciones adicionales y con 170 resultados.
-- **Integridad de la carga de entrada:** para una exportación definitiva,
-  `buildings_in_source` y `assigned_pdet` deben coincidir con el total completo
-  de la preparación versionada, y las versiones de los datasets deben corresponder.
-  Así se rechazan estadísticas calculadas sobre una carga local parcial aunque
-  sus balances internos aparentemente aprueben.
+Municipios sin observaciones tras filtros: `05475`, `05873`, `27099`, `27450`, `27491`, `27745`.
+Son ceros observados de esta ejecución, no ausencia física de edificios demostrada.
+Son **seis**, frente a cinco en el EDA sin filtros; Sipí (`27745`) queda sin
+observaciones tras el filtro. Media y mediana son nulas en esos seis municipios.
+El balance es 2.067.004 incluidas + 627.771 excluidas
+= 2.694.775 entradas PDET.
 
-El reporte Microsoft anterior a la formalización no declara `contract`/`methodology`;
-el lector compartido admite ese caso histórico. El comparador valida sus filtros,
-versión y esquema actuales y conserva el reporte original. Si un reporte sí declara
-una metodología o contrato incompatibles, se rechaza, sin sustituirlos por `config`.
+Las dos pasadas mantuvieron 170 documentos. En la segunda: `upserted = 0`,
+`replaced = 170`, `same_values_as_previous = true`. El reporte acredita persistencia,
+conteo independiente, filtros, nulos, balance y ausencia de duplicados en el entorno
+**de José**, no en la base local de Sebastián.
 
-## Comparación y rankings implementados
+## Comparación, porcentajes y rankings
 
-Se unen los **170 códigos DIVIPOLA como texto de cinco caracteres**, sin rellenar
-faltantes con ceros. Se rechazan duplicados, municipios faltantes/inesperados,
-fuentes equivocadas, balances rotos y escenarios incompatibles.
-Todas las columnas originales se conservan con prefijos `ms_*` y `google_*`;
-el JSON incluye las exportaciones normalizadas y sus reportes completos.
-Las fuentes no se suman ni promedian como edificios únicos.
+El script lee cada CSV/reporte con
+`load_rooftop_stats_export(csv_path, report_path, config, root)`. Añade comprobaciones
+de vínculo entre CSV y reporte, SHA256, fuente y versión del dataset, versión del
+motor, metodología explícita y fechas de las filas. Exige dos pasadas sin nuevas
+inserciones y con los mismos valores. El reporte Microsoft histórico sin
+`contract`/`methodology` se admite conforme al contrato compartido; sus filtros,
+versión y esquema se validan. Un metadato explícito incompatible nunca se sustituye.
 
-Para conteo y área total:
+Para entradas definitivas se comprueba además que `buildings_in_source` y
+`assigned_pdet` coincidan con el total de la preparación versionada y su versión.
+**Una carga parcial no puede pasar como estadística definitiva** aunque sus
+balances internos aparenten ser correctos.
 
-- Resta con signo: `Google - Microsoft`; positivo significa más en Google.
-- Diferencia absoluta: `abs(Google - Microsoft)`.
-- Porcentaje: `100 * (Google - Microsoft) / Microsoft`.
-- Denominador Microsoft cero: porcentaje `null` (CSV vacío), incluido 0/0;
-  `*_pct_status = zero_ms_denominator`. Un cero observado permanece como 0.
-- Media/mediana nulas significan ausencia de observaciones después del filtro;
-  una fila o métrica ausente es un error, no un cero.
+Se unen los 170 DIVIPOLA como texto de cinco caracteres; duplicados, faltantes,
+códigos inesperados, fuentes equivocadas y escenarios incompatibles son errores.
+Se conservan todas las columnas originales como `ms_*` y `google_*` y las
+exportaciones normalizadas completas en el JSON. No se suman ni promedian las
+fuentes como edificios únicos.
 
-Se conservan `ms_rank_total_area` y `google_rank_total_area` originales del motor:
-posiciones secuenciales 1..170, desempate por DIVIPOLA. Se agregan rankings
-**descendentes de competición**, con empates exactos `1,1,3`, por fuente y por
-conteo/área (`*_rank_building_count`, `*_rank_total_area_m2`). Incluyen los ceros y
-señalados; son descriptivos y no se confunden con el ranking secuencial del motor.
+Para conteo y área: resta con signo `Google − Microsoft`, diferencia absoluta
+`abs(Google − Microsoft)` y porcentaje `100 × (Google − Microsoft) / Microsoft`.
+Denominador cero produce porcentaje nulo, incluso en 0/0, y estado
+`zero_ms_denominator`. Un dato ausente provoca error; no se rellena con cero.
+Media/mediana nulas expresan falta de observaciones después del filtro.
 
-## Señal de baja comparabilidad y Spearman
+Se conservan `ms_rank_total_area` y `google_rank_total_area` del motor (secuenciales,
+desempate por DIVIPOLA) y se agregan rankings descendentes de competición `1,1,3`
+por conteo y área: `*_rank_building_count`, `*_rank_total_area_m2`. Los empates son
+exactos sobre las cifras exportadas y se incluyen ceros y señalados.
 
-La marca canónica `google_low_coverage` se recalcula con la función compartida
-sobre el EDA, mediante `5 * google_buildings < ms_buildings`, y se contrasta con
-la configuración y el CSV Google. Su base es `entrega3_eda_unfiltered`: selección
-y limpieza PDET de la Entrega 3, **sin filtros analíticos de la Entrega 4**.
-No se usa una lista fija en el comparador ni se cambia la regla al escenario filtrado.
-La referencia vigente contiene 15 señales y cinco ceros Google.
+## Señal de comparabilidad y correlaciones definitivas
 
-Se conservan las observaciones de los señalados, sus exclusiones y rankings.
-`comparison_eligible = false` excluye sus diferencias directas, exportadas como
-nulos con estado `excluded_reference_signal`. La discrepancia no demuestra su
-causa ni cobertura real. Microsoft es la fuente base del proyecto, no una verdad
-certificada.
+La marca canónica `google_low_coverage` se recalcula con la función compartida:
+`5 * google_buildings < ms_buildings` sobre el EDA, y se contrasta con configuración
+y CSV. Su base es `entrega3_eda_unfiltered`, sin filtros analíticos de la Entrega 4;
+no se copia una lista fija ni se cambia silenciosamente la regla al escenario filtrado.
 
-Spearman se calcula sobre los **resultados filtrados**, como correlación de Pearson
-entre rangos con promedio en empates, para conteo y área por separado:
+Se señalan 15 municipios: se conservan sus valores y rankings,
+pero `comparison_eligible = false` y sus diferencias son nulas con estado
+`excluded_reference_signal`. Hay 155 elegibles para diferencias.
+La discrepancia no demuestra su causa ni cobertura real. Microsoft es la fuente
+base del proyecto, no una verdad certificada.
 
-| Población | Inclusión | Interpretación |
-| --- | --- | --- |
-| `all_municipalities` | Todos, incluidos ceros y señalados | Sensibilidad descriptiva |
-| `positive_in_both` | Valores positivos en ambas fuentes para esa métrica | Sensibilidad descriptiva; incluye señalados |
-| `comparable_positive_in_both` | Pares positivos y sin señal histórica | Contraste principal |
+Spearman se calculó **localmente sobre los CSV filtrados**, como correlación de
+Pearson entre rangos con promedio de empates:
 
-Cada población registra `n`, `included_codes`, `excluded_codes` y
-`exclusion_reasons`. Los tamaños no se presuponen iguales a 170/165/155.
-Con menos de dos observaciones o entrada constante, ρ es nulo y se explica el
-estado. **Todavía no hay coeficientes definitivos Google–Microsoft calculados.**
-Los valores históricos 0,904 y 0,938 del EDA no se presentan como nuevos.
-La correlación expresa asociación ordinal, no exactitud de una fuente.
+| Población | n conteo | ρ conteo | n área | ρ área |
+| --- | ---: | ---: | ---: | ---: |
+| `all_municipalities` | 170 | 0.911018 | 170 | 0.942908 |
+| `comparable_positive_in_both` | 155 | 0.912019 | 155 | 0.941336 |
+| `positive_in_both` | 164 | 0.901637 | 164 | 0.936947 |
 
-## Comandos para terminar y traspaso mínimo
+`all_municipalities` incluye ceros y señalados; `positive_in_both` exige valores
+positivos en ambas fuentes para la métrica e incluye señalados. Son sensibilidades
+descriptivas. `comparable_positive_in_both` excluye además la señal histórica y es
+el contraste principal. Los tamaños se calculan; no se presuponen 165 ni 155.
+Cada población/métrica registra `included_codes`, `excluded_codes` y
+`exclusion_reasons`. Con menos de dos observaciones o una entrada constante,
+ρ es nulo y se explica el estado. Estas correlaciones no son las del EDA y no
+prueban exactitud de ninguna fuente.
 
-Con una base del equipo **ya cargada y verificada**:
+## Comandos ejecutados y reproducción
+
+En esta sesión, después de incorporar `7564aa3`, se copiaron íntegros los dos
+archivos Google desde la ruta archivada indicada arriba a `outputs/` y se ejecutó:
 
 ```bash
-python scripts/04_load_buildings.py --source google --verify-only
+.venv/bin/python scripts/entrega4_contracts.py --check --require-google
+.venv/bin/python scripts/06_compare_rooftop_stats.py
+```
+
+Ambos terminaron con salida 0. No necesitan MongoDB para validar/comparar las
+exportaciones. Las entradas y sus SHA256, configuración y código están registrados
+en el JSON de comparación y el recibo de ejecución Google.
+Para generar una nueva corrida en una **base completa y validada**:
+
+```bash
 python scripts/06_rooftop_stats.py --source google --passes 2
 python scripts/entrega4_contracts.py --check --require-google
 python scripts/06_compare_rooftop_stats.py
 ```
 
-La primera verificación puede actualizar el reporte de carga de quien la ejecute:
-se debe conservar su copia histórica o usar una raíz de reproducción separada.
-**No ejecutar el cálculo en esta base parcial** hasta completar la carga y verificar
-2.694.775 registros Google y 170 municipios.
+El comparador acepta `--microsoft CSV --microsoft-report JSON --google CSV
+--google-report JSON --output-dir CARPETA`; por defecto usa `config.yaml`.
+Las rutas relativas parten de la raíz del proyecto. Salida 0: éxito del modo;
+1: error de entrada/contrato; 2: uso inválido de CLI.
+`--reference-only` solo genera `google_comparability_reference_current.*`, separado
+del antecedente del 19 nov. Los sintéticos usan `synthetic_*` en temporales.
 
-El mínimo a solicitar a Miguel o al integrante que tenga esa base es ejecutar
-los dos comandos centrales y proporcionar íntegros:
+## Antecedente local: no es la ejecución definitiva
 
-- `outputs/rooftop_stats_google.csv`.
-- `outputs/rooftop_stats_google_report.json`, con `status = computed`, ocho
-  controles aprobados, balance, SHA256 del CSV y dos pasadas sin duplicados.
+Antes de publicarse el avance de José se inició el contenedor local sin borrar
+volúmenes. Se verificaron ocho originales y la capa PDET y se usaron los programas
+oficiales mediante `scripts/06_reproduce_google_local.py`, con reportes aislados.
+Se leyeron 31.499.115 filas: 139 rechazos, 28.804.201 fuera de PDET y 2.694.775
+preparadas; los totales y los ocho SHA256 preparados coinciden con la Entrega 3.
+Se cargaron 170 municipios y parte de Google. La última lectura conservada fue
+**377599 edificios y 0 estadísticas**.
+Los reinicios interrumpieron los intentos de carga, incluso tras reducir la caché
+local a 0,256 GiB y ampliar la tolerancia de conexión a 30 s. La causa de los
+reinicios no se certifica solo con esa observación. No se borró lo insertado.
 
-No hace falta transferir los originales de varios GB. Se conservará la atribución
-de la ejecución al entorno que realmente la realice. Con esos dos archivos y
-Microsoft ya versionado, la comparación no necesita MongoDB.
-
-La recuperación local ejecutada, usando los scripts oficiales, fue:
-
-```bash
-.venv/bin/python scripts/06_reproduce_google_local.py
-.venv/bin/python scripts/06_reproduce_google_local.py --load-prepared
-.venv/bin/python scripts/06_reproduce_google_local.py --resume-buildings
-```
-
-El primer modo exige una base vacía. Los modos de reanudación reutilizan la
-preparación; `--resume-buildings` exige que los municipios correspondan a esta
-reproducción, que no haya otras fuentes ni estadísticas y no usa `prune`.
-No se modifican los filtros ni validadores del cargador.
-Se usó esta sobreescritura **local**, ignorada por Git:
-
-```yaml
-services:
-  mongodb:
-    command: ["mongod", "--auth", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.256"]
-```
-
-Ruta: `data/delivery4_google_reproduction/compose.low-memory.yaml`. Comando:
-`docker compose -f docker-compose.yml -f data/delivery4_google_reproduction/compose.low-memory.yaml up -d --no-deps mongodb`.
-Se conservó el volumen y `docker-compose.yml` del equipo quedó intacto.
-La [documentación oficial de MongoDB](https://www.mongodb.com/docs/v7.0/reference/configuration-options/#mongodb-setting-storage.wiredTiger.engineConfig.cacheSizeGB)
-explica el ajuste de caché frente a otros consumidores de memoria.
+Ese intento se conserva en `outputs/delivery4/google_local_reproduction.json`,
+`reproduction/` y su log. **No se usó para los resultados definitivos** ni se
+mezcla su entorno con el de José. No se modificaron los reportes históricos del
+proyecto. Los originales y preparados pesados siguen ignorados por Git.
+La comparación queda terminada mediante la evidencia real reutilizada; no se
+necesita pausar servicios ajenos ni completar esa reproducción local para usarla.
+**No se debe volver a ejecutar el motor contra esta base parcial:** sobrescribiría
+las exportaciones definitivas reutilizadas. Antes de cualquier nueva corrida,
+comprobar la carga completa y conservar una copia de los reportes vigentes.
 
 ## Archivos para Samuel y José
 
-| Archivo | Estado y uso |
+| Archivo | Uso |
 | --- | --- |
-| `scripts/06_compare_rooftop_stats.py` | Comparador adaptado, comprobado con contrato y motor reales |
-| `outputs/delivery4/google_local_reproduction.json` y `reproduction/` | Evidencia real de preparación completa y carga local interrumpida; no estadísticas definitivas |
-| `outputs/delivery4/google_comparability_reference.*` | Antecedente histórico del 19 nov, conservado |
-| `outputs/delivery4/rooftop_stats_comparison.csv` y `.json` | **Aún no existen**; se producirán al disponer de Google completo y validado |
-| `docs/delivery4/comparison_test_results.txt` | Suite completa: 126 pruebas, 125 aprobadas y una optativa omitida |
-| `evidencia/comparison_final_contract_tests_20261122.txt` | 20 pruebas de la versión final del comparador aprobadas |
-| `docs/delivery4/secciones/google_comparacion.tex` | Sección preparada con estado real; resultados todavía pendientes |
+| `outputs/rooftop_stats_google.csv` y `_report.json` | Google real de José, copiado sin modificar bytes |
+| `outputs/rooftop_stats_ms.csv` y `_report.json` | Microsoft real de Miguel, conservado |
+| `outputs/delivery4/rooftop_stats_comparison.csv` | Tabla definitiva de 170 municipios para mapas y diferencias |
+| `outputs/delivery4/rooftop_stats_comparison.json` | Tabla, filtros, convenciones, originales, poblaciones/códigos y hashes |
+| `outputs/delivery4/google_execution_receipt.json` | Archivo/commit de origen, entorno y hashes de la copia Google |
+| `docs/delivery4/secciones/google_comparacion.tex` | Sección con cifras reales lista para incorporar al informe |
+| `docs/delivery4/evidencia/contract_google_20261122.txt` y `comparison_20261122.txt` | Comandos y resultados de esta sesión |
 
-Samuel deberá unir por `mpio_code` conservando ceros iniciales, por ejemplo con
-`pd.read_csv(..., dtype={"mpio_code": "string"})`, y distinguir ceros, nulos y señalados.
-El JSON acompañante registra filtros, poblaciones, convenciones y hashes de entradas,
-configuración, comparador y contrato. Se preserva íntegra la exportación original.
-José puede validar ambos pares CSV/reporte con el contrato y reproducir el contraste.
-El comparador acepta rutas alternativas mediante `--microsoft CSV --microsoft-report
-JSON --google CSV --google-report JSON --output-dir CARPETA`; por defecto usa `config`.
-Salida 0: modo ejecutado correctamente; 1: error de entrada/contrato; 2: error de CLI.
-`--reference-only` solo produce `google_comparability_reference_current.*` y no
-acredita estadísticas finales. Las pruebas usan nombres `synthetic_*` en temporales.
+Samuel debe leer `mpio_code` como texto, por ejemplo
+`pd.read_csv(..., dtype={"mpio_code": "string"})`, distinguir ceros, nulos y señalados,
+y usar `comparison_eligible` al mapear diferencias. El JSON de la misma corrida
+aporta filtros y procedencia. José ya publicó su validación independiente; puede
+integrar este comparador al paso del script maestro que antes quedaba omitido.
 
 ## Pruebas y límites del cierre
 
-Se ejecutó la suite completa: **125 aprobadas, una optativa omitida**, sin errores
-en la repetición final. La omisión corresponde a `REAL_PREPARED_PART`, una inserción
-opcional de partición real completa en una base temporal. Después se ejecutaron
-las **20 pruebas del comparador final**, todas aprobadas, incluida la protección
-contra entradas parciales. Los sintéticos no acreditan resultados reales de Google.
+Se completó la suite anterior de 126 pruebas: 125 aprobadas y una optativa omitida,
+sin errores en la repetición final. Después se ejecutaron las 20 pruebas finales
+del comparador, todas aprobadas, incluida la protección frente a cargas parciales.
+Las integraciones usan bases temporales; los datos sintéticos solo verifican casos
+límite. Además, tras incorporar el avance de José y las exportaciones reales, aprobaron **52 regresiones finales** de comparador, contrato, motor y validador independiente, sin omisiones (`evidencia/final_delivery4_regressions_20261122.txt`). Las incidencias iniciales de conexión y sus reintentos se conservaron.
+La sección LaTeX se compila aisladamente; no se declara regenerado el PDF del grupo.
 
-La primera suite tuvo incidencias de conexión durante el arranque; se conservan
-en `evidencia/full_suite_initial_20261122.txt` y su reintento se documenta por separado.
-Las integraciones usan bases temporales y no borran las colecciones del proyecto.
-No se modificaron pruebas ajenas para esconder fallos.
-
-La implementación de Sebastián está adaptada y probada. La ejecución definitiva
-sigue abierta hasta disponer del par Google validado y producir el contraste real.
-José conserva la validación independiente; Samuel, mapas, consolidación y revisión
-del PDF completo. No se declara terminada la entrega del equipo ni enviada a BrightSpace.
+El alcance de implementación y comparación de Sebastián queda ejecutado con datos
+reales y listo para revisión del PR. La base local sigue siendo una reproducción
+incompleta, no la evidencia de persistencia Google. Faltan integrar el PR y que
+Samuel incorpore tablas/sección, complete mapas Google y compile/revise el PDF
+consolidado. El envío del equipo a BrightSpace sigue pendiente.

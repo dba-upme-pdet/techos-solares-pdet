@@ -13,7 +13,8 @@
     },
     {
       "path": "outputs/delivery4/reproduction/buildings_google_prepared_by_municipality.csv",
-      "sha256": "c8924786ac39d1365cad2fc91a81466ef830a15e8d0e96e3c2148f455e46cc20"
+      "sha256": "22286cc6e29bdd41f92189160588878538e271922780384dc1431972f299f694",
+      "source_sha256_before_lf_archive": "c8924786ac39d1365cad2fc91a81466ef830a15e8d0e96e3c2148f455e46cc20"
     },
     {
       "path": "outputs/delivery4/reproduction/municipalities_load_report.json",

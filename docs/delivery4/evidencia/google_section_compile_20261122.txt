@@ -1,4 +1,5 @@
-Compilación aislada de la sección; no es el PDF definitivo del equipo.
-Fuente SHA256: 75e3afad48241eb5d3868145af10a6883752ee89ddc9f2b9865a06cf3ba3e682
-Dos pasadas pdflatex -halt-on-error -interaction=nonstopmode. Salida 0.
-Output written on section.pdf (1 page, 132764 bytes).
+Sección definitiva compilada aisladamente; no es el PDF completo del grupo.
+Fuente SHA256: d9b55606d3298bedc7d8bda77197c29957b59b7f2eb68c13f9c374149accf436
+Dos pasadas pdflatex, salida 0.
+Output written on section.pdf (1 page, 137836 bytes).
+Revisión visual: una página, texto legible y sin desbordamientos.
