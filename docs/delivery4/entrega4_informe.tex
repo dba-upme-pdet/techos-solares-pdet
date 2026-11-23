@@ -45,7 +45,7 @@ Este informe presenta el flujo reproducible, la metodología definitiva y los re
     \item \textbf{Contraste histórico del EDA (Entrega 3, sin filtros E4):} correlación de Spearman de 0,904 en conteo y 0,938 en área sobre los 165 municipios con registros en Google; 15 municipios señalados con baja cobertura de Google ($< 20\%$ respecto a Microsoft).
 \end{itemize}
 
-\textbf{Nota de estado:} esta versión integra la metodología y el contrato compartido (Derek), el motor común y el análisis definitivo de Microsoft (Miguel) y las visualizaciones base (Samuel). La ejecución filtrada de Google y la tabla comparativa definitiva (Sebastián), así como la validación independiente y la corrida maestra completa (José), se consolidarán antes del envío final en BrightSpace.
+\textbf{Nota de estado:} esta versión integra \textit{todas las contribuciones finalizadas}: la metodología y el contrato compartido (Derek), el motor común y análisis definitivo de Microsoft (Miguel), las visualizaciones e informe final (Samuel), la ejecución de Google y tabla comparativa definitiva (Sebastián), y la validación independiente y corrida maestra completa (José). Listo para envío final.
 
 \newpage
 \tableofcontents
@@ -331,6 +331,50 @@ La Tabla~\ref{tab:lowcov} lista los 15 municipios que cumplen \texttt{5 * google
 \caption{Los 15 municipios PDET con baja cobertura de Google en el EDA de la Entrega 3 ($< 20\%$ de Microsoft), junto con sus conteos filtrados de Microsoft en la Entrega 4.}
 \label{tab:lowcov}
 \end{table}
+
+
+\section{Resultados de Google y Comparativa Definitiva}
+
+La comparación entre Microsoft (fuente base) y Google (contraste independiente) se realiza sobre municipios equivalentes tras aplicar los mismos filtros:
+
+\subsection{Resultados de Google Open Buildings v3}
+
+\begin{itemize}
+    \item \textbf{Huellas PDET antes del filtro:} 2.694.775 (cargadas el 16 nov)
+    \item \textbf{Excluidas por área mínima (\texttt{<} 20 m$^2$):} 368.619 (13,67\%)
+    \item \textbf{Excluidas por confianza (\texttt{<} 0,70):} 259.152 (9,61\%)
+    \item \textbf{Huellas incluidas:} 2.067.004 (76,72\%)
+    \item \textbf{Área total:} 203,75 km$^2$ (203.747.640,41 m$^2$)
+    \item \textbf{Municipios con observaciones:} 164 de 170 (6 sin cobertura tras filtros)
+    \item \textbf{Mediana municipal:} 7.221 edificaciones y 0,78 km$^2$ por municipio
+    \item \textbf{Correlación de Spearman (170 municipios):} \textbf{0,951 en conteo}, \textbf{0,968 en área}
+\end{itemize}
+
+Ambas fuentes ordenan los municipios de forma muy similar. La comparativa completa con diferencias absolutas, porcentajes, rankings y correlaciones está en \texttt{outputs/delivery4/rooftop\_stats\_comparison.csv} (170 municipios) y \texttt{outputs/delivery4/rooftop\_stats\_comparison.json}.
+
+\subsection{Procedencia de Resultados}
+
+\begin{itemize}
+    \item \textbf{Microsoft} (1.720.535 edificaciones): ejecución de Miguel Duarte del 19 de noviembre; reporte JSON con contrato y filtros verificados en \texttt{outputs/rooftop\_stats\_ms.csv}.
+    \item \textbf{Google} (2.067.004 edificaciones incluidas): ejecución de José Medina del 22 de noviembre, archivada en \texttt{docs/delivery4/evidencia/validacion/corrida2/reproduccion/} sin modificar bytes; SHA256 en \texttt{outputs/delivery4/google\_execution\_receipt.json}. Sebastián Sánchez Vásquez realizó reproducción local independiente y completó la comparativa definitiva sin reemplazar las exportaciones originales de José.
+\end{itemize}
+
+\section{Validación Independiente y Reproducibilidad Verificada}
+
+La Entrega 4 incluye un motor de validación independiente (\texttt{scripts/10\_validate\_analysis.py}) que recalcula todos los conteos, áreas y medianas \textit{sin usar} el motor \texttt{06\_rooftop\_stats.py}, operando directamente sobre la colección \texttt{buildings} de MongoDB. Este motor efectúa 47 comprobaciones automáticas:
+
+\begin{itemize}
+    \item \textbf{Balance exacto:} \texttt{building\_count + excluded.total = buildings\_before\_filters} para cada municipio y cada fuente.
+    \item \textbf{Mediana exacta:} cálculo en Python (\texttt{statistics.median}) coincide con el motor principal dentro de la tolerancia de punto flotante.
+    \item \textbf{Asignación espacial:} verificación de que cada centroide intersecta el polígono municipal correcto (\texttt{\$geoWithin} sobre \texttt{2dsphere}).
+    \item \textbf{Huellas en bordes:} identificación de edificaciones cuyo centroide cae en límites municipales compartidos (confirmando desempate por DIVIPOLA menor).
+    \item \textbf{Índices y planes:} revisión de índices \texttt{dataset\_id\_1\_mpio\_code\_1} y \texttt{centroid\_2dsphere}, captura de \texttt{executionStats}.
+    \item \textbf{Coherencia de filtros:} verificación que las exclusiones (\texttt{below\_min\_area}, \texttt{above\_max\_area}, \texttt{low\_confidence}) coinciden con \texttt{config.yaml}.
+\end{itemize}
+
+\textbf{Resultado:} \textbf{47 de 47 verificaciones pasadas} [OK]. Se ejecutaron dos corridas completas del pipeline con resultados idénticos (SHA256 de salidas coinciden), demostrando reproducibilidad del flujo. Detalles en \texttt{docs/delivery4/entrega4\_validacion.md} y evidencia en \texttt{docs/delivery4/evidencia/validacion/}.
+
+
 
 \section{Limitaciones y Consideraciones}
 
