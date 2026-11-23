@@ -1,6 +1,6 @@
 """Compara exportaciones municipales del motor común; no calcula estadísticas de buildings.
 
-Interfaz provisional hasta la publicación del contrato de Derek y el motor de Miguel.
+Lee CSV + reporte mediante entrega4_contracts.load_rooftop_stats_export.
 Contrato, fórmulas y comandos: docs/delivery4/entrega4_google_comparacion.md.
 --reference-only recalcula SOLO la señal del EDA, nunca resultados finales.
 """
@@ -12,15 +12,18 @@ import json
 import math
 import re
 import sys
-from datetime import datetime
+import statistics
 from pathlib import Path
 
 from entrega2_contracts import ContractError, load_config, sha256_file, write_json, zfill_digits
 
+from entrega4_contracts import (
+    CONTRACT_VERSION, FILTER_ORDER, compute_google_low_coverage_codes, filters_for,
+    load_rooftop_stats_export, methodology_metadata, verify_analysis_config,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
-INPUT_CONTRACT = "entrega4-comparison-input-provisional-v1"
-OUTPUT_CONTRACT = "entrega4-comparison-provisional-v1"
-METRICS = ("building_count", "total_area_m2", "mean_area_m2", "median_area_m2")
+OUTPUT_CONTRACT = "entrega4-source-comparison-v1"
 
 
 def require(condition, message):
@@ -65,15 +68,6 @@ def nonnegative(value, label, integer=False):
             and math.isfinite(value) and value >= 0, f"{label}: número no negativo inválido")
 
 
-def timestamp(value, label):
-    require(isinstance(value, str), f"{label}: falta fecha ISO 8601")
-    try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-        require(parsed.utcoffset() is not None, f"{label}: falta zona horaria")
-    except ValueError as exc:
-        raise ContractError(f"{label}: fecha inválida") from exc
-
-
 def load_municipalities(root, config):
     """El cruce aporta etiquetas; el Excel del curso determina el universo esperado."""
     import pandas as pd
@@ -99,6 +93,7 @@ def reference_flags(eda, municipalities):
     """Regla vigente: Google < 20 % MS en el EDA SIN filtros de la Entrega 4."""
     require(isinstance(eda, dict), "referencia EDA debe ser un objeto")
     rows = indexed(eda.get("municipalities"), "referencia EDA", municipalities)
+    flagged = compute_google_low_coverage_codes(eda)
     result = []
     for code, row in sorted(rows.items()):
         for source in ("ms", "google"):
@@ -116,66 +111,60 @@ def reference_flags(eda, municipalities):
             "reference_ms_zero": ms == 0,
             "reference_google_zero": google == 0,
             # Multiplicación entera: el umbral es estricto y no depende del redondeo.
-            "google_insufficient_detections": 5 * google < ms,
+            "google_low_coverage": code in flagged,
         })
     return result
 
 
-def validate_export(payload, source, municipalities):
-    """Verifica el sobre provisional sin imponer umbrales metodológicos propios."""
-    require(isinstance(payload, dict), f"{source}: exportación debe ser un objeto")
-    require(payload.get("contract") == INPUT_CONTRACT, f"{source}: contrato no reconocido")
-    require(payload.get("status") == "complete", f"{source}: ejecución incompleta")
-    require(payload.get("dataset_id") == source, f"{source}: fuente incorrecta")
-    require(payload.get("evidence_kind") in ("definitive", "synthetic"),
-            f"{source}: indicar evidence_kind definitive o synthetic; EDA no es resultado final")
-    method = payload.get("methodology")
-    require(isinstance(method, dict), f"{source}: falta metodología")
-    for key in ("id", "version"):
-        require(isinstance(method.get(key), str) and bool(method[key].strip()),
-                f"{source}: falta methodology.{key}")
-    require(isinstance(method.get("definition"), dict) and bool(method["definition"]),
-            f"{source}: falta definición de metodología")
-    require(method.get("empty_statistics") in ("zero", "null"),
-            f"{source}: declarar política de media/mediana sin observaciones")
-    filters = method.get("filters_by_source")
-    require(isinstance(filters, dict) and set(filters) == {"ms", "google"}
-            and all(isinstance(v, dict) for v in filters.values()),
-            f"{source}: declarar filtros efectivos acordados de ambas fuentes")
-    require(isinstance(payload.get("filters"), dict) and payload["filters"] == filters[source],
-            f"{source}: filtros efectivos no coinciden con la metodología")
-    provenance = payload.get("provenance")
-    require(isinstance(provenance, dict), f"{source}: falta procedencia")
-    timestamp(provenance.get("computed_at"), f"{source}: computed_at")
-    for key in ("engine", "engine_version", "environment"):
-        require(isinstance(provenance.get(key), str) and bool(provenance[key].strip()),
-                f"{source}: falta provenance.{key}")
-    references = provenance.get("input_references")
-    require(isinstance(references, list) and bool(references), f"{source}: faltan referencias de entrada")
-    for ref in references:
-        require(isinstance(ref, dict) and isinstance(ref.get("path"), str) and bool(ref["path"])
-                and isinstance(ref.get("sha256"), str) and re.fullmatch(r"[0-9a-f]{64}", ref["sha256"]),
-                f"{source}: referencia de entrada sin ruta y SHA256 válido")
-    rows = indexed(payload.get("municipalities"), source, municipalities)
-    for code, row in rows.items():
-        require(row.get("dataset_id") == source, f"{code}: fuente incorrecta en fila {source}")
-        for metric in METRICS:
-            require(metric in row, f"{source} {code}: falta {metric}; ausencia no es cero")
-        nonnegative(row["building_count"], f"{source} {code} conteo", integer=True)
-        nonnegative(row["total_area_m2"], f"{source} {code} área")
-        count, total = row["building_count"], row["total_area_m2"]
-        if count == 0:
-            empty = 0 if method["empty_statistics"] == "zero" else None
-            require(total == 0 and all(row[m] == empty and not isinstance(row[m], bool)
-                                      for m in ("mean_area_m2", "median_area_m2")),
-                    f"{source} {code}: estadísticas vacías no respetan la política declarada")
-        else:
-            for metric in ("mean_area_m2", "median_area_m2"):
-                nonnegative(row[metric], f"{source} {code} {metric}")
-            require(math.isclose(row["mean_area_m2"], total / count, rel_tol=1e-6, abs_tol=0.02),
-                    f"{source} {code}: promedio inconsistente con conteo y área")
-            require(row["median_area_m2"] <= total + 0.02, f"{source} {code}: mediana imposible")
-    return rows
+def load_source(csv_path, report_path, source, config, root):
+    """Reutiliza el contrato compartido y vincula el CSV solicitado con su reporte."""
+    report = read_json(report_path)
+    kind = report.get("evidence_kind", "definitive")
+    require(kind in ("definitive", "synthetic"), "el EDA no es un resultado definitivo de rooftop_stats")
+    require(report.get("dataset_id") == source, f"{source}: fuente incorrecta en reporte")
+    dataset = report.get("dataset") or {}
+    require(dataset.get("_id") == source and dataset.get("version"),
+            f"{source}: falta identificación y versión del dataset de entrada")
+    declared = (report.get("outputs") or {}).get("csv")
+    require(isinstance(declared, str) and (root / declared).resolve() == csv_path.resolve(),
+            f"{source}: el CSV solicitado no es el declarado por el reporte")
+    require(sha256_file(csv_path) == report["outputs"].get("csv_sha256"),
+            f"{source}: SHA256 del CSV no coincide con el reporte")
+    payload = load_rooftop_stats_export(csv_path, report_path, config, root)
+    if kind == "definitive":
+        source_key = "microsoft" if source == "ms" else "google"
+        prepare_path = root / config["sources"][source_key]["prepare_report"]
+        prepared = read_json(prepare_path)
+        require(prepared.get("status") == "ready_for_load" and prepared.get("dataset_id") == source,
+                f"{source}: falta referencia de preparación completa")
+        expected = prepared["totals"]["prepared"]
+        require(report["totals"].get("buildings_in_source") == expected
+                and report["totals"].get("assigned_pdet") == expected,
+                f"{source}: estadísticas sobre una carga parcial o distinta de la preparación ({expected})")
+        require((prepared.get("datasets_document") or {}).get("version") == dataset["version"],
+                f"{source}: versión preparada y versión analizada diferentes")
+        payload["prepared_input_reference"] = {"path": str(prepare_path.relative_to(root)),
+                                               "sha256": sha256_file(prepare_path), "expected_buildings": expected}
+    # El lector común admite el reporte MS histórico sin contract/methodology.
+    # Cuando existen esos campos, nunca se sustituyen silenciosamente por config.
+    require(report.get("contract", CONTRACT_VERSION) == CONTRACT_VERSION,
+            f"{source}: contrato incompatible")
+    require(report.get("methodology", methodology_metadata(config)) == methodology_metadata(config),
+            f"{source}: metodología incompatible con config.yaml")
+    require(report.get("script_version") == CONTRACT_VERSION, f"{source}: versión de motor incompatible")
+    require(all(row["dataset_id"] == source for row in payload["municipalities"]),
+            f"{source}: fuente incorrecta en filas")
+    require(all(row["computed_at"] == report["computed_at"] for row in payload["municipalities"]),
+            f"{source}: fechas de filas y reporte no corresponden a la misma ejecución")
+    passes = report.get("passes") or []
+    require(report.get("passes_requested", 0) >= 2 and len(passes) >= 2 and all(
+        item.get("same_values_as_previous") is True and item.get("upserted") == 0
+        and item.get("documents_after") == len(payload["municipalities"])
+        for item in passes[1:]) and report["verification"]["checks"].get("rerun_does_not_duplicate") is True,
+        f"{source}: falta evidencia de repetición sin duplicados y con los mismos valores")
+    payload["source_report"] = report
+    payload["evidence_kind"] = kind
+    return payload
 
 
 def competition_ranks(rows, metric):
@@ -190,30 +179,85 @@ def competition_ranks(rows, metric):
     return ranks
 
 
+def average_ranks(values):
+    """Rangos ascendentes con promedio de posiciones empatadas para Spearman."""
+    ordered = sorted(range(len(values)), key=values.__getitem__)
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(ordered):
+        j = i + 1
+        while j < len(ordered) and values[ordered[j]] == values[ordered[i]]:
+            j += 1
+        for index in ordered[i:j]:
+            ranks[index] = (i + 1 + j) / 2
+        i = j
+    return ranks
+
+
+def correlations(sources, reference):
+    """Poblaciones dinámicas y exclusiones exactas, sin reutilizar correlaciones EDA."""
+    result = {}
+    for population in ("all_municipalities", "positive_in_both", "comparable_positive_in_both"):
+        result[population] = {}
+        for metric in ("building_count", "total_area_m2"):
+            included, excluded = [], {}
+            for code in sorted(reference):
+                reasons = []
+                if population != "all_municipalities":
+                    reasons += [f"nonpositive_{src}" for src in ("ms", "google") if sources[src][code][metric] <= 0]
+                if population == "comparable_positive_in_both" and reference[code]["google_low_coverage"]:
+                    reasons.append("reference_google_low_coverage")
+                if reasons:
+                    excluded[code] = reasons
+                else:
+                    included.append(code)
+            xs, ys = ([sources[src][code][metric] for code in included] for src in ("ms", "google"))
+            rho, status = None, "insufficient_observations"
+            if len(included) >= 2:
+                status = "constant_input"
+                if len(set(xs)) > 1 and len(set(ys)) > 1:
+                    rho = statistics.correlation(average_ranks(xs), average_ranks(ys))
+                    status = "defined"
+            result[population][metric] = {
+                "rho": rho, "status": status, "n": len(included),
+                "included_codes": included, "excluded_codes": sorted(excluded),
+                "exclusion_reasons": excluded,
+                "use": "primary_comparable_contrast" if population == "comparable_positive_in_both" else "descriptive_sensitivity_including_reference_flags",
+            }
+    return result
+
+
 def compare(ms, google, municipalities, flags):
-    sources = {"ms": validate_export(ms, "ms", municipalities),
-               "google": validate_export(google, "google", municipalities)}
+    sources = {"ms": indexed(ms["municipalities"], "ms", municipalities),
+               "google": indexed(google["municipalities"], "google", municipalities)}
     require(ms["methodology"] == google["methodology"], "escenarios metodológicos incompatibles")
     require(ms["evidence_kind"] == google["evidence_kind"], "no mezclar evidencias sintéticas y definitivas")
-    require(all(ms["provenance"][k] == google["provenance"][k] for k in ("engine", "engine_version")),
+    evidence_kind = ms["evidence_kind"]
+    require(ms["filters_by_source"] == google["filters_by_source"], "filtros de escenarios incompatibles")
+    for source, payload in (("ms", ms), ("google", google)):
+        require(payload["contract"] == CONTRACT_VERSION and payload["dataset_id"] == source,
+                f"{source}: contrato o fuente incorrectos")
+        require(payload["filters"] == payload["filters_by_source"][source], f"{source}: filtros incompatibles")
+        require(all(row["dataset_id"] == source for row in sources[source].values()), f"{source}: fuente incorrecta en filas")
+    require(ms["provenance"]["engine_version"] == google["provenance"]["engine_version"],
             "las fuentes no usan la misma versión del motor común")
     reference = indexed(flags, "señales de referencia", municipalities)
+    require(all(row["google_low_coverage"] is reference[code]["google_low_coverage"]
+                for code, row in sources["google"].items()), "bandera Google no coincide con la referencia recalculada")
     ranks = {(source, metric): competition_ranks(rows, metric)
              for source, rows in sources.items() for metric in ("building_count", "total_area_m2")}
     result = []
     for code in sorted(municipalities):
         row = dict(reference[code])
-        eligible = not row["google_insufficient_detections"]
-        row.update({"evidence_kind": ms["evidence_kind"],
+        eligible = not row["google_low_coverage"]
+        row.update({"evidence_kind": evidence_kind,
                     "methodology_id": ms["methodology"]["id"],
                     "methodology_version": ms["methodology"]["version"],
                     "comparison_eligible": eligible,
-                    "comparison_status": "comparable" if eligible else "google_insufficient_detections_reference"})
+                    "comparison_status": "comparable" if eligible else "google_low_coverage_reference"})
         for source, rows in sources.items():
             original = rows[code]
-            row.update({f"{source}_{m}": original[m] for m in METRICS})
-            export = ms if source == "ms" else google
-            row[f"{source}_computed_at"] = export["provenance"]["computed_at"]
+            row.update({f"{source}_{key}": value for key, value in original.items()})
             row[f"{source}_observation_status"] = "observed" if original["building_count"] else "no_observations"
             for metric in ("building_count", "total_area_m2"):
                 row[f"{source}_rank_{metric}"] = ranks[source, metric][code]
@@ -226,19 +270,21 @@ def compare(ms, google, municipalities, flags):
             row[f"{metric}_pct_status"] = (
                 "excluded_reference_signal" if not eligible else "zero_ms_denominator" if base == 0 else "defined")
         result.append(row)
-    return {"contract": OUTPUT_CONTRACT, "status": "complete", "evidence_kind": ms["evidence_kind"],
-            "methodology": ms["methodology"],
+    return {"contract": OUTPUT_CONTRACT, "status": "complete", "evidence_kind": evidence_kind,
+            "methodology": ms["methodology"], "filters_by_source": ms["filters_by_source"],
             "conventions": {
                 "base_source": "ms", "contrast_source": "google",
                 "difference": "google - ms", "absolute_difference": "abs(google - ms)",
                 "percentage": "100 * (google - ms) / ms; null si ms = 0 o señal de exclusión",
                 "rank": "descending competition (1,1,3); exact ties; all municipalities including zeros and flags",
-                "signal_basis": "Entrega 3 EDA sin filtros de Entrega 4; 5 * google_buildings < ms_buildings",
+                "engine_rank": "original rank_total_area retained; sequential with mpio_code tiebreak",
+                "spearman": "Pearson correlation of average ranks; exact populations and exclusions in correlations",
+                "signal_basis": "Entrega 3 EDA sin filtros de Entrega 4; regla compartida, no escenario filtrado",
                 "flagged_values": "observaciones y rankings conservados; diferencias analíticas null",
                 "interpretation": "discrepancia de detecciones; causa y exactitud no certificadas"},
             "summary": {"municipalities": len(result), "comparison_eligible": sum(r["comparison_eligible"] for r in result),
-                        "reference_flagged": sum(r["google_insufficient_detections"] for r in result)},
-            # Copias íntegras: no se pierden campos ni procedencia del motor al aplanar el CSV.
+                        "reference_flagged": sum(r["google_low_coverage"] for r in result)},
+            "correlations": correlations(sources, reference),
             "source_exports": {"ms": ms, "google": google}, "municipalities": result}
 
 
@@ -253,41 +299,52 @@ def write_csv(path, rows):
 
 def main(argv=None, root=ROOT):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--microsoft", type=Path, help="JSON exportado por el motor común y adaptado al sobre provisional")
-    parser.add_argument("--google", type=Path, help="JSON de Google, mismo escenario")
-    parser.add_argument("--reference-only", action="store_true", help="solo señal EDA; no es estadística final")
-    parser.add_argument("--output-dir", type=Path, help="sustituye la carpeta configurada para salidas de comparación")
+    parser.add_argument("--microsoft", type=Path, help="CSV MS; por defecto analysis.rooftop_stats.csv")
+    parser.add_argument("--microsoft-report", type=Path, help="reporte JSON MS")
+    parser.add_argument("--google", type=Path, help="CSV Google")
+    parser.add_argument("--google-report", type=Path, help="reporte JSON Google")
+    parser.add_argument("--reference-only", action="store_true", help="solo señal EDA; no estadística final")
+    parser.add_argument("--output-dir", type=Path, help="carpeta de comparación")
     args = parser.parse_args(argv)
-    if args.reference_only and (args.microsoft or args.google):
+    if args.reference_only and any((args.microsoft, args.google, args.microsoft_report, args.google_report)):
         parser.error("--reference-only no acepta exportaciones finales")
-    if not args.reference_only and not (args.microsoft and args.google):
-        parser.error("se requieren --microsoft y --google; el EDA no los sustituye")
     try:
+        root = root.resolve()
         config = load_config(root)
-        spec = config["analysis"]["comparison"]
+        errors = verify_analysis_config(config, root=root)
+        require(not errors, "; ".join(errors))
+        rule = config["analysis"]["google_low_coverage_rule"]
+        require(rule["basis"] == "entrega3_eda_unfiltered", "base de comparabilidad no reconocida")
         municipalities = load_municipalities(root, config)
-        reference_path = root / spec["reference_eda"]
+        reference_path = root / rule["reference_eda"]
         flags = reference_flags(read_json(reference_path), municipalities)
-        paths = [reference_path, root / spec["municipalities"], root / config["sources"]["pdet_list"]["file"]]
+        spec = config["analysis"]["comparison"]
+        paths = [reference_path, root / spec["municipalities"], root / config["sources"]["pdet_list"]["file"], root / "config.yaml"]
         if args.reference_only:
-            stem = "google_comparability_reference"
+            stem = "google_comparability_reference_current"
             report = {"contract": OUTPUT_CONTRACT, "status": "reference_only", "evidence_kind": "historical_eda",
-                      "rule": "5 * google_buildings < ms_buildings (Google < 20 % MS); EDA sin filtros de Entrega 4",
-                      "municipalities": flags,
+                      "rule": rule, "municipalities": flags,
                       "summary": {"municipalities": len(flags),
-                                  "flagged": sum(r["google_insufficient_detections"] for r in flags),
+                                  "flagged": sum(r["google_low_coverage"] for r in flags),
                                   "google_zero": sum(r["reference_google_zero"] for r in flags)}}
         else:
-            paths.extend([root / args.microsoft, root / args.google])
-            report = compare(read_json(paths[-2]), read_json(paths[-1]), municipalities, flags)
+            exports = {}
+            stats = config["analysis"]["rooftop_stats"]
+            for source, csv_arg, report_arg in (("ms", args.microsoft, args.microsoft_report),
+                                                ("google", args.google, args.google_report)):
+                csv_path = root / (csv_arg or Path(stats["csv"].format(source=source)))
+                report_path = root / (report_arg or Path(stats["report"].format(source=source)))
+                exports[source] = load_source(csv_path, report_path, source, config, root)
+                paths.extend([csv_path, report_path])
+            report = compare(exports["ms"], exports["google"], municipalities, flags)
             stem = ("synthetic_" if report["evidence_kind"] == "synthetic" else "") + "rooftop_stats_comparison"
         report["inputs"] = [{"path": str(p.relative_to(root)) if p.is_relative_to(root) else str(p),
                              "sha256": sha256_file(p)} for p in paths]
+        report["implementation"] = {"comparison_sha256": sha256_file(Path(__file__)),
+                                    "contract_sha256": sha256_file(ROOT / "scripts/entrega4_contracts.py")}
         out = root / (args.output_dir or Path(spec["output_dir"]))
         targets = [out / f"{stem}.{ext}" for ext in ("json", "csv")]
-        require(len({p.resolve() for p in targets}) == 2 and
-                not ({p.resolve() for p in paths} & {p.resolve() for p in targets}),
-                "una salida no puede sobrescribir una entrada")
+        require(not ({p.resolve() for p in paths} & {p.resolve() for p in targets}), "una salida no puede sobrescribir una entrada")
         for target in targets:
             require(not target.is_symlink(), f"salida no puede ser un enlace simbólico: {target}")
         write_json(targets[0], report)

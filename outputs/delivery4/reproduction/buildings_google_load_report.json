@@ -1,0 +1,17 @@
+{
+  "collection": "buildings",
+  "contract": "entrega3-buildings-v1",
+  "database": "upme_pdet",
+  "dataset_id": "google",
+  "dry_run": false,
+  "error": "AutoReconnect",
+  "gate": {
+    "contract": "entrega3-buildings-v1",
+    "partitions": 8,
+    "prepared_total": 2694775,
+    "report_dataset_id": "google"
+  },
+  "role": "load-report",
+  "sample_only": false,
+  "status": "operational_error"
+}

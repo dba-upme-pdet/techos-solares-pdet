@@ -1,0 +1,34 @@
+test_self_check_passes (test_load_buildings_mongo.LoadSelfCheckTests.test_self_check_passes) ... [pasada 1] 032212332: leídas 4 insertadas 2 actualizadas 0 sin cambios 0 rechazadas 2 (0.1 s)
+[pasada 1] 032212333: leídas 1 insertadas 1 actualizadas 0 sin cambios 0 rechazadas 0 (0.05 s)
+[pasada 2] 032212332: leídas 4 insertadas 0 actualizadas 0 sin cambios 2 rechazadas 2 (0.11 s)
+[pasada 2] 032212333: leídas 1 insertadas 0 actualizadas 0 sin cambios 1 rechazadas 0 (0.03 s)
+[OK] primera pasada inserta 3 y rechaza 2
+[OK] segunda pasada inserta 0 y no cambia el conteo
+[OK] la carga completa queda verificada e idempotente
+[OK] los índices previstos existen
+[OK] cada partición deja su corrida en ingestion_runs
+[OK] ingestion_runs registra leídas, cargadas y rechazadas
+[OK] la fuente queda registrada en datasets
+[OK] el _id determinista evita duplicados de source_ref
+[OK] repetir no cambia el run_id de lo ya cargado
+[OK] un registro sin run_id no pasa el validador
+[OK] un centroide inválido no pasa el validador
+[OK] $geoWithin usa centroid_2dsphere (IXSCAN)
+[OK] sin selección PDET la compuerta detiene la carga
+[OK] un reporte de muestra no habilita la carga
+[OK] la base temporal se borró
+Self-check: 15/15 OK
+ok
+test_prepared_records_pass_validator_and_match_geowithin (test_prepare_buildings_mongo.MongoContractTests.test_prepared_records_pass_validator_and_match_geowithin) ... 2 particiones de 'ms', selección PDET activa, 1 procesos
+[  1/2] 000000001: leídas      11 preparadas       5 rechazadas   5 (0.0 s)
+[  2/2] 000000002: leídas       2 preparadas       2 rechazadas   0 (0.0 s)
+
+Leídas 13, rechazadas 6, excluidas fuera de PDET 1, preparadas 6 (duplicados quitados 1). Balance OK. Estado: ready_for_load
+Reporte: outputs/buildings_ms_prepare_report.json
+ok
+test_real_partition_loads_without_validator_rejections (test_prepare_buildings_mongo.MongoContractTests.test_real_partition_loads_without_validator_rejections) ... skipped 'REAL_PREPARED_PART no definida'
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.606s
+
+OK (skipped=1)

@@ -1,322 +1,292 @@
-"""Comparación con datos SINTÉTICOS; referencia EDA real solo en prueba de regresión.
+"""Comparación definitiva: contrato y motor reales, observaciones SINTÉTICAS.
 
-No calcula edificios, no necesita MongoDB y no escribe en outputs del repositorio.
+Cada exportación de prueba se crea en un directorio temporal; ninguna acredita
+una ejecución real de Google. La prueba MS versionada solo lee evidencia ajena.
 """
 import copy
 import csv
 import importlib.util
 import io
 import json
+import shutil
 import sys
 import unittest
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import redirect_stdout, redirect_stderr
+from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-import pandas as pd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-spec = importlib.util.spec_from_file_location("compare_rooftop_stats", ROOT / "scripts/06_compare_rooftop_stats.py")
-c = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(c)
-
-CODES = [f"{10000+i:05d}" for i in range(170)]  # arbitrarios; no representan municipios del DANE
-MUNICIPALITIES = {code: {"mpio_code": code, "name_mgn": f"SINTETICO {i}",
-                         "subregion_id": str(i % 16 + 1), "subregion_name": f"SINTETICA {i % 16 + 1}"}
-                  for i, code in enumerate(CODES)}
 
 
-def exports():
-    method = {"id": "SYNTHETIC_TEST", "version": "1", "definition": {"area": "synthetic m2"},
-              "empty_statistics": "zero",
-              "filters_by_source": {"ms": {"synthetic_min_area": 20},
-                                    "google": {"synthetic_min_area": 20, "synthetic_confidence": 0.7}}}
-    result = []
-    for source in ("ms", "google"):
-        result.append({"contract": c.INPUT_CONTRACT, "status": "complete", "evidence_kind": "synthetic",
-                       "dataset_id": source, "methodology": copy.deepcopy(method),
-                       "filters": copy.deepcopy(method["filters_by_source"][source]),
-                       "provenance": {"engine": "SYNTHETIC_FIXTURE_NO_ENGINE_EXECUTED", "engine_version": "1",
-                                      "computed_at": "2026-11-19T10:00:00-05:00", "environment": "unittest",
-                                      "input_references": [{"path": "SYNTHETIC", "sha256": "a" * 64}]},
-                       "municipalities": [{"mpio_code": code, "dataset_id": source, "building_count": 10,
-                                           "total_area_m2": 1000.0, "mean_area_m2": 100.0, "median_area_m2": 90.0}
-                                          for code in CODES]})
+def module(name, filename):
+    spec = importlib.util.spec_from_file_location(name, ROOT / "scripts" / filename)
+    result = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(result)
     return result
 
 
-def eda_reference():
-    return {"municipalities": [{"mpio_code": code, "ms_buildings": 10, "google_buildings": 10} for code in CODES]}
-
-
-def set_metrics(payload, index, count, total):
-    payload["municipalities"][index].update(building_count=count, total_area_m2=total,
-                                           mean_area_m2=total / count if count else 0,
-                                           median_area_m2=total / count if count else 0)
-
-
-def temp_root(root):
-    cfg = {"sources": {"pdet_list": {"file": "reference.xlsx", "sheet": "Hoja1", "code_column": "code",
-                                    "expected_municipalities": 170, "expected_subregions": 16}},
-           "analysis": {"comparison": {"reference_eda": "eda.json", "municipalities": "municipalities.csv",
-                                       "output_dir": "out"}}}
-    (root / "config.yaml").write_text(yaml.safe_dump(cfg), encoding="utf-8")
-    pd.DataFrame({"code": CODES}).to_excel(root / "reference.xlsx", sheet_name="Hoja1", index=False)
-    c.write_csv(root / "municipalities.csv", list(MUNICIPALITIES.values()))
-    (root / "eda.json").write_text(json.dumps(eda_reference()), encoding="utf-8")
-    for source, export in zip(("ms", "google"), exports()):
-        (root / f"{source}.json").write_text(json.dumps(export), encoding="utf-8")
+c = module("compare_stats", "06_compare_rooftop_stats.py")
+engine = module("stats_engine", "06_rooftop_stats.py")
+NOW = datetime(2026, 11, 22, 15, 0, tzinfo=timezone.utc)
 
 
 class ComparisonTests(unittest.TestCase):
     def setUp(self):
-        self.ms, self.google = exports()
-        self.flags = c.reference_flags(eda_reference(), MUNICIPALITIES)
+        self.tmp = TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.config = c.load_config(ROOT)
+        for rel in ("config.yaml", "outputs/pdet_mgn_crosswalk.csv", "outputs/eda/eda_buildings_summary.json", "resources/MunicipiosPDET.xlsx"):
+            dest = self.root / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / rel, dest)
+        self.municipalities = c.load_municipalities(self.root, self.config)
+        self.codes = sorted(self.municipalities)
+        self.eda = c.read_json(self.root / self.config["analysis"]["google_low_coverage_rule"]["reference_eda"])
+        self.flags = c.reference_flags(self.eda, self.municipalities)
+        self.create_export("ms")
+        self.create_export("google")
+
+    def paths(self, source):
+        return (self.root / f"outputs/rooftop_stats_{source}.csv", self.root / f"outputs/rooftop_stats_{source}_report.json")
+
+    def create_export(self, source, overrides=None):
+        munis = [{"_id": code, "name": row["name_mgn"], "dpto_code": code[:2], "dpto_name": "SINTETICO",
+                  "subregion_id": int(row["subregion_id"]), "subregion_name": row["subregion_name"]}
+                 for code, row in self.municipalities.items()]
+        groups = []
+        for code in self.codes:
+            areas = (overrides or {}).get(code, [30.0, 60.0, 90.0] if source == "ms" else [40.0, 60.0, 100.0])
+            groups.append({"_id": code, "areas": areas, "before": len(areas),
+                           "below_min_area": 0, "above_max_area": 0, "low_confidence": 0})
+        docs, totals = engine.build_documents(munis, groups, dataset_id=source,
+            filters=c.filters_for(self.config, source), computed_at=NOW,
+            low_coverage={r["mpio_code"] for r in self.flags if r["google_low_coverage"]})
+        csv_path, report_path = self.paths(source)
+        engine.write_csv(csv_path, docs)
+        report = {
+            "role": "rooftop-stats-report", "contract": c.CONTRACT_VERSION,
+            "script_version": engine.SCRIPT_VERSION, "dataset_id": source,
+            "dataset": {"_id": source, "version": "SYNTHETIC_TEST"},
+            "evidence_kind": "synthetic", "status": "computed",
+            "methodology": c.methodology_metadata(self.config), "computed_at": NOW.isoformat(),
+            "filters": c.filters_for(self.config, source), "filter_order": list(c.FILTER_ORDER),
+            "totals": totals, "verification": {"ok": True, "checks": {"rerun_does_not_duplicate": True}},
+            "passes_requested": 2, "passes": [{"documents_after": 170, "upserted": 170},
+                {"documents_after": 170, "upserted": 0, "same_values_as_previous": True}],
+            "outputs": {"csv": str(csv_path.relative_to(self.root)), "csv_sha256": c.sha256_file(csv_path)},
+        }
+        c.write_json(report_path, report)
+
+    def load(self, source):
+        return c.load_source(*self.paths(source), source, self.config, self.root)
 
     def compare(self):
-        return c.compare(self.ms, self.google, MUNICIPALITIES, self.flags)
+        return c.compare(self.load("ms"), self.load("google"), self.municipalities, self.flags)
 
-    def test_accepts_170_and_preserves_original_exports_and_source_specific_filters(self):
-        original = copy.deepcopy(self.google)
+    def change_report(self, source, change):
+        path = self.paths(source)[1]
+        report = c.read_json(path)
+        change(report)
+        c.write_json(path, report)
+
+    def change_csv(self, source, change, rehash=True):
+        path = self.paths(source)[0]
+        with path.open(newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        change(rows)
+        c.write_csv(path, rows)
+        if rehash:
+            self.change_report(source, lambda report: report["outputs"].update(csv_sha256=c.sha256_file(path)))
+
+    def test_full_contract_and_all_original_metrics_and_engine_rank_preserved(self):
+        google = self.load("google")
         result = self.compare()
-        self.assertEqual(result["summary"]["municipalities"], 170)
-        self.assertEqual(result["source_exports"]["google"], original)
-        self.assertEqual(self.google, original)
-        self.assertNotEqual(self.ms["filters"], self.google["filters"])
-        self.assertEqual(result["municipalities"][0]["google_median_area_m2"], 90)
+        self.assertEqual(result["summary"], {"municipalities": 170, "comparison_eligible": 155, "reference_flagged": 15})
+        self.assertIn("05031", {r["mpio_code"] for r in result["municipalities"]})
+        original = {r["mpio_code"]: r for r in google["municipalities"]}
+        for row in result["municipalities"]:
+            for key, value in original[row["mpio_code"]].items():
+                self.assertEqual(row[f"google_{key}"], value)
+        self.assertEqual(result["source_exports"]["google"], google)
+        self.assertNotEqual(result["filters_by_source"]["ms"], result["filters_by_source"]["google"])
 
-    def test_join_uses_code_independently_of_order(self):
-        set_metrics(self.google, 0, 15, 1500)
-        self.google["municipalities"].reverse()
-        rows = self.compare()["municipalities"]
-        self.assertEqual(rows[0]["mpio_code"], CODES[0])
-        self.assertEqual(rows[0]["google_building_count"], 15)
+    def test_rejects_duplicate_missing_unexpected_or_numeric_divipola(self):
+        for mutate in (lambda r: r.append(r[0]), lambda r: r.pop(),
+                       lambda r: r[0].update(mpio_code="99999"), lambda r: r[0].update(mpio_code="5031")):
+            with self.subTest(mutate=mutate):
+                self.create_export("google")
+                self.change_csv("google", mutate)
+                with self.assertRaises(c.ContractError): self.load("google")
 
-    def test_rejects_duplicates(self):
-        self.google["municipalities"].append(copy.deepcopy(self.google["municipalities"][0]))
-        with self.assertRaisesRegex(c.ContractError, "duplicado"):
-            self.compare()
+    def test_rejects_source_swaps_in_report_and_rows(self):
+        self.change_report("google", lambda r: r.update(dataset_id="ms"))
+        with self.assertRaisesRegex(c.ContractError, "fuente incorrecta"): self.load("google")
+        self.create_export("google")
+        self.change_csv("google", lambda rows: rows[0].update(dataset_id="ms"))
+        with self.assertRaises(c.ContractError): self.load("google")
 
-    def test_rejects_missing_and_unexpected_municipalities(self):
-        for value in (None, "99999"):
-            with self.subTest(value=value):
-                self.ms, self.google = exports()
-                if value is None:
-                    self.google["municipalities"].pop()
-                else:
-                    self.google["municipalities"][0]["mpio_code"] = value
-                with self.assertRaisesRegex(c.ContractError, "faltantes=.*inesperados="):
-                    self.compare()
+    def test_rejects_wrong_hash_and_unbound_csv(self):
+        self.change_csv("google", lambda rows: rows[0].update(name="ALTERADO"), rehash=False)
+        with self.assertRaisesRegex(c.ContractError, "SHA256"): self.load("google")
+        self.create_export("google")
+        alternative = self.root / "alternative.csv"
+        shutil.copyfile(self.paths("google")[0], alternative)
+        with self.assertRaisesRegex(c.ContractError, "no es el declarado"):
+            c.load_source(alternative, self.paths("google")[1], "google", self.config, self.root)
 
-    def test_rejects_nontext_short_unicode_and_whitespace_codes(self):
-        for value in (10000, "1000", " 10000", "١٠٠٠٠", None):
-            with self.subTest(value=value):
-                self.google["municipalities"][0]["mpio_code"] = value
-                with self.assertRaisesRegex(c.ContractError, "DIVIPOLA"):
-                    self.compare()
+    def test_rejects_filters_and_methodology_inconsistent_with_current_config(self):
+        for mutate in (lambda r: r["filters"].update(min_confidence=None),
+                       lambda r: r["methodology"].update(version="other"),
+                       lambda r: r["dataset"].update(_id="other"),
+                       lambda r: r["dataset"].update(version=None),
+                       lambda r: r.update(contract="other"), lambda r: r.update(script_version="other")):
+            self.create_export("google")
+            self.change_report("google", mutate)
+            with self.assertRaises(c.ContractError): self.load("google")
 
-    def test_rejects_source_at_envelope_and_row(self):
-        for target in (self.google, self.google["municipalities"][0]):
-            with self.subTest(target=target is self.google):
-                target["dataset_id"] = "ms"
-                with self.assertRaisesRegex(c.ContractError, "fuente incorrecta"):
-                    self.compare()
-                target["dataset_id"] = "google"
+    def test_rejects_unbalanced_reports_and_missing_rerun_evidence(self):
+        for mutate in (lambda r: r["totals"].update(included=1), lambda r: r.update(passes_requested=1),
+                       lambda r: r["passes"][1].update(same_values_as_previous=False),
+                       lambda r: r["passes"][1].update(upserted=1)):
+            self.create_export("google")
+            self.change_report("google", mutate)
+            with self.assertRaises(c.ContractError): self.load("google")
 
-    def test_rejects_effective_filters_different_from_methodology(self):
-        self.google["filters"] = {}
-        with self.assertRaisesRegex(c.ContractError, "filtros efectivos no coinciden"):
-            self.compare()
-
-    def test_rejects_different_method_id_version_definition_and_source_filter_maps(self):
-        for key, value in (("id", "OTHER"), ("version", "2"), ("definition", {"area": "OTHER"}),
-                           ("filters_by_source", {"ms": {}, "google": self.google["filters"]})):
-            with self.subTest(key=key):
-                self.ms, self.google = exports()
-                self.google["methodology"][key] = value
-                with self.assertRaisesRegex(c.ContractError, "incompatibles"):
-                    self.compare()
-
-    def test_rejects_engine_version_mismatch(self):
-        self.google["provenance"]["engine_version"] = "2"
-        with self.assertRaisesRegex(c.ContractError, "motor común"):
-            self.compare()
-
-    def test_rejects_missing_provenance_and_hash(self):
-        for key in ("computed_at", "engine", "environment", "input_references"):
-            with self.subTest(key=key):
-                self.ms, self.google = exports()
-                del self.google["provenance"][key]
-                with self.assertRaises(c.ContractError):
-                    self.compare()
-        self.ms, self.google = exports()
-        self.google["provenance"]["input_references"][0]["sha256"] = "bad"
-        with self.assertRaisesRegex(c.ContractError, "SHA256"):
-            self.compare()
-
-    def test_rejects_naive_timestamp(self):
-        self.google["provenance"]["computed_at"] = "2026-11-19T10:00:00"
-        with self.assertRaisesRegex(c.ContractError, "zona horaria"):
-            self.compare()
-
-    def test_rejects_historical_or_mixed_evidence_and_incomplete_exports(self):
-        for key, value in (("evidence_kind", "historical_eda"), ("evidence_kind", "definitive"),
-                           ("status", "pending"), ("contract", "entrega3-buildings-v1")):
-            with self.subTest(key=key, value=value):
-                self.ms, self.google = exports()
-                self.google[key] = value
-                with self.assertRaises(c.ContractError):
-                    self.compare()
+    def test_rejects_row_from_another_execution_and_missing_metric(self):
+        self.change_csv("google", lambda rows: rows[0].update(computed_at="2026-11-21T15:00:00+00:00"))
+        with self.assertRaisesRegex(c.ContractError, "fechas"): self.load("google")
+        self.create_export("google")
+        self.change_csv("google", lambda rows: rows[0].update(mean_area_m2=""))
+        with self.assertRaises(c.ContractError): self.load("google")
 
     def test_signed_absolute_and_percentage_differences(self):
-        set_metrics(self.google, 0, 15, 500)
+        code = self.codes[0]
+        self.create_export("google", {code: [40.0, 60.0]})
         row = self.compare()["municipalities"][0]
-        self.assertEqual(row["building_count_difference_google_minus_ms"], 5)
-        self.assertEqual(row["building_count_absolute_difference"], 5)
-        self.assertEqual(row["building_count_pct_difference_over_ms"], 50)
-        self.assertEqual(row["total_area_m2_difference_google_minus_ms"], -500)
-        self.assertEqual(row["total_area_m2_absolute_difference"], 500)
-        self.assertEqual(row["total_area_m2_pct_difference_over_ms"], -50)
+        self.assertEqual(row["building_count_difference_google_minus_ms"], -1)
+        self.assertEqual(row["building_count_absolute_difference"], 1)
+        self.assertAlmostEqual(row["building_count_pct_difference_over_ms"], -100 / 3)
+        self.assertEqual(row["total_area_m2_difference_google_minus_ms"], -80)
+        self.assertAlmostEqual(row["total_area_m2_pct_difference_over_ms"], -100 * 80 / 180)
 
-    def test_ms_zero_denominators_and_both_zero_are_null_percentages(self):
-        set_metrics(self.ms, 0, 0, 0)
-        set_metrics(self.ms, 1, 0, 0)
-        set_metrics(self.google, 1, 0, 0)
+    def test_zeros_null_statistics_and_zero_denominators(self):
+        first, second, third = self.codes[:3]
+        self.create_export("ms", {first: [], second: []})
+        self.create_export("google", {second: [], third: []})
         rows = self.compare()["municipalities"]
-        for row in rows[:2]:
-            self.assertIsNone(row["building_count_pct_difference_over_ms"])
-            self.assertIsNone(row["total_area_m2_pct_difference_over_ms"])
-            self.assertEqual(row["building_count_pct_status"], "zero_ms_denominator")
-        self.assertEqual(rows[0]["building_count_difference_google_minus_ms"], 10)
+        self.assertIsNone(rows[0]["building_count_pct_difference_over_ms"])
+        self.assertEqual(rows[0]["building_count_pct_status"], "zero_ms_denominator")
+        self.assertEqual(rows[1]["google_building_count"], 0)
+        self.assertIsNone(rows[1]["google_mean_area_m2"])
+        self.assertIsNone(rows[1]["google_median_area_m2"])
         self.assertEqual(rows[1]["building_count_difference_google_minus_ms"], 0)
+        self.assertEqual(rows[2]["building_count_pct_difference_over_ms"], -100)
+        self.assertEqual(rows[2]["google_observation_status"], "no_observations")
 
-    def test_google_observed_zero_differs_from_missing_data(self):
-        set_metrics(self.google, 0, 0, 0)
-        row = self.compare()["municipalities"][0]
-        self.assertEqual(row["google_building_count"], 0)
-        self.assertEqual(row["google_observation_status"], "no_observations")
-        self.assertEqual(row["building_count_pct_difference_over_ms"], -100)
-        del self.google["municipalities"][0]["total_area_m2"]
-        with self.assertRaisesRegex(c.ContractError, "ausencia no es cero"):
-            self.compare()
-
-    def test_respects_explicit_empty_statistics_null_policy(self):
-        for payload in (self.ms, self.google):
-            payload["methodology"]["empty_statistics"] = "null"
-            set_metrics(payload, 0, 0, 0)
-            payload["municipalities"][0].update(mean_area_m2=None, median_area_m2=None)
-        row = self.compare()["municipalities"][0]
-        self.assertIsNone(row["google_median_area_m2"])
-        self.google["municipalities"][0]["mean_area_m2"] = 0
-        with self.assertRaisesRegex(c.ContractError, "política declarada"):
-            self.compare()
-
-    def test_rejects_invalid_numbers_and_inconsistent_statistics(self):
-        for metric, value in (("building_count", True), ("building_count", 1.5), ("total_area_m2", -1),
-                              ("total_area_m2", float("nan")), ("median_area_m2", float("inf")),
-                              ("mean_area_m2", None), ("mean_area_m2", 99), ("median_area_m2", 2000)):
-            with self.subTest(metric=metric, value=value):
-                self.ms, self.google = exports()
-                self.google["municipalities"][0][metric] = value
-                with self.assertRaises(c.ContractError):
-                    self.compare()
-
-    def test_descending_competition_ranking_with_exact_ties_and_zeros(self):
-        for payload in (self.ms, self.google):
-            set_metrics(payload, 0, 30, 3000)
-            set_metrics(payload, 1, 30, 3000)
-            set_metrics(payload, 2, 20, 2000)
-            set_metrics(payload, 3, 0, 0)
+    def test_flags_recomputed_and_observations_preserved_without_differences(self):
         rows = self.compare()["municipalities"]
-        for source in ("ms", "google"):
-            for metric in ("building_count", "total_area_m2"):
-                self.assertEqual([r[f"{source}_rank_{metric}"] for r in rows[:4]], [1, 1, 3, 170])
+        flagged = [r for r in rows if r["google_low_coverage"]]
+        self.assertEqual(len(flagged), 15)
+        self.assertTrue(all(r["google_building_count"] == 3 for r in flagged))
+        self.assertTrue(all(r["total_area_m2_absolute_difference"] is None for r in flagged))
+        eda = copy.deepcopy(self.eda)
+        eda["municipalities"][0].update(ms_buildings=100, google_buildings=20)
+        flags = {r["mpio_code"]: r for r in c.reference_flags(eda, self.municipalities)}
+        self.assertFalse(flags[eda["municipalities"][0]["mpio_code"]]["google_low_coverage"])
+        eda["municipalities"][0]["google_buildings"] = 19
+        flags = {r["mpio_code"]: r for r in c.reference_flags(eda, self.municipalities)}
+        self.assertTrue(flags[eda["municipalities"][0]["mpio_code"]]["google_low_coverage"])
 
-    def test_strict_reference_threshold_recomputed_and_independent_of_final_counts(self):
-        eda = eda_reference()
-        eda["municipalities"][0].update(ms_buildings=10, google_buildings=2)  # exactamente 20 %: no señal
-        eda["municipalities"][1].update(ms_buildings=10, google_buildings=1)
-        eda["municipalities"][2].update(ms_buildings=0, google_buildings=0)
-        self.flags = c.reference_flags(eda, MUNICIPALITIES)
-        self.assertEqual([f["google_insufficient_detections"] for f in self.flags[:3]], [False, True, False])
-        row = self.compare()["municipalities"][1]
-        self.assertEqual(row["google_building_count"], 10)  # se conserva el escenario, no el conteo EDA
-        self.assertIsNone(row["building_count_absolute_difference"])
-        self.assertEqual(row["building_count_pct_status"], "excluded_reference_signal")
-        eda["municipalities"][1]["google_buildings"] = 3
-        self.assertFalse(c.reference_flags(eda, MUNICIPALITIES)[1]["google_insufficient_detections"])
+    def test_rejects_stale_google_flag(self):
+        self.change_csv("google", lambda rows: rows[0].update(google_low_coverage="true"))
+        with self.assertRaises(c.ContractError): self.load("google")
 
-    def test_rejects_invalid_reference_counts_duplicates_and_missing_codes(self):
-        for mutation in (lambda d: d["municipalities"].pop(),
-                         lambda d: d["municipalities"].append(d["municipalities"][0]),
-                         lambda d: d["municipalities"][0].update(google_buildings=-1)):
-            eda = eda_reference()
-            mutation(eda)
-            with self.assertRaises(c.ContractError):
-                c.reference_flags(eda, MUNICIPALITIES)
+    def test_competition_ties_and_original_sequential_rank(self):
+        rows = self.compare()["municipalities"]
+        self.assertEqual([r["google_rank_total_area_m2"] for r in rows[:3]], [1, 1, 1])
+        self.assertEqual([r["google_rank_total_area"] for r in rows[:3]], [1, 2, 3])
+        values = {"a": {"n": 5}, "b": {"n": 5}, "c": {"n": 2}, "d": {"n": 0}}
+        self.assertEqual(c.competition_ranks(values, "n"), {"a": 1, "b": 1, "c": 3, "d": 4})
 
+    def test_spearman_average_ties_known_answer_and_negative_relation(self):
+        self.assertEqual(c.average_ranks([10, 20, 20, 30]), [1, 2.5, 2.5, 4])
+        sources = {"ms": {}, "google": {}}
+        reference = {}
+        for code, x, y in zip(["10000", "10001", "10002", "10003"], [1, 2, 2, 3], [4, 3, 3, 1]):
+            reference[code] = {"google_low_coverage": False}
+            for src, val in (("ms", x), ("google", y)):
+                sources[src][code] = {"building_count": val, "total_area_m2": val * 20}
+        r = c.correlations(sources, reference)
+        self.assertAlmostEqual(r["all_municipalities"]["building_count"]["rho"], -1)
 
-class CliTests(unittest.TestCase):
-    def test_comparison_cli_json_csv_and_input_hashes(self):
-        with TemporaryDirectory() as tmp, redirect_stdout(io.StringIO()):
-            root = Path(tmp)
-            temp_root(root)
-            self.assertEqual(c.main(["--microsoft", "ms.json", "--google", "google.json"], root), 0)
-            report = c.read_json(root / "out/synthetic_rooftop_stats_comparison.json")
-            self.assertEqual(report["evidence_kind"], "synthetic")
-            self.assertEqual(len(report["inputs"]), 5)
-            with (root / "out/synthetic_rooftop_stats_comparison.csv").open(newline="") as handle:
-                rows = list(csv.DictReader(handle))
-            self.assertEqual(len(rows), 170)
-            self.assertEqual(rows[0]["mpio_code"], CODES[0])
-            self.assertEqual(rows[0]["evidence_kind"], "synthetic")
-            self.assertFalse((root / "out/rooftop_stats_comparison.json").exists())
+    def test_spearman_dynamic_populations_codes_and_constant_null(self):
+        code = self.codes[0]
+        self.create_export("google", {code: []})
+        report = self.compare()
+        corrs = report["correlations"]
+        self.assertEqual(corrs["all_municipalities"]["building_count"]["n"], 170)
+        self.assertEqual(corrs["positive_in_both"]["building_count"]["n"], 169)
+        primary = corrs["comparable_positive_in_both"]["building_count"]
+        self.assertEqual(primary["n"], 154)
+        self.assertEqual(len(primary["excluded_codes"]), 16)
+        self.assertEqual(primary["exclusion_reasons"][code], ["nonpositive_google"])
+        self.assertIsNone(primary["rho"])
+        self.assertEqual(primary["status"], "constant_input")
+        self.assertEqual(set(primary["included_codes"]) | set(primary["excluded_codes"]), set(self.codes))
 
-    def test_reference_only_is_separate_from_definitive_results(self):
-        with TemporaryDirectory() as tmp, redirect_stdout(io.StringIO()):
-            root = Path(tmp)
-            temp_root(root)
-            self.assertEqual(c.main(["--reference-only"], root), 0)
-            report = c.read_json(root / "out/google_comparability_reference.json")
-            self.assertEqual(report["evidence_kind"], "historical_eda")
-            self.assertEqual(report["status"], "reference_only")
-            self.assertFalse((root / "out/rooftop_stats_comparison.json").exists())
+    def test_spearman_insufficient_observations(self):
+        sources = {src: {"10000": {"building_count": 1, "total_area_m2": 20}} for src in ("ms", "google")}
+        result = c.correlations(sources, {"10000": {"google_low_coverage": False}})
+        self.assertEqual(result["all_municipalities"]["building_count"]["status"], "insufficient_observations")
 
-    def test_failure_preserves_existing_outputs_and_inputs(self):
-        with TemporaryDirectory() as tmp, redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
-            root = Path(tmp)
-            temp_root(root)
-            path = root / "google.json"
-            path.write_text('{"contract": "bad"}', encoding="utf-8")
-            output = root / "out/rooftop_stats_comparison.json"
-            output.parent.mkdir()
-            output.write_text("PREVIOUS_EVIDENCE", encoding="utf-8")
-            self.assertEqual(c.main(["--microsoft", "ms.json", "--google", "google.json"], root), 1)
-            self.assertEqual(output.read_text(), "PREVIOUS_EVIDENCE")
-            self.assertEqual(path.read_text(), '{"contract": "bad"}')
+    def test_cli_end_to_end_uses_shared_csv_report_contract_and_is_reproducible(self):
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(c.main([], self.root), 0)
+            output = self.root / "outputs/delivery4/synthetic_rooftop_stats_comparison.json"
+            first = output.read_bytes()
+            self.assertEqual(c.main([], self.root), 0)
+        self.assertEqual(first, output.read_bytes())
+        result = c.read_json(output)
+        self.assertEqual(result["evidence_kind"], "synthetic")
+        self.assertEqual(len(result["inputs"]), 8)
+        self.assertEqual(result["contract"], c.OUTPUT_CONTRACT)
+        self.assertFalse((output.parent / "rooftop_stats_comparison.json").exists())
+        with output.with_suffix(".csv").open(newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 170)
+        self.assertEqual(rows[0]["mpio_code"], "05031")
 
-    def test_json_duplicate_keys_and_nonfinite_constants_fail(self):
-        with TemporaryDirectory() as tmp:
-            path = Path(tmp) / "bad.json"
-            for text in ('{"x": 1, "x": 2}', '{"x": NaN}', '{"x": Infinity}'):
-                with self.subTest(text=text):
-                    path.write_text(text)
-                    with self.assertRaises(c.ContractError):
-                        c.read_json(path)
+    def test_cli_failure_preserves_evidence_and_synthetic_definitive_do_not_mix(self):
+        previous = self.root / "outputs/delivery4/rooftop_stats_comparison.json"
+        previous.parent.mkdir(parents=True)
+        previous.write_text("PREVIOUS_EVIDENCE")
+        self.change_report("google", lambda r: r.pop("evidence_kind"))
+        with redirect_stderr(io.StringIO()): self.assertEqual(c.main([], self.root), 1)
+        self.assertEqual(previous.read_text(), "PREVIOUS_EVIDENCE")
 
-    def test_current_real_reference_matches_official_universe(self):
-        # No declara una ejecución del motor: únicamente reproduce la señal histórica.
-        config = c.load_config(ROOT)
-        municipalities = c.load_municipalities(ROOT, config)
-        eda = c.read_json(ROOT / config["analysis"]["comparison"]["reference_eda"])
-        flags = c.reference_flags(eda, municipalities)
-        self.assertEqual(len(flags), 170)
-        self.assertEqual(sum(f["google_insufficient_detections"] for f in flags), 15)
-        self.assertEqual(sum(f["reference_google_zero"] for f in flags), 5)
-        self.assertIn("05031", municipalities)
-        self.assertNotIn("5031", municipalities)
+    def test_real_microsoft_export_is_readable_without_recomputing(self):
+        cfg = c.load_config(ROOT)
+        export = c.load_source(ROOT / "outputs/rooftop_stats_ms.csv", ROOT / "outputs/rooftop_stats_ms_report.json", "ms", cfg, ROOT)
+        self.assertEqual(len(export["municipalities"]), 170)
+        self.assertEqual(export["totals"]["included"], 1720535)
+        self.assertEqual(export["evidence_kind"], "definitive")
+
+    def test_rejects_definitive_export_from_a_partial_source_load(self):
+        path = self.root / self.config["sources"]["google"]["prepare_report"]
+        shutil.copyfile(ROOT / self.config["sources"]["google"]["prepare_report"], path)
+        self.change_report("google", lambda r: r.pop("evidence_kind"))
+        with self.assertRaisesRegex(c.ContractError, "carga parcial"):
+            self.load("google")
+
+    def test_config_rule_drift_is_rejected_by_shared_contract(self):
+        self.config["analysis"]["google_low_coverage"] = []
+        c.write_json(self.root / "config.yaml", self.config)  # JSON también es YAML válido.
+        with redirect_stderr(io.StringIO()): self.assertEqual(c.main([], self.root), 1)
 
 
 if __name__ == "__main__":

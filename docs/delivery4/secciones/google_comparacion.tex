@@ -1,0 +1,30 @@
+\section{Google y comparación municipal entre fuentes}
+\textbf{Responsable: Juan Sebastián Sánchez Vásquez.}
+La implementación de comparación se adaptó al contrato definitivo de Derek y
+al motor común de Miguel. Se conservan los 170 códigos DIVIPOLA, las métricas y
+el ranking original de cada fuente; las diferencias son Google menos Microsoft,
+con porcentajes respecto a Microsoft y tratamiento explícito de denominadores
+cero y estadísticas nulas. No se suman las fuentes como edificios únicos.
+
+La señal \texttt{google\_low\_coverage} se recalcula con la regla compartida
+sobre el EDA sin filtros analíticos de la Entrega~4. Los señalados conservan sus
+valores y rankings, pero se excluyen de diferencias directas. Su discrepancia no
+prueba una causa ni la cobertura real; Microsoft tampoco es una verdad certificada.
+Spearman se implementó con poblaciones dinámicas y códigos exactos incluidos y
+excluidos para cada métrica, sin reutilizar los coeficientes del EDA.
+
+En el computador de Sebastián se verificaron los ocho originales y se completó
+la preparación oficial: 31.499.115 filas leídas, 139 rechazadas y 2.694.775 huellas
+PDET preparadas. Los ocho SHA256 preparados coinciden con la evidencia histórica.
+Se cargaron los 170 municipios, pero los reinicios de MongoDB interrumpieron la
+carga de edificios. Por ello todavía no se ejecutó el cálculo definitivo Google
+ni se generaron diferencias o correlaciones definitivas.
+
+Microsoft conserva la ejecución de Miguel del 19 de noviembre: 1.720.535
+edificaciones y 220.266.587,30~m$^2$ de huella. El cierre requiere el CSV y reporte
+Google completos del motor común, con dos pasadas y controles aprobados.
+La documentación y comandos se encuentran en
+\path{docs/delivery4/entrega4_google_comparacion.md}.
+El área horizontal de huella no equivale a área útil de techo ni a potencial energético.
+Esta sección no acredita la validación independiente de José, los mapas de Samuel,
+la terminación del PDF completo ni el envío a BrightSpace.

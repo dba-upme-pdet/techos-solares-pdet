@@ -1,65 +1,41 @@
 {
   "branch": "feature/sebastian-environment",
-  "checked_at": "2026-11-19T17:05:19.488245+00:00",
+  "checked_at": "2026-11-23T03:31:41.713207+00:00",
+  "data_deleted": false,
   "definitive_google_statistics_executed": false,
   "definitive_source_comparison_executed": false,
   "dependencies": {
-    "common_engine": {
-      "expected_roadmap_path": "scripts/06_rooftop_stats.py",
-      "microsoft_delivery4_export_available": false,
-      "present": false,
-      "responsible": "Miguel"
+    "common_engine": "available and integrated",
+    "google_originals": "8 verified locally",
+    "google_preparation": "2694775; all prepared SHA256 match historical report",
+    "local_database_probe": {
+      "available": true,
+      "cache_max_bytes": 274726912,
+      "google_buildings": 377599,
+      "mongo_version": "7.0.45",
+      "municipalities": 170,
+      "rooftop_stats": 0
     },
-    "google_delivery4_export_available": false,
-    "local_mongodb_ping": {
-      "available": false,
-      "exception": "ServerSelectionTimeoutError",
-      "read_only": true
-    },
-    "local_prepared_building_partitions": 0,
-    "methodology": {
-      "responsible": "Derek",
-      "status": "only historical EDA reference rule published; final methodology, filters and export contract absent"
-    }
-  },
-  "executed_evidence": {
-    "comparison_tests_passed": 25,
-    "eda_regression_tests_passed": 2,
-    "failed": 0,
-    "kind": "historical_eda_reference_recomputed_locally",
-    "reference_report": "outputs/delivery4/google_comparability_reference.json",
-    "reference_summary": {
-      "flagged": 15,
-      "google_zero": 5,
-      "municipalities": 170
-    },
-    "skipped": 0,
-    "test_log": "docs/delivery4/comparison_test_results.txt"
+    "methodology_and_contract": "available and integrated",
+    "microsoft_export": "validated and reused from Miguel, 19 nov 2026"
   },
   "historical_reports_modified": false,
-  "implementation": "comparison tested against explicit provisional interface; final reader integration remains pending",
+  "implementation_completed": true,
   "next_steps": [
-    "Derek: publish methodology, source-specific effective filters, empty-statistics policy and final result contract",
-    "Miguel: publish common engine CLI and Microsoft export with provenance and persistence/export mechanisms",
-    "Sebastián: adapt reader to published contract, run common engine for Google with available buildings, then compare both final exports",
-    "José: independent validation; Samuel: maps and report using final tables when available"
+    "Stabilize MongoDB and resume verified local inputs, or run Google on team loaded environment",
+    "Provide outputs/rooftop_stats_google.csv and outputs/rooftop_stats_google_report.json with full source and passes 2",
+    "Run scripts/entrega4_contracts.py --check --require-google and scripts/06_compare_rooftop_stats.py",
+    "Update real results and section; independent validation and group PDF remain separate"
   ],
-  "origin_main": "a86e3d2cff4ffc22de1813961dc9391946778063",
-  "production_data_modified": false,
-  "remote_snapshot": {
-    "origin/HEAD": "a86e3d2cff4ffc22de1813961dc9391946778063",
-    "origin/cursor/entrega2-mgn-prepare-98e2": "41cca1e0fd9d87604db12ed3acc003825bbba303",
-    "origin/entrega2/hash-contenido-wfs-y-carga-definitiva": "7d27eaef6019784db7c8de76c977f6dd408a1644",
-    "origin/entrega3/carga-buildings-jose": "f7de3206275e7595b191ab316474f4afc44c3716",
-    "origin/entrega3/fuentes-informe": "80dbd7f72543136a6aefadecc0a0b3a76aa5dbb1",
-    "origin/entrega3/informe-final": "149c651f23fa45acc6117c6fd656d0cb41d07c69",
-    "origin/entrega3/preparacion-huellas-ms": "1e3fdeebb44ef9a58e3a7d8ae7674341d22b8755",
-    "origin/entrega4/hallazgo-fuente-base": "692b23415f37f4db777fa86683f127eb0a50e411",
-    "origin/feature/entrega3-eda": "fcffc74b44de21694a690e9bef086068ac52a784",
-    "origin/feature/sebastian-environment": "66c5a5ca2529697380a7725da046699ef5973a45",
-    "origin/main": "a86e3d2cff4ffc22de1813961dc9391946778063",
-    "origin/samuel/validate-mgn": "aa20f5fb612bdf4e94e2d5fb62922d9e0fe16fff"
-  },
-  "responsible": "Sebastián Sánchez",
-  "status": "pending_common_methodology_engine_and_real_exports"
+  "origin_main_integrated": "4e94c48",
+  "responsible": "Juan Sebastián Sánchez Vásquez",
+  "status": "comparison_adapted_google_execution_blocked_by_local_mongodb_restarts",
+  "tests": {
+    "final_comparator_passed": 20,
+    "full_suite_errors": 0,
+    "full_suite_failed": 0,
+    "full_suite_passed": 125,
+    "full_suite_run": 126,
+    "full_suite_skipped": 1
+  }
 }
