@@ -1,0 +1,1008 @@
+{
+  "checks": {
+    "coherence": {
+      "area_filters_identical_across_sources": true,
+      "area_units_geodesic_m2": true,
+      "confidence_only_google": true,
+      "csv_totals_match_reports": true,
+      "filters_recorded_match_config": true,
+      "google_area_close_to_published_area": true,
+      "google_flag_matches_config": true,
+      "low_coverage_rule_matches_config": true,
+      "names_and_subregions_match_between_sources": true,
+      "same_170_municipalities_both_sources": true,
+      "same_script_version_both_sources": true
+    },
+    "comparisons": {
+      "csv_google": true,
+      "csv_ms": true,
+      "prepared_csv_google": true,
+      "prepared_csv_ms": true,
+      "published_HEAD_ms": true,
+      "rooftop_stats_collection": true
+    },
+    "inputs": {
+      "google_count_matches_preparation_and_load": true,
+      "google_dataset_registered": true,
+      "google_ingestion_runs_recorded": true,
+      "google_per_municipality_matches_preparation": true,
+      "google_reports_ready_and_loaded": true,
+      "ms_count_matches_preparation_and_load": true,
+      "ms_dataset_registered": true,
+      "ms_ingestion_runs_recorded": true,
+      "ms_per_municipality_matches_preparation": true,
+      "ms_reports_ready_and_loaded": true,
+      "municipalities_170": true,
+      "pdet_layer_matches_entrega2_hash": true,
+      "subregions_16": true
+    },
+    "plans": {
+      "plan_aggregate_rooftop_stats_google_uses_dataset_id_1_mpio_code_1": true,
+      "plan_aggregate_rooftop_stats_ms_uses_dataset_id_1_mpio_code_1": true,
+      "plan_count_included_google_uses_dataset_id_1_mpio_code_1": true,
+      "plan_count_included_ms_uses_dataset_id_1_mpio_code_1": true,
+      "plan_find_by_source_and_municipality_uses_dataset_id_1_mpio_code_1": true,
+      "plan_geo_within_centroid_uses_centroid_2dsphere": true,
+      "plan_municipality_of_point_uses_geometry_2dsphere": true
+    },
+    "spatial": {
+      "google_border_margin_covers_largest_footprint": true,
+      "google_mongo_geowithin_without_errors": true,
+      "google_points_outside_only_by_centroid_rounding": true,
+      "google_shapely_rule_reproduces_assignment": true,
+      "google_spherical_differences_below_0_1pct": true,
+      "ms_border_margin_covers_largest_footprint": true,
+      "ms_mongo_geowithin_without_errors": true,
+      "ms_points_outside_only_by_centroid_rounding": true,
+      "ms_shapely_rule_reproduces_assignment": true,
+      "ms_spherical_differences_below_0_1pct": true
+    }
+  },
+  "coherence": {
+    "area_recheck_geodesic": {
+      "google": {
+        "footprints": 2000,
+        "max_abs_diff_m2": 0.005
+      },
+      "ms": {
+        "footprints": 2000,
+        "max_abs_diff_m2": 0.005
+      }
+    },
+    "comparable_municipalities": 155,
+    "filters": {
+      "google": {
+        "max_area_m2": null,
+        "min_area_m2": 20.0,
+        "min_confidence": 0.7
+      },
+      "ms": {
+        "max_area_m2": null,
+        "min_area_m2": 20.0,
+        "min_confidence": null
+      }
+    },
+    "google_area_m2_over_area_src_m2": {
+      "median": 0.99576,
+      "p01": 0.99531,
+      "p99": 0.99622,
+      "sample": 20000
+    },
+    "low_coverage_config": [
+      "05475",
+      "05873",
+      "19418",
+      "27099",
+      "27150",
+      "27205",
+      "27250",
+      "27425",
+      "27450",
+      "27491",
+      "27615",
+      "27745",
+      "52612",
+      "52621",
+      "73616"
+    ],
+    "low_coverage_rule_recomputed": [
+      "05475",
+      "05873",
+      "19418",
+      "27099",
+      "27150",
+      "27205",
+      "27250",
+      "27425",
+      "27450",
+      "27491",
+      "27615",
+      "27745",
+      "52612",
+      "52621",
+      "73616"
+    ],
+    "spearman_area_comparable": 0.9413,
+    "spearman_count_comparable": 0.912,
+    "totals": {
+      "google": {
+        "area_included_km2": 203.7476,
+        "buildings_before": 2694775,
+        "buildings_included": 2067004
+      },
+      "ms": {
+        "area_included_km2": 220.2666,
+        "buildings_before": 1761030,
+        "buildings_included": 1720535
+      }
+    }
+  },
+  "comparisons": {
+    "csv_google": {
+      "before": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "below_min_area": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "building_count": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "compared": "outputs/rooftop_stats_google.csv",
+      "low_confidence": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "mean_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "median_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "missing_rows": [],
+      "ok": true,
+      "rows": 170,
+      "total_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      }
+    },
+    "csv_ms": {
+      "before": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "below_min_area": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "building_count": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "compared": "outputs/rooftop_stats_ms.csv",
+      "low_confidence": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "mean_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "median_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "missing_rows": [],
+      "ok": true,
+      "rows": 170,
+      "total_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      }
+    },
+    "prepared_csv_google": {
+      "area_max_abs_diff_m2": 1.69,
+      "area_max_diff_over_rounding_bound": 0.3053,
+      "area_total_diff_m2": -2.0,
+      "compared": "huellas y área antes de filtros vs. preparación de la Entrega 3",
+      "count_mismatches": 0,
+      "ok": true
+    },
+    "prepared_csv_ms": {
+      "area_max_abs_diff_m2": 1.07,
+      "area_max_diff_over_rounding_bound": 0.0357,
+      "area_total_diff_m2": 0.88,
+      "compared": "huellas y área antes de filtros vs. preparación de la Entrega 3",
+      "count_mismatches": 0,
+      "ok": true
+    },
+    "published_HEAD_ms": {
+      "before": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "below_min_area": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "building_count": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "compared": "HEAD:outputs/rooftop_stats_ms.csv",
+      "low_confidence": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "mean_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 1e-06,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "median_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 1e-06,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "missing_rows": [],
+      "ok": true,
+      "rows": 170,
+      "total_area_m2": {
+        "max_abs_diff": 0.15,
+        "max_rel_diff": 3.234643078378667e-07,
+        "null_mismatch": 0,
+        "relative_tolerance": 1e-06,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 148,
+        "tolerance": 0.011
+      }
+    },
+    "rooftop_stats_collection": {
+      "before": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "below_min_area": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "building_count": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "compared": "colección rooftop_stats",
+      "low_confidence": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0
+      },
+      "mean_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "median_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      },
+      "missing_rows": [],
+      "ok": true,
+      "rows": 340,
+      "total_area_m2": {
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "null_mismatch": 0,
+        "relative_tolerance": 0.0,
+        "rows_over_tolerance": 0,
+        "rows_with_difference": 0,
+        "tolerance": 0.011
+      }
+    }
+  },
+  "database": "upme_pdet",
+  "duration_s": 122.02,
+  "finished_at": "2026-11-23T03:24:25+00:00",
+  "inputs": {
+    "checks": {
+      "google_count_matches_preparation_and_load": true,
+      "google_dataset_registered": true,
+      "google_ingestion_runs_recorded": true,
+      "google_per_municipality_matches_preparation": true,
+      "google_reports_ready_and_loaded": true,
+      "ms_count_matches_preparation_and_load": true,
+      "ms_dataset_registered": true,
+      "ms_ingestion_runs_recorded": true,
+      "ms_per_municipality_matches_preparation": true,
+      "ms_reports_ready_and_loaded": true,
+      "municipalities_170": true,
+      "pdet_layer_matches_entrega2_hash": true,
+      "subregions_16": true
+    },
+    "collections": {
+      "buildings": 4455805,
+      "datasets": 2,
+      "ingestion_runs": 267,
+      "municipalities": 170,
+      "pdet_subregions": 16,
+      "rooftop_stats": 340
+    },
+    "files": {
+      "config.yaml": "4bcea431b86b21f35e702df402001e9f2bba0497c23f9f9ac381bff1c095a850",
+      "data/processed/municipalities.geojsonl": "612e2544be7ca2c22285aaac647819b910aa779ce61e1e5b872766051101f8ed",
+      "outputs/buildings_google_load_report.json": "c1acd9999c7b8becce88429aa498d4a2bb2d135a0681bd0f2bf2600512ae2444",
+      "outputs/buildings_google_prepare_report.json": "f54ed4e1f60b35efd389cf123c7f945640bdc78ac6cfd547c243d11d1e52fa4c",
+      "outputs/buildings_google_prepared_by_municipality.csv": "22286cc6e29bdd41f92189160588878538e271922780384dc1431972f299f694",
+      "outputs/buildings_ms_load_report.json": "ae9f54c231d781f6be43d9a837c5200162a8997f64ac618163cb68df1ab6f065",
+      "outputs/buildings_ms_prepare_report.json": "3f27f5653968f901cc19a8a466e7cfe7713ec7f4913d980aa9e5a26e9abeff66",
+      "outputs/buildings_ms_prepared_by_municipality.csv": "c8b1189f0e424e3467662254066043617dc1d3126c3127a6b4d51a6bf65278bb",
+      "outputs/municipalities_prepare_report.json": "cc15cfb2a9450b58eb8ceaedd37827caccdffd596ab4e6d3f4a2d33605816dcd"
+    },
+    "sources": {
+      "google": {
+        "buildings_in_db": 2694775,
+        "codes_in_db_not_in_prepared_csv": [],
+        "dataset": {
+          "_id": "google",
+          "accessed_at": "2026-11-16T17:24:36.317000+00:00",
+          "license": "CC-BY-4.0",
+          "name": "Google Open Buildings",
+          "url": "https://sites.research.google/gr/open-buildings/",
+          "version": "v3"
+        },
+        "ingestion_runs": 16,
+        "last_ingestion_run_finished_at": "2026-11-16T18:18:00.002000+00:00",
+        "load_idempotent": true,
+        "load_status": "loaded",
+        "loaded_report": 2694775,
+        "municipalities_with_buildings": 165,
+        "municipality_count_mismatches_vs_prepared_csv": [],
+        "null_mpio_code": 0,
+        "prepare_status": "ready_for_load",
+        "prepared": 2694775
+      },
+      "ms": {
+        "buildings_in_db": 1761030,
+        "codes_in_db_not_in_prepared_csv": [],
+        "dataset": {
+          "_id": "ms",
+          "accessed_at": "2026-11-13T15:21:26+00:00",
+          "license": "ODbL-1.0",
+          "name": "Microsoft Global ML Building Footprints",
+          "url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
+          "version": "2026-02-03"
+        },
+        "ingestion_runs": 250,
+        "last_ingestion_run_finished_at": "2026-11-16T18:23:49.915000+00:00",
+        "load_idempotent": true,
+        "load_status": "loaded",
+        "loaded_report": 1761030,
+        "municipalities_with_buildings": 170,
+        "municipality_count_mismatches_vs_prepared_csv": [],
+        "null_mpio_code": 0,
+        "prepare_status": "ready_for_load",
+        "prepared": 1761030
+      }
+    }
+  },
+  "mongo_version": "7.0.48",
+  "ok": true,
+  "outputs": {
+    "outputs/validation/border_footprints_by_municipality.csv": "40805c3be71af41b7677632058c3b3ae248ad7374a8066df6bd11cc195db99ad",
+    "outputs/validation/validation_by_municipality.csv": "3061885b20f3e111f97a7f41324b89c8ed81c6245a35e488e4b2d5135bd2c28b"
+  },
+  "parameters": {
+    "analysis": {
+      "comparison": {
+        "municipalities": "outputs/pdet_mgn_crosswalk.csv",
+        "output_dir": "outputs/delivery4",
+        "reference_eda": "outputs/eda/eda_buildings_summary.json"
+      },
+      "confidence_sources": [
+        "google"
+      ],
+      "filter_order": [
+        "below_min_area",
+        "above_max_area",
+        "low_confidence"
+      ],
+      "google_low_coverage": [
+        "05475",
+        "05873",
+        "19418",
+        "27099",
+        "27150",
+        "27205",
+        "27250",
+        "27425",
+        "27450",
+        "27491",
+        "27615",
+        "27745",
+        "52612",
+        "52621",
+        "73616"
+      ],
+      "google_low_coverage_rule": {
+        "basis": "entrega3_eda_unfiltered",
+        "ratio_threshold": 0.2,
+        "reference_eda": "outputs/eda/eda_buildings_summary.json"
+      },
+      "max_area_m2": null,
+      "methodology": {
+        "area_metric": "footprint_geodesic_wgs84_m2",
+        "base_source": "ms",
+        "contrast_source": "google",
+        "empty_municipality_stats": "null",
+        "id": "upme-pdet-rooftop-stats",
+        "missing_confidence_policy": {
+          "google": "exclude_as_low_confidence",
+          "ms": "ignore_unfiltered"
+        },
+        "outlier_policy": "retain_all_above_min_area",
+        "spatial_assignment": "centroid_intersects_min_divipola_tiebreak",
+        "usable_area_factor": null,
+        "version": "entrega4-methodology-v1"
+      },
+      "min_area_m2": 20,
+      "min_confidence": 0.7,
+      "rooftop_stats": {
+        "collection": "rooftop_stats",
+        "csv": "outputs/rooftop_stats_{source}.csv",
+        "report": "outputs/rooftop_stats_{source}_report.json"
+      }
+    },
+    "area_tolerance_m2": 0.011,
+    "baseline_ref": "HEAD",
+    "border_margin_deg": 0.005,
+    "centroid_rounding_deg": 1e-07,
+    "cross_environment_rel_tol": 1e-06,
+    "large_footprint_m2": 5000,
+    "rounding_per_footprint_m2": 0.005
+  },
+  "plans": {
+    "checks": {
+      "plan_aggregate_rooftop_stats_google_uses_dataset_id_1_mpio_code_1": true,
+      "plan_aggregate_rooftop_stats_ms_uses_dataset_id_1_mpio_code_1": true,
+      "plan_count_included_google_uses_dataset_id_1_mpio_code_1": true,
+      "plan_count_included_ms_uses_dataset_id_1_mpio_code_1": true,
+      "plan_find_by_source_and_municipality_uses_dataset_id_1_mpio_code_1": true,
+      "plan_geo_within_centroid_uses_centroid_2dsphere": true,
+      "plan_municipality_of_point_uses_geometry_2dsphere": true
+    },
+    "indexes": {
+      "buildings": {
+        "_id_": [
+          [
+            "_id",
+            1
+          ]
+        ],
+        "centroid_2dsphere": [
+          [
+            "centroid",
+            "2dsphere"
+          ]
+        ],
+        "dataset_id_1_mpio_code_1": [
+          [
+            "dataset_id",
+            1
+          ],
+          [
+            "mpio_code",
+            1
+          ]
+        ]
+      },
+      "municipalities": {
+        "_id_": [
+          [
+            "_id",
+            1
+          ]
+        ],
+        "geometry_2dsphere": [
+          [
+            "geometry",
+            "2dsphere"
+          ]
+        ],
+        "subregion_id_1": [
+          [
+            "subregion_id",
+            1
+          ]
+        ]
+      },
+      "rooftop_stats": {
+        "_id_": [
+          [
+            "_id",
+            1
+          ]
+        ]
+      }
+    },
+    "plans": {
+      "aggregate_rooftop_stats_google": {
+        "collection_scan": false,
+        "execution_time_ms": 3440,
+        "n_returned": 2694775,
+        "total_docs_examined": 2694775,
+        "total_keys_examined": 2694775,
+        "uses_index": [
+          "dataset_id_1_mpio_code_1"
+        ],
+        "winning_plan": [
+          {
+            "stage": "PROJECTION_DEFAULT"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "dataset_id_1_mpio_code_1",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "aggregate_rooftop_stats_ms": {
+        "collection_scan": false,
+        "execution_time_ms": 1839,
+        "n_returned": 1761030,
+        "total_docs_examined": 1761030,
+        "total_keys_examined": 1761030,
+        "uses_index": [
+          "dataset_id_1_mpio_code_1"
+        ],
+        "winning_plan": [
+          {
+            "stage": "PROJECTION_DEFAULT"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "dataset_id_1_mpio_code_1",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "count_included_google": {
+        "collection_scan": false,
+        "execution_time_ms": 1945,
+        "n_returned": 0,
+        "total_docs_examined": 2694775,
+        "total_keys_examined": 2694776,
+        "uses_index": [
+          "dataset_id_1_mpio_code_1"
+        ],
+        "winning_plan": [
+          {
+            "stage": "COUNT"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "dataset_id_1_mpio_code_1",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "count_included_ms": {
+        "collection_scan": false,
+        "execution_time_ms": 850,
+        "n_returned": 0,
+        "total_docs_examined": 1761030,
+        "total_keys_examined": 1761030,
+        "uses_index": [
+          "dataset_id_1_mpio_code_1"
+        ],
+        "winning_plan": [
+          {
+            "stage": "COUNT"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "dataset_id_1_mpio_code_1",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "find_by_source_and_municipality": {
+        "collection_scan": false,
+        "execution_time_ms": 26,
+        "n_returned": 67663,
+        "total_docs_examined": 67663,
+        "total_keys_examined": 67663,
+        "uses_index": [
+          "dataset_id_1_mpio_code_1"
+        ],
+        "winning_plan": [
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "dataset_id_1_mpio_code_1",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "geo_within_centroid": {
+        "collection_scan": false,
+        "execution_time_ms": 3391,
+        "n_returned": 0,
+        "total_docs_examined": 267058,
+        "total_keys_examined": 267072,
+        "uses_index": [
+          "centroid_2dsphere"
+        ],
+        "winning_plan": [
+          {
+            "stage": "COUNT"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "centroid_2dsphere",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "municipality_of_point": {
+        "collection_scan": false,
+        "execution_time_ms": 2,
+        "n_returned": 1,
+        "total_docs_examined": 1,
+        "total_keys_examined": 6,
+        "uses_index": [
+          "geometry_2dsphere"
+        ],
+        "winning_plan": [
+          {
+            "stage": "PROJECTION_SIMPLE"
+          },
+          {
+            "stage": "FETCH"
+          },
+          {
+            "indexName": "geometry_2dsphere",
+            "stage": "IXSCAN"
+          }
+        ]
+      },
+      "rooftop_stats_by_source": {
+        "collection_scan": true,
+        "execution_time_ms": 0,
+        "n_returned": 170,
+        "total_docs_examined": 340,
+        "total_keys_examined": 0,
+        "uses_index": [],
+        "winning_plan": [
+          {
+            "stage": "COLLSCAN"
+          }
+        ]
+      }
+    }
+  },
+  "role": "entrega4-validation-report",
+  "script_version": "entrega4-validation-v1",
+  "spatial": {
+    "border_footprints": {
+      "google": {
+        "area_crossing_m2": 209451.86,
+        "area_outside_m2": 37207.36,
+        "area_outside_pct_of_included": 0.0183,
+        "area_recheck": {
+          "footprints": 2000,
+          "max_abs_diff_m2": 0.005
+        },
+        "candidates": 300516,
+        "crossing": 2115,
+        "max_extent_m": 215.0
+      },
+      "ms": {
+        "area_crossing_m2": 277688.88,
+        "area_outside_m2": 35938.85,
+        "area_outside_pct_of_included": 0.0163,
+        "area_recheck": {
+          "footprints": 2000,
+          "max_abs_diff_m2": 0.005
+        },
+        "candidates": 193276,
+        "crossing": 1405,
+        "max_extent_m": 235.4
+      }
+    },
+    "mongo_spherical": {
+      "google": {
+        "assigned_elsewhere_inside": 1,
+        "buildings": 2694775,
+        "confirmed": 2694775,
+        "confirmed_pct": 100.0,
+        "elsewhere_examples": [
+          {
+            "assigned": "05837",
+            "inside_spherical": "05665",
+            "n": 1
+          }
+        ],
+        "errors": [],
+        "not_confirmed": 0
+      },
+      "ms": {
+        "assigned_elsewhere_inside": 1,
+        "buildings": 1761030,
+        "confirmed": 1761030,
+        "confirmed_pct": 100.0,
+        "elsewhere_examples": [
+          {
+            "assigned": "47053",
+            "inside_spherical": "47189",
+            "n": 1
+          }
+        ],
+        "errors": [],
+        "not_confirmed": 0
+      }
+    },
+    "shapely_rule": {
+      "google": {
+        "differs_examples": [],
+        "on_shared_boundary": 0,
+        "outside_all": 1,
+        "outside_examples": [
+          {
+            "_id": "google:938c167cbf8b006a3d2f2a59",
+            "assigned": "54800",
+            "distance_deg": 4.384771567072532e-09,
+            "distance_m": 0.0005,
+            "lat": 8.3894738,
+            "lon": -73.2751506
+          }
+        ],
+        "outside_max_distance_deg": 4.384771567072532e-09,
+        "points": 2694775,
+        "rule_differs": 0,
+        "rule_matches": 2694774
+      },
+      "ms": {
+        "differs_examples": [],
+        "on_shared_boundary": 0,
+        "outside_all": 0,
+        "outside_examples": [],
+        "outside_max_distance_deg": 0.0,
+        "points": 1761030,
+        "rule_differs": 0,
+        "rule_matches": 1761030
+      }
+    },
+    "top10_area_outside": [
+      {
+        "area_outside_municipality_m2": 8238.02,
+        "crossing_area_m2": 59920.24,
+        "crossing_footprints": 570,
+        "dataset_id": "google",
+        "mpio_code": "52835",
+        "name": "SAN ANDRÉS DE TUMACO"
+      },
+      {
+        "area_outside_municipality_m2": 5556.1,
+        "crossing_area_m2": 68834.63,
+        "crossing_footprints": 130,
+        "dataset_id": "ms",
+        "mpio_code": "76109",
+        "name": "BUENAVENTURA"
+      },
+      {
+        "area_outside_municipality_m2": 5400.25,
+        "crossing_area_m2": 31745.91,
+        "crossing_footprints": 367,
+        "dataset_id": "google",
+        "mpio_code": "76109",
+        "name": "BUENAVENTURA"
+      },
+      {
+        "area_outside_municipality_m2": 4927.67,
+        "crossing_area_m2": 72294.84,
+        "crossing_footprints": 171,
+        "dataset_id": "ms",
+        "mpio_code": "52835",
+        "name": "SAN ANDRÉS DE TUMACO"
+      },
+      {
+        "area_outside_municipality_m2": 1763.91,
+        "crossing_area_m2": 6797.17,
+        "crossing_footprints": 48,
+        "dataset_id": "google",
+        "mpio_code": "05490",
+        "name": "NECOCLÍ"
+      },
+      {
+        "area_outside_municipality_m2": 1615.89,
+        "crossing_area_m2": 3987.26,
+        "crossing_footprints": 28,
+        "dataset_id": "ms",
+        "mpio_code": "73067",
+        "name": "ATACO"
+      },
+      {
+        "area_outside_municipality_m2": 1604.71,
+        "crossing_area_m2": 11902.51,
+        "crossing_footprints": 120,
+        "dataset_id": "google",
+        "mpio_code": "05837",
+        "name": "TURBO"
+      },
+      {
+        "area_outside_municipality_m2": 1534.34,
+        "crossing_area_m2": 11227.57,
+        "crossing_footprints": 64,
+        "dataset_id": "ms",
+        "mpio_code": "05837",
+        "name": "TURBO"
+      },
+      {
+        "area_outside_municipality_m2": 1304.63,
+        "crossing_area_m2": 5767.24,
+        "crossing_footprints": 43,
+        "dataset_id": "ms",
+        "mpio_code": "05490",
+        "name": "NECOCLÍ"
+      },
+      {
+        "area_outside_municipality_m2": 1077.41,
+        "crossing_area_m2": 3224.56,
+        "crossing_footprints": 6,
+        "dataset_id": "google",
+        "mpio_code": "23682",
+        "name": "SAN JOSÉ DE URÉ"
+      }
+    ]
+  },
+  "started_at": "2026-11-23T03:22:23+00:00",
+  "status": "validated",
+  "timings_s": {
+    "inputs_s": 2.23,
+    "plans_s": 11.59,
+    "recompute_s": 26.83,
+    "spherical_s": 78.58
+  }
+}

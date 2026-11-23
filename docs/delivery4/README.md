@@ -51,8 +51,8 @@ implementada en [`scripts/entrega4_contracts.py`](../../scripts/entrega4_contrac
 | --- | --- | --- | --- |
 | Derek | Metodología y contrato compartido | `config.yaml`, `scripts/entrega4_contracts.py`, [`entrega4_metodologia_y_contrato.md`](entrega4_metodologia_y_contrato.md), `tests/test_entrega4_contracts.py`, [`evidencia/contract_validation.txt`](evidencia/contract_validation.txt) | Completo y validado sobre `main` (contrato `entrega4-rooftop-stats-v1`, metodología `entrega4-methodology-v1`) |
 | Miguel | Motor común (`06_rooftop_stats.py`) y resultados de Microsoft | `scripts/06_rooftop_stats.py`, [`entrega4_rooftop_stats.md`](entrega4_rooftop_stats.md), `outputs/rooftop_stats_ms.csv`, `outputs/rooftop_stats_ms_report.json` | Completo y alineado al contrato compartido (170 municipios, 1.720.535 edificaciones, 220,27 km², 8/8 verificaciones OK) |
-| Sebastián | Resultados de Google y comparación entre fuentes | Rama `feature/sebastian-environment`: `scripts/06_compare_rooftop_stats.py`, `docs/delivery4/entrega4_google_comparacion.md`, `tests/test_compare_rooftop_stats.py` | Comparador adaptado al contrato definitivo y probado (20 pruebas); preparación Google reproducida y verificada, 170 municipios cargados. Cálculo y contraste definitivos bloqueados por reinicios de MongoDB durante la carga local; [evidencia y comandos](entrega4_google_comparacion.md) |
-| José | Validación independiente y reproducción del análisis | Pendiente | Pendiente: verificar `buildings` y `rooftop_stats` de ambas fuentes, contraste independiente de conteos/áreas/bordes, revisión de índices/planes y script maestro reproducible |
+| Sebastián | Resultados de Google y comparación entre fuentes | Rama `feature/sebastian-environment`: `scripts/06_compare_rooftop_stats.py`, `docs/delivery4/entrega4_google_comparacion.md`, `tests/test_compare_rooftop_stats.py` | En curso: falta correr `06_rooftop_stats.py --source google --passes 2`, acoplar `06_compare_rooftop_stats.py` al contrato definitivo e integrar a `main` |
+| José | Validación independiente y reproducción del análisis | `scripts/10_validate_analysis.py`, `scripts/11_run_analysis.py`, `scripts/run_full_analysis.sh`, `tests/test_validate_analysis.py`, [`entrega4_validacion.md`](entrega4_validacion.md), `outputs/validation/`, [`evidencia/validacion/`](evidencia/validacion/) | Completo sobre `main` con el PR #16: 47/47 verificaciones de las dos fuentes (conteos, áreas, filtros, asignación espacial, bordes, índices y planes); dos corridas completas con resultados idénticos y una que se detiene ante el error. El paso del comparador de Sebastián queda `skipped` hasta que su script llegue a `main` |
 | Samuel | Mapas, visualizaciones e informe consolidado | `scripts/07_entrega4_analysis.py`, `08_entrega4_visualizations.py`, `09_entrega4_tables.py`, `run_entrega4_pipeline.sh`, [`entrega4_informe.tex`](entrega4_informe.tex), [`Entrega4_Analisis_Techos.pdf`](Entrega4_Analisis_Techos.pdf) | Borrador base de Microsoft en `main` con correcciones aplicadas; falta regenerar mapas con `municipalities.geojsonl`, agregar mapas/gráficos de Google y consolidar secciones de Sebastián y José antes del PDF final |
 
 ## Guía de continuación e integración por integrante
@@ -67,8 +67,6 @@ Esta sección resume los puntos exactos de acople desde `main` para evitar forma
 
 ### Para Sebastián (ejecución de Google y acople del comparador)
 
-**Actualización 22 nov:** el acople y las pruebas están terminados en su rama. Los ocho archivos preparados reproducen los SHA256 históricos; la carga local se interrumpió por reinicios de MongoDB. No existen resultados definitivos Google ni comparación definitiva. El mínimo alternativo es recibir `outputs/rooftop_stats_google.csv` y su reporte completo de una instancia ya cargada, como se detalla en [su documentación](entrega4_google_comparacion.md). La sección para el informe está en `secciones/google_comparacion.tex`.
-
 1. Actualizar tu rama `feature/sebastian-environment` desde `main` (`git fetch origin && git rebase origin/main` o merge): aparecerán conflictos de texto en tres archivos (`README.md`, `config.yaml` y `docs/delivery4/README.md`). Conserva la sección `analysis` de `main` en `config.yaml` (ya incluye `analysis.comparison`, `analysis.methodology` y la regla del 20 %) y la estructura de `docs/delivery4/README.md` (actualizando solo el estado del tramo de Google/comparación); `scripts/06_rooftop_stats.py` y `scripts/entrega4_contracts.py` ya están en `main`.
 2. Ejecutar el motor común sobre Google donde esté cargada `upme_pdet.buildings` (nunca crear un segundo motor de cálculo):
    ```bash
@@ -81,6 +79,9 @@ Esta sección resume los puntos exactos de acople desde `main` para evitar forma
 5. Correr pruebas (`python -m unittest discover -s tests -v`), actualizar `docs/delivery4/entrega4_google_comparacion.md` con los hallazgos reales y abrir PR a `main`.
 
 ### Para José (validación independiente y script maestro reproducible)
+
+**Estado:** completo. Detalle y evidencia en [`entrega4_validacion.md`](entrega4_validacion.md). Los
+pasos que siguen son los que se pidieron, y los cubre `bash scripts/run_full_analysis.sh`.
 
 1. Partir de `main` y comprobar el estado de entrada en MongoDB:
    ```bash

@@ -1,0 +1,353 @@
+{
+  "role": "entrega4-run-manifest",
+  "script_version": "entrega4-run-v2",
+  "run_id": "20261123T032430Z",
+  "started_at": "2026-11-23T03:24:30+00:00",
+  "command": "python scripts/11_run_analysis.py --run-dir docs/delivery4/evidencia/validacion/corrida_con_error",
+  "parameters": {
+    "analysis": {
+      "methodology": {
+        "id": "upme-pdet-rooftop-stats",
+        "version": "entrega4-methodology-v1",
+        "base_source": "ms",
+        "contrast_source": "google",
+        "area_metric": "footprint_geodesic_wgs84_m2",
+        "usable_area_factor": null,
+        "spatial_assignment": "centroid_intersects_min_divipola_tiebreak",
+        "empty_municipality_stats": "null",
+        "missing_confidence_policy": {
+          "ms": "ignore_unfiltered",
+          "google": "exclude_as_low_confidence"
+        },
+        "outlier_policy": "retain_all_above_min_area"
+      },
+      "min_area_m2": 20,
+      "max_area_m2": null,
+      "min_confidence": 0.7,
+      "confidence_sources": [
+        "google"
+      ],
+      "filter_order": [
+        "below_min_area",
+        "above_max_area",
+        "low_confidence"
+      ],
+      "google_low_coverage_rule": {
+        "ratio_threshold": 0.2,
+        "basis": "entrega3_eda_unfiltered",
+        "reference_eda": "outputs/eda/eda_buildings_summary.json"
+      },
+      "google_low_coverage": [
+        "05475",
+        "05873",
+        "19418",
+        "27099",
+        "27150",
+        "27205",
+        "27250",
+        "27425",
+        "27450",
+        "27491",
+        "27615",
+        "27745",
+        "52612",
+        "52621",
+        "73616"
+      ],
+      "rooftop_stats": {
+        "collection": "rooftop_stats",
+        "csv": "outputs/rooftop_stats_{source}.csv",
+        "report": "outputs/rooftop_stats_{source}_report.json"
+      },
+      "comparison": {
+        "municipalities": "outputs/pdet_mgn_crosswalk.csv",
+        "reference_eda": "outputs/eda/eda_buildings_summary.json",
+        "output_dir": "outputs/delivery4"
+      }
+    },
+    "config_sha256": "4bcea431b86b21f35e702df402001e9f2bba0497c23f9f9ac381bff1c095a850",
+    "report_steps": true,
+    "pdf": false
+  },
+  "environment": {
+    "python": "3.14.7",
+    "python_executable": "/Users/josemedina/techos-solares-pdet/.venv/bin/python",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "packages": {
+      "pymongo": "4.20.0",
+      "geopandas": "1.2.0",
+      "shapely": "2.2.0",
+      "pyproj": "3.8.0",
+      "pandas": "3.1.1",
+      "openpyxl": "3.1.5",
+      "pyyaml": "6.0.3",
+      "requests": "2.34.2",
+      "tqdm": "4.70.1",
+      "matplotlib": "3.11.2",
+      "folium": "1.0.0",
+      "jupyter": "1.1.1",
+      "numpy": "2.5.5"
+    },
+    "mongo_host": "localhost",
+    "mongo_port": 27999,
+    "mongo_database": "upme_pdet",
+    "git_commit": "2490e5a94647c5dfeb90be38f78c55cc0c2cd94a",
+    "git_branch": "main",
+    "git_dirty_files": [
+      "M .gitignore",
+      " M docs/delivery4/entrega4_analysis_tables.md",
+      " M docs/delivery4/figuras/bar_top_municipalities.png",
+      " M docs/delivery4/figuras/map_buildings_count.png",
+      " M docs/delivery4/figuras/map_mean_area.png",
+      " M docs/delivery4/figuras/map_total_area.png",
+      " M docs/delivery4/figuras/scatter_count_vs_area.png",
+      " M docs/delivery4/figuras/subregion_totals.png",
+      " M outputs/buildings_google_load_report.json",
+      " M outputs/buildings_ms_load_report.json",
+      " M outputs/entrega4_analysis_summary.json",
+      " M outputs/rooftop_stats_ms.csv",
+      " M outputs/rooftop_stats_ms_report.json",
+      " M scripts/11_run_analysis.py",
+      " M tests/test_validate_analysis.py",
+      "?? .venv",
+      "?? data",
+      "?? docs/delivery4/evidencia/validacion/",
+      "?? outputs/rooftop_stats_google.csv",
+      "?? outputs/rooftop_stats_google_report.json",
+      "?? outputs/validation/",
+      "?? scripts/run_full_analysis.sh"
+    ],
+    "scripts_sha256": {
+      "scripts/00_check_environment.py": "db937b1971563cf3d1c1172412cb257f1504a7071e835e6fc3df5349d049ab4a",
+      "scripts/00_check_pdet_list.py": "e256cb6692a6affbf58d29472b925c87d2abb8cfce2fbd8458189c1d750a5e91",
+      "scripts/00_init_db.py": "05aaba3e421651a8be49c5bcea0b9cfb1edc7d0c1826be4fb2231992aeb1067d",
+      "scripts/01_download_mgn.py": "db8c0e40917b6e8f6bacbf3def3331d34485b0aab7f295b7a0b9730363900753",
+      "scripts/01_validate_mgn.py": "16ef9b0be566c5d1aa2c1866e5311a39bd5c171d9675a138580c4075acf1a80f",
+      "scripts/02_load_municipalities.py": "3663d3049b662130f8a446923b504310b03869107222a90123fabac13d1f875b",
+      "scripts/02_prepare_municipalities.py": "f4c2bc3d65e752beeff7055cadc761ee1864b1716072ce671c3a894d232c87bc",
+      "scripts/02_verify_spatial.py": "ce1a1464f9b996c28d1a1fc1f09473c5d23ea3486fd08af99c8e98cfa94ccdaf",
+      "scripts/03_download_google_buildings.py": "53aa46e437868411fe738b11c2c7b338f34c9a9371e3a08f1e1d2f8019ba6a5d",
+      "scripts/03_download_ms_buildings.py": "d29fa6503dcfe8abfc148babf7e01eed00a0c20a48691bbff0ca038fbc559fa5",
+      "scripts/03_prepare_buildings.py": "f6c68f36304b11497a613e32ba2d3054f3bacf4830307ab8266fb8f15301caea",
+      "scripts/04_load_buildings.py": "3f52df24c4d9640558da349a11ffbd1fbb5d977fc92bd2cf1579c5ca779c82fe",
+      "scripts/05_eda_buildings.py": "d6d887d6a2ef22305264cb6732e68552f8a22137771ee945cb1349bee0a239cc",
+      "scripts/06_rooftop_stats.py": "262ff9c374a47b5a8e4cfe216c7fce7afb119e8d44fe4d046d3dc187d88cfe40",
+      "scripts/07_entrega4_analysis.py": "e8643f357546210e710030b96804ed1ed7acf9111162be8de245589cc036f782",
+      "scripts/08_entrega4_visualizations.py": "95a71745e0350cb06a5934e68a76b765759ff75a7431dc9f4a94a2555d1574ad",
+      "scripts/09_entrega4_tables.py": "1549710cbca360379ad5cf54ae2b1f963898e443d20315099301667b37efea59",
+      "scripts/10_validate_analysis.py": "a1cb2983493994bd75ea88ffc8d8d8fe4b49f05c7b8dc43c72941c8642f4b395",
+      "scripts/11_run_analysis.py": "8b38082ea124ac6df3afd06cbafcc7c37e5f772c214099b4da8cee5e9764ab36",
+      "scripts/entrega2_contracts.py": "ce6bb46c8cf5b68ec5a0bf6b33ec20f46d5343c67313183bd156690a49645e38",
+      "scripts/entrega3_contracts.py": "1537b3a7d5a10a315c41337139ea8eaa349501275f7a5e782c2021c147e8da2f",
+      "scripts/entrega4_contracts.py": "9e59a6d47946bc02d580b76494c64cf9c85c8c2af7faf48a5a1b0e7e0bd2e29b",
+      "scripts/google_buildings_adapter.py": "5ce45f1e91b3f24a9202047e90a919354717328ae3280679477ddfe7762654aa",
+      "config.yaml": "4bcea431b86b21f35e702df402001e9f2bba0497c23f9f9ac381bff1c095a850"
+    },
+    "mongo_error": "ServerSelectionTimeoutError"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "name": "entorno",
+      "command": [
+        "python",
+        "scripts/00_check_environment.py"
+      ],
+      "cwd": ".",
+      "started_at": "2026-11-23T03:24:35+00:00",
+      "finished_at": "2026-11-23T03:24:35+00:00",
+      "duration_s": 0.06,
+      "exit_code": 0,
+      "status": "ok",
+      "outputs_changed": []
+    },
+    {
+      "step": 2,
+      "name": "esquema_e_indices",
+      "command": [
+        "python",
+        "scripts/00_init_db.py",
+        "--building-indexes"
+      ],
+      "cwd": ".",
+      "started_at": "2026-11-23T03:24:35+00:00",
+      "finished_at": "2026-11-23T03:24:40+00:00",
+      "duration_s": 5.67,
+      "exit_code": 1,
+      "status": "failed",
+      "outputs_changed": []
+    }
+  ],
+  "finished_at": "2026-11-23T03:24:40+00:00",
+  "duration_s": 10.9,
+  "status": "stopped_on_error",
+  "failed_step": "esquema_e_indices",
+  "skipped_steps": [],
+  "provenance": {
+    "docs/delivery4/Entrega4_Analisis_Techos.pdf": {
+      "sha256": "b51764763d8637522a4ecdbb3f2cd8cabebe063974fa1df52d59af438ae93f84",
+      "produced_by": null
+    },
+    "docs/delivery4/entrega4_analysis_tables.md": {
+      "sha256": "c3c7e960fccd6d0afb712e2b91d3862550801c7efcfc9707dd21d720c977ecdf",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/bar_top_municipalities.png": {
+      "sha256": "4143b4e309f1669c88374519d9a949bf18e441e75dcf0b16fce3baaf5d5de09f",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/map_buildings_count.png": {
+      "sha256": "146e7ce71549346ccbc648769c96d11bfd65a22b1ae979cdb37e5f2b643afe44",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/map_mean_area.png": {
+      "sha256": "c04daa826bf4bcfd5e3a192464ea534b898e11bb3ffb895dfa095bda7286dd1a",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/map_total_area.png": {
+      "sha256": "e8f1c01ad32c1cfde10072f5b6e113b37c8ae10718b3c409e120dbd6175775a2",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/scatter_count_vs_area.png": {
+      "sha256": "17c7521fd4ea946340acd8c1ce48fc06f05a913c6069a4ec67ac1b0255c816ce",
+      "produced_by": null
+    },
+    "docs/delivery4/figuras/subregion_totals.png": {
+      "sha256": "cc4f2c6f211a0dc41a4600fd04eef38de001130419e033935f490f6a4c5e63ca",
+      "produced_by": null
+    },
+    "outputs/buildings_google_load_report.json": {
+      "sha256": "c1acd9999c7b8becce88429aa498d4a2bb2d135a0681bd0f2bf2600512ae2444",
+      "produced_by": null
+    },
+    "outputs/buildings_google_prepare_report.json": {
+      "sha256": "f54ed4e1f60b35efd389cf123c7f945640bdc78ac6cfd547c243d11d1e52fa4c",
+      "produced_by": null
+    },
+    "outputs/buildings_google_prepared_by_municipality.csv": {
+      "sha256": "22286cc6e29bdd41f92189160588878538e271922780384dc1431972f299f694",
+      "produced_by": null
+    },
+    "outputs/buildings_ms_load_report.json": {
+      "sha256": "ae9f54c231d781f6be43d9a837c5200162a8997f64ac618163cb68df1ab6f065",
+      "produced_by": null
+    },
+    "outputs/buildings_ms_prepare_report.json": {
+      "sha256": "3f27f5653968f901cc19a8a466e7cfe7713ec7f4913d980aa9e5a26e9abeff66",
+      "produced_by": null
+    },
+    "outputs/buildings_ms_prepared_by_municipality.csv": {
+      "sha256": "c8b1189f0e424e3467662254066043617dc1d3126c3127a6b4d51a6bf65278bb",
+      "produced_by": null
+    },
+    "outputs/buildings_ms_source_pass_report.json": {
+      "sha256": "4177b92809ca82dc3a23469ffc132e0cb1a13b11213e20b84bd3b3dec117e0d7",
+      "produced_by": null
+    },
+    "outputs/eda/eda_buildings_summary.json": {
+      "sha256": "09f77685822d167b9c8a2e8abfeaa60d5c077a66a7abd699c0c3235968f34e39",
+      "produced_by": null
+    },
+    "outputs/entrega4_analysis_summary.json": {
+      "sha256": "a8283ece214925faec5e6db85a7ce60240f0eed66edd7202e08527ab1a4fd89e",
+      "produced_by": null
+    },
+    "outputs/google_buildings_download_manifest.json": {
+      "sha256": "354f7afefba6217318ad3c2df540508eee691948ea1ece3ae6d314f59ffa4cdb",
+      "produced_by": null
+    },
+    "outputs/google_buildings_download_plan.json": {
+      "sha256": "9f25f03b88adba392241b6e40759507a0d0fc08bd0311c4f18059fcf9c171a5c",
+      "produced_by": null
+    },
+    "outputs/google_buildings_handoff_verification.json": {
+      "sha256": "a367b32b941d7047903454d51bba4cb8f264989ae48058378e49402e8dc53e69",
+      "produced_by": null
+    },
+    "outputs/google_buildings_probe_evidence.json": {
+      "sha256": "27153dd2bc1b1083a8a67200f223225fdd427b6fdef912186ad09583470023b3",
+      "produced_by": null
+    },
+    "outputs/google_municipalities_regeneration_evidence.json": {
+      "sha256": "ecd63ed127a57e00abc5b10c89c38cbfe37c79c0f4f45713630354e36fc49d7c",
+      "produced_by": null
+    },
+    "outputs/mgn_catalog_probe.json": {
+      "sha256": "af06e83b4c8833c95a1f1c3c20f41edc98132d4c898fcd62d1fb71b6cd92a95d",
+      "produced_by": null
+    },
+    "outputs/mgn_download_manifest.json": {
+      "sha256": "66e33be6bbfb32e2360c0810778151b79900a2ba3c25de1e34cedc320b4cfbc4",
+      "produced_by": null
+    },
+    "outputs/mgn_validation_report.json": {
+      "sha256": "88028f0dbe956ed3eedc037d8abbcafc5d166d793fcff87d9cd460005d18d297",
+      "produced_by": null
+    },
+    "outputs/mgn_validation_summary.md": {
+      "sha256": "ec904cbd69aafb01dec92f9ef7fe468f32eacb08dbd641e6c35068fa19d3dd7f",
+      "produced_by": null
+    },
+    "outputs/mgn_wfs_source_receipt.json": {
+      "sha256": "fc5063762b5e14bfc90f2bdc4ea0fbc442b7602bc6148ae85796ca6a3aaf245d",
+      "produced_by": null
+    },
+    "outputs/ms_buildings_coverage.csv": {
+      "sha256": "395d0240393eb1c001ad1eb59221673e8442fff0a69d6e1f7837d46035f3de3b",
+      "produced_by": null
+    },
+    "outputs/ms_buildings_download_manifest.json": {
+      "sha256": "3079b5e234e142867523d6a30e9b5032d683561dec255c2ceab15d6dfef63f40",
+      "produced_by": null
+    },
+    "outputs/municipalities_load_report.json": {
+      "sha256": "5a4b3f28abd4c4f80f855535cfaaf6700afe184403cc0fddede2628370ebaba7",
+      "produced_by": null
+    },
+    "outputs/municipalities_prepare_report.json": {
+      "sha256": "cc15cfb2a9450b58eb8ceaedd37827caccdffd596ab4e6d3f4a2d33605816dcd",
+      "produced_by": null
+    },
+    "outputs/municipalities_spatial_verification_real.json": {
+      "sha256": "5ddaebffd83ad25737f5f8093abfe23f7550d5484abc94f6042a41c81310f50b",
+      "produced_by": null
+    },
+    "outputs/pdet_mgn_crosswalk.csv": {
+      "sha256": "3bef4ee88f6ee4c30f3b397d1e9bf7873f270afa0bddc775107d676970dd6021",
+      "produced_by": null
+    },
+    "outputs/pdet_subregions_summary.csv": {
+      "sha256": "99fc0cf5731c4768dfcdbb728d7a01625e505187e8f842a2ae18557a05cd2fbe",
+      "produced_by": null
+    },
+    "outputs/rooftop_stats_google.csv": {
+      "sha256": "d27779990e6be53ba19eee3bd6464f7c334493760cb08a465a7ff5ff8d3c2e60",
+      "produced_by": null
+    },
+    "outputs/rooftop_stats_google_report.json": {
+      "sha256": "19f0d0d716b37c6718b39e38cd7e0bf7c36f3dee9c4fb36b27385a53ab3c02fa",
+      "produced_by": null
+    },
+    "outputs/rooftop_stats_ms.csv": {
+      "sha256": "aca2b19addd7f62e94835f600ef0e6fafc71f1448485f8419d5a127b80d71579",
+      "produced_by": null
+    },
+    "outputs/rooftop_stats_ms_report.json": {
+      "sha256": "6f1aab572c25fc3de2b5f68b403b1a6dd5f135a59140a3ce15732bd23d91ebab",
+      "produced_by": null
+    },
+    "outputs/validation/border_footprints_by_municipality.csv": {
+      "sha256": "40805c3be71af41b7677632058c3b3ae248ad7374a8066df6bd11cc195db99ad",
+      "produced_by": null
+    },
+    "outputs/validation/entrega4_validation_report.json": {
+      "sha256": "2a8c0b72f965d5b24c984f13e2559aa3733c0682e7196321ece1a509b137b289",
+      "produced_by": null
+    },
+    "outputs/validation/validation_by_municipality.csv": {
+      "sha256": "3061885b20f3e111f97a7f41324b89c8ed81c6245a35e488e4b2d5135bd2c28b",
+      "produced_by": null
+    }
+  },
+  "result_fingerprints": null
+}

@@ -1,0 +1,183 @@
+
+=== [1] entorno: python scripts/00_check_environment.py
+[OK] Python 3.14.7 (se requiere 3.11+)
+[OK]    pymongo 4.20.0
+[OK]    geopandas 1.2.0
+[OK]    shapely 2.2.0
+[OK]    pyproj 3.8.0
+[OK]    pandas 3.1.1
+[OK]    openpyxl 3.1.5
+[OK]    pyyaml 6.0.3
+[OK]    requests 2.34.2
+[OK]    tqdm 4.70.1
+[OK]    matplotlib 3.11.2
+[OK]    folium 1.0.0
+[OK]    jupyter 1.1.1
+--- [1] entorno: OK en 0.04 s
+
+=== [2] esquema_e_indices: python scripts/00_init_db.py --building-indexes
+[actualizada] pdet_subregions
+[actualizada] municipalities
+[actualizada] datasets
+[actualizada] buildings
+[actualizada] rooftop_stats
+[actualizada] ingestion_runs
+[índice]      municipalities.geometry_2dsphere
+[índice]      municipalities.subregion_id_1
+[índice]      ingestion_runs.dataset_id_1
+[índice]      buildings.centroid_2dsphere
+[índice]      buildings.dataset_id_1_mpio_code_1
+Esquema listo en la base 'upme_pdet': ['buildings', 'datasets', 'ingestion_runs', 'municipalities', 'pdet_subregions', 'rooftop_stats']
+--- [2] esquema_e_indices: OK en 0.63 s
+
+=== [3] verificacion_municipios: python scripts/02_verify_spatial.py --report docs/delivery4/evidencia/validacion/corrida2/municipalities_spatial_verification.json
+[OK] connection: Conexión a MongoDB
+[OK] count: Municipios: 170/170
+[OK] divipola: Identificadores únicos de cinco dígitos ASCII
+[OK] official_codes: Cruce PDET: faltan 0, sobran 0
+[OK] schema: Esquema y contrato: 0 errores de esquema, 0 de contrato
+[OK] geometry: Geometrías válidas: 170/170
+[OK] index: Índice 2dsphere visible sobre geometry
+[OK] query: $geoIntersects: 1 coincidencias, control negativo: 0
+[OK] explain: Plan ganador sin hint y ejecución del índice espacial
+Resultado: 9/9 OK
+--- [3] verificacion_municipios: OK en 2.48 s
+
+=== [4] verificacion_buildings_ms: python scripts/04_load_buildings.py --source ms --verify-only
+[OK] no_duplicate_source_refs
+[OK] count_matches_prepared
+[OK] municipalities_match_preparation
+[OK] dataset_registered
+[OK] spatial_index
+[OK] spatial_query
+[OK] rerun_does_not_duplicate
+[loaded] 1761030 documentos de 'ms'; reporte en outputs/buildings_ms_load_report.json
+--- [4] verificacion_buildings_ms: OK en 9.38 s
+
+=== [5] verificacion_buildings_google: python scripts/04_load_buildings.py --source google --verify-only
+[OK] no_duplicate_source_refs
+[OK] count_matches_prepared
+[OK] municipalities_match_preparation
+[OK] dataset_registered
+[OK] spatial_index
+[OK] spatial_query
+[OK] rerun_does_not_duplicate
+[loaded] 2694775 documentos de 'google'; reporte en outputs/buildings_google_load_report.json
+--- [5] verificacion_buildings_google: OK en 13.44 s
+
+=== [6] rooftop_stats_ms: python scripts/06_rooftop_stats.py --source ms --passes 2
+[OK] all_pdet_municipalities
+[OK] no_duplicate_municipalities
+[OK] stored_matches_computed
+[OK] included_matches_independent_count
+[OK] balance_with_source
+[OK] filters_recorded
+[OK] empty_municipalities_without_mean
+[OK] rerun_does_not_duplicate
+[computed] 'ms': 170 municipios (170 con edificaciones); incluidas 1720535, excluidas 40495 de 1761030 en PDET; área 220.27 km² en 5.02 s
+CSV: outputs/rooftop_stats_ms.csv  ·  reporte: outputs/rooftop_stats_ms_report.json
+--- [6] rooftop_stats_ms: OK en 5.76 s
+
+=== [7] rooftop_stats_google: python scripts/06_rooftop_stats.py --source google --passes 2
+[OK] all_pdet_municipalities
+[OK] no_duplicate_municipalities
+[OK] stored_matches_computed
+[OK] included_matches_independent_count
+[OK] balance_with_source
+[OK] filters_recorded
+[OK] empty_municipalities_without_mean
+[OK] rerun_does_not_duplicate
+[computed] 'google': 170 municipios (164 con edificaciones); incluidas 2067004, excluidas 627771 de 2694775 en PDET; área 203.75 km² en 11.07 s
+CSV: outputs/rooftop_stats_google.csv  ·  reporte: outputs/rooftop_stats_google_report.json
+--- [7] rooftop_stats_google: OK en 11.8 s
+
+=== [8] contrato_compartido: python scripts/entrega4_contracts.py --check --require-google
+[OK] config.yaml: metodología, filtros y 15 códigos de baja cobertura verificados contra el EDA
+[OK] ms: 170/170 municipios, 1720535 edificaciones incluidas, 220.27 km², SHA256 y balance verificados
+[OK] google: 170/170 municipios, 2067004 edificaciones incluidas, 203.75 km², SHA256 y balance verificados
+contrato entrega4-rooftop-stats-v1 (entrega4-methodology-v1): OK
+--- [8] contrato_compartido: OK en 0.12 s
+
+=== [9] comparacion_fuentes: python scripts/06_compare_rooftop_stats.py
+--- [9] comparacion_fuentes: OMITIDO (scripts/06_compare_rooftop_stats.py no está en esta versión del repositorio)
+
+=== [10] validacion_independiente: python scripts/10_validate_analysis.py
+1/5 entradas y estado de MongoDB
+2/5 recálculo independiente, regla espacial y huellas de borde
+  recálculo 'ms': 1761030 huellas en 170 municipios
+  recálculo 'google': 2694775 huellas en 170 municipios
+3/5 asignación con $geoWithin esférico de MongoDB
+4/5 comparación con rooftop_stats, CSV y la versión publicada
+5/5 índices, planes de ejecución y coherencia entre fuentes
+[OK] inputs.municipalities_170
+[OK] inputs.subregions_16
+[OK] inputs.pdet_layer_matches_entrega2_hash
+[OK] inputs.ms_count_matches_preparation_and_load
+[OK] inputs.ms_reports_ready_and_loaded
+[OK] inputs.ms_dataset_registered
+[OK] inputs.ms_per_municipality_matches_preparation
+[OK] inputs.ms_ingestion_runs_recorded
+[OK] inputs.google_count_matches_preparation_and_load
+[OK] inputs.google_reports_ready_and_loaded
+[OK] inputs.google_dataset_registered
+[OK] inputs.google_per_municipality_matches_preparation
+[OK] inputs.google_ingestion_runs_recorded
+[OK] comparisons.rooftop_stats_collection
+[OK] comparisons.csv_ms
+[OK] comparisons.prepared_csv_ms
+[OK] comparisons.published_HEAD_ms
+[OK] comparisons.csv_google
+[OK] comparisons.prepared_csv_google
+[OK] spatial.ms_shapely_rule_reproduces_assignment
+[OK] spatial.ms_points_outside_only_by_centroid_rounding
+[OK] spatial.ms_mongo_geowithin_without_errors
+[OK] spatial.ms_border_margin_covers_largest_footprint
+[OK] spatial.ms_spherical_differences_below_0_1pct
+[OK] spatial.google_shapely_rule_reproduces_assignment
+[OK] spatial.google_points_outside_only_by_centroid_rounding
+[OK] spatial.google_mongo_geowithin_without_errors
+[OK] spatial.google_border_margin_covers_largest_footprint
+[OK] spatial.google_spherical_differences_below_0_1pct
+[OK] plans.plan_aggregate_rooftop_stats_ms_uses_dataset_id_1_mpio_code_1
+[OK] plans.plan_aggregate_rooftop_stats_google_uses_dataset_id_1_mpio_code_1
+[OK] plans.plan_count_included_ms_uses_dataset_id_1_mpio_code_1
+[OK] plans.plan_count_included_google_uses_dataset_id_1_mpio_code_1
+[OK] plans.plan_find_by_source_and_municipality_uses_dataset_id_1_mpio_code_1
+[OK] plans.plan_geo_within_centroid_uses_centroid_2dsphere
+[OK] plans.plan_municipality_of_point_uses_geometry_2dsphere
+[OK] coherence.same_170_municipalities_both_sources
+[OK] coherence.filters_recorded_match_config
+[OK] coherence.area_filters_identical_across_sources
+[OK] coherence.confidence_only_google
+[OK] coherence.same_script_version_both_sources
+[OK] coherence.names_and_subregions_match_between_sources
+[OK] coherence.low_coverage_rule_matches_config
+[OK] coherence.google_flag_matches_config
+[OK] coherence.area_units_geodesic_m2
+[OK] coherence.google_area_close_to_published_area
+[OK] coherence.csv_totals_match_reports
+[validated] 47/47 verificaciones en 122.02 s · reporte: outputs/validation/entrega4_validation_report.json
+--- [10] validacion_independiente: OK en 122.97 s
+
+=== [11] resumen_analisis: python scripts/07_entrega4_analysis.py
+Fase 1: leyendo estadísticas de Microsoft y metadatos del EDA...
+  Municipios: 170 · Subregiones: 16
+  Microsoft: 1,720,535 edificaciones, 220.27 km²
+  Google filtrado disponible: True
+  Salida: outputs/entrega4_analysis_summary.json
+--- [11] resumen_analisis: OK en 0.11 s
+
+=== [12] figuras: python scripts/08_entrega4_visualizations.py
+Fase 2: generando mapas coropletos (170 municipios)...
+  Guardado: docs/delivery4/figuras/map_buildings_count.png
+  Guardado: docs/delivery4/figuras/map_total_area.png
+  Guardado: docs/delivery4/figuras/map_mean_area.png
+Fase 2: generando gráficos comparativos...
+  Guardado: docs/delivery4/figuras/bar_top_municipalities.png
+  Guardado: docs/delivery4/figuras/scatter_count_vs_area.png
+  Guardado: docs/delivery4/figuras/subregion_totals.png
+--- [12] figuras: OK en 4.01 s
+
+=== [13] tablas: python scripts/09_entrega4_tables.py
+Fase 3 completa: docs/delivery4/entrega4_analysis_tables.md (8127 caracteres)
+--- [13] tablas: OK en 0.08 s
