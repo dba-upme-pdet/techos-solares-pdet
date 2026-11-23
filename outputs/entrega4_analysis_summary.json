@@ -30,7 +30,8 @@
     },
     "generated_from": [
       "outputs/rooftop_stats_ms.csv",
-      "outputs/eda/eda_buildings_summary.json"
+      "outputs/eda/eda_buildings_summary.json",
+      "outputs/rooftop_stats_google.csv"
     ],
     "total_municipalities": 170,
     "total_subregions": 16
@@ -193,7 +194,9 @@
       "eda_ms_buildings": 67663,
       "eda_google_buildings": 183651,
       "eda_ms_area_m2": 14224994.96,
-      "eda_google_area_m2": 15985601.54
+      "eda_google_area_m2": 15985601.54,
+      "google_building_count": 140676,
+      "google_total_area_m2": 14778927.51
     },
     "20001": {
       "mpio_code": "20001",
@@ -217,7 +220,9 @@
       "eda_ms_buildings": 63722,
       "eda_google_buildings": 171424,
       "eda_ms_area_m2": 13532274.6,
-      "eda_google_area_m2": 15330297.1
+      "eda_google_area_m2": 15330297.1,
+      "google_building_count": 127880,
+      "google_total_area_m2": 14182186.23
     },
     "76109": {
       "mpio_code": "76109",
@@ -241,7 +246,9 @@
       "eda_ms_buildings": 33105,
       "eda_google_buildings": 103889,
       "eda_ms_area_m2": 7122333.11,
-      "eda_google_area_m2": 7632669.65
+      "eda_google_area_m2": 7632669.65,
+      "google_building_count": 82273,
+      "google_total_area_m2": 6982537.65
     },
     "18001": {
       "mpio_code": "18001",
@@ -265,7 +272,9 @@
       "eda_ms_buildings": 26897,
       "eda_google_buildings": 58135,
       "eda_ms_area_m2": 6684673.19,
-      "eda_google_area_m2": 7330519.35
+      "eda_google_area_m2": 7330519.35,
+      "google_building_count": 46861,
+      "google_total_area_m2": 6869053.55
     },
     "05837": {
       "mpio_code": "05837",
@@ -289,7 +298,9 @@
       "eda_ms_buildings": 43360,
       "eda_google_buildings": 78926,
       "eda_ms_area_m2": 4650297.78,
-      "eda_google_area_m2": 6021598.48
+      "eda_google_area_m2": 6021598.48,
+      "google_building_count": 60855,
+      "google_total_area_m2": 5504246.39
     },
     "52835": {
       "mpio_code": "52835",
@@ -313,7 +324,9 @@
       "eda_ms_buildings": 41421,
       "eda_google_buildings": 50493,
       "eda_ms_area_m2": 4487085.13,
-      "eda_google_area_m2": 3761508.27
+      "eda_google_area_m2": 3761508.27,
+      "google_building_count": 39645,
+      "google_total_area_m2": 3400769.15
     },
     "19698": {
       "mpio_code": "19698",
@@ -337,7 +350,9 @@
       "eda_ms_buildings": 30842,
       "eda_google_buildings": 35691,
       "eda_ms_area_m2": 4225852.5,
-      "eda_google_area_m2": 3834722.2
+      "eda_google_area_m2": 3834722.2,
+      "google_building_count": 28926,
+      "google_total_area_m2": 3548444.1
     },
     "18753": {
       "mpio_code": "18753",
@@ -361,7 +376,9 @@
       "eda_ms_buildings": 23587,
       "eda_google_buildings": 21599,
       "eda_ms_area_m2": 3759329.49,
-      "eda_google_area_m2": 2549723.5
+      "eda_google_area_m2": 2549723.5,
+      "google_building_count": 16385,
+      "google_total_area_m2": 2390266.97
     },
     "54810": {
       "mpio_code": "54810",
@@ -385,7 +402,9 @@
       "eda_ms_buildings": 35478,
       "eda_google_buildings": 32843,
       "eda_ms_area_m2": 3575163.05,
-      "eda_google_area_m2": 2640872.1
+      "eda_google_area_m2": 2640872.1,
+      "google_building_count": 26828,
+      "google_total_area_m2": 2470231.17
     },
     "47189": {
       "mpio_code": "47189",
@@ -409,7 +428,9 @@
       "eda_ms_buildings": 21990,
       "eda_google_buildings": 42068,
       "eda_ms_area_m2": 3478014.08,
-      "eda_google_area_m2": 3960281.44
+      "eda_google_area_m2": 3960281.44,
+      "google_building_count": 31409,
+      "google_total_area_m2": 3602440.36
     },
     "05045": {
       "mpio_code": "05045",
@@ -433,7 +454,9 @@
       "eda_ms_buildings": 9813,
       "eda_google_buildings": 36337,
       "eda_ms_area_m2": 3360593.56,
-      "eda_google_area_m2": 3591350.44
+      "eda_google_area_m2": 3591350.44,
+      "google_building_count": 28290,
+      "google_total_area_m2": 3301249.39
     },
     "81065": {
       "mpio_code": "81065",
@@ -457,7 +480,9 @@
       "eda_ms_buildings": 27815,
       "eda_google_buildings": 35077,
       "eda_ms_area_m2": 3319887.29,
-      "eda_google_area_m2": 2921881.84
+      "eda_google_area_m2": 2921881.84,
+      "google_building_count": 26963,
+      "google_total_area_m2": 2696685.11
     },
     "95001": {
       "mpio_code": "95001",
@@ -481,7 +506,9 @@
       "eda_ms_buildings": 21446,
       "eda_google_buildings": 32695,
       "eda_ms_area_m2": 3104658.7,
-      "eda_google_area_m2": 3152261.06
+      "eda_google_area_m2": 3152261.06,
+      "google_building_count": 25159,
+      "google_total_area_m2": 2933886.57
     },
     "86568": {
       "mpio_code": "86568",
@@ -505,7 +532,9 @@
       "eda_ms_buildings": 21234,
       "eda_google_buildings": 27581,
       "eda_ms_area_m2": 3049821.71,
-      "eda_google_area_m2": 2654508.2
+      "eda_google_area_m2": 2654508.2,
+      "google_building_count": 22327,
+      "google_total_area_m2": 2428148.66
     },
     "19256": {
       "mpio_code": "19256",
@@ -529,7 +558,9 @@
       "eda_ms_buildings": 34366,
       "eda_google_buildings": 38900,
       "eda_ms_area_m2": 3042676.6,
-      "eda_google_area_m2": 2441931.56
+      "eda_google_area_m2": 2441931.56,
+      "google_building_count": 28243,
+      "google_total_area_m2": 2205419.94
     },
     "23807": {
       "mpio_code": "23807",
@@ -553,7 +584,9 @@
       "eda_ms_buildings": 30255,
       "eda_google_buildings": 43123,
       "eda_ms_area_m2": 2971068.52,
-      "eda_google_area_m2": 3074968.76
+      "eda_google_area_m2": 3074968.76,
+      "google_building_count": 34888,
+      "google_total_area_m2": 2862930.52
     },
     "81736": {
       "mpio_code": "81736",
@@ -577,7 +610,9 @@
       "eda_ms_buildings": 16141,
       "eda_google_buildings": 25140,
       "eda_ms_area_m2": 2965531.98,
-      "eda_google_area_m2": 1994678.63
+      "eda_google_area_m2": 1994678.63,
+      "google_building_count": 19475,
+      "google_total_area_m2": 1826192.48
     },
     "81794": {
       "mpio_code": "81794",
@@ -601,7 +636,9 @@
       "eda_ms_buildings": 20958,
       "eda_google_buildings": 35958,
       "eda_ms_area_m2": 2763978.84,
-      "eda_google_area_m2": 3186739.07
+      "eda_google_area_m2": 3186739.07,
+      "google_building_count": 27135,
+      "google_total_area_m2": 2947836.68
     },
     "23466": {
       "mpio_code": "23466",
@@ -625,7 +662,9 @@
       "eda_ms_buildings": 19045,
       "eda_google_buildings": 28089,
       "eda_ms_area_m2": 2517656.18,
-      "eda_google_area_m2": 2506165.4
+      "eda_google_area_m2": 2506165.4,
+      "google_building_count": 22801,
+      "google_total_area_m2": 2299820.0
     },
     "20013": {
       "mpio_code": "20013",
@@ -649,7 +688,9 @@
       "eda_ms_buildings": 21305,
       "eda_google_buildings": 34733,
       "eda_ms_area_m2": 2267721.99,
-      "eda_google_area_m2": 2703560.82
+      "eda_google_area_m2": 2703560.82,
+      "google_building_count": 26466,
+      "google_total_area_m2": 2506917.59
     },
     "19130": {
       "mpio_code": "19130",
@@ -673,7 +714,9 @@
       "eda_ms_buildings": 23771,
       "eda_google_buildings": 41281,
       "eda_ms_area_m2": 2264692.94,
-      "eda_google_area_m2": 2567391.24
+      "eda_google_area_m2": 2567391.24,
+      "google_building_count": 28915,
+      "google_total_area_m2": 2348784.2
     },
     "19548": {
       "mpio_code": "19548",
@@ -697,7 +740,9 @@
       "eda_ms_buildings": 16673,
       "eda_google_buildings": 30220,
       "eda_ms_area_m2": 2212346.28,
-      "eda_google_area_m2": 2616887.77
+      "eda_google_area_m2": 2616887.77,
+      "google_building_count": 22909,
+      "google_total_area_m2": 2448973.12
     },
     "13244": {
       "mpio_code": "13244",
@@ -721,7 +766,9 @@
       "eda_ms_buildings": 24235,
       "eda_google_buildings": 38386,
       "eda_ms_area_m2": 2189724.78,
-      "eda_google_area_m2": 2541723.75
+      "eda_google_area_m2": 2541723.75,
+      "google_building_count": 30024,
+      "google_total_area_m2": 2303040.52
     },
     "18150": {
       "mpio_code": "18150",
@@ -745,7 +792,9 @@
       "eda_ms_buildings": 14037,
       "eda_google_buildings": 15932,
       "eda_ms_area_m2": 2141704.25,
-      "eda_google_area_m2": 1850242.13
+      "eda_google_area_m2": 1850242.13,
+      "google_building_count": 12474,
+      "google_total_area_m2": 1750638.19
     },
     "86001": {
       "mpio_code": "86001",
@@ -769,7 +818,9 @@
       "eda_ms_buildings": 12229,
       "eda_google_buildings": 22816,
       "eda_ms_area_m2": 2082368.35,
-      "eda_google_area_m2": 2236919.56
+      "eda_google_area_m2": 2236919.56,
+      "google_building_count": 16884,
+      "google_total_area_m2": 1966553.96
     },
     "86320": {
       "mpio_code": "86320",
@@ -793,7 +844,9 @@
       "eda_ms_buildings": 17840,
       "eda_google_buildings": 18074,
       "eda_ms_area_m2": 2023105.36,
-      "eda_google_area_m2": 1619891.09
+      "eda_google_area_m2": 1619891.09,
+      "google_building_count": 14754,
+      "google_total_area_m2": 1500012.13
     },
     "73168": {
       "mpio_code": "73168",
@@ -817,7 +870,9 @@
       "eda_ms_buildings": 16849,
       "eda_google_buildings": 18703,
       "eda_ms_area_m2": 1973627.99,
-      "eda_google_area_m2": 1718898.75
+      "eda_google_area_m2": 1718898.75,
+      "google_building_count": 14446,
+      "google_total_area_m2": 1583543.67
     },
     "05154": {
       "mpio_code": "05154",
@@ -841,7 +896,9 @@
       "eda_ms_buildings": 11453,
       "eda_google_buildings": 30474,
       "eda_ms_area_m2": 1925450.18,
-      "eda_google_area_m2": 2760068.79
+      "eda_google_area_m2": 2760068.79,
+      "google_building_count": 23659,
+      "google_total_area_m2": 2511372.4
     },
     "47288": {
       "mpio_code": "47288",
@@ -865,7 +922,9 @@
       "eda_ms_buildings": 15821,
       "eda_google_buildings": 30590,
       "eda_ms_area_m2": 1924098.09,
-      "eda_google_area_m2": 2524986.5
+      "eda_google_area_m2": 2524986.5,
+      "google_building_count": 23354,
+      "google_total_area_m2": 2337982.53
     },
     "50350": {
       "mpio_code": "50350",
@@ -889,7 +948,9 @@
       "eda_ms_buildings": 12895,
       "eda_google_buildings": 9900,
       "eda_ms_area_m2": 1790308.65,
-      "eda_google_area_m2": 1056138.81
+      "eda_google_area_m2": 1056138.81,
+      "google_building_count": 7322,
+      "google_total_area_m2": 995188.37
     },
     "18592": {
       "mpio_code": "18592",
@@ -913,7 +974,9 @@
       "eda_ms_buildings": 11430,
       "eda_google_buildings": 12306,
       "eda_ms_area_m2": 1746859.9,
-      "eda_google_area_m2": 1321737.29
+      "eda_google_area_m2": 1321737.29,
+      "google_building_count": 9521,
+      "google_total_area_m2": 1238109.56
     },
     "44650": {
       "mpio_code": "44650",
@@ -937,7 +1000,9 @@
       "eda_ms_buildings": 15579,
       "eda_google_buildings": 28564,
       "eda_ms_area_m2": 1725742.39,
-      "eda_google_area_m2": 2014489.17
+      "eda_google_area_m2": 2014489.17,
+      "google_building_count": 20886,
+      "google_total_area_m2": 1846202.47
     },
     "20400": {
       "mpio_code": "20400",
@@ -961,7 +1026,9 @@
       "eda_ms_buildings": 14624,
       "eda_google_buildings": 20110,
       "eda_ms_area_m2": 1672602.39,
-      "eda_google_area_m2": 1642966.25
+      "eda_google_area_m2": 1642966.25,
+      "google_building_count": 16157,
+      "google_total_area_m2": 1518191.27
     },
     "86865": {
       "mpio_code": "86865",
@@ -985,7 +1052,9 @@
       "eda_ms_buildings": 14349,
       "eda_google_buildings": 16228,
       "eda_ms_area_m2": 1626894.66,
-      "eda_google_area_m2": 1488034.37
+      "eda_google_area_m2": 1488034.37,
+      "google_building_count": 13207,
+      "google_total_area_m2": 1372497.82
     },
     "76275": {
       "mpio_code": "76275",
@@ -1009,7 +1078,9 @@
       "eda_ms_buildings": 8375,
       "eda_google_buildings": 14231,
       "eda_ms_area_m2": 1624062.75,
-      "eda_google_area_m2": 1661317.3
+      "eda_google_area_m2": 1661317.3,
+      "google_building_count": 11290,
+      "google_total_area_m2": 1501259.45
     },
     "05490": {
       "mpio_code": "05490",
@@ -1033,7 +1104,9 @@
       "eda_ms_buildings": 18357,
       "eda_google_buildings": 32183,
       "eda_ms_area_m2": 1631448.51,
-      "eda_google_area_m2": 2334986.49
+      "eda_google_area_m2": 2334986.49,
+      "google_building_count": 24873,
+      "google_total_area_m2": 2125774.98
     },
     "05172": {
       "mpio_code": "05172",
@@ -1057,7 +1130,9 @@
       "eda_ms_buildings": 9008,
       "eda_google_buildings": 18871,
       "eda_ms_area_m2": 1620343.86,
-      "eda_google_area_m2": 1875112.2
+      "eda_google_area_m2": 1875112.2,
+      "google_building_count": 15238,
+      "google_total_area_m2": 1746565.06
     },
     "13688": {
       "mpio_code": "13688",
@@ -1081,7 +1156,9 @@
       "eda_ms_buildings": 14033,
       "eda_google_buildings": 18908,
       "eda_ms_area_m2": 1613819.82,
-      "eda_google_area_m2": 1485208.25
+      "eda_google_area_m2": 1485208.25,
+      "google_building_count": 14801,
+      "google_total_area_m2": 1387278.96
     },
     "76563": {
       "mpio_code": "76563",
@@ -1105,7 +1182,9 @@
       "eda_ms_buildings": 7428,
       "eda_google_buildings": 12953,
       "eda_ms_area_m2": 1565831.28,
-      "eda_google_area_m2": 1553137.73
+      "eda_google_area_m2": 1553137.73,
+      "google_building_count": 10276,
+      "google_total_area_m2": 1415615.92
     },
     "05147": {
       "mpio_code": "05147",
@@ -1129,7 +1208,9 @@
       "eda_ms_buildings": 8699,
       "eda_google_buildings": 16657,
       "eda_ms_area_m2": 1565753.96,
-      "eda_google_area_m2": 1719323.47
+      "eda_google_area_m2": 1719323.47,
+      "google_building_count": 13132,
+      "google_total_area_m2": 1575210.53
     },
     "44279": {
       "mpio_code": "44279",
@@ -1153,7 +1234,9 @@
       "eda_ms_buildings": 13332,
       "eda_google_buildings": 23632,
       "eda_ms_area_m2": 1545674.69,
-      "eda_google_area_m2": 1700071.84
+      "eda_google_area_m2": 1700071.84,
+      "google_building_count": 18269,
+      "google_total_area_m2": 1577586.93
     },
     "70713": {
       "mpio_code": "70713",
@@ -1177,7 +1260,9 @@
       "eda_ms_buildings": 17348,
       "eda_google_buildings": 24614,
       "eda_ms_area_m2": 1490437.9,
-      "eda_google_area_m2": 1691473.3
+      "eda_google_area_m2": 1691473.3,
+      "google_building_count": 19480,
+      "google_total_area_m2": 1537319.0
     },
     "19473": {
       "mpio_code": "19473",
@@ -1201,7 +1286,9 @@
       "eda_ms_buildings": 16396,
       "eda_google_buildings": 31057,
       "eda_ms_area_m2": 1483854.58,
-      "eda_google_area_m2": 1960334.84
+      "eda_google_area_m2": 1960334.84,
+      "google_building_count": 22320,
+      "google_total_area_m2": 1790031.88
     },
     "19532": {
       "mpio_code": "19532",
@@ -1225,7 +1312,9 @@
       "eda_ms_buildings": 11030,
       "eda_google_buildings": 17995,
       "eda_ms_area_m2": 1354893.21,
-      "eda_google_area_m2": 1492693.64
+      "eda_google_area_m2": 1492693.64,
+      "google_building_count": 14063,
+      "google_total_area_m2": 1389743.63
     },
     "86885": {
       "mpio_code": "86885",
@@ -1249,7 +1338,9 @@
       "eda_ms_buildings": 9550,
       "eda_google_buildings": 13366,
       "eda_ms_area_m2": 1342983.0,
-      "eda_google_area_m2": 1293767.17
+      "eda_google_area_m2": 1293767.17,
+      "google_building_count": 10472,
+      "google_total_area_m2": 1190599.37
     },
     "13442": {
       "mpio_code": "13442",
@@ -1273,7 +1364,9 @@
       "eda_ms_buildings": 13881,
       "eda_google_buildings": 20569,
       "eda_ms_area_m2": 1323983.74,
-      "eda_google_area_m2": 1454940.53
+      "eda_google_area_m2": 1454940.53,
+      "google_building_count": 16303,
+      "google_total_area_m2": 1325671.68
     },
     "05665": {
       "mpio_code": "05665",
@@ -1297,7 +1390,9 @@
       "eda_ms_buildings": 11957,
       "eda_google_buildings": 22034,
       "eda_ms_area_m2": 1290875.52,
-      "eda_google_area_m2": 1637861.15
+      "eda_google_area_m2": 1637861.15,
+      "google_building_count": 17385,
+      "google_total_area_m2": 1520080.5
     },
     "23580": {
       "mpio_code": "23580",
@@ -1321,7 +1416,9 @@
       "eda_ms_buildings": 13728,
       "eda_google_buildings": 14553,
       "eda_ms_area_m2": 1260197.87,
-      "eda_google_area_m2": 1127509.34
+      "eda_google_area_m2": 1127509.34,
+      "google_building_count": 11849,
+      "google_total_area_m2": 1029614.2
     },
     "19142": {
       "mpio_code": "19142",
@@ -1345,7 +1442,9 @@
       "eda_ms_buildings": 9562,
       "eda_google_buildings": 12220,
       "eda_ms_area_m2": 1234083.78,
-      "eda_google_area_m2": 1286135.84
+      "eda_google_area_m2": 1286135.84,
+      "google_building_count": 9501,
+      "google_total_area_m2": 1212369.42
     },
     "23855": {
       "mpio_code": "23855",
@@ -1369,7 +1468,9 @@
       "eda_ms_buildings": 13602,
       "eda_google_buildings": 25094,
       "eda_ms_area_m2": 1211266.28,
-      "eda_google_area_m2": 1709159.12
+      "eda_google_area_m2": 1709159.12,
+      "google_building_count": 19484,
+      "google_total_area_m2": 1562615.78
     },
     "20621": {
       "mpio_code": "20621",
@@ -1393,7 +1494,9 @@
       "eda_ms_buildings": 10597,
       "eda_google_buildings": 20413,
       "eda_ms_area_m2": 1203761.21,
-      "eda_google_area_m2": 1374305.02
+      "eda_google_area_m2": 1374305.02,
+      "google_building_count": 14427,
+      "google_total_area_m2": 1235269.73
     },
     "13657": {
       "mpio_code": "13657",
@@ -1417,7 +1520,9 @@
       "eda_ms_buildings": 11579,
       "eda_google_buildings": 21831,
       "eda_ms_area_m2": 1195154.06,
-      "eda_google_area_m2": 1441065.23
+      "eda_google_area_m2": 1441065.23,
+      "google_building_count": 16858,
+      "google_total_area_m2": 1327239.12
     },
     "54250": {
       "mpio_code": "54250",
@@ -1441,7 +1546,9 @@
       "eda_ms_buildings": 10956,
       "eda_google_buildings": 9826,
       "eda_ms_area_m2": 1179214.58,
-      "eda_google_area_m2": 787099.89
+      "eda_google_area_m2": 787099.89,
+      "google_building_count": 7903,
+      "google_total_area_m2": 728602.36
     },
     "19137": {
       "mpio_code": "19137",
@@ -1465,7 +1572,9 @@
       "eda_ms_buildings": 12547,
       "eda_google_buildings": 15303,
       "eda_ms_area_m2": 1176925.49,
-      "eda_google_area_m2": 1232399.04
+      "eda_google_area_m2": 1232399.04,
+      "google_building_count": 11934,
+      "google_total_area_m2": 1120778.45
     },
     "81300": {
       "mpio_code": "81300",
@@ -1489,7 +1598,9 @@
       "eda_ms_buildings": 9760,
       "eda_google_buildings": 15564,
       "eda_ms_area_m2": 1157041.6,
-      "eda_google_area_m2": 1329676.43
+      "eda_google_area_m2": 1329676.43,
+      "google_building_count": 12015,
+      "google_total_area_m2": 1234374.41
     },
     "18247": {
       "mpio_code": "18247",
@@ -1513,7 +1624,9 @@
       "eda_ms_buildings": 5815,
       "eda_google_buildings": 9151,
       "eda_ms_area_m2": 1154240.99,
-      "eda_google_area_m2": 1178897.38
+      "eda_google_area_m2": 1178897.38,
+      "google_building_count": 7108,
+      "google_total_area_m2": 1106219.18
     },
     "19110": {
       "mpio_code": "19110",
@@ -1537,7 +1650,9 @@
       "eda_ms_buildings": 11444,
       "eda_google_buildings": 13439,
       "eda_ms_area_m2": 1125050.66,
-      "eda_google_area_m2": 1077214.71
+      "eda_google_area_m2": 1077214.71,
+      "google_building_count": 10707,
+      "google_total_area_m2": 1003815.86
     },
     "13670": {
       "mpio_code": "13670",
@@ -1561,7 +1676,9 @@
       "eda_ms_buildings": 9776,
       "eda_google_buildings": 15636,
       "eda_ms_area_m2": 1119076.99,
-      "eda_google_area_m2": 1115615.59
+      "eda_google_area_m2": 1115615.59,
+      "google_building_count": 12263,
+      "google_total_area_m2": 1031507.19
     },
     "86571": {
       "mpio_code": "86571",
@@ -1585,7 +1702,9 @@
       "eda_ms_buildings": 10746,
       "eda_google_buildings": 8326,
       "eda_ms_area_m2": 1119232.68,
-      "eda_google_area_m2": 694774.25
+      "eda_google_area_m2": 694774.25,
+      "google_building_count": 6408,
+      "google_total_area_m2": 633490.48
     },
     "54720": {
       "mpio_code": "54720",
@@ -1609,7 +1728,9 @@
       "eda_ms_buildings": 10090,
       "eda_google_buildings": 13388,
       "eda_ms_area_m2": 1114422.15,
-      "eda_google_area_m2": 1103145.13
+      "eda_google_area_m2": 1103145.13,
+      "google_building_count": 10334,
+      "google_total_area_m2": 1001460.26
     },
     "50711": {
       "mpio_code": "50711",
@@ -1633,7 +1754,9 @@
       "eda_ms_buildings": 9989,
       "eda_google_buildings": 12234,
       "eda_ms_area_m2": 1093448.72,
-      "eda_google_area_m2": 1077056.71
+      "eda_google_area_m2": 1077056.71,
+      "google_building_count": 9488,
+      "google_total_area_m2": 987625.58
     },
     "19455": {
       "mpio_code": "19455",
@@ -1657,7 +1780,9 @@
       "eda_ms_buildings": 6625,
       "eda_google_buildings": 10353,
       "eda_ms_area_m2": 1054841.14,
-      "eda_google_area_m2": 1209342.85
+      "eda_google_area_m2": 1209342.85,
+      "google_building_count": 8561,
+      "google_total_area_m2": 1141250.15
     },
     "05736": {
       "mpio_code": "05736",
@@ -1681,7 +1806,9 @@
       "eda_ms_buildings": 9766,
       "eda_google_buildings": 16158,
       "eda_ms_area_m2": 1055713.58,
-      "eda_google_area_m2": 1191081.81
+      "eda_google_area_m2": 1191081.81,
+      "google_building_count": 12491,
+      "google_total_area_m2": 1071551.17
     },
     "19050": {
       "mpio_code": "19050",
@@ -1705,7 +1832,9 @@
       "eda_ms_buildings": 9940,
       "eda_google_buildings": 13691,
       "eda_ms_area_m2": 1036416.55,
-      "eda_google_area_m2": 972541.78
+      "eda_google_area_m2": 972541.78,
+      "google_building_count": 10268,
+      "google_total_area_m2": 881284.45
     },
     "05604": {
       "mpio_code": "05604",
@@ -1729,7 +1858,9 @@
       "eda_ms_buildings": 10207,
       "eda_google_buildings": 13247,
       "eda_ms_area_m2": 1032120.4,
-      "eda_google_area_m2": 958834.21
+      "eda_google_area_m2": 958834.21,
+      "google_building_count": 9928,
+      "google_total_area_m2": 864892.25
     },
     "19212": {
       "mpio_code": "19212",
@@ -1753,7 +1884,9 @@
       "eda_ms_buildings": 8784,
       "eda_google_buildings": 10516,
       "eda_ms_area_m2": 1020260.18,
-      "eda_google_area_m2": 894371.61
+      "eda_google_area_m2": 894371.61,
+      "google_building_count": 8469,
+      "google_total_area_m2": 817702.9
     },
     "73067": {
       "mpio_code": "73067",
@@ -1777,7 +1910,9 @@
       "eda_ms_buildings": 10931,
       "eda_google_buildings": 5354,
       "eda_ms_area_m2": 1014742.69,
-      "eda_google_area_m2": 439175.57
+      "eda_google_area_m2": 439175.57,
+      "google_building_count": 3991,
+      "google_total_area_m2": 403356.45
     },
     "73555": {
       "mpio_code": "73555",
@@ -1801,7 +1936,9 @@
       "eda_ms_buildings": 11274,
       "eda_google_buildings": 7276,
       "eda_ms_area_m2": 982721.08,
-      "eda_google_area_m2": 537768.99
+      "eda_google_area_m2": 537768.99,
+      "google_building_count": 5205,
+      "google_total_area_m2": 460232.67
     },
     "18410": {
       "mpio_code": "18410",
@@ -1825,7 +1962,9 @@
       "eda_ms_buildings": 7701,
       "eda_google_buildings": 9501,
       "eda_ms_area_m2": 977904.18,
-      "eda_google_area_m2": 927352.16
+      "eda_google_area_m2": 927352.16,
+      "google_building_count": 7267,
+      "google_total_area_m2": 851054.79
     },
     "86573": {
       "mpio_code": "86573",
@@ -1849,7 +1988,9 @@
       "eda_ms_buildings": 7851,
       "eda_google_buildings": 10392,
       "eda_ms_area_m2": 968434.51,
-      "eda_google_area_m2": 953609.72
+      "eda_google_area_m2": 953609.72,
+      "google_building_count": 8197,
+      "google_total_area_m2": 887609.76
     },
     "47053": {
       "mpio_code": "47053",
@@ -1873,7 +2014,9 @@
       "eda_ms_buildings": 9652,
       "eda_google_buildings": 19780,
       "eda_ms_area_m2": 968353.93,
-      "eda_google_area_m2": 1707892.62
+      "eda_google_area_m2": 1707892.62,
+      "google_building_count": 14821,
+      "google_total_area_m2": 1531304.61
     },
     "44090": {
       "mpio_code": "44090",
@@ -1897,7 +2040,9 @@
       "eda_ms_buildings": 12003,
       "eda_google_buildings": 23094,
       "eda_ms_area_m2": 957970.07,
-      "eda_google_area_m2": 1321838.72
+      "eda_google_area_m2": 1321838.72,
+      "google_building_count": 15264,
+      "google_total_area_m2": 1138290.74
     },
     "54800": {
       "mpio_code": "54800",
@@ -1921,7 +2066,9 @@
       "eda_ms_buildings": 8525,
       "eda_google_buildings": 10550,
       "eda_ms_area_m2": 934038.86,
-      "eda_google_area_m2": 879906.75
+      "eda_google_area_m2": 879906.75,
+      "google_building_count": 8332,
+      "google_total_area_m2": 810557.19
     },
     "05120": {
       "mpio_code": "05120",
@@ -1945,7 +2092,9 @@
       "eda_ms_buildings": 10142,
       "eda_google_buildings": 12424,
       "eda_ms_area_m2": 928092.02,
-      "eda_google_area_m2": 968413.16
+      "eda_google_area_m2": 968413.16,
+      "google_building_count": 9624,
+      "google_total_area_m2": 883714.4
     },
     "19780": {
       "mpio_code": "19780",
@@ -1969,7 +2118,9 @@
       "eda_ms_buildings": 10556,
       "eda_google_buildings": 14544,
       "eda_ms_area_m2": 923669.87,
-      "eda_google_area_m2": 888543.68
+      "eda_google_area_m2": 888543.68,
+      "google_building_count": 10497,
+      "google_total_area_m2": 806261.25
     },
     "41020": {
       "mpio_code": "41020",
@@ -1993,7 +2144,9 @@
       "eda_ms_buildings": 8278,
       "eda_google_buildings": 12338,
       "eda_ms_area_m2": 916306.74,
-      "eda_google_area_m2": 1125438.8
+      "eda_google_area_m2": 1125438.8,
+      "google_building_count": 9294,
+      "google_total_area_m2": 1006565.47
     },
     "05790": {
       "mpio_code": "05790",
@@ -2017,7 +2170,9 @@
       "eda_ms_buildings": 8815,
       "eda_google_buildings": 11438,
       "eda_ms_area_m2": 907090.64,
-      "eda_google_area_m2": 813634.26
+      "eda_google_area_m2": 813634.26,
+      "google_building_count": 8961,
+      "google_total_area_m2": 735616.1
     },
     "54206": {
       "mpio_code": "54206",
@@ -2041,7 +2196,9 @@
       "eda_ms_buildings": 8465,
       "eda_google_buildings": 14277,
       "eda_ms_area_m2": 905963.5,
-      "eda_google_area_m2": 1112941.61
+      "eda_google_area_m2": 1112941.61,
+      "google_building_count": 10565,
+      "google_total_area_m2": 996583.42
     },
     "20570": {
       "mpio_code": "20570",
@@ -2065,7 +2222,9 @@
       "eda_ms_buildings": 10975,
       "eda_google_buildings": 15833,
       "eda_ms_area_m2": 909266.5,
-      "eda_google_area_m2": 984970.99
+      "eda_google_area_m2": 984970.99,
+      "google_building_count": 11182,
+      "google_total_area_m2": 875473.45
     },
     "95025": {
       "mpio_code": "95025",
@@ -2089,7 +2248,9 @@
       "eda_ms_buildings": 8453,
       "eda_google_buildings": 11332,
       "eda_ms_area_m2": 899769.65,
-      "eda_google_area_m2": 923637.25
+      "eda_google_area_m2": 923637.25,
+      "google_building_count": 8018,
+      "google_total_area_m2": 839243.44
     },
     "19821": {
       "mpio_code": "19821",
@@ -2113,7 +2274,9 @@
       "eda_ms_buildings": 10253,
       "eda_google_buildings": 11452,
       "eda_ms_area_m2": 899548.77,
-      "eda_google_area_m2": 777746.95
+      "eda_google_area_m2": 777746.95,
+      "google_building_count": 8711,
+      "google_total_area_m2": 707459.14
     },
     "19075": {
       "mpio_code": "19075",
@@ -2137,7 +2300,9 @@
       "eda_ms_buildings": 8853,
       "eda_google_buildings": 12679,
       "eda_ms_area_m2": 896911.11,
-      "eda_google_area_m2": 878871.98
+      "eda_google_area_m2": 878871.98,
+      "google_building_count": 9892,
+      "google_total_area_m2": 807770.43
     },
     "05250": {
       "mpio_code": "05250",
@@ -2161,7 +2326,9 @@
       "eda_ms_buildings": 9660,
       "eda_google_buildings": 14768,
       "eda_ms_area_m2": 891710.23,
-      "eda_google_area_m2": 1309219.18
+      "eda_google_area_m2": 1309219.18,
+      "google_building_count": 11531,
+      "google_total_area_m2": 1160673.93
     },
     "86757": {
       "mpio_code": "86757",
@@ -2185,7 +2352,9 @@
       "eda_ms_buildings": 8558,
       "eda_google_buildings": 12160,
       "eda_ms_area_m2": 885133.17,
-      "eda_google_area_m2": 922860.23
+      "eda_google_area_m2": 922860.23,
+      "google_building_count": 9187,
+      "google_total_area_m2": 838960.45
     },
     "13654": {
       "mpio_code": "13654",
@@ -2209,7 +2378,9 @@
       "eda_ms_buildings": 9088,
       "eda_google_buildings": 14706,
       "eda_ms_area_m2": 870760.3,
-      "eda_google_area_m2": 972396.15
+      "eda_google_area_m2": 972396.15,
+      "google_building_count": 11390,
+      "google_total_area_m2": 879453.31
     },
     "05031": {
       "mpio_code": "05031",
@@ -2233,7 +2404,9 @@
       "eda_ms_buildings": 6860,
       "eda_google_buildings": 2983,
       "eda_ms_area_m2": 868185.48,
-      "eda_google_area_m2": 184845.62
+      "eda_google_area_m2": 184845.62,
+      "google_building_count": 1955,
+      "google_total_area_m2": 163771.73
     },
     "05893": {
       "mpio_code": "05893",
@@ -2257,7 +2430,9 @@
       "eda_ms_buildings": 7133,
       "eda_google_buildings": 10687,
       "eda_ms_area_m2": 866414.32,
-      "eda_google_area_m2": 886261.49
+      "eda_google_area_m2": 886261.49,
+      "google_building_count": 8121,
+      "google_total_area_m2": 810373.45
     },
     "52079": {
       "mpio_code": "52079",
@@ -2281,7 +2456,9 @@
       "eda_ms_buildings": 8429,
       "eda_google_buildings": 6234,
       "eda_ms_area_m2": 824282.3,
-      "eda_google_area_m2": 447879.21
+      "eda_google_area_m2": 447879.21,
+      "google_building_count": 5063,
+      "google_total_area_m2": 407534.67
     },
     "50330": {
       "mpio_code": "50330",
@@ -2305,7 +2482,9 @@
       "eda_ms_buildings": 6706,
       "eda_google_buildings": 5795,
       "eda_ms_area_m2": 820257.32,
-      "eda_google_area_m2": 535114.31
+      "eda_google_area_m2": 535114.31,
+      "google_building_count": 4214,
+      "google_total_area_m2": 498244.89
     },
     "70508": {
       "mpio_code": "70508",
@@ -2329,7 +2508,9 @@
       "eda_ms_buildings": 9648,
       "eda_google_buildings": 16588,
       "eda_ms_area_m2": 812827.08,
-      "eda_google_area_m2": 1067947.21
+      "eda_google_area_m2": 1067947.21,
+      "google_building_count": 12749,
+      "google_total_area_m2": 950247.62
     },
     "13744": {
       "mpio_code": "13744",
@@ -2353,7 +2534,9 @@
       "eda_ms_buildings": 7194,
       "eda_google_buildings": 11018,
       "eda_ms_area_m2": 804134.09,
-      "eda_google_area_m2": 839119.81
+      "eda_google_area_m2": 839119.81,
+      "google_building_count": 8375,
+      "google_total_area_m2": 769066.58
     },
     "18256": {
       "mpio_code": "18256",
@@ -2377,7 +2560,9 @@
       "eda_ms_buildings": 4686,
       "eda_google_buildings": 6283,
       "eda_ms_area_m2": 798059.93,
-      "eda_google_area_m2": 736052.61
+      "eda_google_area_m2": 736052.61,
+      "google_building_count": 4711,
+      "google_total_area_m2": 663808.56
     },
     "20045": {
       "mpio_code": "20045",
@@ -2401,7 +2586,9 @@
       "eda_ms_buildings": 8044,
       "eda_google_buildings": 12958,
       "eda_ms_area_m2": 798811.2,
-      "eda_google_area_m2": 924275.18
+      "eda_google_area_m2": 924275.18,
+      "google_building_count": 9792,
+      "google_total_area_m2": 846202.6
     },
     "73616": {
       "mpio_code": "73616",
@@ -2425,7 +2612,9 @@
       "eda_ms_buildings": 9018,
       "eda_google_buildings": 1329,
       "eda_ms_area_m2": 791781.59,
-      "eda_google_area_m2": 102771.21
+      "eda_google_area_m2": 102771.21,
+      "google_building_count": 993,
+      "google_total_area_m2": 91794.73
     },
     "19450": {
       "mpio_code": "19450",
@@ -2449,7 +2638,9 @@
       "eda_ms_buildings": 7167,
       "eda_google_buildings": 11486,
       "eda_ms_area_m2": 786145.02,
-      "eda_google_area_m2": 901383.12
+      "eda_google_area_m2": 901383.12,
+      "google_building_count": 8635,
+      "google_total_area_m2": 833848.7
     },
     "50590": {
       "mpio_code": "50590",
@@ -2473,7 +2664,9 @@
       "eda_ms_buildings": 7422,
       "eda_google_buildings": 9290,
       "eda_ms_area_m2": 783867.52,
-      "eda_google_area_m2": 747409.45
+      "eda_google_area_m2": 747409.45,
+      "google_building_count": 6525,
+      "google_total_area_m2": 672748.02
     },
     "70823": {
       "mpio_code": "70823",
@@ -2497,7 +2690,9 @@
       "eda_ms_buildings": 8333,
       "eda_google_buildings": 15330,
       "eda_ms_area_m2": 769069.85,
-      "eda_google_area_m2": 964306.27
+      "eda_google_area_m2": 964306.27,
+      "google_building_count": 11207,
+      "google_total_area_m2": 864675.89
     },
     "05361": {
       "mpio_code": "05361",
@@ -2521,7 +2716,9 @@
       "eda_ms_buildings": 8361,
       "eda_google_buildings": 9063,
       "eda_ms_area_m2": 754069.35,
-      "eda_google_area_m2": 624826.47
+      "eda_google_area_m2": 624826.47,
+      "google_building_count": 6357,
+      "google_total_area_m2": 544600.2
     },
     "86569": {
       "mpio_code": "86569",
@@ -2545,7 +2742,9 @@
       "eda_ms_buildings": 6093,
       "eda_google_buildings": 7768,
       "eda_ms_area_m2": 729030.14,
-      "eda_google_area_m2": 688080.45
+      "eda_google_area_m2": 688080.45,
+      "google_building_count": 6187,
+      "google_total_area_m2": 638212.89
     },
     "05234": {
       "mpio_code": "05234",
@@ -2569,7 +2768,9 @@
       "eda_ms_buildings": 7911,
       "eda_google_buildings": 7696,
       "eda_ms_area_m2": 721815.01,
-      "eda_google_area_m2": 504009.33
+      "eda_google_area_m2": 504009.33,
+      "google_building_count": 5315,
+      "google_total_area_m2": 428873.47
     },
     "18756": {
       "mpio_code": "18756",
@@ -2593,7 +2794,9 @@
       "eda_ms_buildings": 6171,
       "eda_google_buildings": 6067,
       "eda_ms_area_m2": 711996.38,
-      "eda_google_area_m2": 602845.05
+      "eda_google_area_m2": 602845.05,
+      "google_building_count": 4816,
+      "google_total_area_m2": 560725.05
     },
     "13473": {
       "mpio_code": "13473",
@@ -2617,7 +2820,9 @@
       "eda_ms_buildings": 6896,
       "eda_google_buildings": 11982,
       "eda_ms_area_m2": 705365.56,
-      "eda_google_area_m2": 877684.32
+      "eda_google_area_m2": 877684.32,
+      "google_building_count": 9096,
+      "google_total_area_m2": 809551.73
     },
     "50370": {
       "mpio_code": "50370",
@@ -2641,7 +2846,9 @@
       "eda_ms_buildings": 6705,
       "eda_google_buildings": 3567,
       "eda_ms_area_m2": 705582.05,
-      "eda_google_area_m2": 294761.77
+      "eda_google_area_m2": 294761.77,
+      "google_building_count": 2415,
+      "google_total_area_m2": 270570.96
     },
     "20750": {
       "mpio_code": "20750",
@@ -2665,7 +2872,9 @@
       "eda_ms_buildings": 6632,
       "eda_google_buildings": 12205,
       "eda_ms_area_m2": 697677.29,
-      "eda_google_area_m2": 900664.24
+      "eda_google_area_m2": 900664.24,
+      "google_building_count": 8761,
+      "google_total_area_m2": 807942.4
     },
     "70418": {
       "mpio_code": "70418",
@@ -2689,7 +2898,9 @@
       "eda_ms_buildings": 7011,
       "eda_google_buildings": 13792,
       "eda_ms_area_m2": 669053.82,
-      "eda_google_area_m2": 855530.02
+      "eda_google_area_m2": 855530.02,
+      "google_building_count": 10824,
+      "google_total_area_m2": 783137.72
     },
     "05040": {
       "mpio_code": "05040",
@@ -2713,7 +2924,9 @@
       "eda_ms_buildings": 7234,
       "eda_google_buildings": 7651,
       "eda_ms_area_m2": 653176.83,
-      "eda_google_area_m2": 492258.66
+      "eda_google_area_m2": 492258.66,
+      "google_building_count": 5338,
+      "google_total_area_m2": 439185.69
     },
     "50577": {
       "mpio_code": "50577",
@@ -2737,7 +2950,9 @@
       "eda_ms_buildings": 5569,
       "eda_google_buildings": 6595,
       "eda_ms_area_m2": 648931.94,
-      "eda_google_area_m2": 575124.35
+      "eda_google_area_m2": 575124.35,
+      "google_building_count": 4403,
+      "google_total_area_m2": 518396.14
     },
     "05895": {
       "mpio_code": "05895",
@@ -2761,7 +2976,9 @@
       "eda_ms_buildings": 7585,
       "eda_google_buildings": 11188,
       "eda_ms_area_m2": 648822.73,
-      "eda_google_area_m2": 729438.12
+      "eda_google_area_m2": 729438.12,
+      "google_building_count": 8196,
+      "google_total_area_m2": 642154.49
     },
     "18860": {
       "mpio_code": "18860",
@@ -2785,7 +3002,9 @@
       "eda_ms_buildings": 4367,
       "eda_google_buildings": 4922,
       "eda_ms_area_m2": 633967.7,
-      "eda_google_area_m2": 536646.2
+      "eda_google_area_m2": 536646.2,
+      "google_building_count": 3648,
+      "google_total_area_m2": 492874.15
     },
     "95015": {
       "mpio_code": "95015",
@@ -2809,7 +3028,9 @@
       "eda_ms_buildings": 5411,
       "eda_google_buildings": 5708,
       "eda_ms_area_m2": 625766.27,
-      "eda_google_area_m2": 521303.22
+      "eda_google_area_m2": 521303.22,
+      "google_building_count": 4151,
+      "google_total_area_m2": 484138.25
     },
     "18610": {
       "mpio_code": "18610",
@@ -2833,7 +3054,9 @@
       "eda_ms_buildings": 4850,
       "eda_google_buildings": 5240,
       "eda_ms_area_m2": 623106.2,
-      "eda_google_area_m2": 524265.67
+      "eda_google_area_m2": 524265.67,
+      "google_building_count": 4087,
+      "google_total_area_m2": 470474.53
     },
     "52250": {
       "mpio_code": "52250",
@@ -2857,7 +3080,9 @@
       "eda_ms_buildings": 6503,
       "eda_google_buildings": 5210,
       "eda_ms_area_m2": 611390.82,
-      "eda_google_area_m2": 366526.09
+      "eda_google_area_m2": 366526.09,
+      "google_building_count": 4188,
+      "google_total_area_m2": 336676.61
     },
     "18094": {
       "mpio_code": "18094",
@@ -2881,7 +3106,9 @@
       "eda_ms_buildings": 3765,
       "eda_google_buildings": 5328,
       "eda_ms_area_m2": 575356.45,
-      "eda_google_area_m2": 572086.52
+      "eda_google_area_m2": 572086.52,
+      "google_building_count": 4121,
+      "google_total_area_m2": 518880.19
     },
     "19318": {
       "mpio_code": "19318",
@@ -2905,7 +3132,9 @@
       "eda_ms_buildings": 5344,
       "eda_google_buildings": 6403,
       "eda_ms_area_m2": 560957.47,
-      "eda_google_area_m2": 534176.09
+      "eda_google_area_m2": 534176.09,
+      "google_building_count": 5456,
+      "google_total_area_m2": 504825.65
     },
     "19809": {
       "mpio_code": "19809",
@@ -2929,7 +3158,9 @@
       "eda_ms_buildings": 5178,
       "eda_google_buildings": 5938,
       "eda_ms_area_m2": 557673.49,
-      "eda_google_area_m2": 448635.65
+      "eda_google_area_m2": 448635.65,
+      "google_building_count": 5013,
+      "google_total_area_m2": 421460.49
     },
     "54245": {
       "mpio_code": "54245",
@@ -2953,7 +3184,9 @@
       "eda_ms_buildings": 5884,
       "eda_google_buildings": 8903,
       "eda_ms_area_m2": 543996.92,
-      "eda_google_area_m2": 673073.75
+      "eda_google_area_m2": 673073.75,
+      "google_building_count": 6589,
+      "google_total_area_m2": 601926.14
     },
     "27800": {
       "mpio_code": "27800",
@@ -2977,7 +3210,9 @@
       "eda_ms_buildings": 5986,
       "eda_google_buildings": 5418,
       "eda_ms_area_m2": 538920.45,
-      "eda_google_area_m2": 451380.73
+      "eda_google_area_m2": 451380.73,
+      "google_building_count": 4349,
+      "google_total_area_m2": 423210.8
     },
     "18460": {
       "mpio_code": "18460",
@@ -3001,7 +3236,9 @@
       "eda_ms_buildings": 3690,
       "eda_google_buildings": 3630,
       "eda_ms_area_m2": 532945.96,
-      "eda_google_area_m2": 363097.2
+      "eda_google_area_m2": 363097.2,
+      "google_building_count": 2688,
+      "google_total_area_m2": 322690.93
     },
     "27006": {
       "mpio_code": "27006",
@@ -3025,7 +3262,9 @@
       "eda_ms_buildings": 5372,
       "eda_google_buildings": 6395,
       "eda_ms_area_m2": 516651.92,
-      "eda_google_area_m2": 461580.92
+      "eda_google_area_m2": 461580.92,
+      "google_building_count": 5042,
+      "google_total_area_m2": 427958.81
     },
     "70473": {
       "mpio_code": "70473",
@@ -3049,7 +3288,9 @@
       "eda_ms_buildings": 5015,
       "eda_google_buildings": 10424,
       "eda_ms_area_m2": 511017.18,
-      "eda_google_area_m2": 651957.73
+      "eda_google_area_m2": 651957.73,
+      "google_building_count": 8270,
+      "google_total_area_m2": 604593.04
     },
     "19418": {
       "mpio_code": "19418",
@@ -3073,7 +3314,9 @@
       "eda_ms_buildings": 5968,
       "eda_google_buildings": 24,
       "eda_ms_area_m2": 509774.16,
-      "eda_google_area_m2": 1028.8
+      "eda_google_area_m2": 1028.8,
+      "google_building_count": 14,
+      "google_total_area_m2": 823.36
     },
     "54670": {
       "mpio_code": "54670",
@@ -3097,7 +3340,9 @@
       "eda_ms_buildings": 5360,
       "eda_google_buildings": 7736,
       "eda_ms_area_m2": 505672.42,
-      "eda_google_area_m2": 537498.08
+      "eda_google_area_m2": 537498.08,
+      "google_building_count": 5728,
+      "google_total_area_m2": 488702.04
     },
     "27615": {
       "mpio_code": "27615",
@@ -3121,7 +3366,9 @@
       "eda_ms_buildings": 6107,
       "eda_google_buildings": 1000,
       "eda_ms_area_m2": 498631.92,
-      "eda_google_area_m2": 55517.11
+      "eda_google_area_m2": 55517.11,
+      "google_building_count": 773,
+      "google_total_area_m2": 51286.71
     },
     "13212": {
       "mpio_code": "13212",
@@ -3145,7 +3392,9 @@
       "eda_ms_buildings": 5980,
       "eda_google_buildings": 10271,
       "eda_ms_area_m2": 495903.89,
-      "eda_google_area_m2": 674595.96
+      "eda_google_area_m2": 674595.96,
+      "google_building_count": 7815,
+      "google_total_area_m2": 602563.87
     },
     "52540": {
       "mpio_code": "52540",
@@ -3169,7 +3418,9 @@
       "eda_ms_buildings": 5303,
       "eda_google_buildings": 7627,
       "eda_ms_area_m2": 483013.1,
-      "eda_google_area_m2": 504015.63
+      "eda_google_area_m2": 504015.63,
+      "google_building_count": 5721,
+      "google_total_area_m2": 455236.8
     },
     "54344": {
       "mpio_code": "54344",
@@ -3193,7 +3444,9 @@
       "eda_ms_buildings": 4874,
       "eda_google_buildings": 6756,
       "eda_ms_area_m2": 474678.42,
-      "eda_google_area_m2": 492034.1
+      "eda_google_area_m2": 492034.1,
+      "google_building_count": 5195,
+      "google_total_area_m2": 459139.89
     },
     "05480": {
       "mpio_code": "05480",
@@ -3217,7 +3470,9 @@
       "eda_ms_buildings": 4295,
       "eda_google_buildings": 5537,
       "eda_ms_area_m2": 464562.61,
-      "eda_google_area_m2": 467389.81
+      "eda_google_area_m2": 467389.81,
+      "google_building_count": 4129,
+      "google_total_area_m2": 424295.49
     },
     "52490": {
       "mpio_code": "52490",
@@ -3241,7 +3496,9 @@
       "eda_ms_buildings": 4394,
       "eda_google_buildings": 1208,
       "eda_ms_area_m2": 448328.02,
-      "eda_google_area_m2": 72655.26
+      "eda_google_area_m2": 72655.26,
+      "google_building_count": 873,
+      "google_total_area_m2": 62123.47
     },
     "50325": {
       "mpio_code": "50325",
@@ -3265,7 +3522,9 @@
       "eda_ms_buildings": 4059,
       "eda_google_buildings": 6776,
       "eda_ms_area_m2": 435427.22,
-      "eda_google_area_m2": 513781.9
+      "eda_google_area_m2": 513781.9,
+      "google_building_count": 4608,
+      "google_total_area_m2": 465185.85
     },
     "19364": {
       "mpio_code": "19364",
@@ -3289,7 +3548,9 @@
       "eda_ms_buildings": 5065,
       "eda_google_buildings": 6514,
       "eda_ms_area_m2": 430037.93,
-      "eda_google_area_m2": 412970.1
+      "eda_google_area_m2": 412970.1,
+      "google_building_count": 4841,
+      "google_total_area_m2": 378607.26
     },
     "20443": {
       "mpio_code": "20443",
@@ -3313,7 +3574,9 @@
       "eda_ms_buildings": 3441,
       "eda_google_buildings": 5951,
       "eda_ms_area_m2": 421921.86,
-      "eda_google_area_m2": 461866.25
+      "eda_google_area_m2": 461866.25,
+      "google_building_count": 4699,
+      "google_total_area_m2": 428470.18
     },
     "52256": {
       "mpio_code": "52256",
@@ -3337,7 +3600,9 @@
       "eda_ms_buildings": 4855,
       "eda_google_buildings": 7594,
       "eda_ms_area_m2": 399459.05,
-      "eda_google_area_m2": 448705.28
+      "eda_google_area_m2": 448705.28,
+      "google_building_count": 5526,
+      "google_total_area_m2": 404694.66
     },
     "52427": {
       "mpio_code": "52427",
@@ -3361,7 +3626,9 @@
       "eda_ms_buildings": 3442,
       "eda_google_buildings": 2548,
       "eda_ms_area_m2": 397775.2,
-      "eda_google_area_m2": 233743.58
+      "eda_google_area_m2": 233743.58,
+      "google_building_count": 2150,
+      "google_total_area_m2": 217422.84
     },
     "18205": {
       "mpio_code": "18205",
@@ -3385,7 +3652,9 @@
       "eda_ms_buildings": 2503,
       "eda_google_buildings": 3856,
       "eda_ms_area_m2": 393261.19,
-      "eda_google_area_m2": 396110.85
+      "eda_google_area_m2": 396110.85,
+      "google_building_count": 3067,
+      "google_total_area_m2": 370117.65
     },
     "50450": {
       "mpio_code": "50450",
@@ -3409,7 +3678,9 @@
       "eda_ms_buildings": 3682,
       "eda_google_buildings": 5893,
       "eda_ms_area_m2": 385644.26,
-      "eda_google_area_m2": 471064.17
+      "eda_google_area_m2": 471064.17,
+      "google_building_count": 4285,
+      "google_total_area_m2": 431731.68
     },
     "05854": {
       "mpio_code": "05854",
@@ -3433,7 +3704,9 @@
       "eda_ms_buildings": 4485,
       "eda_google_buildings": 6329,
       "eda_ms_area_m2": 380670.55,
-      "eda_google_area_m2": 438224.41
+      "eda_google_area_m2": 438224.41,
+      "google_building_count": 4745,
+      "google_total_area_m2": 392594.95
     },
     "13160": {
       "mpio_code": "13160",
@@ -3457,7 +3730,9 @@
       "eda_ms_buildings": 3936,
       "eda_google_buildings": 4822,
       "eda_ms_area_m2": 379202.54,
-      "eda_google_area_m2": 337552.41
+      "eda_google_area_m2": 337552.41,
+      "google_building_count": 3708,
+      "google_total_area_m2": 307937.56
     },
     "70523": {
       "mpio_code": "70523",
@@ -3481,7 +3756,9 @@
       "eda_ms_buildings": 4812,
       "eda_google_buildings": 8938,
       "eda_ms_area_m2": 377502.54,
-      "eda_google_area_m2": 497971.14
+      "eda_google_area_m2": 497971.14,
+      "google_building_count": 6985,
+      "google_total_area_m2": 457734.95
     },
     "52405": {
       "mpio_code": "52405",
@@ -3505,7 +3782,9 @@
       "eda_ms_buildings": 3980,
       "eda_google_buildings": 6096,
       "eda_ms_area_m2": 373797.33,
-      "eda_google_area_m2": 391636.47
+      "eda_google_area_m2": 391636.47,
+      "google_building_count": 4478,
+      "google_total_area_m2": 353456.65
     },
     "23682": {
       "mpio_code": "23682",
@@ -3529,7 +3808,9 @@
       "eda_ms_buildings": 4003,
       "eda_google_buildings": 4028,
       "eda_ms_area_m2": 363997.8,
-      "eda_google_area_m2": 270966.97
+      "eda_google_area_m2": 270966.97,
+      "google_building_count": 3103,
+      "google_total_area_m2": 247420.31
     },
     "52233": {
       "mpio_code": "52233",
@@ -3553,7 +3834,9 @@
       "eda_ms_buildings": 3975,
       "eda_google_buildings": 5350,
       "eda_ms_area_m2": 362921.85,
-      "eda_google_area_m2": 354714.94
+      "eda_google_area_m2": 354714.94,
+      "google_building_count": 3966,
+      "google_total_area_m2": 319181.09
     },
     "52612": {
       "mpio_code": "52612",
@@ -3577,7 +3860,9 @@
       "eda_ms_buildings": 4878,
       "eda_google_buildings": 196,
       "eda_ms_area_m2": 356892.23,
-      "eda_google_area_m2": 10788.0
+      "eda_google_area_m2": 10788.0,
+      "google_building_count": 144,
+      "google_total_area_m2": 9285.85
     },
     "13042": {
       "mpio_code": "13042",
@@ -3601,7 +3886,9 @@
       "eda_ms_buildings": 3888,
       "eda_google_buildings": 7022,
       "eda_ms_area_m2": 355137.76,
-      "eda_google_area_m2": 492611.91
+      "eda_google_area_m2": 492611.91,
+      "google_building_count": 5463,
+      "google_total_area_m2": 452519.42
     },
     "05495": {
       "mpio_code": "05495",
@@ -3625,7 +3912,9 @@
       "eda_ms_buildings": 4519,
       "eda_google_buildings": 3492,
       "eda_ms_area_m2": 354351.31,
-      "eda_google_area_m2": 230999.79
+      "eda_google_area_m2": 230999.79,
+      "google_building_count": 2597,
+      "google_total_area_m2": 202834.43
     },
     "13894": {
       "mpio_code": "13894",
@@ -3649,7 +3938,9 @@
       "eda_ms_buildings": 3500,
       "eda_google_buildings": 6080,
       "eda_ms_area_m2": 353251.08,
-      "eda_google_area_m2": 440904.89
+      "eda_google_area_m2": 440904.89,
+      "google_building_count": 4711,
+      "google_total_area_m2": 406836.56
     },
     "18029": {
       "mpio_code": "18029",
@@ -3673,7 +3964,9 @@
       "eda_ms_buildings": 2096,
       "eda_google_buildings": 3012,
       "eda_ms_area_m2": 349804.24,
-      "eda_google_area_m2": 329488.72
+      "eda_google_area_m2": 329488.72,
+      "google_building_count": 2276,
+      "google_total_area_m2": 302365.02
     },
     "18785": {
       "mpio_code": "18785",
@@ -3697,7 +3990,9 @@
       "eda_ms_buildings": 2508,
       "eda_google_buildings": 2992,
       "eda_ms_area_m2": 321851.3,
-      "eda_google_area_m2": 306420.88
+      "eda_google_area_m2": 306420.88,
+      "google_building_count": 2322,
+      "google_total_area_m2": 281480.56
     },
     "70204": {
       "mpio_code": "70204",
@@ -3721,7 +4016,9 @@
       "eda_ms_buildings": 3999,
       "eda_google_buildings": 6278,
       "eda_ms_area_m2": 318940.53,
-      "eda_google_area_m2": 401553.67
+      "eda_google_area_m2": 401553.67,
+      "google_building_count": 4836,
+      "google_total_area_m2": 358876.0
     },
     "27150": {
       "mpio_code": "27150",
@@ -3745,7 +4042,9 @@
       "eda_ms_buildings": 3832,
       "eda_google_buildings": 281,
       "eda_ms_area_m2": 307006.68,
-      "eda_google_area_m2": 12580.82
+      "eda_google_area_m2": 12580.82,
+      "google_building_count": 199,
+      "google_total_area_m2": 11230.98
     },
     "52418": {
       "mpio_code": "52418",
@@ -3769,7 +4068,9 @@
       "eda_ms_buildings": 3875,
       "eda_google_buildings": 7184,
       "eda_ms_area_m2": 301857.16,
-      "eda_google_area_m2": 415793.25
+      "eda_google_area_m2": 415793.25,
+      "google_building_count": 4950,
+      "google_total_area_m2": 357410.26
     },
     "05107": {
       "mpio_code": "05107",
@@ -3793,7 +4094,9 @@
       "eda_ms_buildings": 3316,
       "eda_google_buildings": 3565,
       "eda_ms_area_m2": 294960.38,
-      "eda_google_area_m2": 208148.81
+      "eda_google_area_m2": 208148.81,
+      "google_building_count": 2318,
+      "google_total_area_m2": 181869.12
     },
     "13248": {
       "mpio_code": "13248",
@@ -3817,7 +4120,9 @@
       "eda_ms_buildings": 3056,
       "eda_google_buildings": 4923,
       "eda_ms_area_m2": 292855.92,
-      "eda_google_area_m2": 368978.5
+      "eda_google_area_m2": 368978.5,
+      "google_building_count": 3864,
+      "google_total_area_m2": 338408.75
     },
     "27205": {
       "mpio_code": "27205",
@@ -3841,7 +4146,9 @@
       "eda_ms_buildings": 2110,
       "eda_google_buildings": 239,
       "eda_ms_area_m2": 263674.71,
-      "eda_google_area_m2": 17962.67
+      "eda_google_area_m2": 17962.67,
+      "google_building_count": 191,
+      "google_total_area_m2": 16937.6
     },
     "52696": {
       "mpio_code": "52696",
@@ -3865,7 +4172,9 @@
       "eda_ms_buildings": 2488,
       "eda_google_buildings": 1505,
       "eda_ms_area_m2": 259288.99,
-      "eda_google_area_m2": 104843.95
+      "eda_google_area_m2": 104843.95,
+      "google_building_count": 1164,
+      "google_total_area_m2": 95356.9
     },
     "18479": {
       "mpio_code": "18479",
@@ -3889,7 +4198,9 @@
       "eda_ms_buildings": 1558,
       "eda_google_buildings": 2402,
       "eda_ms_area_m2": 249710.21,
-      "eda_google_area_m2": 274393.64
+      "eda_google_area_m2": 274393.64,
+      "google_building_count": 1717,
+      "google_total_area_m2": 249437.94
     },
     "52621": {
       "mpio_code": "52621",
@@ -3913,7 +4224,9 @@
       "eda_ms_buildings": 2501,
       "eda_google_buildings": 364,
       "eda_ms_area_m2": 216801.81,
-      "eda_google_area_m2": 24262.69
+      "eda_google_area_m2": 24262.69,
+      "google_building_count": 269,
+      "google_total_area_m2": 21600.08
     },
     "95200": {
       "mpio_code": "95200",
@@ -3937,7 +4250,9 @@
       "eda_ms_buildings": 1773,
       "eda_google_buildings": 3670,
       "eda_ms_area_m2": 208128.02,
-      "eda_google_area_m2": 318415.22
+      "eda_google_area_m2": 318415.22,
+      "google_building_count": 2764,
+      "google_total_area_m2": 292364.22
     },
     "52473": {
       "mpio_code": "52473",
@@ -3961,7 +4276,9 @@
       "eda_ms_buildings": 1731,
       "eda_google_buildings": 597,
       "eda_ms_area_m2": 185291.51,
-      "eda_google_area_m2": 39666.65
+      "eda_google_area_m2": 39666.65,
+      "google_building_count": 458,
+      "google_total_area_m2": 35179.92
     },
     "27250": {
       "mpio_code": "27250",
@@ -3985,7 +4302,9 @@
       "eda_ms_buildings": 2010,
       "eda_google_buildings": 309,
       "eda_ms_area_m2": 175225.89,
-      "eda_google_area_m2": 37994.39
+      "eda_google_area_m2": 37994.39,
+      "google_building_count": 264,
+      "google_total_area_m2": 32876.48
     },
     "27099": {
       "mpio_code": "27099",
@@ -4009,7 +4328,9 @@
       "eda_ms_buildings": 2004,
       "eda_google_buildings": 0,
       "eda_ms_area_m2": 172272.49,
-      "eda_google_area_m2": 0.0
+      "eda_google_area_m2": 0.0,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     },
     "27361": {
       "mpio_code": "27361",
@@ -4033,7 +4354,9 @@
       "eda_ms_buildings": 1928,
       "eda_google_buildings": 6766,
       "eda_ms_area_m2": 168308.15,
-      "eda_google_area_m2": 667247.94
+      "eda_google_area_m2": 667247.94,
+      "google_building_count": 5784,
+      "google_total_area_m2": 618714.32
     },
     "52520": {
       "mpio_code": "52520",
@@ -4057,7 +4380,9 @@
       "eda_ms_buildings": 1845,
       "eda_google_buildings": 656,
       "eda_ms_area_m2": 168212.62,
-      "eda_google_area_m2": 41383.43
+      "eda_google_area_m2": 41383.43,
+      "google_building_count": 540,
+      "google_total_area_m2": 37844.12
     },
     "05873": {
       "mpio_code": "05873",
@@ -4081,7 +4406,9 @@
       "eda_ms_buildings": 1714,
       "eda_google_buildings": 0,
       "eda_ms_area_m2": 162315.29,
-      "eda_google_area_m2": 0.0
+      "eda_google_area_m2": 0.0,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     },
     "52390": {
       "mpio_code": "52390",
@@ -4105,7 +4432,9 @@
       "eda_ms_buildings": 1510,
       "eda_google_buildings": 2009,
       "eda_ms_area_m2": 156482.91,
-      "eda_google_area_m2": 156835.51
+      "eda_google_area_m2": 156835.51,
+      "google_building_count": 1582,
+      "google_total_area_m2": 143135.92
     },
     "27425": {
       "mpio_code": "27425",
@@ -4129,7 +4458,9 @@
       "eda_ms_buildings": 1615,
       "eda_google_buildings": 313,
       "eda_ms_area_m2": 155362.97,
-      "eda_google_area_m2": 19370.36
+      "eda_google_area_m2": 19370.36,
+      "google_building_count": 230,
+      "google_total_area_m2": 17307.22
     },
     "27450": {
       "mpio_code": "27450",
@@ -4153,7 +4484,9 @@
       "eda_ms_buildings": 1627,
       "eda_google_buildings": 0,
       "eda_ms_area_m2": 154585.85,
-      "eda_google_area_m2": 0.0
+      "eda_google_area_m2": 0.0,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     },
     "70230": {
       "mpio_code": "70230",
@@ -4177,7 +4510,9 @@
       "eda_ms_buildings": 1902,
       "eda_google_buildings": 3144,
       "eda_ms_area_m2": 151649.35,
-      "eda_google_area_m2": 206266.75
+      "eda_google_area_m2": 206266.75,
+      "google_building_count": 2478,
+      "google_total_area_m2": 185801.65
     },
     "27491": {
       "mpio_code": "27491",
@@ -4201,7 +4536,9 @@
       "eda_ms_buildings": 1403,
       "eda_google_buildings": 0,
       "eda_ms_area_m2": 137968.29,
-      "eda_google_area_m2": 0.0
+      "eda_google_area_m2": 0.0,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     },
     "05475": {
       "mpio_code": "05475",
@@ -4225,7 +4562,9 @@
       "eda_ms_buildings": 1331,
       "eda_google_buildings": 0,
       "eda_ms_area_m2": 109953.18,
-      "eda_google_area_m2": 0.0
+      "eda_google_area_m2": 0.0,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     },
     "27745": {
       "mpio_code": "27745",
@@ -4249,11 +4588,17 @@
       "eda_ms_buildings": 653,
       "eda_google_buildings": 1,
       "eda_ms_area_m2": 53242.15,
-      "eda_google_area_m2": 9.83
+      "eda_google_area_m2": 9.83,
+      "google_building_count": 0,
+      "google_total_area_m2": 0.0
     }
   },
   "google_filtered": {
-    "available": false
+    "available": true,
+    "total_buildings": 2067004,
+    "total_area_m2": 203747640.41,
+    "total_area_km2": 203.7476,
+    "municipalities_with_buildings": 164
   },
   "eda_reference": {
     "sources": {
