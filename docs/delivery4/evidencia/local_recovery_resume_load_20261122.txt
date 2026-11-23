@@ -1,0 +1,17 @@
+[OK] SHA256 de los ocho originales y de la capa de 170 municipios
+[pasada 1] 8e1: leídas 80564 insertadas 0 actualizadas 0 sin cambios 80564 rechazadas 0 (2.79 s)
+[pasada 1] 8e3: leídas 953065 insertadas 656030 actualizadas 0 sin cambios 297035 rechazadas 0 (38.16 s)
+[pasada 1] 8e5: leídas 805533 insertadas 805533 actualizadas 0 sin cambios 0 rechazadas 0 (37.65 s)
+[pasada 1] 8e7: leídas 282954 insertadas 282954 actualizadas 0 sin cambios 0 rechazadas 0 (13.54 s)
+[pasada 1] 8e9: leídas 260719 insertadas 260719 actualizadas 0 sin cambios 0 rechazadas 0 (12.67 s)
+[pasada 1] 8ef: leídas 304087 insertadas 304087 actualizadas 0 sin cambios 0 rechazadas 0 (15.64 s)
+[pasada 1] 91d: leídas 7662 insertadas 7662 actualizadas 0 sin cambios 0 rechazadas 0 (0.42 s)
+[pasada 1] 91f: leídas 191 insertadas 191 actualizadas 0 sin cambios 0 rechazadas 0 (0.01 s)
+[OK] no_duplicate_source_refs
+[OK] count_matches_prepared
+[OK] municipalities_match_preparation
+[OK] dataset_registered
+[OK] spatial_index
+[OK] spatial_query
+[loaded] 2694775 documentos de 'google' en 177.86 s; reporte en outputs/buildings_google_load_report.json
+Reportes locales de reproducción: /Users/sebastiansanchez/techos-solares-pdet/data/delivery4_google_reproduction/outputs

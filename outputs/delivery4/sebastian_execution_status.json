@@ -6,10 +6,10 @@
     "municipalities": 170,
     "reference_flagged": 15
   },
+  "containers_restored_originals": 42,
   "data_deleted": false,
   "definitive_google_statistics_available": true,
   "definitive_source_comparison_executed_locally": true,
-  "google_statistics_executed_locally_by_sebastian": false,
   "google_statistics_executor": "José Medina",
   "google_totals": {
     "assigned_pdet": 2694775,
@@ -27,17 +27,45 @@
   },
   "historical_reports_modified": false,
   "implementation_completed": true,
+  "local_google_metrics_equal_jose_export": true,
+  "local_google_statistics_executed_by_sebastian": true,
+  "local_google_stats_passes": [
+    {
+      "computed_at": "2026-11-23T04:02:10+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 1,
+      "replaced": 0,
+      "upserted": 170
+    },
+    {
+      "computed_at": "2026-11-23T04:02:29+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 2,
+      "replaced": 170,
+      "same_values_as_previous": true,
+      "upserted": 0
+    }
+  ],
   "local_probe": {
-    "available": true,
-    "cache_max_bytes": 274726912,
-    "google_buildings": 377599,
-    "mongo_version": "7.0.45",
-    "municipalities": 170,
-    "rooftop_stats": 0
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
   },
-  "local_reproduction": "partial and not used for definitive results",
+  "local_probe_after_restoring_services": {
+    "checked_at": "2026-11-23T04:06:43.965664+00:00",
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
+  },
+  "local_reproduction": "completed independently after authorized service suspension; original published exports preserved",
+  "local_reproduction_completed": true,
+  "local_runtime_limitation": "Docker VM global OOM confirmed; MongoDB killed when original services were restored; reproduction itself verified before restoration",
+  "local_verification_report": "outputs/delivery4/local_verification/recovery_and_restoration.json",
   "microsoft_executor": "Miguel, 19 nov 2026",
   "origin_main_integrated": "7564aa3",
+  "published_google_statistics_executed_locally_by_sebastian": false,
   "remaining_team_work": [
     "Review and integrate Sebastian PR",
     "Samuel: Google maps and consolidated report/PDF",

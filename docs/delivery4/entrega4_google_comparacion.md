@@ -18,7 +18,9 @@ con `scripts/06_rooftop_stats.py --source google --passes 2`.
 Se copiaron ambos archivos **sin modificar sus bytes** a las rutas comunes de
 `outputs/`; no existían allí. Sus SHA256 y procedencia están en
 `outputs/delivery4/google_execution_receipt.json`.
-**No se atribuye a Sebastián la ejecución del motor ni sus 170 documentos MongoDB.**
+**Esa ejecución archivada y sus 170 documentos MongoDB corresponden a José.**
+Posteriormente Sebastián completó una reproducción local independiente, documentada abajo,
+sin reemplazar estas exportaciones originales.
 
 Microsoft conserva el CSV/reporte de **Miguel del 19 nov**, sin sobrescribirlos ni
 recalcularlos: 1.720.535 edificaciones y
@@ -174,7 +176,7 @@ volúmenes. Se verificaron ocho originales y la capa PDET y se usaron los progra
 oficiales mediante `scripts/06_reproduce_google_local.py`, con reportes aislados.
 Se leyeron 31.499.115 filas: 139 rechazos, 28.804.201 fuera de PDET y 2.694.775
 preparadas; los totales y los ocho SHA256 preparados coinciden con la Entrega 3.
-Se cargaron 170 municipios y parte de Google. La última lectura conservada fue
+Se cargaron 170 municipios y parte de Google. La última lectura de ese intento inicial conservada fue
 **377599 edificios y 0 estadísticas**.
 Los reinicios interrumpieron los intentos de carga, incluso tras reducir la caché
 local a 0,256 GiB y ampliar la tolerancia de conexión a 30 s. La causa de los
@@ -184,11 +186,75 @@ Ese intento se conserva en `outputs/delivery4/google_local_reproduction.json`,
 `reproduction/` y su log. **No se usó para los resultados definitivos** ni se
 mezcla su entorno con el de José. No se modificaron los reportes históricos del
 proyecto. Los originales y preparados pesados siguen ignorados por Git.
-La comparación queda terminada mediante la evidencia real reutilizada; no se
-necesita pausar servicios ajenos ni completar esa reproducción local para usarla.
-**No se debe volver a ejecutar el motor contra esta base parcial:** sobrescribiría
-las exportaciones definitivas reutilizadas. Antes de cualquier nueva corrida,
-comprobar la carga completa y conservar una copia de los reportes vigentes.
+La comparación publicada conserva la ejecución de José como fuente. La posterior
+reproducción local se completó sin sobrescribir los archivos publicados, como se describe a continuación.
+
+## Reproducción local completada tras la autorización del usuario
+
+El usuario autorizó detener temporalmente los servicios ajenos para liberar recursos.
+Se registraron los **42 contenedores activos**, se conservaron MongoDB y su volumen
+y se detuvieron los otros **41**, primero frontales, luego aplicaciones y finalmente
+bases de datos/mensajería. No se eliminó ningún contenedor, imagen, volumen ni dato.
+Un scheduler agotó los 120 s de cierre de `docker stop` y terminó con código 137;
+el inventario registra ese caso, sin presentarlo como cierre voluntario correcto.
+
+Los registros del kernel de Docker confirman **74 eventos `global_oom` retenidos**
+y procesos terminados por falta de memoria. La VM disponía de unos 2,84 GiB.
+El log de MongoDB no contenía mensajes fatales y su reinicio era no limpio.
+Al restaurar los servicios se capturó el evento individual que confirma la causa:
+`global_oom`, `task=mongod` y `Out of memory: Killed process 20885 (mongod)`
+a las 04:03:39 UTC del 23 nov (23:03:39 del 22 nov en Bogotá).
+El extracto y su ubicación están en `evidencia/local_recovery_mongod_oom_20261122.json`. Durante esta intervención, con los
+otros servicios detenidos, el contador de reinicios de MongoDB permaneció **3 → 3**.
+
+Se reanudó el cargador oficial sobre los archivos preparados existentes:
+
+```bash
+.venv/bin/python scripts/06_reproduce_google_local.py --resume-buildings
+```
+
+Reutilizó **377.599 registros sin cambios**, insertó los **2.317.176 restantes**,
+no actualizó registros y terminó con **2.694.775 edificios Google** y los controles
+del cargador aprobados. No se repitieron descargas ni preparación.
+Después se llamó al motor común en una raíz de archivos aislada:
+
+```python
+from importlib import import_module
+from pathlib import Path
+
+stats = import_module("06_rooftop_stats")  # PYTHONPATH=scripts
+stats.ROOT = Path("data/delivery4_google_reproduction").resolve()
+assert stats.main(["--source", "google", "--passes", "2"]) == 0
+```
+
+Resultado **local de Sebastián**: 170 documentos Google en `rooftop_stats`,
+2.067.004 edificios incluidos, 203.747.640,41 m² y **8/8 controles OK**.
+Primera pasada: 170 inserciones; segunda: 170 reemplazos, **cero inserciones**,
+`same_values_as_previous = true`. El contrato común también aprobó en esa raíz.
+Todas las métricas y columnas de Google coinciden exactamente con la exportación
+de José, excluyendo únicamente `computed_at`. La comparación publicada y los dos
+archivos Google originales conservaron sus SHA256.
+
+Se restauraron los **41 servicios detenidos**, iniciando primero datos/mensajería,
+luego aplicaciones y frontales. La comprobación posterior encontró activos los
+**42 contenedores originales**, sin iniciar ninguno que estuviera detenido antes.
+Tras restaurar todos los servicios, MongoDB pasó de 3 a 4 reinicios por ese OOM.
+El sondeo posterior a esa recuperación volvió a confirmar 170 municipios,
+2.694.775 edificios Google y 170 estadísticas persistidas.
+La reproducción había terminado correctamente con los otros servicios detenidos;
+restaurarlos no corrige la capacidad insuficiente de la VM. No se cambiaron los
+límites globales de Docker ni se volvieron a detener servicios sin necesidad.
+El inventario completo y la restauración están guardados localmente en
+`data/delivery4_google_reproduction/intervention/containers_before.json` y
+`containers_after.json`. Sus nombres no se publican innecesariamente en GitHub.
+
+La evidencia exportable está en `outputs/delivery4/local_verification/`:
+CSV/reporte Google locales, reporte de carga y `recovery_and_restoration.json`.
+Las rutas internas de esos reportes son relativas a la raíz aislada antes indicada.
+Los logs y extractos del kernel están en `docs/delivery4/evidencia/local_recovery_*`.
+El antecedente parcial sigue conservado; ya no describe el estado alcanzado.
+Antes de repetir cálculos, conservar siempre las exportaciones vigentes: el motor
+escribe en las rutas de su raíz de ejecución.
 
 ## Archivos para Samuel y José
 
@@ -218,7 +284,7 @@ límite. Además, tras incorporar el avance de José y las exportaciones reales,
 La sección LaTeX se compila aisladamente; no se declara regenerado el PDF del grupo.
 
 El alcance de implementación y comparación de Sebastián queda ejecutado con datos
-reales y listo para revisión del PR. La base local sigue siendo una reproducción
-incompleta, no la evidencia de persistencia Google. Faltan integrar el PR y que
+reales y listo para revisión del PR. La persistencia Google local también quedó verificada posteriormente, con evidencia
+separada de la corrida original de José. Faltan integrar el PR y que
 Samuel incorpore tablas/sección, complete mapas Google y compile/revise el PDF
 consolidado. El envío del equipo a BrightSpace sigue pendiente.

@@ -1,0 +1,3 @@
+[OK] config.yaml: metodología, filtros y 15 códigos de baja cobertura verificados contra el EDA
+[OK] ms: 170/170 municipios, 1720535 edificaciones incluidas, 220.27 km², SHA256 y balance verificados
+[OK] google: 170/170 municipios, 2067004 edificaciones incluidas, 203.75 km², SHA256 y balance verificados

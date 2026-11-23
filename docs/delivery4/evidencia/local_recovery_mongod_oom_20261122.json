@@ -1,0 +1,17 @@
+{
+  "diagnosis": "MongoDB terminado por OOM global de la VM de Docker después de restaurar los otros servicios",
+  "records": [
+    {
+      "source_file": "init.log.20261122-230349.102",
+      "line": 4515,
+      "time": "2026-11-23T04:03:39.260851926Z",
+      "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=restricted,mems_allowed=0,global_oom,task_memcg=/docker/7ea67b138567fd2cbab041a79ae0d63fda2bba5ceb3be58f1fb73393ea7200f3,task=mongod,pid=20885,uid=999"
+    },
+    {
+      "source_file": "init.log.20261122-230349.102",
+      "line": 4516,
+      "time": "2026-11-23T04:03:39.260877842Z",
+      "message": "Out of memory: Killed process 20885 (mongod) total-vm:1205532kB, anon-rss:26584kB, file-rss:272kB, shmem-rss:0kB, UID:999 pgtables:1904kB oom_score_adj:0"
+    }
+  ]
+}

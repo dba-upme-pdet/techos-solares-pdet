@@ -1,0 +1,9 @@
+Antes de reanudar: {'municipalities': 170, 'google_buildings': 377599, 'stats': 0}
+Carga completa verificada: 2694775
+Motor Google: dos pasadas, salida 0
+Reproducción local terminada: {'municipalities': 170, 'google_buildings': 2694775, 'google_stats': 170}
+Restaurando los contenedores originales...
+Restauración grupo 2 completado 11
+Restauración grupo 1 completado 21
+Restauración grupo 0 completado 9
+Final: local_reproduction_completed ; restauración: True

@@ -1,0 +1,149 @@
+{
+  "after": {
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
+  },
+  "after_restoration_database_probe": {
+    "checked_at": "2026-11-23T04:06:43.965664+00:00",
+    "google_buildings": 2694775,
+    "google_stats": 170,
+    "municipalities": 170
+  },
+  "archived_exports_root": "data/delivery4_google_reproduction",
+  "before": {
+    "google_buildings": 377599,
+    "municipalities": 170,
+    "stats": 0
+  },
+  "container_intervention": {
+    "kept_running_project_containers": 1,
+    "one_scheduler_required_120s_timeout": true,
+    "originally_running": 42,
+    "originally_running_active_after_restore": 42,
+    "private_inventory": "data/delivery4_google_reproduction/intervention/containers_before.json",
+    "private_inventory_sha256": "db5ad6d6b11ede24c63eda480b3c244e933773ff36522ddc31d2abcec5ceb5c6",
+    "private_restoration_record": "data/delivery4_google_reproduction/intervention/containers_after.json",
+    "restarted_other_project_containers": 41,
+    "started_previously_stopped": 0,
+    "stop_commands_ok": true,
+    "stop_exit_codes": {
+      "0": 29,
+      "1": 1,
+      "137": 1,
+      "143": 10
+    },
+    "stopped_other_projects": 41
+  },
+  "diagnosis": {
+    "docker_memory_bytes": 3053772800,
+    "global_oom_events_retained": 74,
+    "interpretation": "Confirmado: global_oom seguido de Out of memory: Killed process (mongod) al restaurar los servicios ajenos.",
+    "mongo_fatal_error_messages_retained": 0,
+    "specific_mongod_kill_record_retained": true,
+    "specific_mongod_oom_records": [
+      {
+        "line": 4515,
+        "message": "oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=restricted,mems_allowed=0,global_oom,task_memcg=/docker/7ea67b138567fd2cbab041a79ae0d63fda2bba5ceb3be58f1fb73393ea7200f3,task=mongod,pid=20885,uid=999",
+        "source_file": "init.log.20261122-230349.102",
+        "time": "2026-11-23T04:03:39.260851926Z"
+      },
+      {
+        "line": 4516,
+        "message": "Out of memory: Killed process 20885 (mongod) total-vm:1205532kB, anon-rss:26584kB, file-rss:272kB, shmem-rss:0kB, UID:999 pgtables:1904kB oom_score_adj:0",
+        "source_file": "init.log.20261122-230349.102",
+        "time": "2026-11-23T04:03:39.260877842Z"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "outputs/delivery4/local_verification/buildings_google_load_report.json",
+      "sha256": "87565ff933d300df31032e1cc8340882cb4554b37147a7fbc9ff5d8dd0f7acc6"
+    },
+    {
+      "path": "outputs/delivery4/local_verification/rooftop_stats_google.csv",
+      "sha256": "164e974b245157d420f1ce5ac87f7ecd6de3934bd705eb941d0c7bf655db2b5b"
+    },
+    {
+      "path": "outputs/delivery4/local_verification/rooftop_stats_google_report.json",
+      "sha256": "d2cca1e31b280f1081a8062adeab117a27f105b21a35c3a5adbc19a129093308"
+    }
+  ],
+  "finished_at": "2026-11-23T04:03:16.953208+00:00",
+  "load_totals": {
+    "first_pass_inserted": 2317176,
+    "inserted": 2317176,
+    "last_pass_inserted": 2317176,
+    "loaded": 2694775,
+    "read": 2694775,
+    "rejected": 0,
+    "rejected_samples": [],
+    "unchanged": 377599,
+    "updated": 0
+  },
+  "local_google_metrics_equal_team_export": true,
+  "mongo_restarts_after_restoration": 4,
+  "mongo_restarts_after_work": 3,
+  "mongo_restarts_before": 3,
+  "preserved_team_export_sha256": {
+    "outputs/delivery4/rooftop_stats_comparison.json": "e0d8d118f36ec76872399a73d0bf8cce4059b0a67bc9bc58732b1fa6fedf3b97",
+    "outputs/rooftop_stats_google.csv": "d27779990e6be53ba19eee3bd6464f7c334493760cb08a465a7ff5ff8d3c2e60",
+    "outputs/rooftop_stats_google_report.json": "19f0d0d716b37c6718b39e38cd7e0bf7c36f3dee9c4fb36b27385a53ab3c02fa"
+  },
+  "restore_commands_ok": true,
+  "started_at": "2026-11-23T03:59:04.330921+00:00",
+  "stats_passes": [
+    {
+      "computed_at": "2026-11-23T04:02:10+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 1,
+      "replaced": 0,
+      "upserted": 170
+    },
+    {
+      "computed_at": "2026-11-23T04:02:29+00:00",
+      "deleted_stale": 0,
+      "documents_after": 170,
+      "pass": 2,
+      "replaced": 170,
+      "same_values_as_previous": true,
+      "upserted": 0
+    }
+  ],
+  "stats_totals": {
+    "assigned_pdet": 2694775,
+    "balanced": true,
+    "buildings_in_source": 2694775,
+    "excluded": {
+      "above_max_area": 0,
+      "below_min_area": 368619,
+      "low_confidence": 259152,
+      "total": 627771
+    },
+    "included": 2067004,
+    "outside_pdet_or_unassigned": 0,
+    "total_area_m2": 203747640.41
+  },
+  "stats_verification": {
+    "buildings_in_source": 2694775,
+    "checks": {
+      "all_pdet_municipalities": true,
+      "balance_with_source": true,
+      "empty_municipalities_without_mean": true,
+      "filters_recorded": true,
+      "included_matches_independent_count": true,
+      "no_duplicate_municipalities": true,
+      "rerun_does_not_duplicate": true,
+      "stored_matches_computed": true
+    },
+    "documents": 170,
+    "duplicates": [],
+    "expected_municipalities": 170,
+    "independent_included_count": 2067004,
+    "ok": true
+  },
+  "status": "local_reproduction_completed",
+  "team_exports_unchanged": true
+}

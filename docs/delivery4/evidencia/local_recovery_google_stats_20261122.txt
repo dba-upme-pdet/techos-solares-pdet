@@ -1,0 +1,10 @@
+[OK] all_pdet_municipalities
+[OK] no_duplicate_municipalities
+[OK] stored_matches_computed
+[OK] included_matches_independent_count
+[OK] balance_with_source
+[OK] filters_recorded
+[OK] empty_municipalities_without_mean
+[OK] rerun_does_not_duplicate
+[computed] 'google': 170 municipios (164 con edificaciones); incluidas 2067004, excluidas 627771 de 2694775 en PDET; área 203.75 km² en 53.44 s
+CSV: outputs/rooftop_stats_google.csv  ·  reporte: outputs/rooftop_stats_google_report.json

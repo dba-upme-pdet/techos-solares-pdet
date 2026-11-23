@@ -1,0 +1,251 @@
+{
+  "collection": "buildings",
+  "collection_after": 2694775,
+  "collection_before": 377599,
+  "contract": "entrega3-buildings-v1",
+  "database": "upme_pdet",
+  "dataset": {
+    "_id": "google",
+    "accessed_at": "2026-11-16T17:24:36.317388+00:00",
+    "license": "CC-BY-4.0",
+    "name": "Google Open Buildings",
+    "url": "https://sites.research.google/gr/open-buildings/",
+    "version": "v3"
+  },
+  "dataset_id": "google",
+  "dry_run": false,
+  "duration_s": 177.86,
+  "finished_at": "2026-11-23T04:02:10+00:00",
+  "gate": {
+    "contract": "entrega3-buildings-v1",
+    "partitions": 8,
+    "prepared_total": 2694775,
+    "report_dataset_id": "google"
+  },
+  "idempotent": null,
+  "indexes": {
+    "centroid_2dsphere": [
+      [
+        "centroid",
+        "2dsphere"
+      ]
+    ],
+    "dataset_id_1_mpio_code_1": [
+      [
+        "dataset_id",
+        1
+      ],
+      [
+        "mpio_code",
+        1
+      ]
+    ]
+  },
+  "input": {
+    "bytes": 281148242,
+    "declared_records": 2694775,
+    "partitions": 8,
+    "prepare_report": "outputs/buildings_google_prepare_report.json",
+    "prepare_report_sha256": "868c9456ddbe9c71f242b2f3fb6ff3a2d4ef5d6781334fcd405cb3d2105b1503"
+  },
+  "mongo_version": "7.0.45",
+  "parameters": {
+    "batch_size": 10000,
+    "passes": 1
+  },
+  "passes": [
+    {
+      "collection_total": 2694775,
+      "finished_at": "2026-11-23T04:01:13+00:00",
+      "inserted": 2317176,
+      "loaded": 2694775,
+      "partitions": [
+        {
+          "bytes": 8336305,
+          "declared_records": 80564,
+          "inserted": 0,
+          "loaded": 80564,
+          "partition_id": "8e1",
+          "prepare_sha256": "f844f683394c48a0048994d9c48b478665f276b2018c47ee931627dbf49a8eb0",
+          "prepared_file": "data/processed/buildings/google/part-8e1.jsonl.gz",
+          "read": 80564,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba102aedff89a0699e40",
+          "seconds": 2.79,
+          "unchanged": 80564,
+          "updated": 0
+        },
+        {
+          "bytes": 100767567,
+          "declared_records": 953065,
+          "inserted": 656030,
+          "loaded": 953065,
+          "partition_id": "8e3",
+          "prepare_sha256": "4db79c4e6577ac1a38860e21bf48afa1f04b56be6fe815a05b985bdbab6c9747",
+          "prepared_file": "data/processed/buildings/google/part-8e3.jsonl.gz",
+          "read": 953065,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba132aedff89a0699e41",
+          "seconds": 38.16,
+          "unchanged": 297035,
+          "updated": 0
+        },
+        {
+          "bytes": 84263792,
+          "declared_records": 805533,
+          "inserted": 805533,
+          "loaded": 805533,
+          "partition_id": "8e5",
+          "prepare_sha256": "d6b93182ebef1d44a8ceda6c813a4a9152c36a9cfccd86ce237ddad3ba877fa6",
+          "prepared_file": "data/processed/buildings/google/part-8e5.jsonl.gz",
+          "read": 805533,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba392aedff89a0699e42",
+          "seconds": 37.65,
+          "unchanged": 0,
+          "updated": 0
+        },
+        {
+          "bytes": 29591532,
+          "declared_records": 282954,
+          "inserted": 282954,
+          "loaded": 282954,
+          "partition_id": "8e7",
+          "prepare_sha256": "092a37682aaf9b47bc6ec5519ad701803fba1a5e643ee6da90cc8359a1ebfe37",
+          "prepared_file": "data/processed/buildings/google/part-8e7.jsonl.gz",
+          "read": 282954,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba5f2aedff89a0699e43",
+          "seconds": 13.54,
+          "unchanged": 0,
+          "updated": 0
+        },
+        {
+          "bytes": 26600225,
+          "declared_records": 260719,
+          "inserted": 260719,
+          "loaded": 260719,
+          "partition_id": "8e9",
+          "prepare_sha256": "43784951dbb716420ea1119d15d0998f93a67e9b72c32a78686aef0a513c79b1",
+          "prepared_file": "data/processed/buildings/google/part-8e9.jsonl.gz",
+          "read": 260719,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba6c2aedff89a0699e44",
+          "seconds": 12.67,
+          "unchanged": 0,
+          "updated": 0
+        },
+        {
+          "bytes": 30766559,
+          "declared_records": 304087,
+          "inserted": 304087,
+          "loaded": 304087,
+          "partition_id": "8ef",
+          "prepare_sha256": "5bf482efb946d0e987e114452ba65b9d8e727c2410a2c5909e93951711f3ff18",
+          "prepared_file": "data/processed/buildings/google/part-8ef.jsonl.gz",
+          "read": 304087,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba792aedff89a0699e45",
+          "seconds": 15.64,
+          "unchanged": 0,
+          "updated": 0
+        },
+        {
+          "bytes": 802719,
+          "declared_records": 7662,
+          "inserted": 7662,
+          "loaded": 7662,
+          "partition_id": "91d",
+          "prepare_sha256": "86ddb757915facd0a968025ce4379f87565ba45007cf4298927cf577ae7b5a16",
+          "prepared_file": "data/processed/buildings/google/part-91d.jsonl.gz",
+          "read": 7662,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba892aedff89a0699e46",
+          "seconds": 0.42,
+          "unchanged": 0,
+          "updated": 0
+        },
+        {
+          "bytes": 19543,
+          "declared_records": 191,
+          "inserted": 191,
+          "loaded": 191,
+          "partition_id": "91f",
+          "prepare_sha256": "5e32283d3f544c64c44112f18e0782876b44dcbc5988e7d31ca95e73c8e04dda",
+          "prepared_file": "data/processed/buildings/google/part-91f.jsonl.gz",
+          "read": 191,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "run_id": "6b03ba892aedff89a0699e47",
+          "seconds": 0.01,
+          "unchanged": 0,
+          "updated": 0
+        }
+      ],
+      "pass": 1,
+      "read": 2694775,
+      "rejected": 0,
+      "seconds": 120.9,
+      "started_at": "2026-11-23T03:59:12+00:00",
+      "unchanged": 377599,
+      "updated": 0
+    }
+  ],
+  "passes_requested": 1,
+  "reject_log": "data/processed/buildings/google/load_rejects.jsonl",
+  "role": "load-report",
+  "sample_only": false,
+  "script": "scripts/04_load_buildings.py",
+  "script_version": "entrega3-load-v1",
+  "started_at": "2026-11-23T03:59:12+00:00",
+  "status": "loaded",
+  "totals": {
+    "first_pass_inserted": 2317176,
+    "inserted": 2317176,
+    "last_pass_inserted": 2317176,
+    "loaded": 2694775,
+    "read": 2694775,
+    "rejected": 0,
+    "rejected_samples": [],
+    "unchanged": 377599,
+    "updated": 0
+  },
+  "verification": {
+    "checks": {
+      "count_matches_prepared": true,
+      "dataset_registered": true,
+      "municipalities_match_preparation": true,
+      "no_duplicate_source_refs": true,
+      "spatial_index": true,
+      "spatial_query": true
+    },
+    "dataset": {
+      "_id": "google",
+      "license": "CC-BY-4.0",
+      "name": "Google Open Buildings",
+      "version": "v3"
+    },
+    "duplicate_source_refs": [],
+    "expected_total": 2694775,
+    "municipalities_with_buildings": 165,
+    "ok": true,
+    "spatial_indexes": [
+      "centroid_2dsphere"
+    ],
+    "spatial_query": {
+      "assigned": 2983,
+      "geo_within": 2983,
+      "index_used": true,
+      "municipality": "05031",
+      "ok": true
+    },
+    "total": 2694775
+  }
+}
