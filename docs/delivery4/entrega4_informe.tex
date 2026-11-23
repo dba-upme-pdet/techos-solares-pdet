@@ -51,6 +51,66 @@ Este informe presenta el flujo reproducible, la metodología definitiva y los re
 \tableofcontents
 \newpage
 
+
+\section{Introducción}
+
+\subsection{Contexto y Motivación}
+
+Colombia enfrenta desafíos significativos en la transición energética hacia fuentes renovables. Los techos solares representan un potencial sin explotar para la generación de energía distribuida, especialmente en municipios de zonas de conflicto histórico donde la infraestructura centralizada es limitada. El Programa de Desarrollo con Enfoque Territorial (PDET) abarca 170 municipios priorizados en 16 subregiones, donde la electrificación solar podría contribuir a la descarbonización y desarrollo socioeconómico.
+
+La precisión en la cuantificación de techos disponibles es crítica para:
+\begin{itemize}
+    \item Estimar el potencial real de generación solar distribuida
+    \item Diseñar estrategias de inversión en infraestructura renovable
+    \item Validar políticas de transición energética
+    \item Monitorear el avance hacia objetivos de neutralidad de carbono
+\end{itemize}
+
+\subsection{Problema de Investigación}
+
+No existe una estimación verificable, automatizada y reproducible del área disponible de techos en los 170 municipios PDET. Las aproximaciones existentes adolecen de:
+\begin{itemize}
+    \item Falta de reproducibilidad (no documentan metodología exacta)
+    \item Dependencia de una única fuente de datos (riesgo de sesgo)
+    \item Ausencia de validación independiente
+    \item Falta de transparencia en filtros y criterios de exclusión
+\end{itemize}
+
+\subsection{Objetivos}
+
+\textbf{Objetivo General:} Desarrollar un flujo reproducible, transparente y verificado de análisis geoespacial para cuantificar edificaciones y área total de techos en los 170 municipios PDET de Colombia, utilizando Microsoft Global ML Building Footprints como fuente base con Google Open Buildings como contraste independiente.
+
+\textbf{Objetivos Específicos:}
+\begin{enumerate}
+    \item Implementar un motor común idempotente que calcula estadísticas de edificaciones por municipio con filtros explícitos
+    \item Establecer un contrato compartido verificable que documenta schema, tipos, unidades y balance exacto
+    \item Generar visualizaciones geoespaciales (mapas coropletos, gráficos) que comunican distribución municipal
+    \item Validar independientemente los resultados mediante recálculo sin usar el motor principal
+    \item Comparar Microsoft con Google para medir concordancia (Spearman) e identificar municipios con baja cobertura
+    \item Compilar metodología, hallazgos y limitaciones en informe verificable y reproducible
+\end{enumerate}
+
+\subsection{Alcance y Limitaciones}
+
+\textbf{Alcance:}
+\begin{itemize}
+    \item 170 municipios PDET cubiertos geográficamente
+    \item Edificaciones detectadas por satélite (huellas de techo)
+    \item Período: análisis de conjuntos de datos versionados (Microsoft 2026-02-03, Google v3)
+    \item Filtros explícitos: área $\geq 20$ m$^2$, confianza $\geq 0,70$ (Google)
+\end{itemize}
+
+\textbf{Limitaciones Reconocidas:}
+\begin{itemize}
+    \item Área de huella $\neq$ área aprovechable solar (no se aplica factor de inclinación, sombreado u otros)
+    \item Google tiene cero cobertura en 5 municipios (todos en Chocó/Antioquia)
+    \item Microsoft tiene cobertura parcial en 3 municipios de Guaviare (El Retorno 66\%, San José 70\%, Miraflores 89\%)
+    \item La causa de la baja cobertura de Google en 15 municipios no está investigada
+    \item Edificaciones muy grandes (p99: 912 m², máx: 44.720 m²) pueden incluir estructuras no aptas para solar
+\end{itemize}
+
+
+
 \section{Reproducibilidad, Metodología y Contrato Compartido}
 
 La especificación completa del contrato está documentada en \texttt{docs/delivery4/entrega4\_metodologia\_y\_contrato.md} y se verifica automáticamente ejecutando \texttt{python scripts/entrega4\_contracts.py -{}-check}.
@@ -342,6 +402,83 @@ La Tabla~\ref{tab:lowcov} lista los 15 municipios que cumplen \texttt{5 * google
     \item \textbf{Baja cobertura de Google en 15 municipios:} la causa de la baja cantidad de detecciones de Google en esos territorios (principalmente Chocó y Pacífico) no está demostrada.
     \item \textbf{Geometría planar vs esférica en bordes municipales:} la preparación asignó \texttt{mpio\_code} con \texttt{shapely} (planar lon/lat, 0 empates en límites compartidos) y la validación independiente contrasta contra \texttt{\$geoWithin} sobre \texttt{2dsphere}.
 \end{itemize}
+
+
+\section{Conclusiones}
+
+\subsection{Hallazgos Principales}
+
+La Entrega 4 establece una base verificada para la planificación de energía solar distribuida en territorios PDET:
+
+\begin{enumerate}
+    \item \textbf{Cobertura completa de Microsoft:} Los 170 municipios PDET están cubiertos por Microsoft Global ML Building Footprints, generando un inventario de 1.720.535 edificaciones (220,27 km$^2$ de huella de techo), tras filtrar huellas menores a 20 m$^2$.
+
+    \item \textbf{Validación cruzada con Google:} Google Open Buildings v3 detecta 2.067.004 edificaciones incluidas (203,75 km$^2$) en 164 municipios. La correlación de Spearman de 0,951 (conteo) y 0,968 (área) valida el orden municipal de ambas fuentes, aunque con diferencias en tipología y segmentación de edificios.
+
+    \item \textbf{Identificación de municipios críticos:} 15 municipios tienen cobertura insuficiente de Google ($< 20\%$ de Microsoft). Estos territorios —principalmente en Chocó y Pacífico— requieren análisis cualitativo adicional para explicar la discrepancia.
+
+    \item \textbf{Reproducibilidad verificada:} El pipeline integrado pasa 47/47 comprobaciones de validación independiente. Dos corridas completas generan salidas idénticas (SHA256), demostrando determinismo operacional en MongoDB 7, índices `2dsphere`, y cálculos de Python.
+
+    \item \textbf{Metodología transparente:} Todos los umbrales (área mínima, confianza, orden de filtros) están centralizados en `config.yaml` y verificados por un contrato compartido (`entrega4_contracts.py`). Ningún script fija valores a mano.
+\end{enumerate}
+
+\subsection{Implicaciones para Política Energética}
+
+\begin{itemize}
+    \item \textbf{Potencial solar identificado:} Los 220,27 km$^2$ de huella de techo en PDET representan una superficie teórica para instalaciones solares. Aplicando densidad de potencia típica (150 W/m$^2$ neto después de pérdidas), esto corresponde a ~33 GW de capacidad instalable si se aprovecha el 100\% (escenario teórico máximo).
+
+    \item \textbf{Priorización geográfica:} Santa Marta (14,20 km$^2$), Valledupar (13,51 km$^2$) y Buenaventura (7,11 km$^2$) albergan el 15,6\% del área total PDET. Estos municipios son candidatos prioritarios para pilotajes de solar distribuida.
+
+    \item \textbf{Equidad territorial:} Municipios pequeños en Chocó (Sipí: 0,05 km$^2$, Murindó: 0,11 km$^2$) tienen menor potencial absoluto pero igual relevancia relativa. La mediana municipal de 0,87 km$^2$ sugiere distribución desigual; políticas de energía deben considerar economías de escala por subregión.
+
+    \item \textbf{Necesidad de datos complementarios:} El área de huella no determina viabilidad solar; se requieren análisis de radiación, pendiente, sombreado, infraestructura de red y capacidad financiera local para convertir potencial en proyectos reales.
+\end{itemize}
+
+\subsection{Contribuciones Técnicas}
+
+Este trabajo aporta:
+
+\begin{itemize}
+    \item \textbf{Motor reproducible:} Script idempotente (`06_rooftop_stats.py`) que reutiliza índices MongoDB y contrato explícito, permitiendo auditoría y réplica sin ambigüedad.
+
+    \item \textbf{Contrato de datos:} Especificación formal de salidas (CSV, JSON, MongoDB) con 18 columnas ordenadas, tipos BSON explícitos, y balance verificable (`included + excluded = before_filters`).
+
+    \item \textbf{Visualizaciones geoespaciales:} Mapas coropletos (200 dpi PNG) que comunican distribución municipal a audiencias no técnicas, con marcas claras de municipios de baja cobertura.
+
+    \item \textbf{Validación independiente:} Mecanismo alternativo (script 10) que recalcula estadísticas directamente desde `buildings` sin usar el motor principal, cerrando riesgos de error sistemático.
+
+    \item \textbf{Procedencia explícita:} Cada número reportado es trazable a su fuente (Microsoft, Google, EDA) y a la fecha de ejecución, facilitando auditoría y versionado futuro.
+\end{itemize}
+
+\subsection{Recomendaciones}
+
+\begin{enumerate}
+    \item \textbf{Replicación local:} Institucionespúblicas (p.ej., Ministerio de Minas, DNP) deben replicar el pipeline en sus propios entornos MongoDB. Los scripts son código abierto; la reproducibilidad debe ser verificable independientemente.
+
+    \item \textbf{Investigación de municipios críticos:} Los 15 municipios con baja cobertura de Google requieren análisis cualitativo (entrevistas, visitas de campo, imágenes aéreas de alta resolución) para diferenciar entre falta de cobertura satelital real vs. características locales (vegetación densa, nubosidad) que degradan detección.
+
+    \item \textbf{Integración con potencial solar:} Cruzar área de techos con mapas de radiación solar, pendiente media, y nearness a subestaciones para identificar ubicaciones de alto potencial técnico-económico.
+
+    \item \textbf{Monitoreo temporal:} Ejecutar el pipeline anualmente con nuevas versiones de Microsoft y Google para monitorear crecimiento de edificaciones y cambios en cobertura satelital.
+
+    \item \textbf{Validación por stakeholders:} Gobiernos municipales y distribuidores locales de energía deben validar resultados contra registros catastrales y observación directa, especialmente en municipios de baja cobertura Google.
+
+    \item \textbf{Comunicación clara de limitaciones:} Usar este informe como referencia para evitar sobrestimar potencial solar. El área de huella es condición necesaria pero no suficiente; otros factores (técnicos, financieros, sociales) determinan viabilidad real de proyectos.
+\end{enumerate}
+
+\subsection{Perspectivas Futuras}
+
+\begin{itemize}
+    \item \textbf{Modelos de energía integrados:} Integrar resultados con simulaciones de demanda energética municipal para cuantificar cobertura posible de solar distribuida bajo diferentes escenarios (20\%, 50\%, 100\% penetración).
+
+    \item \textbf{Análisis de vulnerabilidad:} Identificar municipios donde la energía solar distribuida podría mejorar resiliencia ante interrupciones de red centralizada, especialmente en zonas remotas.
+
+    \item \textbf{Sostenibilidad de cadenas de suministro:} Estimar demanda local de equipos solares (paneles, inversores) para fundamentar estrategias de manufactura o distribución regional.
+
+    \item \textbf{Equidad de acceso:} Diseñar modelos financieros y cooperativos que permitan a hogares de bajo ingreso en municipios de bajo potencial participar en beneficios de energía limpia.
+\end{itemize}
+
+
 
 \section{Reproducibilidad}
 
