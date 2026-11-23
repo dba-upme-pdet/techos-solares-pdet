@@ -82,7 +82,9 @@ Agregaciones de edificaciones y área total de huella por cada una de las 16 sub
 - **Municipios PDET cubiertos (Microsoft):** 170 / 170
 - **Edificaciones incluidas (Microsoft, `area_m2 >= 20`):** 1,720,535
 - **Área total de huella (Microsoft):** 220.27 km²
-- **Google filtrado (Entrega 4):** pendiente de ejecución con `scripts/06_rooftop_stats.py --source google`; no se estiman cifras filtradas multiplicando razones del EDA.
+- **Edificaciones incluidas (Google, `area_m2 >= 20`, `confidence >= 0.70`):** 2,067,004
+- **Área total de huella (Google):** 203.75 km²
+- **Municipios con edificaciones (Google):** 164 / 170
 
 ### Referencia histórica del EDA de la Entrega 3 (sin filtros de Entrega 4)
 
